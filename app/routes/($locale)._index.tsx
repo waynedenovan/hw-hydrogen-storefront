@@ -1,95 +1,160 @@
-import {defer, type LoaderFunctionArgs} from 'react-router';
-import {useLoaderData, Await} from 'react-router';
-import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
-import type {
-  ProductCollectionSortKeys,
-} from '@shopify/hydrogen/storefront-api-types';
+import {type LoaderFunctionArgs} from 'react-router';
+import {useLoaderData, Link} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
-import {StickyScrollMenu} from '~/components/StickyScrollMenu';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {context} = args;
   const {storefront} = context;
 
-  const {products} = await storefront.query(HOMEPAGE_PRODUCTS_QUERY, {
-    variables: {first: 30},
-  });
+  const data = await storefront.query(HOMEPAGE_COLLECTIONS_QUERY);
 
-  const categories = extractCategories(products.nodes);
-
-  return {products, categories};
+  return {
+    promotions: data.promotions,
+    newlyListed: data.newlyListed,
+    clearance: data.clearance,
+  };
 }
 
-function extractCategories(products: any[]) {
-  const categoryMap = new Map<string, {name: string; handle: string}>();
-  for (const product of products) {
-    const type = product.productType;
-    if (type && !categoryMap.has(type)) {
-      categoryMap.set(type, {
-        name: type,
-        handle: type.toLowerCase().replace(/\s+/g, '-'),
-      });
-    }
-  }
-  return Array.from(categoryMap.values());
+function CollectionSection({
+  collection,
+}: {
+  collection: {
+    id: string;
+    title: string;
+    handle: string;
+    products: {nodes: any[]};
+  } | null;
+}) {
+  if (!collection || collection.products.nodes.length === 0) return null;
+
+  return (
+    <section className="px-4 py-8 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">{collection.title}</h2>
+        <Link
+          to={`/collections/${collection.handle}`}
+          prefetch="intent"
+          className="text-sm font-medium text-blue-600 hover:underline"
+        >
+          View all
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {collection.products.nodes.map((product: any) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function Homepage() {
-  const {products, categories} = useLoaderData<typeof loader>();
+  const {promotions, newlyListed, clearance} =
+    useLoaderData<typeof loader>();
 
   return (
     <div className="home">
-      <StickyScrollMenu categories={categories} />
-      <section className="px-4 py-8 max-w-7xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">Products</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.nodes.map((product: any) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+      <CollectionSection collection={promotions} />
+      <CollectionSection collection={newlyListed} />
+      <CollectionSection collection={clearance} />
+      {!promotions && !newlyListed && !clearance && (
+        <section className="px-4 py-16 max-w-7xl mx-auto text-center text-gray-500">
+          <p>No collections available yet.</p>
+        </section>
+      )}
     </div>
   );
 }
 
-const HOMEPAGE_PRODUCTS_QUERY = `#graphql
-  query HomepageProducts(
-    $first: Int!
+const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
+  query HomepageCollections(
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    products(first: $first, sortKey: TITLE) {
-      nodes {
-        id
-        title
-        handle
-        description
-        productType
-        tags
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
+    promotions: collection(handle: "promotions") {
+      id
+      title
+      handle
+      products(first: 8) {
+        nodes {
+          id
+          title
+          handle
+          productType
+          featuredImage {
+            url
+            altText
+            width
+            height
           }
-          maxVariantPrice {
-            amount
-            currencyCode
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          brand: metafield(namespace: "app", key: "brand") {
+            value
+            type
           }
         }
-        featuredImage {
-          url
-          altText
-          width
-          height
+      }
+    }
+    newlyListed: collection(handle: "newly-listed") {
+      id
+      title
+      handle
+      products(first: 8) {
+        nodes {
+          id
+          title
+          handle
+          productType
+          featuredImage {
+            url
+            altText
+            width
+            height
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          brand: metafield(namespace: "app", key: "brand") {
+            value
+            type
+          }
         }
-        brand: metafield(namespace: "app", key: "brand") {
-          value
-          type
-        }
-        b2cDescription: metafield(namespace: "app", key: "b2c_description") {
-          value
-          type
+      }
+    }
+    clearance: collection(handle: "clearance") {
+      id
+      title
+      handle
+      products(first: 8) {
+        nodes {
+          id
+          title
+          handle
+          productType
+          featuredImage {
+            url
+            altText
+            width
+            height
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          brand: metafield(namespace: "app", key: "brand") {
+            value
+            type
+          }
         }
       }
     }
