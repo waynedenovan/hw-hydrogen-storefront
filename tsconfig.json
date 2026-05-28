@@ -26,13 +26,13 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./*"],
-    "types": [
-      "./@shopify/oxygen-workers-types",
-      "./.react-router",
-      "./shopify/hydrogen/react-router-types",
-      "./vite/client"
-    ],
+      "~/*": ["./app/*"]
     },
+    "types": [
+      "@shopify/oxygen-workers-types",
+      "@shopify/hydrogen/react-router-types",
+      "vite/client"
+    ],
     "noEmit": true,
     "rootDirs": [".", "./.react-router/types"],
     "incremental": true,
