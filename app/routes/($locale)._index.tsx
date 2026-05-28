@@ -8,11 +8,11 @@ export async function loader(args: LoaderFunctionArgs) {
 
   const data = await storefront.query(HOMEPAGE_COLLECTIONS_QUERY);
 
-  return {
-    promotions: data.promotions,
-    newlyListed: data.newlyListed,
-    clearance: data.clearance,
-  };
+  const collections = (data.collections?.nodes ?? []).filter(
+    (col: any) => col.title !== 'JSON Imported' && col.products.nodes.length > 0,
+  );
+
+  return {collections};
 }
 
 function CollectionSection({
@@ -23,10 +23,8 @@ function CollectionSection({
     title: string;
     handle: string;
     products: {nodes: any[]};
-  } | null;
+  };
 }) {
-  if (!collection || collection.products.nodes.length === 0) return null;
-
   return (
     <section className="px-4 py-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -49,15 +47,15 @@ function CollectionSection({
 }
 
 export default function Homepage() {
-  const {promotions, newlyListed, clearance} =
-    useLoaderData<typeof loader>();
+  const {collections} = useLoaderData<typeof loader>();
 
   return (
     <div className="home">
-      <CollectionSection collection={promotions} />
-      <CollectionSection collection={newlyListed} />
-      <CollectionSection collection={clearance} />
-      {!promotions && !newlyListed && !clearance && (
+      {collections.length > 0 ? (
+        collections.map((collection: any) => (
+          <CollectionSection key={collection.id} collection={collection} />
+        ))
+      ) : (
         <section className="px-4 py-16 max-w-7xl mx-auto text-center text-gray-500">
           <p>No collections available yet.</p>
         </section>
@@ -71,89 +69,33 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    promotions: collection(handle: "promotions") {
-      id
-      title
-      handle
-      products(first: 8) {
-        nodes {
-          id
-          title
-          handle
-          productType
-          featuredImage {
-            url
-            altText
-            width
-            height
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
+    collections(first: 20) {
+      nodes {
+        id
+        title
+        handle
+        products(first: 8) {
+          nodes {
+            id
+            title
+            handle
+            productType
+            featuredImage {
+              url
+              altText
+              width
+              height
             }
-          }
-          brand: metafield(namespace: "app", key: "brand") {
-            value
-            type
-          }
-        }
-      }
-    }
-    newlyListed: collection(handle: "newly-listed") {
-      id
-      title
-      handle
-      products(first: 8) {
-        nodes {
-          id
-          title
-          handle
-          productType
-          featuredImage {
-            url
-            altText
-            width
-            height
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
             }
-          }
-          brand: metafield(namespace: "app", key: "brand") {
-            value
-            type
-          }
-        }
-      }
-    }
-    clearance: collection(handle: "clearance") {
-      id
-      title
-      handle
-      products(first: 8) {
-        nodes {
-          id
-          title
-          handle
-          productType
-          featuredImage {
-            url
-            altText
-            width
-            height
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
+            brand: metafield(namespace: "app", key: "brand") {
+              value
+              type
             }
-          }
-          brand: metafield(namespace: "app", key: "brand") {
-            value
-            type
           }
         }
       }
