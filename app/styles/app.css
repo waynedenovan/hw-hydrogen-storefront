@@ -227,14 +227,29 @@ button.reset:hover:not(:has(> *)) {
 * components/Header
 * --------------------------------------------------
 */
+.header-hero {
+  position: relative;
+  background-image: url('/pumps-banner-1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
 .header {
   align-items: center;
-  background: #fff;
+  background: transparent;
   display: flex;
   height: var(--header-height);
   padding: 0 1rem;
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 1;
 }
 
@@ -273,6 +288,31 @@ button.reset:hover:not(:has(> *)) {
 
 .header-ctas > * {
   min-width: fit-content;
+}
+
+.header-hero .header-ctas button,
+.header-hero .header-ctas a {
+  color: white;
+}
+
+.header-tagline {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1rem 3rem;
+  text-align: center;
+}
+
+.header-tagline p {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(1.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  letter-spacing: 1px;
+  word-spacing: 5px;
+  line-height: 1.1;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 /*

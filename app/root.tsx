@@ -61,6 +61,9 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
+    {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
+    {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' as const},
+    {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap'},
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 }

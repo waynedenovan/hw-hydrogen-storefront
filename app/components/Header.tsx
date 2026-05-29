@@ -25,29 +25,29 @@ export function Header({
   publicStoreDomain,
 }: HeaderProps) {
   const {shop, menu} = header;
-  const logoUrl = shop.brand?.logo?.image?.url;
 
   return (
-    <header className="header site-header">
-      <NavLink prefetch="intent" to="/" end className="flex items-center gap-2">
-        {logoUrl ? (
+    <div className="header-hero">
+      <header className="header site-header">
+        <NavLink prefetch="intent" to="/" end className="flex items-center gap-2">
           <img
-            src={logoUrl}
+            src="/260529_rev02.5-Logo.png"
             alt={shop.name}
-            className="h-8 w-auto"
+            className="h-12 w-auto"
           />
-        ) : (
-          <strong>{shop.name}</strong>
-        )}
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-    </header>
+        </NavLink>
+        <HeaderMenu
+          menu={menu}
+          viewport="desktop"
+          primaryDomainUrl={header.shop.primaryDomain.url}
+          publicStoreDomain={publicStoreDomain}
+        />
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </header>
+      <div className="header-tagline">
+        <p>PROUDLY SERVING OUR CLIENTS FOR OVER 25 YEARS</p>
+      </div>
+    </div>
   );
 }
 
@@ -72,7 +72,7 @@ export function HeaderMenu({
           end
           onClick={close}
           prefetch="intent"
-          style={activeLinkStyle}
+          style={activeLinkStyle(viewport)}
           to="/"
         >
           Home
@@ -81,7 +81,6 @@ export function HeaderMenu({
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
@@ -95,7 +94,7 @@ export function HeaderMenu({
             key={item.id}
             onClick={close}
             prefetch="intent"
-            style={activeLinkStyle}
+            style={activeLinkStyle(viewport)}
             to={url}
           >
             {item.title}
@@ -114,7 +113,7 @@ function HeaderCtas({
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
       <CountrySelector />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+      <NavLink prefetch="intent" to="/account" style={activeLinkStyle('desktop')}>
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
@@ -229,15 +228,22 @@ const FALLBACK_HEADER_MENU = {
   ],
 };
 
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
+function activeLinkStyle(viewport: Viewport) {
+  return ({
+    isActive,
+    isPending,
+  }: {
+    isActive: boolean;
+    isPending: boolean;
+  }) => ({
     fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
-  };
+    color:
+      viewport === 'mobile'
+        ? isPending
+          ? 'grey'
+          : 'black'
+        : isPending
+          ? 'rgba(255,255,255,0.6)'
+          : 'white',
+  });
 }
