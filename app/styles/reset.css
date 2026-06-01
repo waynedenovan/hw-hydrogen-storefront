@@ -79,7 +79,7 @@ body {
   background: linear-gradient(rgba(100, 100, 100, 0.1), rgba(100, 100, 100, 0.1)), url('/fittings-2784902_1920.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-repeat: no-repeat;
 }
 

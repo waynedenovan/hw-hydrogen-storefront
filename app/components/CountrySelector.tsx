@@ -48,7 +48,22 @@ export function CountrySelector() {
         aria-expanded={isOpen}
         aria-label="Select country"
       >
-        {currentLocale.country} ▾
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{display: 'inline-block', verticalAlign: 'middle', marginRight: '4px'}}
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        {currentLocale.country}
       </button>
       {isOpen && (
         <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-50 min-w-[180px]">

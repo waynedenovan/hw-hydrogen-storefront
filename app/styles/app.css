@@ -272,6 +272,9 @@ button.reset:hover:not(:has(> *)) {
     display: flex;
     grid-gap: 1rem;
     margin-left: 3rem;
+    background: rgba(50, 50, 50, 0.85);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
   }
 }
 
@@ -284,6 +287,9 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   grid-gap: 1rem;
   margin-left: auto;
+  background: rgba(50, 50, 50, 0.85);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
 }
 
 .header-ctas > * {
@@ -293,6 +299,29 @@ button.reset:hover:not(:has(> *)) {
 .header-hero .header-ctas button,
 .header-hero .header-ctas a {
   color: white;
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e53e3e;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .header-tagline {
