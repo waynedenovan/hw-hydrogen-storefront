@@ -31,9 +31,10 @@ export function Header({
       <header className="header site-header">
         <NavLink prefetch="intent" to="/" end className="flex items-center gap-2">
           <img
-            src="/260529_rev02.5-Logo.png"
+            src="/260601-logo_rev-02.1.svg"
             alt={shop.name}
-            className="h-12 w-auto"
+            className="h-auto"
+            style={{width: 'clamp(160px, 11.25vw, 300px)'}}
           />
         </NavLink>
         <HeaderMenu
