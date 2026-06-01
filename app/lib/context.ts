@@ -15,11 +15,12 @@ export interface I18nLocale extends I18nBase {
 
 const DEFAULT_LOCALE: I18nLocale = {
   language: 'EN' as LanguageCode,
-  country: 'NZ' as CountryCode,
+  country: 'ZA' as CountryCode,
   pathPrefix: '',
 };
 
 const LOCALE_MAP: Record<string, I18nLocale> = {
+  '/en-za': {language: 'EN' as LanguageCode, country: 'ZA' as CountryCode, pathPrefix: '/en-za'},
   '/en-nz': {language: 'EN' as LanguageCode, country: 'NZ' as CountryCode, pathPrefix: '/en-nz'},
   '/en-au': {language: 'EN' as LanguageCode, country: 'AU' as CountryCode, pathPrefix: '/en-au'},
   '/en-us': {language: 'EN' as LanguageCode, country: 'US' as CountryCode, pathPrefix: '/en-us'},

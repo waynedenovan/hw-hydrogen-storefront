@@ -44,17 +44,24 @@ export function ProductCard({product}: ProductCardProps) {
           </div>
         )}
       </div>
-      <div className="mt-3">
-        <h3 className="text-sm font-semibold text-gray-900 group-hover:underline truncate">
+      <div
+        className="mt-3"
+        style={{
+          background: 'rgba(50, 50, 50, 0.85)',
+          padding: '0.5rem 0.75rem',
+          borderRadius: '6px',
+        }}
+      >
+        <h3 className="text-sm font-semibold text-white group-hover:underline truncate">
           {product.title}
         </h3>
         {product.brand?.value && (
-          <p className="text-xs text-gray-500 mt-0.5">{product.brand.value}</p>
+          <p className="text-xs text-gray-300 mt-0.5">{product.brand.value}</p>
         )}
         {product.productType && (
           <p className="text-xs text-gray-400 mt-0.5">{product.productType}</p>
         )}
-        <div className="mt-1 text-sm font-medium text-gray-900">
+        <div className="mt-1 text-sm font-medium text-white">
           <Money data={product.priceRange.minVariantPrice} />
         </div>
       </div>

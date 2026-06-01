@@ -14,6 +14,7 @@ interface HeaderProps {
   cart: Promise<CartApiQueryFragment | null>;
   isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
+  isHomePage?: boolean;
 }
 
 type Viewport = 'desktop' | 'mobile';
@@ -23,6 +24,7 @@ export function Header({
   isLoggedIn,
   cart,
   publicStoreDomain,
+  isHomePage = false,
 }: HeaderProps) {
   const {shop, menu} = header;
 
@@ -45,9 +47,11 @@ export function Header({
         />
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </header>
-      <div className="header-tagline">
-        <p>PROUDLY SERVING OUR CLIENTS FOR OVER 25 YEARS</p>
-      </div>
+      {isHomePage && (
+        <div className="header-tagline">
+          <p>PROUDLY SERVING OUR CLIENTS FOR OVER 25 YEARS</p>
+        </div>
+      )}
     </div>
   );
 }

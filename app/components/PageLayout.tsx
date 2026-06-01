@@ -1,5 +1,5 @@
-import {Await, Link} from 'react-router';
-import {Suspense, useId} from 'react';
+import {Await, Link, useLocation} from 'react-router';
+import {Suspense, useEffect, useId} from 'react';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -34,6 +34,20 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }: PageLayoutProps) {
+  const location = useLocation();
+  const isHomePage =
+    location.pathname === '/' ||
+    /^\/(en-nz|en-au|en-us|en-za)\/?$/.test(location.pathname);
+
+  useEffect(() => {
+    if (isHomePage) {
+      document.body.classList.add('home-page');
+    } else {
+      document.body.classList.remove('home-page');
+    }
+    return () => document.body.classList.remove('home-page');
+  }, [isHomePage]);
+
   return (
     <Aside.Provider>
       <CartAside cart={cart} />
@@ -45,6 +59,7 @@ export function PageLayout({
           cart={cart}
           isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
+          isHomePage={isHomePage}
         />
       )}
       <main>{children}</main>

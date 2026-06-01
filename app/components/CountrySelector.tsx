@@ -3,7 +3,8 @@ import {useState, useRef, useEffect} from 'react';
 import {CartForm} from '@shopify/hydrogen';
 
 const LOCALES = [
-  {country: 'NZ', language: 'EN', label: 'New Zealand (NZD)', prefix: ''},
+  {country: 'ZA', language: 'EN', label: 'South Africa (ZAR)', prefix: ''},
+  {country: 'NZ', language: 'EN', label: 'New Zealand (NZD)', prefix: '/en-nz'},
   {country: 'AU', language: 'EN', label: 'Australia (AUD)', prefix: '/en-au'},
   {country: 'US', language: 'EN', label: 'United States (USD)', prefix: '/en-us'},
 ];
@@ -33,7 +34,7 @@ export function CountrySelector() {
   function handleLocaleChange(locale: (typeof LOCALES)[number]) {
     setIsOpen(false);
     const pathWithoutPrefix = location.pathname.replace(
-      /^\/(en-nz|en-au|en-us)/,
+      /^\/(en-nz|en-au|en-us|en-za)/,
       '',
     );
     const newPath = locale.prefix + (pathWithoutPrefix || '/');

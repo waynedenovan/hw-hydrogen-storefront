@@ -76,6 +76,9 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+body.home-page {
   background: linear-gradient(rgba(100, 100, 100, 0.1), rgba(100, 100, 100, 0.1)), url('/260601-camlock_irrigation.jpg');
   background-size: cover;
   background-position: center;
@@ -85,6 +88,11 @@ body {
 
 body > main {
   margin: 0 1rem 1rem 1rem;
+}
+
+body:not(.home-page) > main {
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 section {
