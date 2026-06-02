@@ -40,7 +40,7 @@ export default function Product() {
       style={{
         maxWidth: '80%',
         margin: '0 auto',
-        background: 'rgba(50, 50, 50, 0.5)',
+        background: 'rgba(50, 50, 50, 0.65)',
         padding: '2rem',
         borderRadius: '12px',
       }}

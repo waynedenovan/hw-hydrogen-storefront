@@ -239,7 +239,7 @@ button.reset:hover:not(:has(> *)) {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.25);
   z-index: 0;
 }
 
@@ -343,7 +343,7 @@ button.reset:hover:not(:has(> *)) {
   letter-spacing: 1px;
   word-spacing: 5px;
   line-height: 1.1;
-  max-width: 80%;
+  max-width: 60%;
   margin: 0 auto;
 }
 
@@ -609,7 +609,7 @@ button.reset:hover:not(:has(> *)) {
 .product-options-item,
 .product-options-item:disabled {
   padding: 0.25rem 0.5rem;
-  background-color: transparent;
+  background-color: transparent rgba(255, 255, 255, 0.5);
   font-size: 1rem;
   font-family: inherit;
 }
