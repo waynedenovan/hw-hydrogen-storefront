@@ -14,11 +14,15 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
+  const devTunnel = context.env.DEV_TUNNEL_DOMAIN;
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    ...(devTunnel
+      ? {connectSrc: [`wss://${devTunnel}:*`]}
+      : {}),
   });
 
   const body = await renderToReadableStream(
