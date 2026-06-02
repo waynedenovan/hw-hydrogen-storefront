@@ -38,6 +38,8 @@ export function PageLayout({
   const isHomePage =
     location.pathname === '/' ||
     /^\/(en-nz|en-au|en-us|en-za)\/?$/.test(location.pathname);
+  const isProductPage =
+    /^(\/(en-nz|en-au|en-us|en-za))?\/products\//.test(location.pathname);
 
   useEffect(() => {
     if (isHomePage) {
@@ -45,8 +47,16 @@ export function PageLayout({
     } else {
       document.body.classList.remove('home-page');
     }
-    return () => document.body.classList.remove('home-page');
-  }, [isHomePage]);
+    if (isProductPage) {
+      document.body.classList.add('product-page');
+    } else {
+      document.body.classList.remove('product-page');
+    }
+    return () => {
+      document.body.classList.remove('home-page');
+      document.body.classList.remove('product-page');
+    };
+  }, [isHomePage, isProductPage]);
 
   return (
     <Aside.Provider>

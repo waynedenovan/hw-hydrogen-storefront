@@ -79,7 +79,15 @@ body {
 }
 
 body.home-page {
-  background: linear-gradient(rgba(100, 100, 100, 0.1), rgba(100, 100, 100, 0.1)), url('/260601-camlock_irrigation.jpg');
+  background: linear-gradient(rgba(100, 100, 100, 0.1), rgba(100, 100, 100, 0.1)), url('/images/260601-camlock_irrigation.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
+body.product-page {
+  background: linear-gradient(rgba(50, 50, 50, 0.2), rgba(50, 50, 50, 0.2)), url('/images/260601-fittings.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: scroll;

@@ -229,7 +229,7 @@ button.reset:hover:not(:has(> *)) {
 */
 .header-hero {
   position: relative;
-  background-image: url('/pumps-banner-1.jpg');
+  background-image: url('/images/pumps-banner-1.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
