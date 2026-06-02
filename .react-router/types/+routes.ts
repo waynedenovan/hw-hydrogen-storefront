@@ -52,6 +52,18 @@ type Pages = {
   "/account/login": {
     params: {};
   };
+  "/account": {
+    params: {};
+  };
+  "/account/addresses": {
+    params: {};
+  };
+  "/account/profile": {
+    params: {};
+  };
+  "/account/orders": {
+    params: {};
+  };
   "/graphiql": {
     params: {};
   };
@@ -66,7 +78,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/account/authorize" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/account/authorize" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -100,6 +112,26 @@ type RouteFiles = {
     id: "routes/account_.login";
     page: "/account/login";
   };
+  "routes/account.tsx": {
+    id: "routes/account";
+    page: "/account" | "/account/addresses" | "/account/profile" | "/account/orders";
+  };
+  "routes/account.addresses.tsx": {
+    id: "routes/account.addresses";
+    page: "/account/addresses";
+  };
+  "routes/account.profile.tsx": {
+    id: "routes/account.profile";
+    page: "/account/profile";
+  };
+  "routes/account._index.tsx": {
+    id: "routes/account._index";
+    page: "/account";
+  };
+  "routes/account.orders.tsx": {
+    id: "routes/account.orders";
+    page: "/account/orders";
+  };
   "../node_modules/@shopify/hydrogen/dist/vite/virtual-routes/layout.jsx": {
     id: "/home/rogue/Data/data/coding/github/shopify/app/hoseworld/hw-hydrogen-storefront/node_modules/@shopify/hydrogen/dist/vite/virtual-routes/layout";
     page: "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json" | "/";
@@ -132,6 +164,11 @@ type RouteModules = {
   "routes/($locale).search": typeof import("./app/routes/($locale).search.tsx");
   "routes/($locale).cart": typeof import("./app/routes/($locale).cart.tsx");
   "routes/account_.login": typeof import("./app/routes/account_.login.tsx");
+  "routes/account": typeof import("./app/routes/account.tsx");
+  "routes/account.addresses": typeof import("./app/routes/account.addresses.tsx");
+  "routes/account.profile": typeof import("./app/routes/account.profile.tsx");
+  "routes/account._index": typeof import("./app/routes/account._index.tsx");
+  "routes/account.orders": typeof import("./app/routes/account.orders.tsx");
   "/home/rogue/Data/data/coding/github/shopify/app/hoseworld/hw-hydrogen-storefront/node_modules/@shopify/hydrogen/dist/vite/virtual-routes/layout": unknown;
   "vite/virtual-routes/routes/graphiql": unknown;
   "vite/virtual-routes/routes/subrequest-profiler": unknown;

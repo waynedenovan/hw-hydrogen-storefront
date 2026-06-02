@@ -75,7 +75,7 @@ export function StickyScrollMenu({categories}: StickyScrollMenuProps) {
 
       {isExpanded && (
         <nav
-          className="fixed top-14 left-3 bg-white rounded-lg shadow-xl max-h-[80vh] overflow-y-auto w-64 border border-gray-200"
+          className="dropdown-panel fixed top-14 left-3 max-h-[80vh] overflow-y-auto w-64"
           aria-label="Category navigation"
         >
           <ul className="py-2">
@@ -83,7 +83,7 @@ export function StickyScrollMenu({categories}: StickyScrollMenuProps) {
               <li key={cat.handle}>
                 <a
                   href={`/collections/${cat.handle}`}
-                  className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-black transition-colors"
+                  className="block px-4 py-2.5 text-sm transition-colors"
                   onClick={() => setIsExpanded(false)}
                 >
                   {cat.name}

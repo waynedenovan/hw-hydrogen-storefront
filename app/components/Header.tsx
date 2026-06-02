@@ -110,6 +110,25 @@ export function HeaderMenu({
   );
 }
 
+function AccountIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
 function HeaderCtas({
   isLoggedIn,
   cart,
@@ -118,22 +137,27 @@ function HeaderCtas({
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
       <CountrySelector />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle('desktop')} aria-label="Account">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      </NavLink>
+      <Suspense
+        fallback={
+          <NavLink prefetch="intent" to="/account/login" aria-label="Sign in">
+            <AccountIcon />
+          </NavLink>
+        }
+      >
+        <Await resolve={isLoggedIn}>
+          {(loggedIn) =>
+            loggedIn ? (
+              <NavLink prefetch="intent" to="/account" aria-label="Account">
+                <AccountIcon />
+              </NavLink>
+            ) : (
+              <NavLink prefetch="intent" to="/account/login" aria-label="Sign in">
+                <AccountIcon />
+              </NavLink>
+            )
+          }
+        </Await>
+      </Suspense>
       <SearchToggle />
       <CartToggle cart={cart} />
     </nav>
@@ -298,13 +322,6 @@ function activeLinkStyle(viewport: Viewport) {
     isPending: boolean;
   }) => ({
     fontWeight: isActive ? 'bold' : undefined,
-    color:
-      viewport === 'mobile'
-        ? isPending
-          ? 'grey'
-          : 'black'
-        : isPending
-          ? 'rgba(255,255,255,0.6)'
-          : 'white',
+    color: isPending ? 'rgba(255,255,255,0.6)' : 'white',
   });
 }
