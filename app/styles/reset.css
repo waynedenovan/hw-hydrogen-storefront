@@ -60,6 +60,7 @@ h1, h2, h3, h4, h5 {
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
   width: fit-content;
+  max-width: 85%;
   color: rgba(255, 255, 255);
 }
 

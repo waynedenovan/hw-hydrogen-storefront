@@ -87,13 +87,11 @@ export default function Search() {
 const SEARCH_QUERY = `#graphql
   query Search(
     $query: String!
-    $country: CountryCode
-    $language: LanguageCode
     $first: Int
     $last: Int
     $startCursor: String
     $endCursor: String
-  ) @inContext(country: $country, language: $language) {
+  ) {
     search(
       query: $query
       types: [PRODUCT]

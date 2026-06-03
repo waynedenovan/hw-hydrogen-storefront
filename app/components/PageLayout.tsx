@@ -43,7 +43,7 @@ export function PageLayout({
   const isAccountPage =
     /^(\/(en-nz|en-au|en-us|en-za))?\/account/.test(location.pathname);
   const isContactPage =
-    /^(\/(en-nz|en-au|en-us|en-za))?\/contact/.test(location.pathname);
+    /^(\/(en-nz|en-au|en-us|en-za|pages))?\/contact/.test(location.pathname);
 
   useEffect(() => {
     if (isHomePage) {
