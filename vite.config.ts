@@ -34,6 +34,8 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.tryhydrogen.dev'],
+    host: '0.0.0.0',
+    port: 5130,
+    allowedHosts: ['.tryhydrogen.dev', '.ngrok-free.dev'],
   },
 });
