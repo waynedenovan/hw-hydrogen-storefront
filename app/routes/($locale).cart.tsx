@@ -1,4 +1,4 @@
-import {type LoaderFunctionArgs, type ActionFunctionArgs} from 'react-router';
+import {type LoaderFunctionArgs, type ActionFunctionArgs, data} from 'react-router';
 import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
@@ -23,6 +23,12 @@ export async function action({request, context}: ActionFunctionArgs) {
     case CartForm.ACTIONS.DiscountCodesUpdate:
       result = await cart.updateDiscountCodes(inputs.discountCodes);
       break;
+    case CartForm.ACTIONS.GiftCardCodesAdd:
+      result = await cart.addGiftCardCodes([inputs.giftCardCode]);
+      break;
+    case CartForm.ACTIONS.GiftCardCodesRemove:
+      result = await cart.removeGiftCardCodes(inputs.giftCardCodes);
+      break;
     case CartForm.ACTIONS.BuyerIdentityUpdate:
       result = await cart.updateBuyerIdentity(inputs.buyerIdentity);
       break;
@@ -30,12 +36,9 @@ export async function action({request, context}: ActionFunctionArgs) {
       throw new Error(`Unknown action: ${action}`);
   }
 
-  const headers = cart.setCartId(result.cart.id);
+  const headers = cart.setCartId(result?.cart?.id);
 
-  return new Response(JSON.stringify(result), {
-    status: 200,
-    headers,
-  });
+  return data(result, {status: 200, headers});
 }
 
 export async function loader({context}: LoaderFunctionArgs) {
