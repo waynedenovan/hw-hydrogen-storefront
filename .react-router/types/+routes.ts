@@ -34,6 +34,11 @@ type Pages = {
   "/account/authorize": {
     params: {};
   };
+  "/:locale?/contact": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/:locale?": {
     params: {
       "locale"?: string;
@@ -78,7 +83,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/account/authorize" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -95,6 +100,10 @@ type RouteFiles = {
   "routes/account_.authorize.tsx": {
     id: "routes/account_.authorize";
     page: "/account/authorize";
+  };
+  "routes/($locale).contact.tsx": {
+    id: "routes/($locale).contact";
+    page: "/:locale?/contact";
   };
   "routes/($locale)._index.tsx": {
     id: "routes/($locale)._index";
@@ -160,6 +169,7 @@ type RouteModules = {
   "routes/($locale).collections._index": typeof import("./app/routes/($locale).collections._index.tsx");
   "routes/($locale).products.$handle": typeof import("./app/routes/($locale).products.$handle.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
+  "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
   "routes/($locale)._index": typeof import("./app/routes/($locale)._index.tsx");
   "routes/($locale).search": typeof import("./app/routes/($locale).search.tsx");
   "routes/($locale).cart": typeof import("./app/routes/($locale).cart.tsx");

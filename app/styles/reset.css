@@ -95,6 +95,22 @@ body.product-page {
   background-repeat: no-repeat;
 }
 
+body.account-page {
+  background: linear-gradient(rgba(50, 50, 50, 0.1), rgba(50, 50, 50, 0.1)), url('/images/260603-earth-day.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
+body.contact-page {
+  background: linear-gradient(rgba(50, 50, 50, 0.1), rgba(50, 50, 50, 0.1)), url('/images/260603-sunflower.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
 body > main {
   margin: 0 1rem 1rem 1rem;
 }
