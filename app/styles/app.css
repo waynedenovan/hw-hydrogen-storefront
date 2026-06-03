@@ -45,6 +45,8 @@ img {
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.4;
+    background: none;
+    padding: 0;
   }
 
   p {
@@ -110,6 +112,8 @@ aside header {
 
 aside header h3 {
   margin: 0;
+  background: none;
+  padding: 0;
 }
 
 aside header .close {
@@ -127,6 +131,14 @@ aside header .close:hover {
 aside header h2 {
   margin-bottom: 0.6rem;
   margin-top: 0;
+  background: none;
+  padding: 0;
+}
+
+aside h4,
+aside h5 {
+  background: none;
+  padding: 0;
 }
 
 aside main {
