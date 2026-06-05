@@ -36,9 +36,15 @@ export async function action({request, context}: ActionFunctionArgs) {
       throw new Error(`Unknown action: ${action}`);
   }
 
-  const headers = cart.setCartId(result?.cart?.id);
+  const userErrors = result?.userErrors || [];
+  if (userErrors.length > 0) {
+    console.warn('[cart] userErrors:', userErrors.map((e: {message: string}) => e.message).join(', '));
+  }
 
-  return data(result, {status: 200, headers});
+  const headers = cart.setCartId(result?.cart?.id);
+  const status = userErrors.length > 0 ? 422 : 200;
+
+  return data(result, {status, headers});
 }
 
 export async function loader({context}: LoaderFunctionArgs) {
