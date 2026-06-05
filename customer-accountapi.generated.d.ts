@@ -3,6 +3,28 @@
 /* eslint-disable */
 import type * as CustomerAccountAPI from '@shopify/hydrogen/customer-account-api-types';
 
+export type CustomerAddressCreateMutationVariables = CustomerAccountAPI.Exact<{
+  address: CustomerAccountAPI.CustomerAddressInput;
+  defaultAddress?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['Boolean']['input']
+  >;
+  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
+}>;
+
+export type CustomerAddressCreateMutation = {
+  customerAddressCreate?: CustomerAccountAPI.Maybe<{
+    customerAddress?: CustomerAccountAPI.Maybe<
+      Pick<CustomerAccountAPI.CustomerAddress, 'id'>
+    >;
+    userErrors: Array<
+      Pick<
+        CustomerAccountAPI.UserErrorsCustomerAddressUserErrors,
+        'code' | 'field' | 'message'
+      >
+    >;
+  }>;
+};
+
 export type CustomerAddressUpdateMutationVariables = CustomerAccountAPI.Exact<{
   address: CustomerAccountAPI.CustomerAddressInput;
   addressId: CustomerAccountAPI.Scalars['ID']['input'];
@@ -45,28 +67,6 @@ export type CustomerAddressDeleteMutation = {
       >;
     }
   >;
-};
-
-export type CustomerAddressCreateMutationVariables = CustomerAccountAPI.Exact<{
-  address: CustomerAccountAPI.CustomerAddressInput;
-  defaultAddress?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['Boolean']['input']
-  >;
-  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
-}>;
-
-export type CustomerAddressCreateMutation = {
-  customerAddressCreate?: CustomerAccountAPI.Maybe<{
-    customerAddress?: CustomerAccountAPI.Maybe<
-      Pick<CustomerAccountAPI.CustomerAddress, 'id'>
-    >;
-    userErrors: Array<
-      Pick<
-        CustomerAccountAPI.UserErrorsCustomerAddressUserErrors,
-        'code' | 'field' | 'message'
-      >
-    >;
-  }>;
 };
 
 export type CustomerFragment = Pick<
@@ -170,6 +170,93 @@ export type CustomerDetailsQuery = {
           | 'zip'
           | 'phoneNumber'
         >
+      >;
+    };
+  };
+};
+
+export type OrderItemFragment = Pick<
+  CustomerAccountAPI.Order,
+  | 'financialStatus'
+  | 'fulfillmentStatus'
+  | 'id'
+  | 'number'
+  | 'confirmationNumber'
+  | 'processedAt'
+> & {
+  totalPrice: Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  fulfillments: {nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>};
+};
+
+export type CustomerOrdersFragment = {
+  orders: {
+    nodes: Array<
+      Pick<
+        CustomerAccountAPI.Order,
+        | 'financialStatus'
+        | 'fulfillmentStatus'
+        | 'id'
+        | 'number'
+        | 'confirmationNumber'
+        | 'processedAt'
+      > & {
+        totalPrice: Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>;
+        fulfillments: {
+          nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>;
+        };
+      }
+    >;
+    pageInfo: Pick<
+      CustomerAccountAPI.PageInfo,
+      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
+    >;
+  };
+};
+
+export type CustomerOrdersQueryVariables = CustomerAccountAPI.Exact<{
+  endCursor?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['String']['input']
+  >;
+  first?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['Int']['input']
+  >;
+  last?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['Int']['input']
+  >;
+  startCursor?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['String']['input']
+  >;
+  query?: CustomerAccountAPI.InputMaybe<
+    CustomerAccountAPI.Scalars['String']['input']
+  >;
+  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
+}>;
+
+export type CustomerOrdersQuery = {
+  customer: {
+    orders: {
+      nodes: Array<
+        Pick<
+          CustomerAccountAPI.Order,
+          | 'financialStatus'
+          | 'fulfillmentStatus'
+          | 'id'
+          | 'number'
+          | 'confirmationNumber'
+          | 'processedAt'
+        > & {
+          totalPrice: Pick<
+            CustomerAccountAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+          fulfillments: {
+            nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>;
+          };
+        }
+      >;
+      pageInfo: Pick<
+        CustomerAccountAPI.PageInfo,
+        'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
       >;
     };
   };
@@ -390,93 +477,6 @@ export type OrderQuery = {
   >;
 };
 
-export type OrderItemFragment = Pick<
-  CustomerAccountAPI.Order,
-  | 'financialStatus'
-  | 'fulfillmentStatus'
-  | 'id'
-  | 'number'
-  | 'confirmationNumber'
-  | 'processedAt'
-> & {
-  totalPrice: Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  fulfillments: {nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>};
-};
-
-export type CustomerOrdersFragment = {
-  orders: {
-    nodes: Array<
-      Pick<
-        CustomerAccountAPI.Order,
-        | 'financialStatus'
-        | 'fulfillmentStatus'
-        | 'id'
-        | 'number'
-        | 'confirmationNumber'
-        | 'processedAt'
-      > & {
-        totalPrice: Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>;
-        fulfillments: {
-          nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>;
-        };
-      }
-    >;
-    pageInfo: Pick<
-      CustomerAccountAPI.PageInfo,
-      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
-    >;
-  };
-};
-
-export type CustomerOrdersQueryVariables = CustomerAccountAPI.Exact<{
-  endCursor?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['String']['input']
-  >;
-  first?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['Int']['input']
-  >;
-  last?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['Int']['input']
-  >;
-  startCursor?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['String']['input']
-  >;
-  query?: CustomerAccountAPI.InputMaybe<
-    CustomerAccountAPI.Scalars['String']['input']
-  >;
-  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
-}>;
-
-export type CustomerOrdersQuery = {
-  customer: {
-    orders: {
-      nodes: Array<
-        Pick<
-          CustomerAccountAPI.Order,
-          | 'financialStatus'
-          | 'fulfillmentStatus'
-          | 'id'
-          | 'number'
-          | 'confirmationNumber'
-          | 'processedAt'
-        > & {
-          totalPrice: Pick<
-            CustomerAccountAPI.MoneyV2,
-            'amount' | 'currencyCode'
-          >;
-          fulfillments: {
-            nodes: Array<Pick<CustomerAccountAPI.Fulfillment, 'status'>>;
-          };
-        }
-      >;
-      pageInfo: Pick<
-        CustomerAccountAPI.PageInfo,
-        'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
-      >;
-    };
-  };
-};
-
 export type CustomerUpdateMutationVariables = CustomerAccountAPI.Exact<{
   customer: CustomerAccountAPI.CustomerUpdateInput;
   language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
@@ -508,17 +508,21 @@ interface GeneratedQueryTypes {
     return: CustomerDetailsQuery;
     variables: CustomerDetailsQueryVariables;
   };
-  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on LineItem {\n    id\n    title\n    quantity\n    price {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    totalDiscount {\n      ...OrderMoney\n    }\n    image {\n      altText\n      height\n      url\n      id\n      width\n    }\n    variantTitle\n  }\n  fragment Order on Order {\n    id\n    name\n    confirmationNumber\n    statusPageUrl\n    fulfillmentStatus\n    processedAt\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    subtotal {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query Order($orderId: ID!, $language: LanguageCode)\n    @inContext(language: $language) {\n    order(id: $orderId) {\n      ... on Order {\n        ...Order\n      }\n    }\n  }\n': {
-    return: OrderQuery;
-    variables: OrderQueryVariables;
-  };
   '#graphql\n  #graphql\n  fragment CustomerOrders on Customer {\n    orders(\n      sortKey: PROCESSED_AT,\n      reverse: true,\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor,\n      query: $query\n    ) {\n      nodes {\n        ...OrderItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        endCursor\n        startCursor\n      }\n    }\n  }\n  #graphql\n  fragment OrderItem on Order {\n    totalPrice {\n      amount\n      currencyCode\n    }\n    financialStatus\n    fulfillmentStatus\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    id\n    number\n    confirmationNumber\n    processedAt\n  }\n\n\n  query CustomerOrders(\n    $endCursor: String\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $query: String\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customer {\n      ...CustomerOrders\n    }\n  }\n': {
     return: CustomerOrdersQuery;
     variables: CustomerOrdersQueryVariables;
   };
+  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on LineItem {\n    id\n    title\n    quantity\n    price {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    totalDiscount {\n      ...OrderMoney\n    }\n    image {\n      altText\n      height\n      url\n      id\n      width\n    }\n    variantTitle\n  }\n  fragment Order on Order {\n    id\n    name\n    confirmationNumber\n    statusPageUrl\n    fulfillmentStatus\n    processedAt\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    subtotal {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query Order($orderId: ID!, $language: LanguageCode)\n    @inContext(language: $language) {\n    order(id: $orderId) {\n      ... on Order {\n        ...Order\n      }\n    }\n  }\n': {
+    return: OrderQuery;
+    variables: OrderQueryVariables;
+  };
 }
 
 interface GeneratedMutationTypes {
+  '#graphql\n  mutation customerAddressCreate(\n    $address: CustomerAddressInput!\n    $defaultAddress: Boolean\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerAddressCreate(\n      address: $address\n      defaultAddress: $defaultAddress\n    ) {\n      customerAddress {\n        id\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CustomerAddressCreateMutation;
+    variables: CustomerAddressCreateMutationVariables;
+  };
   '#graphql\n  mutation customerAddressUpdate(\n    $address: CustomerAddressInput!\n    $addressId: ID!\n    $defaultAddress: Boolean\n    $language: LanguageCode\n ) @inContext(language: $language) {\n    customerAddressUpdate(\n      address: $address\n      addressId: $addressId\n      defaultAddress: $defaultAddress\n    ) {\n      customerAddress {\n        id\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerAddressUpdateMutation;
     variables: CustomerAddressUpdateMutationVariables;
@@ -526,10 +530,6 @@ interface GeneratedMutationTypes {
   '#graphql\n  mutation customerAddressDelete(\n    $addressId: ID!\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerAddressDelete(addressId: $addressId) {\n      deletedAddressId\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerAddressDeleteMutation;
     variables: CustomerAddressDeleteMutationVariables;
-  };
-  '#graphql\n  mutation customerAddressCreate(\n    $address: CustomerAddressInput!\n    $defaultAddress: Boolean\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerAddressCreate(\n      address: $address\n      defaultAddress: $defaultAddress\n    ) {\n      customerAddress {\n        id\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CustomerAddressCreateMutation;
-    variables: CustomerAddressCreateMutationVariables;
   };
   '#graphql\n  mutation customerUpdate(\n    $customer: CustomerUpdateInput!\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerUpdate(input: $customer) {\n      customer {\n        firstName\n        lastName\n        emailAddress {\n          emailAddress\n        }\n        phoneNumber {\n          phoneNumber\n        }\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerUpdateMutation;

@@ -123,6 +123,20 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
  */
 function loadDeferredData({context}: Route.LoaderArgs) {
   const {storefront, customerAccount, cart} = context;
+  const expectedCountry = storefront.i18n.country;
+
+  const cartPromise = cart.get().then(async (cartData) => {
+    if (!cartData) return cartData;
+
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (currentCountry && currentCountry === expectedCountry) return cartData;
+
+    await cart.updateBuyerIdentity({countryCode: expectedCountry});
+    return cart.get();
+  }).catch((error: Error) => {
+    console.error('[cart] buyerIdentity reconciliation error:', error);
+    return cart.get().catch(() => null);
+  });
 
   const footer = storefront
     .query(FOOTER_QUERY, {
@@ -144,7 +158,7 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     .catch(() => null);
 
   return {
-    cart: cart.get(),
+    cart: cartPromise,
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
     footerBanner,

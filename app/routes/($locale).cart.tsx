@@ -41,7 +41,8 @@ export async function action({request, context}: ActionFunctionArgs) {
     console.warn('[cart] userErrors:', userErrors.map((e: {message: string}) => e.message).join(', '));
   }
 
-  const headers = cart.setCartId(result?.cart?.id);
+  const cartId = result?.cart?.id;
+  const headers = cartId ? cart.setCartId(cartId) : new Headers();
   const status = userErrors.length > 0 ? 422 : 200;
 
   return data(result, {status, headers});
