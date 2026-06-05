@@ -55,6 +55,8 @@ export async function createHydrogenRouterContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
+  const locale = getLocaleFromRequest(request);
+
   const hydrogenContext = createHydrogenContext(
     {
       env,
@@ -62,12 +64,15 @@ export async function createHydrogenRouterContext(
       cache,
       waitUntil,
       session,
-      i18n: getLocaleFromRequest(request),
+      i18n: locale,
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
       },
       customerAccount: {
         useCustomAuthDomain: true,
+      },
+      buyerIdentity: {
+        countryCode: locale.country,
       },
     },
     additionalContext,

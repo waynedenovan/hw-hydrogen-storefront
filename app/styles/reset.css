@@ -127,6 +127,14 @@ body.contact-page {
   background-repeat: no-repeat;
 }
 
+body.cart-page {
+  background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-market.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
 body > main {
   margin: 0 1rem 1rem 1rem;
 }

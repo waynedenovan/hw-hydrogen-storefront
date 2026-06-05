@@ -13,6 +13,8 @@ export function CountrySelector() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const fetcher = useFetcher();
+  const pendingNavRef = useRef<string | null>(null);
 
   const currentPrefix = `/${location.pathname.split('/')[1]?.toLowerCase() ?? ''}`;
   const currentLocale =
@@ -31,6 +33,14 @@ export function CountrySelector() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (fetcher.state === 'idle' && pendingNavRef.current) {
+      const path = pendingNavRef.current;
+      pendingNavRef.current = null;
+      window.location.href = path;
+    }
+  }, [fetcher.state]);
+
   function handleLocaleChange(locale: (typeof LOCALES)[number]) {
     setIsOpen(false);
     const pathWithoutPrefix = location.pathname.replace(
@@ -38,7 +48,17 @@ export function CountrySelector() {
       '',
     );
     const newPath = locale.prefix + (pathWithoutPrefix || '/');
-    window.location.href = newPath;
+    pendingNavRef.current = newPath;
+
+    const formData = new FormData();
+    formData.set(
+      CartForm.INPUT_NAME,
+      JSON.stringify({
+        action: CartForm.ACTIONS.BuyerIdentityUpdate,
+        inputs: {buyerIdentity: {countryCode: locale.country}},
+      }),
+    );
+    fetcher.submit(formData, {method: 'POST', action: '/cart'});
   }
 
   return (
