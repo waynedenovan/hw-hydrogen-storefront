@@ -464,6 +464,92 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   display: flex;
 }
+
+/*
+* --------------------------------------------------
+* Cart page text visibility (over background image)
+* --------------------------------------------------
+*/
+body.cart-page .cart-main {
+  max-height: none;
+  overflow-y: visible;
+}
+
+body.cart-page .cart-line {
+  background: var(--menu-bg);
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+body.cart-page .cart-line small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.cart-page .cart-line-quantity button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+body.cart-page .cart-line-quantity button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+body.cart-page .cart-summary-page {
+  background: var(--menu-bg);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  color: white;
+}
+
+body.cart-page .cart-summary-page h4 {
+  background: none;
+  padding: 0;
+}
+
+body.cart-page .cart-summary-page input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+body.cart-page .cart-summary-page input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+body.cart-page .cart-summary-page button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+
+body.cart-page .cart-summary-page button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+body.cart-page .cart-summary-page code {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+body.cart-page .cart-main > div:first-child:not([hidden]) {
+  background: var(--menu-bg);
+  padding: 1rem;
+  border-radius: 6px;
+  color: white;
+}
+
 /*
 * --------------------------------------------------
 * components/Search
