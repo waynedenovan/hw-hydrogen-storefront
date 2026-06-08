@@ -4,7 +4,7 @@ import {
   data,
   redirect,
 } from 'react-router';
-import {useLoaderData, useActionData, useLocation} from 'react-router';
+import {useLoaderData, useLocation, useFetcher} from 'react-router';
 import {useState, useEffect} from 'react';
 import {Money, Image, type CountryCode} from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
@@ -85,12 +85,12 @@ type StepNumber = 1 | 2 | 3;
 
 export default function Checkout() {
   const {cart} = useLoaderData<typeof loader>();
-  const actionData = useActionData<{
+  const fetcher = useFetcher<{
     step?: string;
     success?: boolean;
     errors?: Array<{message: string; field?: string[]}>;
     error?: string;
-  }>();
+  }>({key: 'checkout-step'});
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
   const [customerInfo, setCustomerInfo] = useState({
     email: cart.buyerIdentity?.email || '',
@@ -115,6 +115,7 @@ export default function Checkout() {
   const localePrefix = localeMatch ? localeMatch[0] : '';
   const defaultCountry =
     localeMatch?.[1]?.split('-')[1]?.toUpperCase() ?? 'ZA';
+  const actionUrl = `${localePrefix}/checkout`;
 
   useEffect(() => {
     if (!shippingAddress.countryCode) {
@@ -123,14 +124,14 @@ export default function Checkout() {
   }, [defaultCountry, shippingAddress.countryCode]);
 
   useEffect(() => {
-    if (actionData?.success) {
-      if (actionData.step === 'customer-info') {
+    if (fetcher.data?.success) {
+      if (fetcher.data.step === 'customer-info') {
         setCurrentStep(2);
-      } else if (actionData.step === 'shipping-address') {
+      } else if (fetcher.data.step === 'shipping-address') {
         setCurrentStep(3);
       }
     }
-  }, [actionData]);
+  }, [fetcher.data]);
 
   return (
     <div className="checkout-wrapper">
@@ -138,9 +139,9 @@ export default function Checkout() {
         <h1 className="checkout-title">Checkout</h1>
         <StepIndicator currentStep={currentStep} />
 
-        {actionData?.errors && actionData.errors.length > 0 && (
+        {fetcher.data?.errors && fetcher.data.errors.length > 0 && (
           <div className="checkout-errors">
-            {actionData.errors.map((err, i) => (
+            {fetcher.data.errors.map((err, i) => (
               <p key={i}>{err.message}</p>
             ))}
           </div>
@@ -152,6 +153,8 @@ export default function Checkout() {
             onFieldChange={(field, value) =>
               setCustomerInfo((prev) => ({...prev, [field]: value}))
             }
+            fetcher={fetcher}
+            actionUrl={actionUrl}
           />
         )}
 
@@ -162,6 +165,8 @@ export default function Checkout() {
               setShippingAddress((prev) => ({...prev, [field]: value}))
             }
             onBack={() => setCurrentStep(1)}
+            fetcher={fetcher}
+            actionUrl={actionUrl}
           />
         )}
 
@@ -182,7 +187,7 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
   const steps = [
     {num: 1, label: 'Information'},
     {num: 2, label: 'Shipping'},
-    {num: 3, label: 'Review'},
+    {num: 3, label: 'Review & Pay'},
   ];
 
   return (
@@ -213,12 +218,17 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
 function CustomerInfoStep({
   customerInfo,
   onFieldChange,
+  fetcher,
+  actionUrl,
 }: {
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
   onFieldChange: (field: string, value: string) => void;
+  fetcher: ReturnType<typeof useFetcher>;
+  actionUrl: string;
 }) {
+  const isSubmitting = fetcher.state !== 'idle';
   return (
-    <form method="post" className="checkout-form">
+    <fetcher.Form method="post" action={actionUrl} className="checkout-form">
       <input type="hidden" name="step" value="customer-info" />
       <h2 className="checkout-section-title">Contact Information</h2>
       <div className="checkout-form-field">
@@ -280,10 +290,10 @@ function CustomerInfoStep({
           placeholder="+1 234 567 8900"
         />
       </div>
-      <button type="submit" className="checkout-submit-btn">
-        Continue to Shipping &rarr;
+      <button type="submit" className="checkout-submit-btn" disabled={isSubmitting}>
+        {isSubmitting ? 'Saving...' : 'Continue to Shipping →'}
       </button>
-    </form>
+    </fetcher.Form>
   );
 }
 
@@ -291,6 +301,8 @@ function ShippingAddressStep({
   shippingAddress,
   onFieldChange,
   onBack,
+  fetcher,
+  actionUrl,
 }: {
   shippingAddress: {
     firstName: string;
@@ -305,9 +317,12 @@ function ShippingAddressStep({
   };
   onFieldChange: (field: string, value: string) => void;
   onBack: () => void;
+  fetcher: ReturnType<typeof useFetcher>;
+  actionUrl: string;
 }) {
+  const isSubmitting = fetcher.state !== 'idle';
   return (
-    <form method="post" className="checkout-form">
+    <fetcher.Form method="post" action={actionUrl} className="checkout-form">
       <input type="hidden" name="step" value="shipping-address" />
       <h2 className="checkout-section-title">Shipping Address</h2>
       <div className="checkout-form-row">
@@ -447,11 +462,11 @@ function ShippingAddressStep({
         <button type="button" className="checkout-back-btn" onClick={onBack}>
           &larr; Back
         </button>
-        <button type="submit" className="checkout-submit-btn">
-          Continue to Review &rarr;
+        <button type="submit" className="checkout-submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Continue to Review →'}
         </button>
       </div>
-    </form>
+    </fetcher.Form>
   );
 }
 
@@ -571,6 +586,17 @@ function OrderReviewStep({
               '-'
             )}
           </span>
+        </div>
+      </div>
+
+      <div className="checkout-review-section checkout-payment-info">
+        <h3>Payment</h3>
+        <p>You will be redirected to our secure payment page to complete your order.</p>
+        <div className="checkout-payment-methods">
+          <span className="checkout-payment-badge">Card</span>
+          <span className="checkout-payment-badge">EFT</span>
+          <span className="checkout-payment-badge">Google Pay</span>
+          <span className="checkout-payment-badge">Apple Pay</span>
         </div>
       </div>
 

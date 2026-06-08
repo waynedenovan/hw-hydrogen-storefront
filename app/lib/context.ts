@@ -67,6 +67,7 @@ export async function createHydrogenRouterContext(
       i18n: locale,
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
+        numCartLines: 100,
       },
       customerAccount: {
         useCustomAuthDomain: true,
