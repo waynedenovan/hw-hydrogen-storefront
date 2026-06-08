@@ -31,6 +31,11 @@ type Pages = {
       "handle": string;
     };
   };
+  "/:locale?/checkout": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/account/authorize": {
     params: {};
   };
@@ -83,7 +88,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/:locale?/checkout" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -96,6 +101,10 @@ type RouteFiles = {
   "routes/($locale).products.$handle.tsx": {
     id: "routes/($locale).products.$handle";
     page: "/:locale?/products/:handle";
+  };
+  "routes/($locale).checkout.tsx": {
+    id: "routes/($locale).checkout";
+    page: "/:locale?/checkout";
   };
   "routes/account_.authorize.tsx": {
     id: "routes/account_.authorize";
@@ -168,6 +177,7 @@ type RouteModules = {
   "routes/($locale).collections.$handle": typeof import("./app/routes/($locale).collections.$handle.tsx");
   "routes/($locale).collections._index": typeof import("./app/routes/($locale).collections._index.tsx");
   "routes/($locale).products.$handle": typeof import("./app/routes/($locale).products.$handle.tsx");
+  "routes/($locale).checkout": typeof import("./app/routes/($locale).checkout.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
   "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
   "routes/($locale)._index": typeof import("./app/routes/($locale)._index.tsx");

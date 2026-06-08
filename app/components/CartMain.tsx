@@ -77,8 +77,22 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
             })}
           </ul>
         </div>
+        {cartHasItems && layout === 'aside' && (
+          <ContinueShopping />
+        )}
         {cartHasItems && <CartSummary cart={cart} layout={layout} />}
       </div>
+    </div>
+  );
+}
+
+function ContinueShopping() {
+  const {close} = useAside();
+  return (
+    <div className="continue-shopping">
+      <button type="button" className="continue-shopping-btn" onClick={close}>
+        &larr; Continue Shopping
+      </button>
     </div>
   );
 }

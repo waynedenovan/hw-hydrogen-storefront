@@ -32,6 +32,12 @@ export async function action({request, context}: ActionFunctionArgs) {
     case CartForm.ACTIONS.BuyerIdentityUpdate:
       result = await cart.updateBuyerIdentity(inputs.buyerIdentity);
       break;
+    case CartForm.ACTIONS.DeliveryAddressesAdd:
+      result = await cart.addDeliveryAddresses(inputs.addresses);
+      break;
+    case CartForm.ACTIONS.DeliveryAddressesReplace:
+      result = await cart.replaceDeliveryAddresses(inputs.addresses);
+      break;
     default:
       throw new Error(`Unknown action: ${action}`);
   }

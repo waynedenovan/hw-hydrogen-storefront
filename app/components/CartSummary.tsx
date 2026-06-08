@@ -2,7 +2,8 @@ import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import type {CartLayout} from '~/components/CartMain';
 import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
-import {useFetcher} from 'react-router';
+import {Link, useFetcher, useLocation} from 'react-router';
+import {useAside} from '~/components/Aside';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -36,12 +37,28 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
+  const {close} = useAside();
+  const location = useLocation();
+  const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
+  const localePrefix = localeMatch ? localeMatch[0] : '';
+
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+    <div className="cart-checkout-actions">
+      <Link
+        to={`${localePrefix}/checkout`}
+        onClick={close}
+        className="checkout-primary-btn"
+      >
+        Proceed to Checkout &rarr;
+      </Link>
+      <a
+        href={checkoutUrl}
+        target="_self"
+        onClick={close}
+        className="checkout-skip-btn"
+      >
+        Skip to payment &rarr;
       </a>
-      <br />
     </div>
   );
 }

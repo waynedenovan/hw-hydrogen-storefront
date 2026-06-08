@@ -1,5 +1,6 @@
 import {type LoaderFunctionArgs} from 'react-router';
-import {useLoaderData} from 'react-router';
+import {useLoaderData, useFetcher} from 'react-router';
+import {useState, useEffect, useRef} from 'react';
 import {
   Image,
   Money,
@@ -8,6 +9,8 @@ import {
   getSelectedProductOptions,
 } from '@shopify/hydrogen';
 import {ProductPrice} from '~/components/ProductPrice';
+import {QuantitySelector} from '~/components/QuantitySelector';
+import {useAside} from '~/components/Aside';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {params, request, context} = args;
@@ -34,6 +37,17 @@ export async function loader(args: LoaderFunctionArgs) {
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
+  const [quantity, setQuantity] = useState(1);
+  const fetcher = useFetcher({key: 'add-to-cart'});
+  const {open} = useAside();
+  const prevFetcherState = useRef(fetcher.state);
+
+  useEffect(() => {
+    if (prevFetcherState.current === 'loading' && fetcher.state === 'idle') {
+      open('cart');
+    }
+    prevFetcherState.current = fetcher.state;
+  }, [fetcher.state, open]);
 
   return (
     <div
@@ -101,31 +115,47 @@ export default function Product() {
                 </div>
               )}
             </VariantSelector>
-            <CartForm
-              route="/cart"
-              action={CartForm.ACTIONS.LinesAdd}
-              inputs={{
-                lines: [
-                  {
-                    merchandiseId:
-                      product.selectedOrFirstAvailableVariant?.id ?? '',
-                    quantity: 1,
+            <div className="mt-6">
+              <label className="block text-white text-sm font-semibold mb-2">
+                Quantity
+              </label>
+              <QuantitySelector
+                quantity={quantity}
+                onChange={setQuantity}
+              />
+            </div>
+            <fetcher.Form method="post" action="/cart">
+              <input
+                type="hidden"
+                name={CartForm.INPUT_NAME}
+                value={JSON.stringify({
+                  action: CartForm.ACTIONS.LinesAdd,
+                  inputs: {
+                    lines: [
+                      {
+                        merchandiseId:
+                          product.selectedOrFirstAvailableVariant?.id ?? '',
+                        quantity,
+                      },
+                    ],
                   },
-                ],
-              }}
-            >
+                })}
+              />
               <button
                 type="submit"
-                className="mt-6 w-full bg-white text-black py-3 px-6 rounded hover:bg-gray-200 transition font-semibold"
+                className="mt-4 w-full bg-white text-black py-3 px-6 rounded hover:bg-gray-200 transition font-semibold"
                 disabled={
-                  !product.selectedOrFirstAvailableVariant?.availableForSale
+                  !product.selectedOrFirstAvailableVariant?.availableForSale ||
+                  fetcher.state !== 'idle'
                 }
               >
                 {product.selectedOrFirstAvailableVariant?.availableForSale
-                  ? 'Add to Cart'
+                  ? fetcher.state !== 'idle'
+                    ? 'Adding...'
+                    : 'Add to Cart'
                   : 'Sold Out'}
               </button>
-            </CartForm>
+            </fetcher.Form>
           </div>
         </div>
       </div>

@@ -46,6 +46,8 @@ export function PageLayout({
     /^(\/(en-nz|en-au|en-us|en-za|pages))?\/contact/.test(location.pathname);
   const isCartPage =
     /^(\/(en-nz|en-au|en-us|en-za))?\/cart/.test(location.pathname);
+  const isCheckoutPage =
+    /^(\/(en-nz|en-au|en-us|en-za))?\/checkout/.test(location.pathname);
 
   useEffect(() => {
     if (isHomePage) {
@@ -73,14 +75,20 @@ export function PageLayout({
     } else {
       document.body.classList.remove('cart-page');
     }
+    if (isCheckoutPage) {
+      document.body.classList.add('checkout-page');
+    } else {
+      document.body.classList.remove('checkout-page');
+    }
     return () => {
       document.body.classList.remove('home-page');
       document.body.classList.remove('product-page');
       document.body.classList.remove('account-page');
       document.body.classList.remove('contact-page');
       document.body.classList.remove('cart-page');
+      document.body.classList.remove('checkout-page');
     };
-  }, [isHomePage, isProductPage, isAccountPage, isContactPage, isCartPage]);
+  }, [isHomePage, isProductPage, isAccountPage, isContactPage, isCartPage, isCheckoutPage]);
 
   return (
     <Aside.Provider>
