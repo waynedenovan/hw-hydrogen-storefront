@@ -65,7 +65,10 @@ export default function Homepage() {
 }
 
 const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
-  query HomepageCollections {
+  query HomepageCollections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
     collections(first: 20) {
       nodes {
         id

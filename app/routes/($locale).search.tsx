@@ -91,7 +91,9 @@ const SEARCH_QUERY = `#graphql
     $last: Int
     $startCursor: String
     $endCursor: String
-  ) {
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
     search(
       query: $query
       types: [PRODUCT]

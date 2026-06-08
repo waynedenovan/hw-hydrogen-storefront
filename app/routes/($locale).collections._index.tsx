@@ -60,7 +60,9 @@ const COLLECTIONS_QUERY = `#graphql
     $last: Int
     $startCursor: String
     $endCursor: String
-  ) {
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
     collections(first: $first, last: $last, before: $startCursor, after: $endCursor) {
       nodes {
         id

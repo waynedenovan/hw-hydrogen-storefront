@@ -167,7 +167,9 @@ const PRODUCT_QUERY = `#graphql
   query Product(
     $handle: String!
     $selectedOptions: [SelectedOptionInput!]!
-  ) {
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
     product(handle: $handle) {
       id
       title
