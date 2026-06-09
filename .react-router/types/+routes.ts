@@ -25,6 +25,11 @@ type Pages = {
       "locale"?: string;
     };
   };
+  "/:locale?/debug-availability": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/:locale?/products/:handle": {
     params: {
       "locale"?: string;
@@ -88,7 +93,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/products/:handle" | "/:locale?/checkout" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/products/:handle" | "/:locale?/checkout" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -97,6 +102,10 @@ type RouteFiles = {
   "routes/($locale).collections._index.tsx": {
     id: "routes/($locale).collections._index";
     page: "/:locale?/collections";
+  };
+  "routes/($locale).debug-availability.tsx": {
+    id: "routes/($locale).debug-availability";
+    page: "/:locale?/debug-availability";
   };
   "routes/($locale).products.$handle.tsx": {
     id: "routes/($locale).products.$handle";
@@ -176,6 +185,7 @@ type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "routes/($locale).collections.$handle": typeof import("./app/routes/($locale).collections.$handle.tsx");
   "routes/($locale).collections._index": typeof import("./app/routes/($locale).collections._index.tsx");
+  "routes/($locale).debug-availability": typeof import("./app/routes/($locale).debug-availability.tsx");
   "routes/($locale).products.$handle": typeof import("./app/routes/($locale).products.$handle.tsx");
   "routes/($locale).checkout": typeof import("./app/routes/($locale).checkout.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
