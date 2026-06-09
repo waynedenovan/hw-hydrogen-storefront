@@ -17,6 +17,21 @@ export async function loader(args: LoaderFunctionArgs) {
     variables: {handle, ...paginationVariables},
   });
 
+  if (!collection && handle === 'all') {
+    const {products} = await storefront.query(ALL_PRODUCTS_QUERY, {
+      variables: paginationVariables,
+    });
+    return {
+      collection: {
+        id: 'all',
+        title: 'All Products',
+        handle: 'all',
+        description: '',
+        products,
+      },
+    };
+  }
+
   if (!collection) {
     throw new Response('Collection not found', {status: 404});
   }
@@ -99,6 +114,47 @@ const COLLECTION_QUERY = `#graphql
           startCursor
           endCursor
         }
+      }
+    }
+  }
+` as const;
+
+const ALL_PRODUCTS_QUERY = `#graphql
+  query AllProducts(
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+      nodes {
+        id
+        title
+        handle
+        productType
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        brand: metafield(namespace: "app", key: "brand") {
+          value
+        }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
       }
     }
   }

@@ -583,15 +583,7 @@ function OrderReviewStep({
             )}
           </span>
         </div>
-        {cart.cost?.totalTaxAmount && (
-          <div className="checkout-review-total-row">
-            <span>Tax</span>
-            <span>
-              <Money data={cart.cost.totalTaxAmount} />
-            </span>
-          </div>
-        )}
-        <div className="checkout-review-total-row checkout-review-grand-total">
+<div className="checkout-review-total-row checkout-review-grand-total">
           <span>Total</span>
           <span>
             {cart.cost?.totalAmount ? (
