@@ -10,9 +10,10 @@ export async function loader({request, context}: LoaderFunctionArgs) {
   }
 
   const {storefront} = context;
+  const {country, language} = storefront.i18n;
 
   const withContext = await storefront.query(DEBUG_QUERY_WITH_CONTEXT, {
-    variables: {handle},
+    variables: {handle, country, language},
   });
 
   const withoutContext = await storefront.query(DEBUG_QUERY_WITHOUT_CONTEXT, {
@@ -23,6 +24,7 @@ export async function loader({request, context}: LoaderFunctionArgs) {
     error: null,
     results: {
       handle,
+      resolvedContext: {country, language},
       withContext: withContext.product,
       withoutContext: withoutContext.product,
     },
@@ -48,6 +50,10 @@ export default function DebugAvailability() {
   return (
     <div style={{padding: '2rem', color: 'white', maxWidth: '900px', margin: '0 auto'}}>
       <h1 style={{marginBottom: '1rem'}}>Debug: {handle}</h1>
+
+      <div style={{marginBottom: '1rem', padding: '0.5rem', background: 'rgba(0,100,255,0.15)', borderRadius: '8px'}}>
+        <strong>Resolved Context:</strong> country={results.resolvedContext.country}, language={results.resolvedContext.language}
+      </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem'}}>
         <Section
@@ -91,6 +97,12 @@ export default function DebugAvailability() {
             {withContext.availableForSale && withoutContext.availableForSale && (
               <li style={{color: 'lime'}}>
                 Product is available in both contexts — no issue detected.
+              </li>
+            )}
+            {withContext.selectedOrFirstAvailableVariant?.quantityAvailable == null && (
+              <li style={{color: 'orange'}}>
+                quantityAvailable is null/N/A. Enable &quot;Read inventory of assigned locations&quot;
+                in Shopify Admin &rarr; Settings &rarr; Apps &rarr; Headless &rarr; Storefront API permissions.
               </li>
             )}
           </ul>

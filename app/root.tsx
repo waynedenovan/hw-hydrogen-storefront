@@ -135,7 +135,7 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     return cart.get();
   }).catch((error: Error) => {
     console.error('[cart] buyerIdentity reconciliation error:', error);
-    return cart.get().catch(() => null);
+    return null;
   });
 
   const footer = storefront

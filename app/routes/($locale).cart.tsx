@@ -55,8 +55,23 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const cart = await context.cart.get();
-  return {cart};
+  const {cart, storefront} = context;
+  const expectedCountry = storefront.i18n.country;
+
+  let cartData = await cart.get();
+
+  if (cartData) {
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (!currentCountry || currentCountry !== expectedCountry) {
+      console.log(
+        `[cart-loader] Syncing buyerIdentity: ${currentCountry ?? 'none'} -> ${expectedCountry}`,
+      );
+      await cart.updateBuyerIdentity({countryCode: expectedCountry});
+      cartData = await cart.get();
+    }
+  }
+
+  return {cart: cartData};
 }
 
 export default function Cart() {

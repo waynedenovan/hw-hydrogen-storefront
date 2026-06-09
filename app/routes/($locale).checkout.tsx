@@ -10,13 +10,27 @@ import {Money, Image, type CountryCode} from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const cart = await context.cart.get();
+  const {cart, storefront} = context;
+  const expectedCountry = storefront.i18n.country;
 
-  if (!cart || !cart.totalQuantity) {
+  let cartData = await cart.get();
+
+  if (cartData) {
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (!currentCountry || currentCountry !== expectedCountry) {
+      console.log(
+        `[checkout-loader] Syncing buyerIdentity: ${currentCountry ?? 'none'} -> ${expectedCountry}`,
+      );
+      await cart.updateBuyerIdentity({countryCode: expectedCountry});
+      cartData = await cart.get();
+    }
+  }
+
+  if (!cartData || !cartData.totalQuantity) {
     throw redirect('/cart');
   }
 
-  return {cart};
+  return {cart: cartData};
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
