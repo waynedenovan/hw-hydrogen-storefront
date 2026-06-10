@@ -48,7 +48,7 @@ export default function AccountDashboard() {
         <button
           type="submit"
           style={{
-            background: 'rgba(255, 255, 255, 0.15)',
+            background: 'rgba(250, 35, 35, 0.7)',
             color: 'white',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             padding: '0.5rem 1.5rem',

@@ -1,4 +1,4 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, redirect} from 'react-router';
 import type {LoaderFunctionArgs, MetaFunction} from 'react-router';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
@@ -8,6 +8,12 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 export async function loader({params, context}: LoaderFunctionArgs) {
   if (!params.handle) {
     throw new Response('No page handle provided', {status: 400});
+  }
+
+  if (params.handle === 'contact') {
+    const locale = context.storefront.i18n;
+    const prefix = locale.pathPrefix || '';
+    throw redirect(`${prefix}/contact`);
   }
 
   const {page} = await context.storefront.query(PAGE_QUERY, {

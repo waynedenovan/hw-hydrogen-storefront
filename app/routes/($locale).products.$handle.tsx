@@ -136,6 +136,17 @@ export default function Product() {
                         merchandiseId:
                           product.selectedOrFirstAvailableVariant?.id ?? '',
                         quantity,
+                        selectedVariant: product.selectedOrFirstAvailableVariant
+                          ? {
+                              ...product.selectedOrFirstAvailableVariant,
+                              product: {
+                                handle: product.handle,
+                                title: product.title,
+                                id: product.id,
+                                vendor: product.vendor,
+                              },
+                            }
+                          : undefined,
                       },
                     ],
                   },
@@ -201,7 +212,9 @@ const PRODUCT_QUERY = `#graphql
       }
       selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions) {
         id
+        title
         availableForSale
+        requiresShipping
         price {
           amount
           currencyCode
@@ -215,6 +228,7 @@ const PRODUCT_QUERY = `#graphql
           value
         }
         image {
+          id
           url
           altText
           width
