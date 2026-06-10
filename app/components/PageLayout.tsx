@@ -21,6 +21,7 @@ interface PageLayoutProps {
   footerBanner?: Promise<string | null>;
   header: HeaderQuery;
   isLoggedIn: Promise<boolean>;
+  customerFirstName?: Promise<string | null>;
   publicStoreDomain: string;
   children?: React.ReactNode;
 }
@@ -32,6 +33,7 @@ export function PageLayout({
   footerBanner,
   header,
   isLoggedIn,
+  customerFirstName,
   publicStoreDomain,
 }: PageLayoutProps) {
   const location = useLocation();
@@ -100,6 +102,7 @@ export function PageLayout({
           header={header}
           cart={cart}
           isLoggedIn={isLoggedIn}
+          customerFirstName={customerFirstName}
           publicStoreDomain={publicStoreDomain}
           isHomePage={isHomePage}
         />

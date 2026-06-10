@@ -318,6 +318,28 @@ button.reset:hover:not(:has(> *)) {
   color: white;
 }
 
+.header-account-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.header-customer-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .header-customer-name {
+    display: none;
+  }
+}
+
 .dropdown-panel {
   background: var(--menu-bg);
   color: white;

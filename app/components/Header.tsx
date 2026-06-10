@@ -13,6 +13,7 @@ interface HeaderProps {
   header: HeaderQuery;
   cart: Promise<CartApiQueryFragment | null>;
   isLoggedIn: Promise<boolean>;
+  customerFirstName?: Promise<string | null>;
   publicStoreDomain: string;
   isHomePage?: boolean;
 }
@@ -22,6 +23,7 @@ type Viewport = 'desktop' | 'mobile';
 export function Header({
   header,
   isLoggedIn,
+  customerFirstName,
   cart,
   publicStoreDomain,
   isHomePage = false,
@@ -45,7 +47,7 @@ export function Header({
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
         />
-        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+        <HeaderCtas isLoggedIn={isLoggedIn} customerFirstName={customerFirstName} cart={cart} />
       </header>
       {isHomePage && (
         <div className="header-tagline">
@@ -131,8 +133,9 @@ function AccountIcon() {
 
 function HeaderCtas({
   isLoggedIn,
+  customerFirstName,
   cart,
-}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
+}: Pick<HeaderProps, 'isLoggedIn' | 'customerFirstName' | 'cart'>) {
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
@@ -147,8 +150,24 @@ function HeaderCtas({
         <Await resolve={isLoggedIn}>
           {(loggedIn) =>
             loggedIn ? (
-              <NavLink prefetch="intent" to="/account" aria-label="Account">
+              <NavLink
+                prefetch="intent"
+                to="/account"
+                aria-label="Account"
+                className="header-account-link"
+              >
                 <AccountIcon />
+                {customerFirstName && (
+                  <Suspense fallback={null}>
+                    <Await resolve={customerFirstName}>
+                      {(name) =>
+                        name ? (
+                          <span className="header-customer-name">{name}</span>
+                        ) : null
+                      }
+                    </Await>
+                  </Suspense>
+                )}
               </NavLink>
             ) : (
               <NavLink prefetch="intent" to="/account/login" aria-label="Sign in">

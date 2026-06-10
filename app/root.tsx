@@ -13,6 +13,7 @@ import {
 import type {Route} from './+types/root';
 import favicon from '~/assets/favicon.svg';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {CUSTOMER_NAME_QUERY} from '~/graphql/customer-account/CustomerNameQuery';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
@@ -138,6 +139,18 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     return null;
   });
 
+  const isLoggedInPromise = customerAccount.isLoggedIn();
+
+  const customerFirstName = isLoggedInPromise
+    .then((loggedIn) => {
+      if (!loggedIn) return null;
+      return customerAccount
+        .query(CUSTOMER_NAME_QUERY)
+        .then(({data}: {data: any}) => data?.customer?.firstName ?? null)
+        .catch(() => null);
+    })
+    .catch(() => null);
+
   const footer = storefront
     .query(FOOTER_QUERY, {
       cache: storefront.CacheLong(),
@@ -159,7 +172,8 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
   return {
     cart: cartPromise,
-    isLoggedIn: customerAccount.isLoggedIn(),
+    isLoggedIn: isLoggedInPromise,
+    customerFirstName,
     footer,
     footerBanner,
   };
