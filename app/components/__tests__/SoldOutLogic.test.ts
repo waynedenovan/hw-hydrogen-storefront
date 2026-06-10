@@ -40,7 +40,11 @@ describe('Product "Sold Out" display logic', () => {
 });
 
 describe('GraphQL query shape validation', () => {
-  const PRODUCT_QUERY = `#graphql
+  // No #graphql marker here: this string is only asserted against in tests and
+  // must stay invisible to `shopify hydrogen codegen`, which otherwise reports
+  // a duplicate operation name with the real Product query in
+  // ($locale).products.$handle.tsx.
+  const PRODUCT_QUERY = `
     query Product(
       $handle: String!
       $selectedOptions: [SelectedOptionInput!]!
