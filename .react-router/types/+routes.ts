@@ -69,6 +69,21 @@ type Pages = {
       "locale"?: string;
     };
   };
+  "/:locale?/checkout/payment": {
+    params: {
+      "locale"?: string;
+    };
+  };
+  "/:locale?/checkout/success": {
+    params: {
+      "locale"?: string;
+    };
+  };
+  "/:locale?/checkout/cancel": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/account/authorize": {
     params: {};
   };
@@ -123,7 +138,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/success" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -163,7 +178,19 @@ type RouteFiles = {
   };
   "routes/($locale).checkout.tsx": {
     id: "routes/($locale).checkout";
-    page: "/:locale?/checkout";
+    page: "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/success" | "/:locale?/checkout/cancel";
+  };
+  "routes/($locale).checkout.payment.tsx": {
+    id: "routes/($locale).checkout.payment";
+    page: "/:locale?/checkout/payment";
+  };
+  "routes/($locale).checkout.success.tsx": {
+    id: "routes/($locale).checkout.success";
+    page: "/:locale?/checkout/success";
+  };
+  "routes/($locale).checkout.cancel.tsx": {
+    id: "routes/($locale).checkout.cancel";
+    page: "/:locale?/checkout/cancel";
   };
   "routes/account_.authorize.tsx": {
     id: "routes/account_.authorize";
@@ -235,6 +262,9 @@ type RouteModules = {
   "routes/sitemap.$type.$page[.xml]": typeof import("./app/routes/sitemap.$type.$page[.xml].tsx");
   "routes/($locale).pages.$handle": typeof import("./app/routes/($locale).pages.$handle.tsx");
   "routes/($locale).checkout": typeof import("./app/routes/($locale).checkout.tsx");
+  "routes/($locale).checkout.payment": typeof import("./app/routes/($locale).checkout.payment.tsx");
+  "routes/($locale).checkout.success": typeof import("./app/routes/($locale).checkout.success.tsx");
+  "routes/($locale).checkout.cancel": typeof import("./app/routes/($locale).checkout.cancel.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
   "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
   "routes/($locale)._index": typeof import("./app/routes/($locale)._index.tsx");

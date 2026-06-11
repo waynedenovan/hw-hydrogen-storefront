@@ -3,14 +3,18 @@ import {
   type ActionFunctionArgs,
   data,
   redirect,
+  useRevalidator,
 } from 'react-router';
 import {useLoaderData, useLocation, useFetcher} from 'react-router';
-import {useState, useEffect} from 'react';
-import {Money, Image, type CountryCode} from '@shopify/hydrogen';
+import {useState, useEffect, useRef} from 'react';
+import {Money, Image, CartForm} from '@shopify/hydrogen';
+import type {CountryCode, CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
+import type {CustomerDetailsQuery} from 'customer-accountapi.generated';
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {cart, storefront} = context;
+  const {cart, storefront, customerAccount} = context;
   const expectedCountry = storefront.i18n.country;
 
   let cartData = await cart.get();
@@ -30,7 +34,20 @@ export async function loader({context}: LoaderFunctionArgs) {
     throw redirect('/cart');
   }
 
-  return {cart: cartData};
+  let customer: CustomerDetailsQuery['customer'] | null = null;
+  try {
+    const isLoggedIn = await customerAccount.isLoggedIn();
+    if (isLoggedIn) {
+      const {data: accountData} = await customerAccount.query(CUSTOMER_DETAILS_QUERY);
+      customer = accountData.customer;
+    }
+  } catch {
+    /* guest checkout — no pre-fill */
+  }
+
+  const paymentGateway = (context.env as any).PUBLIC_PAYMENT_GATEWAY ?? 'shopify';
+
+  return {cart: cartData, customer, paymentGateway};
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
@@ -68,7 +85,7 @@ export async function action({request, context}: ActionFunctionArgs) {
             city: formData.get('city') as string,
             provinceCode: (formData.get('provinceCode') as string) || undefined,
             zip: formData.get('zip') as string,
-            countryCode: formData.get('countryCode') as string,
+            countryCode: formData.get('countryCode') as CountryCode,
             firstName: formData.get('firstName') as string,
             lastName: formData.get('lastName') as string,
             phone: (formData.get('phone') as string) || undefined,
@@ -95,34 +112,18 @@ export async function action({request, context}: ActionFunctionArgs) {
   return data({step, success: true}, {status: 200, headers});
 }
 
-type StepNumber = 1 | 2 | 3;
+type StepNumber = 1 | 2 | 3 | 4;
 
 export default function Checkout() {
-  const {cart} = useLoaderData<typeof loader>();
+  const {cart, customer, paymentGateway} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{
     step?: string;
     success?: boolean;
     errors?: Array<{message: string; field?: string[]}>;
     error?: string;
   }>({key: 'checkout-step'});
-  const [currentStep, setCurrentStep] = useState<StepNumber>(1);
-  const [customerInfo, setCustomerInfo] = useState({
-    email: cart.buyerIdentity?.email || '',
-    firstName: cart.buyerIdentity?.customer?.firstName || '',
-    lastName: cart.buyerIdentity?.customer?.lastName || '',
-    phone: cart.buyerIdentity?.phone || '',
-  });
-  const [shippingAddress, setShippingAddress] = useState({
-    firstName: '',
-    lastName: '',
-    address1: '',
-    address2: '',
-    city: '',
-    provinceCode: '',
-    zip: '',
-    countryCode: '',
-    phone: '',
-  });
+  const revalidator = useRevalidator();
+  const pendingStep3 = useRef(false);
 
   const location = useLocation();
   const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
@@ -131,21 +132,63 @@ export default function Checkout() {
     localeMatch?.[1]?.split('-')[1]?.toUpperCase() ?? 'ZA';
   const actionUrl = `${localePrefix}/checkout`;
 
+  const isPreFilled = Boolean(
+    customer?.defaultAddress?.address1 || customer?.firstName,
+  );
+
+  const [prefillConfirmed, setPrefillConfirmed] = useState(!isPreFilled);
+  const [currentStep, setCurrentStep] = useState<StepNumber>(1);
+
+  const [customerInfo, setCustomerInfo] = useState({
+    email:
+      cart.buyerIdentity?.email ||
+      (customer as any)?.emailAddress?.emailAddress ||
+      '',
+    firstName:
+      cart.buyerIdentity?.customer?.firstName || customer?.firstName || '',
+    lastName:
+      cart.buyerIdentity?.customer?.lastName || customer?.lastName || '',
+    phone:
+      cart.buyerIdentity?.phone ||
+      customer?.defaultAddress?.phoneNumber ||
+      '',
+  });
+
+  const [shippingAddress, setShippingAddress] = useState({
+    firstName: customer?.defaultAddress?.firstName || '',
+    lastName: customer?.defaultAddress?.lastName || '',
+    address1: customer?.defaultAddress?.address1 || '',
+    address2: customer?.defaultAddress?.address2 || '',
+    city: customer?.defaultAddress?.city || '',
+    provinceCode: customer?.defaultAddress?.zoneCode || '',
+    zip: customer?.defaultAddress?.zip || '',
+    countryCode:
+      (customer?.defaultAddress as any)?.territoryCode || defaultCountry,
+    phone: customer?.defaultAddress?.phoneNumber || '',
+  });
+
   useEffect(() => {
     if (!shippingAddress.countryCode) {
       setShippingAddress((prev) => ({...prev, countryCode: defaultCountry}));
     }
   }, [defaultCountry, shippingAddress.countryCode]);
 
+  /* After shipping-address step succeeds, revalidate to get fresh deliveryGroups */
   useEffect(() => {
-    if (fetcher.data?.success) {
-      if (fetcher.data.step === 'customer-info') {
-        setCurrentStep(2);
-      } else if (fetcher.data.step === 'shipping-address') {
-        setCurrentStep(3);
-      }
+    if (fetcher.data?.success && fetcher.data.step === 'shipping-address') {
+      pendingStep3.current = true;
+      revalidator.revalidate();
+    } else if (fetcher.data?.success && fetcher.data.step === 'customer-info') {
+      setCurrentStep(2);
     }
   }, [fetcher.data]);
+
+  useEffect(() => {
+    if (revalidator.state === 'idle' && pendingStep3.current) {
+      pendingStep3.current = false;
+      setCurrentStep(3);
+    }
+  }, [revalidator.state]);
 
   return (
     <div className="checkout-wrapper">
@@ -164,6 +207,9 @@ export default function Checkout() {
         {currentStep === 1 && (
           <CustomerInfoStep
             customerInfo={customerInfo}
+            isPreFilled={isPreFilled}
+            prefillConfirmed={prefillConfirmed}
+            onPrefillConfirm={setPrefillConfirmed}
             onFieldChange={(field, value) =>
               setCustomerInfo((prev) => ({...prev, [field]: value}))
             }
@@ -185,11 +231,22 @@ export default function Checkout() {
         )}
 
         {currentStep === 3 && (
+          <ShippingMethodStep
+            deliveryGroups={(cart as any).deliveryGroups}
+            localePrefix={localePrefix}
+            onBack={() => setCurrentStep(2)}
+            onContinue={() => setCurrentStep(4)}
+          />
+        )}
+
+        {currentStep === 4 && (
           <OrderReviewStep
             cart={cart}
             customerInfo={customerInfo}
             shippingAddress={shippingAddress}
-            onBack={() => setCurrentStep(2)}
+            paymentGateway={paymentGateway}
+            localePrefix={localePrefix}
+            onBack={() => setCurrentStep(3)}
           />
         )}
       </div>
@@ -201,7 +258,8 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
   const steps = [
     {num: 1, label: 'Information'},
     {num: 2, label: 'Shipping'},
-    {num: 3, label: 'Review & Pay'},
+    {num: 3, label: 'Method'},
+    {num: 4, label: 'Review & Pay'},
   ];
 
   return (
@@ -231,11 +289,17 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
 
 function CustomerInfoStep({
   customerInfo,
+  isPreFilled,
+  prefillConfirmed,
+  onPrefillConfirm,
   onFieldChange,
   fetcher,
   actionUrl,
 }: {
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
+  isPreFilled: boolean;
+  prefillConfirmed: boolean;
+  onPrefillConfirm: (v: boolean) => void;
   onFieldChange: (field: string, value: string) => void;
   fetcher: ReturnType<typeof useFetcher>;
   actionUrl: string;
@@ -245,6 +309,21 @@ function CustomerInfoStep({
     <fetcher.Form method="post" action={actionUrl} className="checkout-form">
       <input type="hidden" name="step" value="customer-info" />
       <h2 className="checkout-section-title">Contact Information</h2>
+
+      {isPreFilled && (
+        <div className="checkout-prefill-notice">
+          <p>Your details have been pre-filled from your account. Please verify they are correct before continuing.</p>
+          <label className="checkout-prefill-confirm-label">
+            <input
+              type="checkbox"
+              checked={prefillConfirmed}
+              onChange={(e) => onPrefillConfirm(e.target.checked)}
+            />
+            I confirm these details are correct
+          </label>
+        </div>
+      )}
+
       <div className="checkout-form-field">
         <label htmlFor="email" className="checkout-form-label">
           Email
@@ -301,10 +380,14 @@ function CustomerInfoStep({
           className="checkout-form-input"
           value={customerInfo.phone}
           onChange={(e) => onFieldChange('phone', e.target.value)}
-          placeholder="+1 234 567 8900"
+          placeholder="+27 82 000 0000"
         />
       </div>
-      <button type="submit" className="checkout-submit-btn" disabled={isSubmitting}>
+      <button
+        type="submit"
+        className="checkout-submit-btn"
+        disabled={isSubmitting || (isPreFilled && !prefillConfirmed)}
+      >
         {isSubmitting ? 'Saving...' : 'Continue to Shipping →'}
       </button>
     </fetcher.Form>
@@ -476,11 +559,169 @@ function ShippingAddressStep({
         <button type="button" className="checkout-back-btn" onClick={onBack}>
           &larr; Back
         </button>
-        <button type="submit" className="checkout-submit-btn" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Continue to Review →'}
+        <button
+          type="submit"
+          className="checkout-submit-btn"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Saving...' : 'Continue to Shipping Method →'}
         </button>
       </div>
     </fetcher.Form>
+  );
+}
+
+type DeliveryOption = {
+  handle: string;
+  title: string;
+  code?: string;
+  estimatedCost: {amount: string; currencyCode: CurrencyCode};
+};
+
+type DeliveryGroup = {
+  id: string;
+  deliveryOptions: DeliveryOption[];
+  selectedDeliveryOption?: {
+    handle: string;
+    title: string;
+    estimatedCost: {amount: string; currencyCode: CurrencyCode};
+  } | null;
+};
+
+function ShippingMethodStep({
+  deliveryGroups,
+  localePrefix,
+  onBack,
+  onContinue,
+}: {
+  deliveryGroups?: {nodes: DeliveryGroup[]};
+  localePrefix: string;
+  onBack: () => void;
+  onContinue: () => void;
+}) {
+  const shippingFetcher = useFetcher<any>({key: 'shipping-method'});
+  const group = deliveryGroups?.nodes?.[0];
+  const options = group?.deliveryOptions ?? [];
+  const [selectedHandle, setSelectedHandle] = useState<string | null>(
+    group?.selectedDeliveryOption?.handle ?? (options[0]?.handle ?? null),
+  );
+
+  /* Auto-select first option if none is selected yet */
+  useEffect(() => {
+    if (!selectedHandle && options.length > 0 && group) {
+      const handle = options[0].handle;
+      setSelectedHandle(handle);
+      shippingFetcher.submit(
+        {
+          [CartForm.INPUT_NAME]: JSON.stringify({
+            action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
+            inputs: {
+              selectedDeliveryOptions: [
+                {deliveryGroupId: group.id, deliveryOptionHandle: handle},
+              ],
+            },
+          }),
+        },
+        {method: 'POST', action: `${localePrefix}/cart`},
+      );
+    }
+  }, []);
+
+  if (options.length === 0) {
+    return (
+      <div className="checkout-form">
+        <h2 className="checkout-section-title">Shipping Method</h2>
+        <div className="checkout-shipping-empty">
+          No shipping options are currently available for your address. Please
+          contact us for assistance.
+        </div>
+        <div className="checkout-nav-buttons">
+          <button type="button" className="checkout-back-btn" onClick={onBack}>
+            &larr; Back
+          </button>
+          <button
+            type="button"
+            className="checkout-submit-btn"
+            onClick={onContinue}
+          >
+            Continue to Review →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  function handleSelect(option: DeliveryOption) {
+    if (!group) return;
+    setSelectedHandle(option.handle);
+    shippingFetcher.submit(
+      {
+        [CartForm.INPUT_NAME]: JSON.stringify({
+          action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
+          inputs: {
+            selectedDeliveryOptions: [
+              {
+                deliveryGroupId: group.id,
+                deliveryOptionHandle: option.handle,
+              },
+            ],
+          },
+        }),
+      },
+      {method: 'POST', action: `${localePrefix}/cart`},
+    );
+  }
+
+  const isFree = (amount: string) => parseFloat(amount) === 0;
+
+  return (
+    <div className="checkout-form">
+      <h2 className="checkout-section-title">Shipping Method</h2>
+      <div className="checkout-shipping-options">
+        {options.map((option) => (
+          <label key={option.handle} className="checkout-shipping-option">
+            <input
+              type="radio"
+              name="delivery"
+              value={option.handle}
+              checked={selectedHandle === option.handle}
+              onChange={() => handleSelect(option)}
+            />
+            <span className="checkout-shipping-option-label">
+              {option.title}
+            </span>
+            <span
+              className={`checkout-shipping-option-cost ${
+                isFree(option.estimatedCost.amount)
+                  ? 'checkout-shipping-option-free'
+                  : ''
+              }`}
+            >
+              {isFree(option.estimatedCost.amount) ? (
+                'Free'
+              ) : (
+                <Money data={option.estimatedCost} />
+              )}
+            </span>
+          </label>
+        ))}
+      </div>
+      <div className="checkout-nav-buttons">
+        <button type="button" className="checkout-back-btn" onClick={onBack}>
+          &larr; Back
+        </button>
+        <button
+          type="button"
+          className="checkout-submit-btn"
+          onClick={onContinue}
+          disabled={!selectedHandle || shippingFetcher.state !== 'idle'}
+        >
+          {shippingFetcher.state !== 'idle'
+            ? 'Updating...'
+            : 'Continue to Review →'}
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -488,6 +729,8 @@ function OrderReviewStep({
   cart,
   customerInfo,
   shippingAddress,
+  paymentGateway,
+  localePrefix,
   onBack,
 }: {
   cart: CartApiQueryFragment;
@@ -503,8 +746,13 @@ function OrderReviewStep({
     countryCode: string;
     phone: string;
   };
+  paymentGateway: string;
+  localePrefix: string;
   onBack: () => void;
 }) {
+  const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
+  const selectedDelivery = deliveryGroup?.selectedDeliveryOption;
+
   return (
     <div className="checkout-review">
       <h2 className="checkout-section-title">Order Review</h2>
@@ -532,6 +780,21 @@ function OrderReviewStep({
         </p>
         <p>{shippingAddress.countryCode}</p>
       </div>
+
+      {selectedDelivery && (
+        <div className="checkout-review-section">
+          <h3>Shipping Method</h3>
+          <p>
+            {selectedDelivery.title}
+            {' — '}
+            {parseFloat(selectedDelivery.estimatedCost.amount) === 0 ? (
+              'Free'
+            ) : (
+              <Money data={selectedDelivery.estimatedCost} />
+            )}
+          </p>
+        </div>
+      )}
 
       <div className="checkout-review-section">
         <h3>Items</h3>
@@ -583,7 +846,16 @@ function OrderReviewStep({
             )}
           </span>
         </div>
-<div className="checkout-review-total-row checkout-review-grand-total">
+        {selectedDelivery &&
+          parseFloat(selectedDelivery.estimatedCost.amount) > 0 && (
+            <div className="checkout-review-total-row">
+              <span>Shipping</span>
+              <span>
+                <Money data={selectedDelivery.estimatedCost} />
+              </span>
+            </div>
+          )}
+        <div className="checkout-review-total-row checkout-review-grand-total">
           <span>Total</span>
           <span>
             {cart.cost?.totalAmount ? (
@@ -597,7 +869,11 @@ function OrderReviewStep({
 
       <div className="checkout-review-section checkout-payment-info">
         <h3>Payment</h3>
-        <p>You will be redirected to our secure payment page to complete your order.</p>
+        {paymentGateway === 'payfast' ? (
+          <p>You will be redirected to PayFast to complete your payment securely.</p>
+        ) : (
+          <p>You will be redirected to our secure payment page to complete your order.</p>
+        )}
         <div className="checkout-payment-methods">
           <span className="checkout-payment-badge">Card</span>
           <span className="checkout-payment-badge">EFT</span>
@@ -610,10 +886,101 @@ function OrderReviewStep({
         <button type="button" className="checkout-back-btn" onClick={onBack}>
           &larr; Back
         </button>
-        <a href={cart.checkoutUrl} target="_self" className="checkout-pay-btn">
-          Proceed to Payment &rarr;
-        </a>
+        {paymentGateway === 'payfast' ? (
+          <PayFastPaymentForm
+            cart={cart}
+            customerInfo={customerInfo}
+            shippingAddress={shippingAddress}
+            localePrefix={localePrefix}
+          />
+        ) : (
+          <a href={cart.checkoutUrl} target="_self" className="checkout-pay-btn">
+            Proceed to Payment →
+          </a>
+        )}
       </div>
     </div>
+  );
+}
+
+function PayFastPaymentForm({
+  cart,
+  customerInfo,
+  shippingAddress,
+  localePrefix,
+}: {
+  cart: CartApiQueryFragment;
+  customerInfo: {email: string; firstName: string; lastName: string; phone: string};
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    address1: string;
+    address2: string;
+    city: string;
+    provinceCode: string;
+    zip: string;
+    countryCode: string;
+    phone: string;
+  };
+  localePrefix: string;
+}) {
+  const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
+  const isSubmitting = payFetcher.state !== 'idle';
+
+  return (
+    <payFetcher.Form
+      method="post"
+      action={`${localePrefix}/checkout/payment`}
+    >
+      {/* Cart reference */}
+      <input type="hidden" name="cartId" value={cart.id} />
+      <input type="hidden" name="cartTotal" value={cart.cost?.totalAmount?.amount ?? '0'} />
+      <input type="hidden" name="cartCurrency" value={cart.cost?.totalAmount?.currencyCode ?? 'ZAR'} />
+
+      {/* Customer info */}
+      <input type="hidden" name="email" value={customerInfo.email} />
+      <input type="hidden" name="firstName" value={customerInfo.firstName} />
+      <input type="hidden" name="lastName" value={customerInfo.lastName} />
+      <input type="hidden" name="phone" value={customerInfo.phone} />
+
+      {/* Shipping address */}
+      <input type="hidden" name="shipAddress1" value={shippingAddress.address1} />
+      <input type="hidden" name="shipAddress2" value={shippingAddress.address2} />
+      <input type="hidden" name="shipCity" value={shippingAddress.city} />
+      <input type="hidden" name="shipProvince" value={shippingAddress.provinceCode} />
+      <input type="hidden" name="shipZip" value={shippingAddress.zip} />
+      <input type="hidden" name="shipCountry" value={shippingAddress.countryCode} />
+
+      {/* Line items as JSON — includes variantId for Shopify Draft Order creation */}
+      <input
+        type="hidden"
+        name="lineItems"
+        value={JSON.stringify(
+          (cart.lines?.nodes ?? []).map((line: any) => ({
+            variantId: line.merchandise?.id ?? '',
+            quantity: line.quantity,
+            title: line.merchandise?.product?.title ?? '',
+            variantTitle: line.merchandise?.title ?? '',
+            price: line.cost?.amountPerQuantity?.amount ?? '0',
+            total: line.cost?.totalAmount?.amount ?? '0',
+          })),
+        )}
+      />
+
+      {payFetcher.data?.error && (
+        <p style={{color: '#fc8181', fontSize: '0.85rem', marginBottom: '0.5rem'}}>
+          {payFetcher.data.error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        className="checkout-pay-btn"
+        disabled={isSubmitting}
+        style={{border: 'none', cursor: isSubmitting ? 'wait' : 'pointer'}}
+      >
+        {isSubmitting ? 'Redirecting to PayFast...' : 'Proceed to Payment →'}
+      </button>
+    </payFetcher.Form>
   );
 }

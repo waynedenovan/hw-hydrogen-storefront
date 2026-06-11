@@ -259,6 +259,31 @@ export type CartApiQueryFragment = Pick<
   discountCodes: Array<
     Pick<StorefrontAPI.CartDiscountCode, 'code' | 'applicable'>
   >;
+  deliveryGroups: {
+    nodes: Array<
+      Pick<StorefrontAPI.CartDeliveryGroup, 'id'> & {
+        deliveryOptions: Array<
+          Pick<
+            StorefrontAPI.CartDeliveryOption,
+            'handle' | 'title' | 'code'
+          > & {
+            estimatedCost: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          }
+        >;
+        selectedDeliveryOption?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.CartDeliveryOption, 'handle' | 'title'> & {
+            estimatedCost: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          }
+        >;
+      }
+    >;
+  };
 };
 
 export type MenuItemFragment = Pick<
