@@ -1,11 +1,28 @@
-import {type LoaderFunctionArgs} from 'react-router';
+import {type LoaderFunctionArgs, data} from 'react-router';
 import {useLoaderData} from 'react-router';
 
-export async function loader({request}: LoaderFunctionArgs) {
+export async function loader({request, context}: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const orderRef = url.searchParams.get('ref') ?? '';
   const paymentRef = url.searchParams.get('pf_payment_id') ?? '';
-  return {orderRef, paymentRef};
+
+  let headers = new Headers();
+  try {
+    const cartData = await context.cart.get();
+    const lineIds = (cartData?.lines?.nodes ?? []).map((line: any) => line.id);
+    if (lineIds.length > 0) {
+      const result = await context.cart.removeLines(lineIds);
+      if (result?.headers) {
+        result.headers.forEach((value: string, key: string) =>
+          headers.append(key, value),
+        );
+      }
+    }
+  } catch {
+    // Cart clearing is best-effort — don't block the success page on error
+  }
+
+  return data({orderRef, paymentRef}, {headers});
 }
 
 export default function CheckoutSuccess() {
