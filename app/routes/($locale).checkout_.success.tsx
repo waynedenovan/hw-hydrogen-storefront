@@ -6,21 +6,21 @@ export async function loader({request, context}: LoaderFunctionArgs) {
   const orderRef = url.searchParams.get('ref') ?? '';
   const paymentRef = url.searchParams.get('pf_payment_id') ?? '';
 
-  let headers = new Headers();
+  // Best-effort: remove lines from the Shopify Storefront API cart for cleanup
   try {
     const cartData = await context.cart.get();
     const lineIds = (cartData?.lines?.nodes ?? []).map((line: any) => line.id);
     if (lineIds.length > 0) {
-      const result = await context.cart.removeLines(lineIds);
-      if (result?.headers) {
-        result.headers.forEach((value: string, key: string) =>
-          headers.append(key, value),
-        );
-      }
+      await context.cart.removeLines(lineIds);
     }
-  } catch {
-    // Cart clearing is best-effort — don't block the success page on error
+  } catch (err) {
+    console.error('[checkout/success] Cart lines removal failed:', err);
   }
+
+  // Always clear the cart from the session so the user sees an empty cart
+  context.session.unset('cartId');
+  const cookieHeader = await context.session.commit();
+  const headers = new Headers({'Set-Cookie': cookieHeader});
 
   return data({orderRef, paymentRef}, {headers});
 }

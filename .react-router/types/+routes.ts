@@ -30,6 +30,11 @@ type Pages = {
       "locale"?: string;
     };
   };
+  "/:locale?/checkout/success": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/:locale?/integration-test": {
     params: {
       "locale"?: string;
@@ -70,11 +75,6 @@ type Pages = {
     };
   };
   "/:locale?/checkout/payment": {
-    params: {
-      "locale"?: string;
-    };
-  };
-  "/:locale?/checkout/success": {
     params: {
       "locale"?: string;
     };
@@ -138,7 +138,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/success" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -151,6 +151,10 @@ type RouteFiles = {
   "routes/($locale).debug-availability.tsx": {
     id: "routes/($locale).debug-availability";
     page: "/:locale?/debug-availability";
+  };
+  "routes/($locale).checkout_.success.tsx": {
+    id: "routes/($locale).checkout_.success";
+    page: "/:locale?/checkout/success";
   };
   "routes/($locale).integration-test.tsx": {
     id: "routes/($locale).integration-test";
@@ -178,15 +182,11 @@ type RouteFiles = {
   };
   "routes/($locale).checkout.tsx": {
     id: "routes/($locale).checkout";
-    page: "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/success" | "/:locale?/checkout/cancel";
+    page: "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel";
   };
   "routes/($locale).checkout.payment.tsx": {
     id: "routes/($locale).checkout.payment";
     page: "/:locale?/checkout/payment";
-  };
-  "routes/($locale).checkout.success.tsx": {
-    id: "routes/($locale).checkout.success";
-    page: "/:locale?/checkout/success";
   };
   "routes/($locale).checkout.cancel.tsx": {
     id: "routes/($locale).checkout.cancel";
@@ -255,6 +255,7 @@ type RouteModules = {
   "routes/($locale).collections.$handle": typeof import("./app/routes/($locale).collections.$handle.tsx");
   "routes/($locale).collections._index": typeof import("./app/routes/($locale).collections._index.tsx");
   "routes/($locale).debug-availability": typeof import("./app/routes/($locale).debug-availability.tsx");
+  "routes/($locale).checkout_.success": typeof import("./app/routes/($locale).checkout_.success.tsx");
   "routes/($locale).integration-test": typeof import("./app/routes/($locale).integration-test.tsx");
   "routes/($locale).policies.$handle": typeof import("./app/routes/($locale).policies.$handle.tsx");
   "routes/($locale).products.$handle": typeof import("./app/routes/($locale).products.$handle.tsx");
@@ -263,7 +264,6 @@ type RouteModules = {
   "routes/($locale).pages.$handle": typeof import("./app/routes/($locale).pages.$handle.tsx");
   "routes/($locale).checkout": typeof import("./app/routes/($locale).checkout.tsx");
   "routes/($locale).checkout.payment": typeof import("./app/routes/($locale).checkout.payment.tsx");
-  "routes/($locale).checkout.success": typeof import("./app/routes/($locale).checkout.success.tsx");
   "routes/($locale).checkout.cancel": typeof import("./app/routes/($locale).checkout.cancel.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
   "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
