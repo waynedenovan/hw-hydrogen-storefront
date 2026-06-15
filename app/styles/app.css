@@ -11,6 +11,19 @@
   --menu-bg: rgba(50, 50, 50, 0.85);
 }
 
+/*
+ * SITE RULES (enforced — do not remove):
+ * 1. Every page and all elements must be mobile-responsive (min 360px viewport)
+ * 2. All elements must render strictly within their parent element
+ * 3. No fixed-px container widths that exceed mobile viewport
+ * 4. All grid layouts must use repeat(2, 1fr) or smaller minmax() on mobile
+ * 5. Flex rows with many items must have @media breakpoints for mobile
+ * 6. box-sizing: border-box is enforced globally by Tailwind preflight
+ */
+html {
+  overflow-x: clip; /* Prevent horizontal scroll on all pages */
+}
+
 img {
   border-radius: 4px;
 }
@@ -261,13 +274,40 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   background: transparent;
   display: flex;
-  height: var(--header-height);
-  padding: 0 1rem;
+  flex-wrap: wrap;
+  min-height: var(--header-height);
+  padding: 0.5rem 1rem;
   position: relative;
   z-index: 1;
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Logo link: never shrink below 160px regardless of flex pressure */
+.header > a:first-child {
+  flex-shrink: 0;
+  min-width: 160px;
+}
+
+/* Mobile: full width so logo (160px) + CTAs (~180px) both fit */
+@media (max-width: 45em) {
+  .header {
+    max-width: 100%;
+  }
+}
+
+/* Tablet (720px–1120px): desktop menu wraps to second row when needed */
+@media (min-width: 45em) and (max-width: 70em) {
+  .header-menu-desktop {
+    order: 3;
+    flex-basis: 100%;
+    margin-left: 0;
+    margin-top: 0.25rem;
+    border-radius: 0 0 6px 6px;
+    padding: 0.4rem 1rem;
+  }
 }
 
 .header-menu-mobile-toggle {
@@ -711,6 +751,15 @@ aside input::placeholder {
 .product-item img {
   height: auto;
   width: 100%;
+}
+
+/* Mobile: always 2 columns — minmax(0,1fr) prevents items expanding beyond their share */
+@media (max-width: 45em) {
+  .products-grid,
+  .collections-grid,
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /*
@@ -1506,6 +1555,7 @@ body.checkout-page main {
 
   .checkout-container {
     padding: 1rem;
+    overflow: hidden; /* Clip any child overflow */
   }
 
   .checkout-step-circle {
@@ -1516,7 +1566,7 @@ body.checkout-page main {
   }
 
   .checkout-step-label {
-    font-size: 0.65rem;
+    display: none; /* Show step numbers only — labels cause overflow on mobile */
   }
 
   .checkout-step-line {
