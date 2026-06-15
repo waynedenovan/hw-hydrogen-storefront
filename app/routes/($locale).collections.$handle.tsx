@@ -107,6 +107,12 @@ const COLLECTION_QUERY = `#graphql
           brand: metafield(namespace: "app", key: "brand") {
             value
           }
+          variants(first: 1) {
+            nodes {
+              id
+              availableForSale
+            }
+          }
         }
         pageInfo {
           hasPreviousPage
@@ -148,6 +154,12 @@ const ALL_PRODUCTS_QUERY = `#graphql
         }
         brand: metafield(namespace: "app", key: "brand") {
           value
+        }
+        variants(first: 1) {
+          nodes {
+            id
+            availableForSale
+          }
         }
       }
       pageInfo {

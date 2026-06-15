@@ -1128,6 +1128,8 @@ aside input::placeholder {
 }
 
 .checkout-form-input {
+  width: 100%;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
@@ -1493,4 +1495,65 @@ body.checkout-page main {
 
 .checkout-result-btn:hover {
   background: #c9431a;
+}
+
+/* Checkout mobile responsive */
+@media (max-width: 480px) {
+  .checkout-wrapper {
+    max-width: 98%;
+    padding: 0.75rem 0;
+  }
+
+  .checkout-container {
+    padding: 1rem;
+  }
+
+  .checkout-step-circle {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .checkout-step-label {
+    font-size: 0.65rem;
+  }
+
+  .checkout-step-line {
+    width: 16px;
+    margin: 0 0.25rem;
+  }
+
+  .checkout-review-line-title {
+    word-break: break-word;
+  }
+
+  .checkout-review-line-details {
+    min-width: 0;
+  }
+}
+
+/* Product card add to cart button */
+.add-to-cart-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+  background: white;
+  color: black;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 200ms;
+  box-sizing: border-box;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #e5e5e5;
+}
+
+.add-to-cart-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

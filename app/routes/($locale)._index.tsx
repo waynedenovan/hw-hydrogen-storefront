@@ -96,6 +96,12 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
               value
               type
             }
+            variants(first: 1) {
+              nodes {
+                id
+                availableForSale
+              }
+            }
           }
         }
       }
