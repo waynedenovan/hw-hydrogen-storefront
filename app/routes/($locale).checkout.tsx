@@ -135,8 +135,12 @@ export default function Checkout() {
   const isPreFilled = Boolean(
     customer?.defaultAddress?.address1 || customer?.firstName,
   );
+  const isGuest = !customer;
 
-  const [prefillConfirmed, setPrefillConfirmed] = useState(!isPreFilled);
+  // Guests must explicitly confirm details before proceeding (account will be created)
+  // Logged-in users with pre-filled data also confirm, others proceed freely
+  const requiresConfirm = isPreFilled || isGuest;
+  const [prefillConfirmed, setPrefillConfirmed] = useState(!requiresConfirm);
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
 
   const [customerInfo, setCustomerInfo] = useState({
@@ -208,6 +212,7 @@ export default function Checkout() {
           <CustomerInfoStep
             customerInfo={customerInfo}
             isPreFilled={isPreFilled}
+            isGuest={isGuest}
             prefillConfirmed={prefillConfirmed}
             onPrefillConfirm={setPrefillConfirmed}
             onFieldChange={(field, value) =>
@@ -290,6 +295,7 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
 function CustomerInfoStep({
   customerInfo,
   isPreFilled,
+  isGuest,
   prefillConfirmed,
   onPrefillConfirm,
   onFieldChange,
@@ -298,6 +304,7 @@ function CustomerInfoStep({
 }: {
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
   isPreFilled: boolean;
+  isGuest: boolean;
   prefillConfirmed: boolean;
   onPrefillConfirm: (v: boolean) => void;
   onFieldChange: (field: string, value: string) => void;
@@ -320,6 +327,20 @@ function CustomerInfoStep({
               onChange={(e) => onPrefillConfirm(e.target.checked)}
             />
             I confirm these details are correct
+          </label>
+        </div>
+      )}
+
+      {isGuest && (
+        <div className="checkout-prefill-notice">
+          <p>You are checking out as a guest. A customer account will be created using the details below. Please confirm they are correct before continuing.</p>
+          <label className="checkout-prefill-confirm-label">
+            <input
+              type="checkbox"
+              checked={prefillConfirmed}
+              onChange={(e) => onPrefillConfirm(e.target.checked)}
+            />
+            I confirm my details are correct and agree to have an account created
           </label>
         </div>
       )}
@@ -386,7 +407,7 @@ function CustomerInfoStep({
       <button
         type="submit"
         className="checkout-submit-btn"
-        disabled={isSubmitting || (isPreFilled && !prefillConfirmed)}
+        disabled={isSubmitting || ((isPreFilled || isGuest) && !prefillConfirmed)}
       >
         {isSubmitting ? 'Saving...' : 'Continue to Shipping →'}
       </button>
