@@ -143,6 +143,8 @@ export default function Checkout() {
   const [prefillConfirmed, setPrefillConfirmed] = useState(!requiresConfirm);
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
   const [invoiceEmailRequested, setInvoiceEmailRequested] = useState(false);
+  const [businessCustomer, setBusinessCustomer] = useState(false);
+  const [businessDetails, setBusinessDetails] = useState({vatNumber: '', regNumber: ''});
 
   const [customerInfo, setCustomerInfo] = useState({
     email:
@@ -219,6 +221,12 @@ export default function Checkout() {
             onFieldChange={(field, value) =>
               setCustomerInfo((prev) => ({...prev, [field]: value}))
             }
+            businessCustomer={businessCustomer}
+            onBusinessCustomerChange={setBusinessCustomer}
+            businessDetails={businessDetails}
+            onBusinessDetailChange={(field, value) =>
+              setBusinessDetails((prev) => ({...prev, [field]: value}))
+            }
             fetcher={fetcher}
             actionUrl={actionUrl}
           />
@@ -254,6 +262,8 @@ export default function Checkout() {
             localePrefix={localePrefix}
             invoiceEmailRequested={invoiceEmailRequested}
             onInvoiceEmailChange={setInvoiceEmailRequested}
+            businessCustomer={businessCustomer}
+            businessDetails={businessDetails}
             onBack={() => setCurrentStep(3)}
           />
         )}
@@ -302,6 +312,10 @@ function CustomerInfoStep({
   prefillConfirmed,
   onPrefillConfirm,
   onFieldChange,
+  businessCustomer,
+  onBusinessCustomerChange,
+  businessDetails,
+  onBusinessDetailChange,
   fetcher,
   actionUrl,
 }: {
@@ -311,6 +325,10 @@ function CustomerInfoStep({
   prefillConfirmed: boolean;
   onPrefillConfirm: (v: boolean) => void;
   onFieldChange: (field: string, value: string) => void;
+  businessCustomer: boolean;
+  onBusinessCustomerChange: (v: boolean) => void;
+  businessDetails: {vatNumber: string; regNumber: string};
+  onBusinessDetailChange: (field: string, value: string) => void;
   fetcher: ReturnType<typeof useFetcher>;
   actionUrl: string;
 }) {
@@ -407,6 +425,51 @@ function CustomerInfoStep({
           placeholder="+27 82 000 0000"
         />
       </div>
+
+      <div className="checkout-form-field" style={{marginTop: '0.75rem'}}>
+        <label className="checkout-prefill-confirm-label">
+          <input
+            type="checkbox"
+            checked={businessCustomer}
+            onChange={(e) => onBusinessCustomerChange(e.target.checked)}
+          />
+          This order is for a business
+        </label>
+      </div>
+
+      {businessCustomer && (
+        <>
+          <div className="checkout-form-field">
+            <label htmlFor="vatNumber" className="checkout-form-label">
+              TAX/VAT No (SARS VAT Number)
+            </label>
+            <input
+              id="vatNumber"
+              name="vatNumber"
+              type="text"
+              className="checkout-form-input"
+              value={businessDetails.vatNumber}
+              onChange={(e) => onBusinessDetailChange('vatNumber', e.target.value)}
+              placeholder="4XXXXXXXXX"
+            />
+          </div>
+          <div className="checkout-form-field">
+            <label htmlFor="regNumber" className="checkout-form-label">
+              Reg No (Business Registration Number)
+            </label>
+            <input
+              id="regNumber"
+              name="regNumber"
+              type="text"
+              className="checkout-form-input"
+              value={businessDetails.regNumber}
+              onChange={(e) => onBusinessDetailChange('regNumber', e.target.value)}
+              placeholder="XXXX/XXXXXX/XX"
+            />
+          </div>
+        </>
+      )}
+
       <button
         type="submit"
         className="checkout-submit-btn"
@@ -757,6 +820,8 @@ function OrderReviewStep({
   localePrefix,
   invoiceEmailRequested,
   onInvoiceEmailChange,
+  businessCustomer,
+  businessDetails,
   onBack,
 }: {
   cart: CartApiQueryFragment;
@@ -776,6 +841,8 @@ function OrderReviewStep({
   localePrefix: string;
   invoiceEmailRequested: boolean;
   onInvoiceEmailChange: (v: boolean) => void;
+  businessCustomer: boolean;
+  businessDetails: {vatNumber: string; regNumber: string};
   onBack: () => void;
 }) {
   const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
@@ -944,6 +1011,8 @@ function OrderReviewStep({
             shippingAddress={shippingAddress}
             localePrefix={localePrefix}
             invoiceEmailRequested={invoiceEmailRequested}
+            businessCustomer={businessCustomer}
+            businessDetails={businessDetails}
           />
         ) : (
           <a href={cart.checkoutUrl} target="_self" className="checkout-pay-btn">
@@ -961,6 +1030,8 @@ function PayFastPaymentForm({
   shippingAddress,
   localePrefix,
   invoiceEmailRequested,
+  businessCustomer,
+  businessDetails,
 }: {
   cart: CartApiQueryFragment;
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
@@ -977,6 +1048,8 @@ function PayFastPaymentForm({
   };
   localePrefix: string;
   invoiceEmailRequested: boolean;
+  businessCustomer: boolean;
+  businessDetails: {vatNumber: string; regNumber: string};
 }) {
   const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
   const isSubmitting = payFetcher.state !== 'idle';
@@ -1007,6 +1080,11 @@ function PayFastPaymentForm({
 
       {/* Invoice email preference */}
       <input type="hidden" name="invoiceEmailRequested" value={invoiceEmailRequested ? 'true' : 'false'} />
+
+      {/* Business details */}
+      <input type="hidden" name="isBusinessCustomer" value={businessCustomer ? 'true' : 'false'} />
+      <input type="hidden" name="vatNumber" value={businessDetails.vatNumber} />
+      <input type="hidden" name="regNumber" value={businessDetails.regNumber} />
 
       {/* Line items as JSON — includes variantId for Shopify Draft Order creation */}
       <input

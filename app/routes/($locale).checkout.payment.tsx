@@ -47,6 +47,11 @@ export async function action({request, context}: ActionFunctionArgs) {
       }
     })(),
     invoiceEmailRequested: formData.get('invoiceEmailRequested') === 'true',
+    businessDetails: {
+      isBusinessCustomer: formData.get('isBusinessCustomer') === 'true',
+      vatNumber: (formData.get('vatNumber') as string) || '',
+      regNumber: (formData.get('regNumber') as string) || '',
+    },
   };
 
   try {

@@ -77,6 +77,9 @@ function AccountNav() {
       <a href="/account/addresses" style={linkStyle}>
         Addresses
       </a>
+      <a href="/account/management" style={linkStyle}>
+        Account Management
+      </a>
     </nav>
   );
 }

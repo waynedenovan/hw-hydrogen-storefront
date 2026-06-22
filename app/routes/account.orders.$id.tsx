@@ -7,42 +7,27 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Order ${data?.order?.name ?? ''} | Hoseworld`}];
 };
 
-const ARCHIVED_METAFIELD_QUERY = `#graphql
-  query ArchivedOrders {
+const CUSTOMER_ID_QUERY = `#graphql
+  query CustomerId {
     customer {
       id
-      metafield(namespace: "hw_account", key: "archived_order_ids") {
-        value
-      }
     }
   }
 ` as const;
 
-const SET_ARCHIVED_METAFIELD_MUTATION = `#graphql
-  mutation SetArchivedOrders($metafields: [MetafieldsSetInput!]!) {
-    metafieldsSet(metafields: $metafields) {
-      metafields {
-        key
-        namespace
-        value
-      }
-      userErrors {
-        field
-        message
-        code
-      }
-    }
-  }
-` as const;
-
-function parseArchivedIds(raw: string | null | undefined): string[] {
-  if (!raw) return [];
+async function fetchArchivedIds(
+  storefrontUiUrl: string,
+  internalSecret: string,
+  customerId: string,
+): Promise<string[]> {
   try {
-    const parsed: unknown = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return (parsed as unknown[]).filter((x): x is string => typeof x === 'string');
-    }
-    return [];
+    const res = await fetch(
+      `${storefrontUiUrl}/api/orders/archive?customerId=${encodeURIComponent(customerId)}`,
+      {headers: {'X-Internal-Secret': internalSecret}},
+    );
+    if (!res.ok) return [];
+    const data = (await res.json()) as {archivedIds?: string[]};
+    return data.archivedIds ?? [];
   } catch {
     return [];
   }
@@ -54,26 +39,33 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const orderId = atob(params.id);
+  const env = context.env as any;
+  const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+  const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
 
-  const [{data, errors}, {data: metaData}] = await Promise.all([
+  const [{data, errors}, {data: idData}] = await Promise.all([
     context.customerAccount.query(ORDER_QUERY, {variables: {orderId}}),
-    context.customerAccount.query(ARCHIVED_METAFIELD_QUERY),
+    context.customerAccount.query(CUSTOMER_ID_QUERY),
   ]);
 
   if (errors?.length || !data?.order) {
     throw new Response('Order not found', {status: 404});
   }
 
-  const archivedIds = parseArchivedIds(metaData?.customer?.metafield?.value);
+  const customerId: string = (idData as any)?.customer?.id ?? '';
+  const archivedIds = storefrontUiUrl
+    ? await fetchArchivedIds(storefrontUiUrl, internalSecret, customerId)
+    : [];
   const isArchived = archivedIds.includes(orderId);
 
-  return {order: data.order, isArchived, orderId};
+  return {order: data.order, isArchived, orderId, customerId};
 }
 
-export async function action({params, context, request}: ActionFunctionArgs) {
+export async function action({context, request}: ActionFunctionArgs) {
   const formData = await request.formData();
   const intent = formData.get('intent') as string;
   const orderId = formData.get('orderId') as string;
+  const customerId = formData.get('customerId') as string;
 
   if (intent === 'request-invoice') {
     const env = context.env as any;
@@ -110,40 +102,41 @@ export async function action({params, context, request}: ActionFunctionArgs) {
     }
   }
 
-  if (intent === 'archive' || intent === 'unarchive') {
-    const {data: metaData} = await context.customerAccount.query(ARCHIVED_METAFIELD_QUERY);
-    const customerId = metaData?.customer?.id as string | undefined;
-    const archivedIds = parseArchivedIds(metaData?.customer?.metafield?.value);
+  if (intent === 'archive') {
+    const env = context.env as any;
+    const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+    const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
 
-    const updatedIds = intent === 'archive'
-      ? (archivedIds.includes(orderId) ? archivedIds : [...archivedIds, orderId])
-      : archivedIds.filter((id) => id !== orderId);
-
-    const {data, errors} = await context.customerAccount.mutate(SET_ARCHIVED_METAFIELD_MUTATION, {
-      variables: {
-        metafields: [{
-          ownerId: customerId,
-          namespace: 'hw_account',
-          key: 'archived_order_ids',
-          type: 'single_line_text_field',
-          value: JSON.stringify(updatedIds),
-        }],
-      },
-    });
-
-    if (errors?.length) return {error: errors[0].message, intent};
-    if (data?.metafieldsSet?.userErrors?.length) {
-      return {error: data.metafieldsSet.userErrors[0].message, intent};
+    if (!storefrontUiUrl) {
+      return {error: 'Archive service is not configured.', intent};
     }
 
-    return {success: true, intent};
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/orders/archive`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Internal-Secret': internalSecret,
+        },
+        body: JSON.stringify({customerId, orderId}),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as {error?: string};
+        return {error: data.error ?? 'Failed to archive order.', intent};
+      }
+
+      return {success: true, intent};
+    } catch {
+      return {error: 'Could not reach archive service. Please try again.', intent};
+    }
   }
 
   return {error: 'Unknown intent', intent};
 }
 
 export default function OrderDetail() {
-  const {order, isArchived, orderId} = useLoaderData<typeof loader>();
+  const {order, isArchived, orderId, customerId} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string; alreadySent?: boolean}>();
 
   const cardStyle: React.CSSProperties = {
@@ -154,11 +147,7 @@ export default function OrderDetail() {
   };
 
   const result = fetcher.data;
-  const currentlyArchived = result?.intent === 'archive' && result?.success
-    ? true
-    : result?.intent === 'unarchive' && result?.success
-      ? false
-      : isArchived;
+  const currentlyArchived = result?.intent === 'archive' && result?.success ? true : isArchived;
 
   return (
     <div>
@@ -184,9 +173,6 @@ export default function OrderDetail() {
       )}
       {result?.success && result.intent === 'archive' && (
         <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>Order archived.</p>
-      )}
-      {result?.success && result.intent === 'unarchive' && (
-        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>Order restored to active.</p>
       )}
 
       <div style={cardStyle}>
@@ -252,25 +238,33 @@ export default function OrderDetail() {
             </button>
           </fetcher.Form>
 
-          <fetcher.Form method="post" style={{display: 'inline'}}>
-            <input type="hidden" name="intent" value={currentlyArchived ? 'unarchive' : 'archive'} />
-            <input type="hidden" name="orderId" value={orderId} />
-            <button
-              type="submit"
-              disabled={fetcher.state !== 'idle'}
-              style={{
-                background: 'none',
-                color: 'rgba(255,255,255,0.4)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                padding: '0.4rem 1rem',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '0.8rem',
-              }}
-            >
-              {currentlyArchived ? 'Unarchive Order' : 'Archive Order'}
-            </button>
-          </fetcher.Form>
+          {!currentlyArchived && (
+            <fetcher.Form method="post" style={{display: 'inline'}}>
+              <input type="hidden" name="intent" value="archive" />
+              <input type="hidden" name="orderId" value={orderId} />
+              <input type="hidden" name="customerId" value={customerId} />
+              <button
+                type="submit"
+                disabled={fetcher.state !== 'idle'}
+                style={{
+                  background: 'none',
+                  color: 'rgba(255,255,255,0.4)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  padding: '0.4rem 1rem',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                }}
+              >
+                Archive Order
+              </button>
+            </fetcher.Form>
+          )}
+          {currentlyArchived && (
+            <span style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', padding: '0.4rem 0'}}>
+              Archived
+            </span>
+          )}
         </div>
       </div>
 
