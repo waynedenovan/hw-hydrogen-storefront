@@ -46,6 +46,7 @@ export async function action({request, context}: ActionFunctionArgs) {
         return [];
       }
     })(),
+    invoiceEmailRequested: formData.get('invoiceEmailRequested') === 'true',
   };
 
   try {

@@ -142,6 +142,7 @@ export default function Checkout() {
   const requiresConfirm = isPreFilled || isGuest;
   const [prefillConfirmed, setPrefillConfirmed] = useState(!requiresConfirm);
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
+  const [invoiceEmailRequested, setInvoiceEmailRequested] = useState(false);
 
   const [customerInfo, setCustomerInfo] = useState({
     email:
@@ -251,6 +252,8 @@ export default function Checkout() {
             shippingAddress={shippingAddress}
             paymentGateway={paymentGateway}
             localePrefix={localePrefix}
+            invoiceEmailRequested={invoiceEmailRequested}
+            onInvoiceEmailChange={setInvoiceEmailRequested}
             onBack={() => setCurrentStep(3)}
           />
         )}
@@ -752,6 +755,8 @@ function OrderReviewStep({
   shippingAddress,
   paymentGateway,
   localePrefix,
+  invoiceEmailRequested,
+  onInvoiceEmailChange,
   onBack,
 }: {
   cart: CartApiQueryFragment;
@@ -769,6 +774,8 @@ function OrderReviewStep({
   };
   paymentGateway: string;
   localePrefix: string;
+  invoiceEmailRequested: boolean;
+  onInvoiceEmailChange: (v: boolean) => void;
   onBack: () => void;
 }) {
   const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
@@ -903,6 +910,29 @@ function OrderReviewStep({
         </div>
       </div>
 
+      <div className="checkout-review-section" style={{borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem'}}>
+        <label style={{display: 'flex', alignItems: 'flex-start', gap: '0.6rem', cursor: 'pointer', fontSize: '0.875rem', color: 'rgba(255,255,255,0.85)'}}>
+          <input
+            type="checkbox"
+            checked={invoiceEmailRequested}
+            onChange={(e) => onInvoiceEmailChange(e.target.checked)}
+            style={{marginTop: '2px', flexShrink: 0}}
+          />
+          Email me a tax invoice for this order
+        </label>
+        <p style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.75rem', lineHeight: '1.5'}}>
+          By proceeding you agree to our{' '}
+          <a href="/policies/terms-of-service" target="_blank" rel="noreferrer" style={{color: 'rgba(26,180,215,0.9)', textDecoration: 'underline'}}>
+            Terms &amp; Conditions
+          </a>{' '}
+          and{' '}
+          <a href="/policies/refund-policy" target="_blank" rel="noreferrer" style={{color: 'rgba(26,180,215,0.9)', textDecoration: 'underline'}}>
+            Return Policy
+          </a>
+          .
+        </p>
+      </div>
+
       <div className="checkout-nav-buttons">
         <button type="button" className="checkout-back-btn" onClick={onBack}>
           &larr; Back
@@ -913,6 +943,7 @@ function OrderReviewStep({
             customerInfo={customerInfo}
             shippingAddress={shippingAddress}
             localePrefix={localePrefix}
+            invoiceEmailRequested={invoiceEmailRequested}
           />
         ) : (
           <a href={cart.checkoutUrl} target="_self" className="checkout-pay-btn">
@@ -929,6 +960,7 @@ function PayFastPaymentForm({
   customerInfo,
   shippingAddress,
   localePrefix,
+  invoiceEmailRequested,
 }: {
   cart: CartApiQueryFragment;
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
@@ -944,6 +976,7 @@ function PayFastPaymentForm({
     phone: string;
   };
   localePrefix: string;
+  invoiceEmailRequested: boolean;
 }) {
   const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
   const isSubmitting = payFetcher.state !== 'idle';
@@ -971,6 +1004,9 @@ function PayFastPaymentForm({
       <input type="hidden" name="shipProvince" value={shippingAddress.provinceCode} />
       <input type="hidden" name="shipZip" value={shippingAddress.zip} />
       <input type="hidden" name="shipCountry" value={shippingAddress.countryCode} />
+
+      {/* Invoice email preference */}
+      <input type="hidden" name="invoiceEmailRequested" value={invoiceEmailRequested ? 'true' : 'false'} />
 
       {/* Line items as JSON — includes variantId for Shopify Draft Order creation */}
       <input

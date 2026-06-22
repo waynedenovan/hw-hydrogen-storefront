@@ -1,11 +1,52 @@
-import {useLoaderData, Link, redirect} from 'react-router';
-import type {LoaderFunctionArgs, MetaFunction} from 'react-router';
+import {useLoaderData, Link, redirect, useFetcher} from 'react-router';
+import type {LoaderFunctionArgs, ActionFunctionArgs, MetaFunction} from 'react-router';
 import {Money, Image} from '@shopify/hydrogen';
 import {ORDER_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Order ${data?.order?.name ?? ''} | Hoseworld`}];
 };
+
+const ARCHIVED_METAFIELD_QUERY = `#graphql
+  query ArchivedOrders {
+    customer {
+      id
+      metafield(namespace: "hw_account", key: "archived_order_ids") {
+        value
+      }
+    }
+  }
+` as const;
+
+const SET_ARCHIVED_METAFIELD_MUTATION = `#graphql
+  mutation SetArchivedOrders($metafields: [MetafieldsSetInput!]!) {
+    metafieldsSet(metafields: $metafields) {
+      metafields {
+        key
+        namespace
+        value
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+` as const;
+
+function parseArchivedIds(raw: string | null | undefined): string[] {
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return (parsed as unknown[]).filter((x): x is string => typeof x === 'string');
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
 
 export async function loader({params, context}: LoaderFunctionArgs) {
   if (!params.id) {
@@ -14,21 +55,96 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 
   const orderId = atob(params.id);
 
-  const {data, errors} = await context.customerAccount.query(ORDER_QUERY, {
-    variables: {
-      orderId,
-    },
-  });
+  const [{data, errors}, {data: metaData}] = await Promise.all([
+    context.customerAccount.query(ORDER_QUERY, {variables: {orderId}}),
+    context.customerAccount.query(ARCHIVED_METAFIELD_QUERY),
+  ]);
 
   if (errors?.length || !data?.order) {
     throw new Response('Order not found', {status: 404});
   }
 
-  return {order: data.order};
+  const archivedIds = parseArchivedIds(metaData?.customer?.metafield?.value);
+  const isArchived = archivedIds.includes(orderId);
+
+  return {order: data.order, isArchived, orderId};
+}
+
+export async function action({params, context, request}: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const intent = formData.get('intent') as string;
+  const orderId = formData.get('orderId') as string;
+
+  if (intent === 'request-invoice') {
+    const env = context.env as any;
+    const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+    const invoiceApiSecret: string = env.INVOICE_API_SECRET ?? '';
+
+    if (!storefrontUiUrl || !invoiceApiSecret) {
+      return {error: 'Invoice service is not configured.', intent};
+    }
+
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/xero/email-invoice`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Invoice-Api-Secret': invoiceApiSecret,
+        },
+        body: JSON.stringify({shopifyOrderId: orderId}),
+      });
+
+      const result = await res.json() as {success?: boolean; error?: string; alreadySent?: boolean};
+
+      if (!res.ok) {
+        return {error: result.error ?? 'Failed to email invoice.', intent};
+      }
+
+      return {
+        success: true,
+        intent,
+        alreadySent: result.alreadySent ?? false,
+      };
+    } catch {
+      return {error: 'Could not reach invoice service. Please try again.', intent};
+    }
+  }
+
+  if (intent === 'archive' || intent === 'unarchive') {
+    const {data: metaData} = await context.customerAccount.query(ARCHIVED_METAFIELD_QUERY);
+    const customerId = metaData?.customer?.id as string | undefined;
+    const archivedIds = parseArchivedIds(metaData?.customer?.metafield?.value);
+
+    const updatedIds = intent === 'archive'
+      ? (archivedIds.includes(orderId) ? archivedIds : [...archivedIds, orderId])
+      : archivedIds.filter((id) => id !== orderId);
+
+    const {data, errors} = await context.customerAccount.mutate(SET_ARCHIVED_METAFIELD_MUTATION, {
+      variables: {
+        metafields: [{
+          ownerId: customerId,
+          namespace: 'hw_account',
+          key: 'archived_order_ids',
+          type: 'single_line_text_field',
+          value: JSON.stringify(updatedIds),
+        }],
+      },
+    });
+
+    if (errors?.length) return {error: errors[0].message, intent};
+    if (data?.metafieldsSet?.userErrors?.length) {
+      return {error: data.metafieldsSet.userErrors[0].message, intent};
+    }
+
+    return {success: true, intent};
+  }
+
+  return {error: 'Unknown intent', intent};
 }
 
 export default function OrderDetail() {
-  const {order} = useLoaderData<typeof loader>();
+  const {order, isArchived, orderId} = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string; alreadySent?: boolean}>();
 
   const cardStyle: React.CSSProperties = {
     background: 'rgba(50, 50, 50, 0.85)',
@@ -36,6 +152,13 @@ export default function OrderDetail() {
     padding: '1.25rem',
     marginBottom: '1rem',
   };
+
+  const result = fetcher.data;
+  const currentlyArchived = result?.intent === 'archive' && result?.success
+    ? true
+    : result?.intent === 'unarchive' && result?.success
+      ? false
+      : isArchived;
 
   return (
     <div>
@@ -50,6 +173,21 @@ export default function OrderDetail() {
       >
         ← Back to Orders
       </Link>
+
+      {result?.error && (
+        <p style={{color: '#fc8181', marginBottom: '1rem', fontSize: '0.875rem'}}>{result.error}</p>
+      )}
+      {result?.success && result.intent === 'request-invoice' && (
+        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>
+          {result.alreadySent ? 'Invoice was already sent to your email.' : 'Invoice emailed to your account email address.'}
+        </p>
+      )}
+      {result?.success && result.intent === 'archive' && (
+        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>Order archived.</p>
+      )}
+      {result?.success && result.intent === 'unarchive' && (
+        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>Order restored to active.</p>
+      )}
 
       <div style={cardStyle}>
         <div
@@ -90,6 +228,49 @@ export default function OrderDetail() {
               {order.fulfillmentStatus}
             </p>
           </div>
+        </div>
+
+        {/* Order Actions */}
+        <div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem'}}>
+          <fetcher.Form method="post" style={{display: 'inline'}}>
+            <input type="hidden" name="intent" value="request-invoice" />
+            <input type="hidden" name="orderId" value={orderId} />
+            <button
+              type="submit"
+              disabled={fetcher.state !== 'idle'}
+              style={{
+                background: 'rgba(26,180,215,0.15)',
+                color: 'rgba(26,180,215,0.9)',
+                border: '1px solid rgba(26,180,215,0.3)',
+                padding: '0.4rem 1rem',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+              }}
+            >
+              {fetcher.state !== 'idle' && result?.intent === 'request-invoice' ? 'Sending…' : 'Email Invoice'}
+            </button>
+          </fetcher.Form>
+
+          <fetcher.Form method="post" style={{display: 'inline'}}>
+            <input type="hidden" name="intent" value={currentlyArchived ? 'unarchive' : 'archive'} />
+            <input type="hidden" name="orderId" value={orderId} />
+            <button
+              type="submit"
+              disabled={fetcher.state !== 'idle'}
+              style={{
+                background: 'none',
+                color: 'rgba(255,255,255,0.4)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                padding: '0.4rem 1rem',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+              }}
+            >
+              {currentlyArchived ? 'Unarchive Order' : 'Archive Order'}
+            </button>
+          </fetcher.Form>
         </div>
       </div>
 
