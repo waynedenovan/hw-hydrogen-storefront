@@ -52,6 +52,10 @@ export async function action({request, context}: ActionFunctionArgs) {
       vatNumber: (formData.get('vatNumber') as string) || '',
       regNumber: (formData.get('regNumber') as string) || '',
     },
+    shippingLine: {
+      title: (formData.get('shippingTitle') as string) || 'Shipping',
+      cost: (formData.get('shippingCost') as string) || '0',
+    },
   };
 
   try {

@@ -1102,6 +1102,18 @@ function PayFastPaymentForm({
         )}
       />
 
+      {/* Shipping / delivery selection */}
+      <input
+        type="hidden"
+        name="shippingTitle"
+        value={cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.title ?? ''}
+      />
+      <input
+        type="hidden"
+        name="shippingCost"
+        value={cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.estimatedCost?.amount ?? '0'}
+      />
+
       {payFetcher.data?.error && (
         <p style={{color: '#fc8181', fontSize: '0.85rem', marginBottom: '0.5rem'}}>
           {payFetcher.data.error}
