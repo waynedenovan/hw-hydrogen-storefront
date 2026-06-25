@@ -19,6 +19,17 @@ const CUSTOMER_ID_QUERY = `#graphql
   }
 ` as const;
 
+type ReturnRequestStatus = {
+  id: string;
+  status: string;
+  reason: string | null;
+  lineItemsJson: string | null;
+  shopifyOrderNum: string | null;
+  xeroCreditNoteNum: string | null;
+  createdAt: string;
+  updatedAt: string;
+} | null;
+
 async function fetchArchivedIds(
   storefrontUiUrl: string,
   internalSecret: string,
@@ -34,6 +45,24 @@ async function fetchArchivedIds(
     return data.archivedIds ?? [];
   } catch {
     return [];
+  }
+}
+
+async function fetchReturnStatus(
+  storefrontUiUrl: string,
+  internalSecret: string,
+  shopifyOrderId: string,
+): Promise<ReturnRequestStatus> {
+  try {
+    const res = await fetch(
+      `${storefrontUiUrl}/api/returns/status?shopifyOrderId=${encodeURIComponent(shopifyOrderId)}`,
+      {headers: {'X-Internal-Secret': internalSecret}},
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {returnRequest?: ReturnRequestStatus};
+    return data.returnRequest ?? null;
+  } catch {
+    return null;
   }
 }
 
@@ -58,12 +87,15 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 
   const customerId: string = (idData as any)?.customer?.id ?? '';
   const customerEmail: string = (idData as any)?.customer?.emailAddress?.emailAddress ?? '';
-  const archivedIds = storefrontUiUrl
-    ? await fetchArchivedIds(storefrontUiUrl, internalSecret, customerId)
-    : [];
+
+  const [archivedIds, returnRequest] = await Promise.all([
+    storefrontUiUrl ? fetchArchivedIds(storefrontUiUrl, internalSecret, customerId) : Promise.resolve([]),
+    storefrontUiUrl ? fetchReturnStatus(storefrontUiUrl, internalSecret, orderId) : Promise.resolve(null),
+  ]);
+
   const isArchived = archivedIds.includes(orderId);
 
-  return {order: data.order, isArchived, orderId, customerId, customerEmail};
+  return {order: data.order, isArchived, orderId, customerId, customerEmail, returnRequest};
 }
 
 export async function action({context, request}: ActionFunctionArgs) {
@@ -185,7 +217,7 @@ export async function action({context, request}: ActionFunctionArgs) {
 type ReturnView = 'none' | 'select-items' | 'success';
 
 export default function OrderDetail() {
-  const {order, isArchived, orderId, customerId, customerEmail} = useLoaderData<typeof loader>();
+  const {order, isArchived, orderId, customerId, customerEmail, returnRequest} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string; alreadySent?: boolean}>();
 
   const [returnView, setReturnView] = useState<ReturnView>('none');
@@ -591,7 +623,7 @@ export default function OrderDetail() {
               Archived
             </span>
           )}
-          {!currentlyArchived && (
+          {!currentlyArchived && (!returnRequest || returnRequest.status === 'REJECTED') && (
             <button
               type="button"
               onClick={() => {
@@ -615,6 +647,18 @@ export default function OrderDetail() {
           )}
         </div>
       </div>
+
+      {returnRequest && returnRequest.status !== 'REJECTED' && (
+        <ReturnStatusCard returnRequest={returnRequest} />
+      )}
+
+      {returnRequest?.status === 'REJECTED' && (
+        <div style={{...cardStyle, borderLeft: '3px solid rgba(255,100,100,0.4)', marginBottom: '1rem'}}>
+          <p style={{margin: 0, fontSize: '0.875rem', color: 'rgba(255,150,150,0.9)'}}>
+            A previous return request for this order was not approved. You may submit a new request if needed.
+          </p>
+        </div>
+      )}
 
       <div style={cardStyle}>
         <h3 style={{fontSize: '1.1rem', marginBottom: '1rem'}}>Items</h3>
@@ -765,6 +809,86 @@ export default function OrderDetail() {
         >
           View order status page →
         </a>
+      )}
+    </div>
+  );
+}
+
+function ReturnStatusCard({returnRequest}: {returnRequest: NonNullable<ReturnRequestStatus>}) {
+  const statusColors: Record<string, string> = {
+    PENDING: 'rgba(255,180,60,0.9)',
+    APPROVED: 'rgba(104,211,145,0.9)',
+  };
+  const borderColors: Record<string, string> = {
+    PENDING: 'rgba(255,180,60,0.4)',
+    APPROVED: 'rgba(104,211,145,0.4)',
+  };
+
+  const color = statusColors[returnRequest.status] ?? 'rgba(255,255,255,0.7)';
+  const border = borderColors[returnRequest.status] ?? 'rgba(255,255,255,0.2)';
+
+  let lineItems: Array<{title?: string; variantTitle?: string; quantity?: number}> = [];
+  try {
+    if (returnRequest.lineItemsJson) lineItems = JSON.parse(returnRequest.lineItemsJson);
+  } catch { /* keep empty */ }
+
+  const cardStyle: React.CSSProperties = {
+    background: 'rgba(50, 50, 50, 0.85)',
+    borderRadius: '6px',
+    padding: '1.25rem',
+    marginBottom: '1rem',
+    borderLeft: `3px solid ${border}`,
+  };
+
+  return (
+    <div style={cardStyle}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem'}}>
+        <h3 style={{margin: 0, fontSize: '1rem'}}>Return Request</h3>
+        <span
+          style={{
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color,
+            border: `1px solid ${border}`,
+            borderRadius: '4px',
+            padding: '2px 8px',
+          }}
+        >
+          {returnRequest.status}
+        </span>
+      </div>
+
+      <p style={{margin: '0 0 0.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)'}}>
+        Submitted: {new Date(returnRequest.createdAt).toLocaleDateString()}
+      </p>
+
+      {returnRequest.reason && (
+        <p style={{margin: '0 0 0.75rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)'}}>
+          <span style={{color: 'rgba(255,255,255,0.5)'}}>Reason: </span>{returnRequest.reason}
+        </p>
+      )}
+
+      {lineItems.length > 0 && (
+        <div style={{marginBottom: '0.75rem'}}>
+          <p style={{margin: '0 0 0.4rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)'}}>Items requested for return:</p>
+          {lineItems.map((item, i) => (
+            <p key={i} style={{margin: '0.2rem 0', fontSize: '0.875rem', paddingLeft: '0.75rem'}}>
+              — {item.title}{item.variantTitle ? ` (${item.variantTitle})` : ''} × {item.quantity ?? 1}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {returnRequest.status === 'APPROVED' && returnRequest.xeroCreditNoteNum && (
+        <p style={{margin: 0, fontSize: '0.875rem', color: 'rgba(104,211,145,0.9)'}}>
+          Credit Note: {returnRequest.xeroCreditNoteNum}
+        </p>
+      )}
+
+      {returnRequest.status === 'PENDING' && (
+        <p style={{margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)'}}>
+          Your return request is under review. We will be in touch once it has been processed.
+        </p>
       )}
     </div>
   );
