@@ -77,10 +77,6 @@ export const ORDER_QUERY = `#graphql
     id
     title
     quantity
-    sku
-    variant {
-      id
-    }
     price {
       ...OrderMoney
     }
