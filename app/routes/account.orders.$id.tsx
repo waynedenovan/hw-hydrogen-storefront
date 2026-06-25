@@ -1,4 +1,5 @@
 import {useLoaderData, Link, redirect, useFetcher} from 'react-router';
+import {useState} from 'react';
 import type {LoaderFunctionArgs, ActionFunctionArgs, MetaFunction} from 'react-router';
 import {Money, Image} from '@shopify/hydrogen';
 import {ORDER_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
@@ -11,6 +12,9 @@ const CUSTOMER_ID_QUERY = `#graphql
   query CustomerId {
     customer {
       id
+      emailAddress {
+        emailAddress
+      }
     }
   }
 ` as const;
@@ -53,12 +57,13 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const customerId: string = (idData as any)?.customer?.id ?? '';
+  const customerEmail: string = (idData as any)?.customer?.emailAddress?.emailAddress ?? '';
   const archivedIds = storefrontUiUrl
     ? await fetchArchivedIds(storefrontUiUrl, internalSecret, customerId)
     : [];
   const isArchived = archivedIds.includes(orderId);
 
-  return {order: data.order, isArchived, orderId, customerId};
+  return {order: data.order, isArchived, orderId, customerId, customerEmail};
 }
 
 export async function action({context, request}: ActionFunctionArgs) {
@@ -66,6 +71,40 @@ export async function action({context, request}: ActionFunctionArgs) {
   const intent = formData.get('intent') as string;
   const orderId = formData.get('orderId') as string;
   const customerId = formData.get('customerId') as string;
+
+  if (intent === 'return-request') {
+    const orderNum = formData.get('orderNum') as string;
+    const customerEmail = formData.get('customerEmail') as string;
+    const reason = formData.get('reason') as string;
+
+    const env = context.env as any;
+    const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+    const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
+
+    if (!storefrontUiUrl) {
+      return {error: 'Return service is not configured.', intent};
+    }
+
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/returns/request`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Internal-Secret': internalSecret,
+        },
+        body: JSON.stringify({orderId, orderNum, customerEmail, customerId, reason}),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as {error?: string};
+        return {error: data.error ?? 'Failed to submit return request.', intent};
+      }
+
+      return {success: true, intent};
+    } catch {
+      return {error: 'Could not reach return service. Please try again.', intent};
+    }
+  }
 
   if (intent === 'request-invoice') {
     const env = context.env as any;
@@ -136,8 +175,9 @@ export async function action({context, request}: ActionFunctionArgs) {
 }
 
 export default function OrderDetail() {
-  const {order, isArchived, orderId, customerId} = useLoaderData<typeof loader>();
+  const {order, isArchived, orderId, customerId, customerEmail} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string; alreadySent?: boolean}>();
+  const [showReturnForm, setShowReturnForm] = useState(false);
 
   const cardStyle: React.CSSProperties = {
     background: 'rgba(50, 50, 50, 0.85)',
@@ -165,6 +205,11 @@ export default function OrderDetail() {
 
       {result?.error && (
         <p style={{color: '#fc8181', marginBottom: '1rem', fontSize: '0.875rem'}}>{result.error}</p>
+      )}
+      {result?.success && result.intent === 'return-request' && (
+        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>
+          Return request submitted. Our team will review it and be in touch.
+        </p>
       )}
       {result?.success && result.intent === 'request-invoice' && (
         <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>
@@ -265,7 +310,90 @@ export default function OrderDetail() {
               Archived
             </span>
           )}
+          {!currentlyArchived && (
+            <button
+              type="button"
+              onClick={() => setShowReturnForm(!showReturnForm)}
+              style={{
+                background: 'rgba(255,180,100,0.1)',
+                color: 'rgba(255,180,100,0.8)',
+                border: '1px solid rgba(255,180,100,0.25)',
+                padding: '0.4rem 1rem',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+              }}
+            >
+              Request Return
+            </button>
+          )}
         </div>
+
+        {showReturnForm && (
+          <fetcher.Form
+            method="post"
+            style={{marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem'}}
+            onSubmit={() => setShowReturnForm(false)}
+          >
+            <input type="hidden" name="intent" value="return-request" />
+            <input type="hidden" name="orderId" value={orderId} />
+            <input type="hidden" name="orderNum" value={order.name} />
+            <input type="hidden" name="customerId" value={customerId} />
+            <input type="hidden" name="customerEmail" value={customerEmail} />
+            <p style={{fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem'}}>
+              Please describe the reason for your return request:
+            </p>
+            <textarea
+              name="reason"
+              required
+              rows={3}
+              placeholder="e.g. Item arrived damaged, wrong size received…"
+              style={{
+                width: '100%',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '4px',
+                color: 'white',
+                padding: '0.5rem',
+                fontSize: '0.85rem',
+                resize: 'vertical',
+                boxSizing: 'border-box',
+              }}
+            />
+            <div style={{display: 'flex', gap: '0.5rem', marginTop: '0.5rem'}}>
+              <button
+                type="submit"
+                disabled={fetcher.state !== 'idle'}
+                style={{
+                  background: 'rgba(255,180,100,0.15)',
+                  color: 'rgba(255,180,100,0.9)',
+                  border: '1px solid rgba(255,180,100,0.3)',
+                  padding: '0.4rem 1rem',
+                  borderRadius: '5px',
+                  fontSize: '0.8rem',
+                  cursor: 'pointer',
+                }}
+              >
+                {fetcher.state !== 'idle' ? 'Submitting…' : 'Submit Return Request'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowReturnForm(false)}
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: 'rgba(255,255,255,0.4)',
+                  padding: '0.4rem 1rem',
+                  borderRadius: '5px',
+                  fontSize: '0.8rem',
+                  cursor: 'pointer',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </fetcher.Form>
+        )}
       </div>
 
       <div style={cardStyle}>

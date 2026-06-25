@@ -119,6 +119,9 @@ type Pages = {
   "/account": {
     params: {};
   };
+  "/account/management": {
+    params: {};
+  };
   "/account/addresses": {
     params: {};
   };
@@ -147,7 +150,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/management" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id" | "/graphiql" | "/subrequest-profiler" | "/.well-known/appspecific/com.chrome.devtools.json";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -235,7 +238,11 @@ type RouteFiles = {
   };
   "routes/account.tsx": {
     id: "routes/account";
-    page: "/account" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/account" | "/account/management" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+  };
+  "routes/account.management.tsx": {
+    id: "routes/account.management";
+    page: "/account/management";
   };
   "routes/account.addresses.tsx": {
     id: "routes/account.addresses";
@@ -252,6 +259,10 @@ type RouteFiles = {
   "routes/account.orders.tsx": {
     id: "routes/account.orders";
     page: "/account/orders" | "/account/orders/:id";
+  };
+  "routes/account.orders._index.tsx": {
+    id: "routes/account.orders._index";
+    page: "/account/orders";
   };
   "routes/account.orders.$id.tsx": {
     id: "routes/account.orders.$id";
@@ -303,10 +314,12 @@ type RouteModules = {
   "routes/[sitemap.xml]": typeof import("./app/routes/[sitemap.xml].tsx");
   "routes/[robots.txt]": typeof import("./app/routes/[robots.txt].tsx");
   "routes/account": typeof import("./app/routes/account.tsx");
+  "routes/account.management": typeof import("./app/routes/account.management.tsx");
   "routes/account.addresses": typeof import("./app/routes/account.addresses.tsx");
   "routes/account.profile": typeof import("./app/routes/account.profile.tsx");
   "routes/account._index": typeof import("./app/routes/account._index.tsx");
   "routes/account.orders": typeof import("./app/routes/account.orders.tsx");
+  "routes/account.orders._index": typeof import("./app/routes/account.orders._index.tsx");
   "routes/account.orders.$id": typeof import("./app/routes/account.orders.$id.tsx");
   "/home/rogue/Data/data/coding/github/shopify/app/hoseworld/hw-hydrogen-storefront/node_modules/.pnpm/@shopify+hydrogen@2026.4.3_@react-router+dev@7.17.0_@types+node@25.9.3_jiti@2.7.0_light_acbb0b897066afa9944d9526edc351af/node_modules/@shopify/hydrogen/dist/vite/virtual-routes/layout": unknown;
   "vite/virtual-routes/routes/graphiql": unknown;

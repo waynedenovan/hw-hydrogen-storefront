@@ -509,6 +509,33 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-line-quantity {
   display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.cart-line-qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-line-qty-controls button {
+  min-width: 2rem;
+  min-height: 2rem;
+  font-size: 1rem;
+  padding: 0.3rem 0.7rem;
+  line-height: 1;
+}
+
+.cart-line-remove button {
+  background: none;
+  border: none;
+  color: rgba(150, 150, 150, 0.9);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
 }
 
 /* Child line components (warranties, gift wrapping, etc.) */
@@ -549,17 +576,25 @@ body.cart-page .cart-line small {
   color: rgba(255, 255, 255, 0.7);
 }
 
-body.cart-page .cart-line-quantity button {
+body.cart-page .cart-line-qty-controls button {
   background: rgba(255, 255, 255, 0.15);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
-  padding: 0.25rem 0.5rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 1rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
   cursor: pointer;
 }
 
-body.cart-page .cart-line-quantity button:hover {
+body.cart-page .cart-line-qty-controls button:hover {
   background: rgba(255, 255, 255, 0.25);
+}
+
+body.cart-page .cart-line-remove button {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
 }
 
 body.cart-page .cart-summary-page {

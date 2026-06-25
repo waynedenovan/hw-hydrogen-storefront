@@ -1,4 +1,5 @@
 import {useLoaderData, Link, useFetcher} from 'react-router';
+import {useState} from 'react';
 import type {LoaderFunctionArgs, ActionFunctionArgs} from 'react-router';
 import {Money, getPaginationVariables} from '@shopify/hydrogen';
 import {CUSTOMER_ORDERS_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
@@ -7,6 +8,9 @@ const CUSTOMER_ID_QUERY = `#graphql
   query CustomerId {
     customer {
       id
+      emailAddress {
+        emailAddress
+      }
     }
   }
 ` as const;
@@ -46,11 +50,12 @@ export async function loader({context, request}: LoaderFunctionArgs) {
   ]);
 
   const customerId: string = (idData as any)?.customer?.id ?? '';
+  const customerEmail: string = (idData as any)?.customer?.emailAddress?.emailAddress ?? '';
   const archivedIds = storefrontUiUrl
     ? await fetchArchivedIds(storefrontUiUrl, internalSecret, customerId)
     : [];
 
-  return {orders: ordersData.customer.orders, archivedIds, view, customerId};
+  return {orders: ordersData.customer.orders, archivedIds, view, customerId, customerEmail};
 }
 
 export async function action({context, request}: ActionFunctionArgs) {
@@ -59,42 +64,73 @@ export async function action({context, request}: ActionFunctionArgs) {
   const orderId = formData.get('orderId') as string;
   const customerId = formData.get('customerId') as string;
 
-  if (intent !== 'archive') {
-    return {error: 'Unknown intent'};
-  }
-
   const env = context.env as any;
   const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
   const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
 
-  if (!storefrontUiUrl) {
-    return {error: 'Archive service is not configured.'};
-  }
-
-  try {
-    const res = await fetch(`${storefrontUiUrl}/api/orders/archive`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Internal-Secret': internalSecret,
-      },
-      body: JSON.stringify({customerId, orderId}),
-    });
-
-    if (!res.ok) {
-      const data = (await res.json()) as {error?: string};
-      return {error: data.error ?? 'Failed to archive order.'};
+  if (intent === 'archive') {
+    if (!storefrontUiUrl) {
+      return {error: 'Archive service is not configured.'};
     }
 
-    return {success: true, intent};
-  } catch {
-    return {error: 'Could not reach archive service. Please try again.'};
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/orders/archive`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Internal-Secret': internalSecret,
+        },
+        body: JSON.stringify({customerId, orderId}),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as {error?: string};
+        return {error: data.error ?? 'Failed to archive order.'};
+      }
+
+      return {success: true, intent};
+    } catch {
+      return {error: 'Could not reach archive service. Please try again.'};
+    }
   }
+
+  if (intent === 'return-request') {
+    const orderNum = formData.get('orderNum') as string;
+    const customerEmail = formData.get('customerEmail') as string;
+    const reason = formData.get('reason') as string;
+
+    if (!storefrontUiUrl) {
+      return {error: 'Return service is not configured.', intent};
+    }
+
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/returns/request`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Internal-Secret': internalSecret,
+        },
+        body: JSON.stringify({orderId, orderNum, customerEmail, customerId, reason}),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as {error?: string};
+        return {error: data.error ?? 'Failed to submit return request.', intent};
+      }
+
+      return {success: true, intent};
+    } catch {
+      return {error: 'Could not reach return service. Please try again.', intent};
+    }
+  }
+
+  return {error: 'Unknown intent'};
 }
 
 export default function AccountOrders() {
-  const {orders, archivedIds, view, customerId} = useLoaderData<typeof loader>();
+  const {orders, archivedIds, view, customerId, customerEmail} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string}>();
+  const [returnOrderId, setReturnOrderId] = useState<string | null>(null);
 
   const isArchiveView = view === 'archived';
 
@@ -130,6 +166,9 @@ export default function AccountOrders() {
 
       {fetcher.data?.error && (
         <p style={{color: '#fc8181', marginBottom: '1rem', fontSize: '0.875rem'}}>{fetcher.data.error}</p>
+      )}
+      {fetcher.data?.success && fetcher.data?.intent === 'return-request' && (
+        <p style={{color: '#68d391', marginBottom: '1rem', fontSize: '0.875rem'}}>Return request submitted. Our team will be in touch.</p>
       )}
 
       {displayedOrders.length === 0 ? (
@@ -176,26 +215,106 @@ export default function AccountOrders() {
                 View Details
               </Link>
               {!isArchiveView && (
-                <fetcher.Form method="post" style={{display: 'inline'}}>
-                  <input type="hidden" name="intent" value="archive" />
-                  <input type="hidden" name="orderId" value={order.id} />
-                  <input type="hidden" name="customerId" value={customerId} />
+                <>
+                  <fetcher.Form method="post" style={{display: 'inline'}}>
+                    <input type="hidden" name="intent" value="archive" />
+                    <input type="hidden" name="orderId" value={order.id} />
+                    <input type="hidden" name="customerId" value={customerId} />
+                    <button
+                      type="submit"
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'rgba(255,255,255,0.4)',
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        padding: 0,
+                      }}
+                    >
+                      Archive
+                    </button>
+                  </fetcher.Form>
+                  <button
+                    type="button"
+                    onClick={() => setReturnOrderId(returnOrderId === order.id ? null : order.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'rgba(255,180,100,0.7)',
+                      fontSize: '0.8rem',
+                      cursor: 'pointer',
+                      padding: 0,
+                    }}
+                  >
+                    Request Return
+                  </button>
+                </>
+              )}
+            </div>
+
+            {returnOrderId === order.id && (
+              <fetcher.Form
+                method="post"
+                style={{marginTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem'}}
+                onSubmit={() => setReturnOrderId(null)}
+              >
+                <input type="hidden" name="intent" value="return-request" />
+                <input type="hidden" name="orderId" value={order.id} />
+                <input type="hidden" name="orderNum" value={order.number} />
+                <input type="hidden" name="customerId" value={customerId} />
+                <input type="hidden" name="customerEmail" value={customerEmail} />
+                <p style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem'}}>
+                  Please describe the reason for your return request:
+                </p>
+                <textarea
+                  name="reason"
+                  required
+                  rows={3}
+                  placeholder="e.g. Item arrived damaged, wrong size received…"
+                  style={{
+                    width: '100%',
+                    background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    borderRadius: '4px',
+                    color: 'white',
+                    padding: '0.5rem',
+                    fontSize: '0.8rem',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{display: 'flex', gap: '0.5rem', marginTop: '0.5rem'}}>
                   <button
                     type="submit"
+                    disabled={fetcher.state !== 'idle'}
+                    style={{
+                      background: 'rgba(255,180,100,0.15)',
+                      color: 'rgba(255,180,100,0.9)',
+                      border: '1px solid rgba(255,180,100,0.3)',
+                      padding: '0.35rem 0.9rem',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {fetcher.state !== 'idle' ? 'Submitting…' : 'Submit Request'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReturnOrderId(null)}
                     style={{
                       background: 'none',
                       border: 'none',
                       color: 'rgba(255,255,255,0.4)',
                       fontSize: '0.8rem',
                       cursor: 'pointer',
-                      padding: 0,
                     }}
                   >
-                    Archive
+                    Cancel
                   </button>
-                </fetcher.Form>
-              )}
-            </div>
+                </div>
+              </fetcher.Form>
+            )}
           </div>
         ))
       )}
