@@ -76,6 +76,7 @@ export async function action({context, request}: ActionFunctionArgs) {
     const orderNum = formData.get('orderNum') as string;
     const customerEmail = formData.get('customerEmail') as string;
     const reason = formData.get('reason') as string;
+    const lineItemsRaw = formData.get('lineItems') as string;
 
     const env = context.env as any;
     const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
@@ -85,6 +86,13 @@ export async function action({context, request}: ActionFunctionArgs) {
       return {error: 'Return service is not configured.', intent};
     }
 
+    let lineItems: any[] | undefined;
+    try {
+      if (lineItemsRaw) lineItems = JSON.parse(lineItemsRaw);
+    } catch {
+      // proceed without lineItems
+    }
+
     try {
       const res = await fetch(`${storefrontUiUrl}/api/returns/request`, {
         method: 'POST',
@@ -92,7 +100,7 @@ export async function action({context, request}: ActionFunctionArgs) {
           'Content-Type': 'application/json',
           'X-Internal-Secret': internalSecret,
         },
-        body: JSON.stringify({orderId, orderNum, customerEmail, customerId, reason}),
+        body: JSON.stringify({orderId, orderNum, customerEmail, customerId, reason, lineItems}),
       });
 
       if (!res.ok) {
@@ -174,10 +182,16 @@ export async function action({context, request}: ActionFunctionArgs) {
   return {error: 'Unknown intent', intent};
 }
 
+type ReturnView = 'none' | 'select-items' | 'success';
+
 export default function OrderDetail() {
   const {order, isArchived, orderId, customerId, customerEmail} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string; alreadySent?: boolean}>();
-  const [showReturnForm, setShowReturnForm] = useState(false);
+
+  const [returnView, setReturnView] = useState<ReturnView>('none');
+  const [selectedItems, setSelectedItems] = useState<Map<string, number>>(new Map());
+  const [policyAcknowledged, setPolicyAcknowledged] = useState(false);
+  const [returnReason, setReturnReason] = useState('');
 
   const cardStyle: React.CSSProperties = {
     background: 'rgba(50, 50, 50, 0.85)',
@@ -188,6 +202,273 @@ export default function OrderDetail() {
 
   const result = fetcher.data;
   const currentlyArchived = result?.intent === 'archive' && result?.success ? true : isArchived;
+
+  // When return request succeeds, switch to success view
+  const prevSuccess = result?.success && result.intent === 'return-request';
+  if (prevSuccess && returnView === 'none') {
+    // handled via useEffect pattern below
+  }
+
+  function handleItemToggle(lineItemId: string, originalQty: number) {
+    setSelectedItems((prev) => {
+      const next = new Map(prev);
+      if (next.has(lineItemId)) {
+        next.delete(lineItemId);
+      } else {
+        next.set(lineItemId, 1);
+      }
+      return next;
+    });
+  }
+
+  function handleQtyChange(lineItemId: string, qty: number) {
+    setSelectedItems((prev) => {
+      const next = new Map(prev);
+      if (next.has(lineItemId)) next.set(lineItemId, qty);
+      return next;
+    });
+  }
+
+  function handleReturnSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const lineItems = order.lineItems.nodes
+      .filter((li) => selectedItems.has(li.id))
+      .map((li) => ({
+        title: li.title,
+        variantTitle: li.variantTitle ?? '',
+        quantity: selectedItems.get(li.id) ?? 1,
+        unitPrice: (li as any).price?.amount ?? '0',
+        sku: (li as any).sku ?? '',
+        variantId: (li as any).variant?.id ?? '',
+      }));
+
+    fetcher.submit(
+      {
+        intent: 'return-request',
+        orderId,
+        orderNum: order.name,
+        customerId,
+        customerEmail,
+        reason: returnReason,
+        lineItems: JSON.stringify(lineItems),
+      },
+      {method: 'post'},
+    );
+    setReturnView('none');
+  }
+
+  if (returnView === 'select-items') {
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            setReturnView('none');
+            setSelectedItems(new Map());
+            setPolicyAcknowledged(false);
+            setReturnReason('');
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255,255,255,0.7)',
+            cursor: 'pointer',
+            fontSize: '0.875rem',
+            padding: 0,
+            marginBottom: '1rem',
+            display: 'inline-block',
+          }}
+        >
+          ← Back to Order Details
+        </button>
+
+        <h2 style={{fontSize: '1.1rem', marginBottom: '1rem'}}>
+          Request Return — {order.name}
+        </h2>
+
+        {/* Return Policy acknowledgment */}
+        <div style={{...cardStyle, borderLeft: '3px solid rgba(255,180,100,0.5)'}}>
+          <p style={{fontSize: '0.875rem', color: 'rgba(255,255,255,0.8)', marginBottom: '0.75rem'}}>
+            Before proceeding, please read our{' '}
+            <a
+              href="/policies/refund-policy"
+              target="_blank"
+              rel="noreferrer"
+              style={{color: 'rgba(26,180,215,0.9)', textDecoration: 'underline'}}
+            >
+              Return Policy
+            </a>
+            . It describes what items are eligible, the customer's obligations, and any applicable shipping costs.
+          </p>
+          <label style={{display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer', fontSize: '0.875rem'}}>
+            <input
+              type="checkbox"
+              checked={policyAcknowledged}
+              onChange={(e) => setPolicyAcknowledged(e.target.checked)}
+              style={{marginTop: '2px', flexShrink: 0}}
+            />
+            I have read and accept the Return Policy, including cost implications and obligations for both parties.
+          </label>
+        </div>
+
+        {/* Line item selection */}
+        <div style={cardStyle}>
+          <h3 style={{fontSize: '1rem', marginBottom: '0.75rem'}}>Select items to return</h3>
+          {order.lineItems.nodes.map((lineItem) => {
+            const isSelected = selectedItems.has(lineItem.id);
+            const selQty = selectedItems.get(lineItem.id) ?? 1;
+            return (
+              <div
+                key={lineItem.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.75rem',
+                  padding: '0.75rem 0',
+                  borderBottom: '1px solid rgba(255,255,255,0.08)',
+                  opacity: isSelected ? 1 : 0.6,
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => handleItemToggle(lineItem.id, lineItem.quantity)}
+                  style={{marginTop: '4px', flexShrink: 0}}
+                />
+                {lineItem.image && (
+                  <Image
+                    data={lineItem.image}
+                    width={56}
+                    height={56}
+                    style={{borderRadius: '4px', objectFit: 'cover', flexShrink: 0}}
+                  />
+                )}
+                <div style={{flex: 1, minWidth: 0}}>
+                  <p style={{margin: 0, fontWeight: 'bold', fontSize: '0.875rem'}}>{lineItem.title}</p>
+                  {lineItem.variantTitle && (
+                    <p style={{margin: '0.2rem 0 0', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)'}}>
+                      {lineItem.variantTitle}
+                    </p>
+                  )}
+                  <p style={{margin: '0.25rem 0 0', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)'}}>
+                    Ordered: {lineItem.quantity}
+                  </p>
+                  {isSelected && (
+                    <div style={{marginTop: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.4rem'}}>
+                      <label style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)'}}>Return qty:</label>
+                      <select
+                        value={selQty}
+                        onChange={(e) => handleQtyChange(lineItem.id, Number(e.target.value))}
+                        style={{
+                          background: 'rgba(255,255,255,0.1)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          borderRadius: '4px',
+                          color: 'white',
+                          padding: '2px 6px',
+                          fontSize: '0.8rem',
+                        }}
+                      >
+                        {Array.from({length: lineItem.quantity}, (_, i) => i + 1).map((n) => (
+                          <option key={n} value={n}>{n}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+                <div style={{textAlign: 'right', flexShrink: 0}}>
+                  <Money data={lineItem.price} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Reason + submit */}
+        <form onSubmit={handleReturnSubmit} style={cardStyle}>
+          <div style={{marginBottom: '0.75rem'}}>
+            <label style={{display: 'block', fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)', marginBottom: '0.4rem'}}>
+              Reason for return
+            </label>
+            <textarea
+              value={returnReason}
+              onChange={(e) => setReturnReason(e.target.value)}
+              required
+              rows={3}
+              placeholder="e.g. Item arrived damaged, wrong size received…"
+              style={{
+                width: '100%',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '4px',
+                color: 'white',
+                padding: '0.5rem',
+                fontSize: '0.875rem',
+                resize: 'vertical',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {result?.error && result.intent === 'return-request' && (
+            <p style={{color: '#fc8181', marginBottom: '0.75rem', fontSize: '0.875rem'}}>{result.error}</p>
+          )}
+
+          <div style={{display: 'flex', gap: '0.5rem'}}>
+            <button
+              type="submit"
+              disabled={
+                fetcher.state !== 'idle' ||
+                !policyAcknowledged ||
+                selectedItems.size === 0 ||
+                !returnReason.trim()
+              }
+              style={{
+                background: 'rgba(255,180,100,0.15)',
+                color: 'rgba(255,180,100,0.9)',
+                border: '1px solid rgba(255,180,100,0.3)',
+                padding: '0.45rem 1.1rem',
+                borderRadius: '5px',
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+                opacity:
+                  !policyAcknowledged || selectedItems.size === 0 || !returnReason.trim()
+                    ? 0.5
+                    : 1,
+              }}
+            >
+              {fetcher.state !== 'idle' ? 'Submitting…' : 'Submit Return Request'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setReturnView('none');
+                setSelectedItems(new Map());
+                setPolicyAcknowledged(false);
+                setReturnReason('');
+              }}
+              style={{
+                background: 'none',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'rgba(255,255,255,0.4)',
+                padding: '0.45rem 1rem',
+                borderRadius: '5px',
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+          {(!policyAcknowledged || selectedItems.size === 0) && (
+            <p style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem'}}>
+              {!policyAcknowledged && 'Please acknowledge the Return Policy. '}
+              {selectedItems.size === 0 && 'Please select at least one item to return.'}
+            </p>
+          )}
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -313,7 +594,12 @@ export default function OrderDetail() {
           {!currentlyArchived && (
             <button
               type="button"
-              onClick={() => setShowReturnForm(!showReturnForm)}
+              onClick={() => {
+                setReturnView('select-items');
+                setSelectedItems(new Map());
+                setPolicyAcknowledged(false);
+                setReturnReason('');
+              }}
               style={{
                 background: 'rgba(255,180,100,0.1)',
                 color: 'rgba(255,180,100,0.8)',
@@ -328,72 +614,6 @@ export default function OrderDetail() {
             </button>
           )}
         </div>
-
-        {showReturnForm && (
-          <fetcher.Form
-            method="post"
-            style={{marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem'}}
-            onSubmit={() => setShowReturnForm(false)}
-          >
-            <input type="hidden" name="intent" value="return-request" />
-            <input type="hidden" name="orderId" value={orderId} />
-            <input type="hidden" name="orderNum" value={order.name} />
-            <input type="hidden" name="customerId" value={customerId} />
-            <input type="hidden" name="customerEmail" value={customerEmail} />
-            <p style={{fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem'}}>
-              Please describe the reason for your return request:
-            </p>
-            <textarea
-              name="reason"
-              required
-              rows={3}
-              placeholder="e.g. Item arrived damaged, wrong size received…"
-              style={{
-                width: '100%',
-                background: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: '4px',
-                color: 'white',
-                padding: '0.5rem',
-                fontSize: '0.85rem',
-                resize: 'vertical',
-                boxSizing: 'border-box',
-              }}
-            />
-            <div style={{display: 'flex', gap: '0.5rem', marginTop: '0.5rem'}}>
-              <button
-                type="submit"
-                disabled={fetcher.state !== 'idle'}
-                style={{
-                  background: 'rgba(255,180,100,0.15)',
-                  color: 'rgba(255,180,100,0.9)',
-                  border: '1px solid rgba(255,180,100,0.3)',
-                  padding: '0.4rem 1rem',
-                  borderRadius: '5px',
-                  fontSize: '0.8rem',
-                  cursor: 'pointer',
-                }}
-              >
-                {fetcher.state !== 'idle' ? 'Submitting…' : 'Submit Return Request'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowReturnForm(false)}
-                style={{
-                  background: 'none',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: 'rgba(255,255,255,0.4)',
-                  padding: '0.4rem 1rem',
-                  borderRadius: '5px',
-                  fontSize: '0.8rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </fetcher.Form>
-        )}
       </div>
 
       <div style={cardStyle}>

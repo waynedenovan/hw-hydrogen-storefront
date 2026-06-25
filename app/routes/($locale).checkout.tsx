@@ -35,11 +35,32 @@ export async function loader({context}: LoaderFunctionArgs) {
   }
 
   let customer: CustomerDetailsQuery['customer'] | null = null;
+  let businessProfile = {companyName: '', regNumber: '', vatNumber: ''};
+
   try {
     const isLoggedIn = await customerAccount.isLoggedIn();
     if (isLoggedIn) {
       const {data: accountData} = await customerAccount.query(CUSTOMER_DETAILS_QUERY);
       customer = accountData.customer;
+
+      const env = context.env as any;
+      const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+      const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
+      const email = (customer as any)?.emailAddress?.emailAddress ?? '';
+
+      if (storefrontUiUrl && email) {
+        try {
+          const bpRes = await fetch(
+            `${storefrontUiUrl}/api/customer/business?email=${encodeURIComponent(email)}`,
+            {headers: {'X-Internal-Secret': internalSecret}},
+          );
+          if (bpRes.ok) {
+            businessProfile = (await bpRes.json()) as typeof businessProfile;
+          }
+        } catch {
+          /* non-blocking */
+        }
+      }
     }
   } catch {
     /* guest checkout — no pre-fill */
@@ -47,7 +68,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 
   const paymentGateway = (context.env as any).PUBLIC_PAYMENT_GATEWAY ?? 'shopify';
 
-  return {cart: cartData, customer, paymentGateway};
+  return {cart: cartData, customer, paymentGateway, businessProfile};
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
@@ -75,6 +96,37 @@ export async function action({request, context}: ActionFunctionArgs) {
       phone: phone || undefined,
       countryCode,
     });
+
+    // Save business details to backend profile (non-blocking)
+    const isBusinessCustomer = formData.get('isBusinessCustomer') === 'true';
+    if (isBusinessCustomer && email) {
+      const env = context.env as any;
+      const storefrontUiUrl: string = env.STOREFRONT_UI_API_URL ?? '';
+      const internalSecret: string = env.INTERNAL_API_SECRET ?? '';
+      if (storefrontUiUrl) {
+        const companyName = formData.get('companyName') as string || '';
+        const regNumber = formData.get('regNumber') as string || '';
+        const vatNumber = formData.get('vatNumber') as string || '';
+        try {
+          let shopifyCustomerId = '';
+          try {
+            const isLoggedIn = await context.customerAccount.isLoggedIn();
+            if (isLoggedIn) {
+              const {data: idData} = await context.customerAccount.query(
+                `#graphql query { customer { id } }` as any,
+              );
+              shopifyCustomerId = (idData as any)?.customer?.id ?? '';
+            }
+          } catch { /* ignore */ }
+
+          await fetch(`${storefrontUiUrl}/api/customer/business`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-Internal-Secret': internalSecret},
+            body: JSON.stringify({shopifyCustomerId, email, companyName, regNumber, vatNumber}),
+          });
+        } catch { /* non-blocking */ }
+      }
+    }
   } else if (step === 'shipping-address') {
     result = await cart.addDeliveryAddresses([
       {
@@ -115,7 +167,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 type StepNumber = 1 | 2 | 3 | 4;
 
 export default function Checkout() {
-  const {cart, customer, paymentGateway} = useLoaderData<typeof loader>();
+  const {cart, customer, paymentGateway, businessProfile} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{
     step?: string;
     success?: boolean;
@@ -143,8 +195,14 @@ export default function Checkout() {
   const [prefillConfirmed, setPrefillConfirmed] = useState(!requiresConfirm);
   const [currentStep, setCurrentStep] = useState<StepNumber>(1);
   const [invoiceEmailRequested, setInvoiceEmailRequested] = useState(false);
-  const [businessCustomer, setBusinessCustomer] = useState(false);
-  const [businessDetails, setBusinessDetails] = useState({vatNumber: '', regNumber: ''});
+  const [businessCustomer, setBusinessCustomer] = useState(
+    !!(businessProfile?.companyName || businessProfile?.regNumber || businessProfile?.vatNumber),
+  );
+  const [businessDetails, setBusinessDetails] = useState({
+    companyName: businessProfile?.companyName ?? '',
+    vatNumber: businessProfile?.vatNumber ?? '',
+    regNumber: businessProfile?.regNumber ?? '',
+  });
 
   const [customerInfo, setCustomerInfo] = useState({
     email:
@@ -327,7 +385,7 @@ function CustomerInfoStep({
   onFieldChange: (field: string, value: string) => void;
   businessCustomer: boolean;
   onBusinessCustomerChange: (v: boolean) => void;
-  businessDetails: {vatNumber: string; regNumber: string};
+  businessDetails: {companyName: string; vatNumber: string; regNumber: string};
   onBusinessDetailChange: (field: string, value: string) => void;
   fetcher: ReturnType<typeof useFetcher>;
   actionUrl: string;
@@ -336,6 +394,7 @@ function CustomerInfoStep({
   return (
     <fetcher.Form method="post" action={actionUrl} className="checkout-form">
       <input type="hidden" name="step" value="customer-info" />
+      <input type="hidden" name="isBusinessCustomer" value={businessCustomer ? 'true' : 'false'} />
       <h2 className="checkout-section-title">Contact Information</h2>
 
       {isPreFilled && (
@@ -439,6 +498,20 @@ function CustomerInfoStep({
 
       {businessCustomer && (
         <>
+          <div className="checkout-form-field">
+            <label htmlFor="companyName" className="checkout-form-label">
+              Company name
+            </label>
+            <input
+              id="companyName"
+              name="companyName"
+              type="text"
+              className="checkout-form-input"
+              value={businessDetails.companyName}
+              onChange={(e) => onBusinessDetailChange('companyName', e.target.value)}
+              placeholder="e.g. Acme (Pty) Ltd"
+            />
+          </div>
           <div className="checkout-form-field">
             <label htmlFor="vatNumber" className="checkout-form-label">
               TAX/VAT No (SARS VAT Number)
@@ -842,7 +915,7 @@ function OrderReviewStep({
   invoiceEmailRequested: boolean;
   onInvoiceEmailChange: (v: boolean) => void;
   businessCustomer: boolean;
-  businessDetails: {vatNumber: string; regNumber: string};
+  businessDetails: {companyName: string; vatNumber: string; regNumber: string};
   onBack: () => void;
 }) {
   const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
@@ -1049,7 +1122,7 @@ function PayFastPaymentForm({
   localePrefix: string;
   invoiceEmailRequested: boolean;
   businessCustomer: boolean;
-  businessDetails: {vatNumber: string; regNumber: string};
+  businessDetails: {companyName: string; vatNumber: string; regNumber: string};
 }) {
   const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
   const isSubmitting = payFetcher.state !== 'idle';
@@ -1083,6 +1156,7 @@ function PayFastPaymentForm({
 
       {/* Business details */}
       <input type="hidden" name="isBusinessCustomer" value={businessCustomer ? 'true' : 'false'} />
+      <input type="hidden" name="companyName" value={businessDetails.companyName} />
       <input type="hidden" name="vatNumber" value={businessDetails.vatNumber} />
       <input type="hidden" name="regNumber" value={businessDetails.regNumber} />
 
