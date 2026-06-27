@@ -795,21 +795,6 @@ export default function OrderDetail() {
         </div>
       </div>
 
-      {order.statusPageUrl && (
-        <a
-          href={order.statusPageUrl}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            display: 'inline-block',
-            color: 'rgba(255, 255, 255, 0.7)',
-            textDecoration: 'none',
-            marginTop: '0.5rem',
-          }}
-        >
-          View order status page →
-        </a>
-      )}
     </div>
   );
 }

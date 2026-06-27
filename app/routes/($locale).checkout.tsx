@@ -1035,6 +1035,12 @@ function OrderReviewStep({
         </div>
       </div>
 
+      <div className="checkout-review-section">
+        <h3>Discounts &amp; Gift Cards</h3>
+        <CheckoutDiscounts cart={cart} localePrefix={localePrefix} />
+        <CheckoutGiftCard cart={cart} localePrefix={localePrefix} />
+      </div>
+
       <div className="checkout-review-section checkout-payment-info">
         <h3>Payment</h3>
         {paymentGateway === 'payfast' ? (
@@ -1093,6 +1099,80 @@ function OrderReviewStep({
           </a>
         )}
       </div>
+    </div>
+  );
+}
+
+function CheckoutDiscounts({cart, localePrefix}: {cart: CartApiQueryFragment; localePrefix: string}) {
+  const codes = (cart.discountCodes ?? [])
+    .filter((d) => d.applicable)
+    .map((d) => d.code);
+
+  return (
+    <div style={{marginBottom: '0.75rem'}}>
+      {codes.length > 0 && (
+        <div style={{marginBottom: '0.5rem'}}>
+          <CartForm route={`${localePrefix}/cart`} action={CartForm.ACTIONS.DiscountCodesUpdate} inputs={{discountCodes: []}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem'}}>
+              <code style={{background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '4px'}}>{codes.join(', ')}</code>
+              <button type="submit" style={{background: 'none', border: 'none', color: 'rgba(255,100,100,0.8)', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline', padding: 0}}>
+                Remove
+              </button>
+            </div>
+          </CartForm>
+        </div>
+      )}
+      <CartForm route={`${localePrefix}/cart`} action={CartForm.ACTIONS.DiscountCodesUpdate} inputs={{discountCodes: codes}}>
+        <div style={{display: 'flex', gap: '0.5rem'}}>
+          <input
+            type="text"
+            name="discountCode"
+            placeholder="Discount code"
+            className="checkout-form-input"
+            style={{flex: 1, margin: 0}}
+          />
+          <button type="submit" className="checkout-back-btn" style={{margin: 0, whiteSpace: 'nowrap'}}>
+            Apply
+          </button>
+        </div>
+      </CartForm>
+    </div>
+  );
+}
+
+function CheckoutGiftCard({cart, localePrefix}: {cart: CartApiQueryFragment; localePrefix: string}) {
+  const appliedCards = cart.appliedGiftCards ?? [];
+  return (
+    <div>
+      {appliedCards.length > 0 && (
+        <div style={{marginBottom: '0.5rem'}}>
+          {appliedCards.map((gc) => (
+            <CartForm key={gc.id} route={`${localePrefix}/cart`} action={CartForm.ACTIONS.GiftCardCodesRemove} inputs={{giftCardCodes: [gc.id]}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginBottom: '0.25rem'}}>
+                <code style={{background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '4px'}}>***{gc.lastCharacters}</code>
+                <Money data={gc.amountUsed} />
+                <button type="submit" style={{background: 'none', border: 'none', color: 'rgba(255,100,100,0.8)', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline', padding: 0}}>
+                  Remove
+                </button>
+              </div>
+            </CartForm>
+          ))}
+        </div>
+      )}
+      <CartForm route={`${localePrefix}/cart`} action={CartForm.ACTIONS.GiftCardCodesAdd}>
+        <div style={{display: 'flex', gap: '0.5rem'}}>
+          <input
+            type="text"
+            name="giftCardCode"
+            placeholder="Gift card code"
+            className="checkout-form-input"
+            style={{flex: 1, margin: 0}}
+          />
+          <button type="submit" className="checkout-back-btn" style={{margin: 0, whiteSpace: 'nowrap'}}>
+            Apply
+          </button>
+        </div>
+      </CartForm>
     </div>
   );
 }
