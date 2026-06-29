@@ -528,6 +528,27 @@ button.reset:hover:not(:has(> *)) {
   line-height: 1;
 }
 
+.cart-line-qty-input {
+  width: 3.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -moz-appearance: textfield;
+}
+
+.cart-line-qty-input::-webkit-outer-spin-button,
+.cart-line-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-line-qty-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .cart-line-remove button {
   background: none;
   border: none;

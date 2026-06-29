@@ -47,6 +47,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
     Boolean(cart?.discountCodes?.filter((code) => code.applicable)?.length);
   const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
   const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
+  const isCartUpdating = !!(cart as {isOptimistic?: boolean}).isOptimistic;
   const childrenMap = getLineItemChildrenMap(cart?.lines?.nodes ?? []);
 
   return (
@@ -78,19 +79,25 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
           </ul>
         </div>
         {cartHasItems && layout === 'aside' && (
-          <ContinueShopping />
+          <ContinueShopping disabled={isCartUpdating} />
         )}
-        {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {cartHasItems && <CartSummary cart={cart} layout={layout} isCartUpdating={isCartUpdating} />}
       </div>
     </div>
   );
 }
 
-function ContinueShopping() {
+function ContinueShopping({disabled}: {disabled?: boolean}) {
   const {close} = useAside();
   return (
     <div className="continue-shopping">
-      <button type="button" className="continue-shopping-btn" onClick={close}>
+      <button
+        type="button"
+        className="continue-shopping-btn"
+        onClick={close}
+        disabled={disabled}
+        aria-disabled={disabled}
+      >
         &larr; Continue Shopping
       </button>
     </div>

@@ -8,9 +8,10 @@ import {useAside} from '~/components/Aside';
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
+  isCartUpdating?: boolean;
 };
 
-export function CartSummary({cart, layout}: CartSummaryProps) {
+export function CartSummary({cart, layout, isCartUpdating}: CartSummaryProps) {
   const className =
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
 
@@ -29,12 +30,18 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       </dl>
       {layout === 'page' && <CartDiscounts discountCodes={cart?.discountCodes} />}
       {layout === 'page' && <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />}
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} isCartUpdating={isCartUpdating} />
     </div>
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
+function CartCheckoutActions({
+  checkoutUrl,
+  isCartUpdating,
+}: {
+  checkoutUrl?: string;
+  isCartUpdating?: boolean;
+}) {
   if (!checkoutUrl) return null;
 
   const {close} = useAside();
@@ -42,20 +49,32 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
   const localePrefix = localeMatch ? localeMatch[0] : '';
 
+  function handleCheckoutClick(e: React.MouseEvent) {
+    if (isCartUpdating) {
+      e.preventDefault();
+      return;
+    }
+    close();
+  }
+
   return (
     <div className="cart-checkout-actions">
       <Link
         to={`${localePrefix}/checkout`}
-        onClick={close}
-        className="checkout-primary-btn"
+        onClick={handleCheckoutClick}
+        className={`checkout-primary-btn${isCartUpdating ? ' checkout-btn-disabled' : ''}`}
+        aria-disabled={isCartUpdating}
+        style={isCartUpdating ? {opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none'} : undefined}
       >
-        Proceed to Checkout &rarr;
+        {isCartUpdating ? 'Updating cart…' : 'Proceed to Checkout →'}
       </Link>
       <a
         href={checkoutUrl}
         target="_self"
-        onClick={close}
-        className="checkout-skip-btn"
+        onClick={handleCheckoutClick}
+        className={`checkout-skip-btn${isCartUpdating ? ' checkout-btn-disabled' : ''}`}
+        aria-disabled={isCartUpdating}
+        style={isCartUpdating ? {opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none'} : undefined}
       >
         Skip to payment &rarr;
       </a>

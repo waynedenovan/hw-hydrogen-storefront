@@ -2,7 +2,8 @@ import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
-import {Link} from 'react-router';
+import {Link, useFetcher} from 'react-router';
+import {useRef} from 'react';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
 import type {
@@ -107,11 +108,25 @@ function CartLineQuantity({line}: {line: CartLine}) {
   const {id: lineId, quantity, isOptimistic} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
   const nextQuantity = Number((quantity + 1).toFixed(0));
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fetcher = useFetcher({key: getUpdateKey([lineId])});
+
+  function submitQuantity(newQty: number) {
+    if (newQty < 1) {
+      if (inputRef.current) inputRef.current.value = String(quantity);
+      return;
+    }
+    if (newQty === quantity) return;
+    const formData = new FormData();
+    formData.append('cartAction', CartForm.ACTIONS.LinesUpdate);
+    formData.append('lines', JSON.stringify([{id: lineId, quantity: newQty}]));
+    fetcher.submit(formData, {method: 'POST', action: '/cart'});
+  }
 
   return (
     <div className="cart-line-quantity">
       <div className="cart-line-qty-controls">
-        <small>Qty: {quantity}</small>
+        <label htmlFor={`qty-${lineId}`} className="sr-only">Qty</label>
         <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
           <button
             aria-label="Decrease quantity"
@@ -122,6 +137,23 @@ function CartLineQuantity({line}: {line: CartLine}) {
             <span>&#8722;</span>
           </button>
         </CartLineUpdateButton>
+        <input
+          id={`qty-${lineId}`}
+          ref={inputRef}
+          type="number"
+          className="cart-line-qty-input"
+          defaultValue={quantity}
+          min={1}
+          disabled={!!isOptimistic}
+          aria-label="Quantity"
+          onBlur={(e) => submitQuantity(parseInt(e.target.value, 10))}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              (e.target as HTMLInputElement).blur();
+            }
+          }}
+        />
         <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
           <button
             aria-label="Increase quantity"
