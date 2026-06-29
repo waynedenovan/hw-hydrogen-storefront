@@ -126,6 +126,12 @@ export const ORDER_QUERY = `#graphql
       formatted(withName: true)
       formattedArea
     }
+    shippingLine {
+      title
+      originalPrice {
+        ...OrderMoney
+      }
+    }
     discountApplications(first: 100) {
       nodes {
         ...DiscountApplication

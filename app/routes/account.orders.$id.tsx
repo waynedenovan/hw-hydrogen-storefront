@@ -747,6 +747,18 @@ export default function OrderDetail() {
           <span style={{color: 'rgba(255,255,255,0.7)'}}>Subtotal</span>
           <Money data={order.subtotal} />
         </div>
+        {(order as any).shippingLine && parseFloat((order as any).shippingLine.originalPrice?.amount ?? '0') > 0 && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '0.5rem',
+            }}
+          >
+            <span style={{color: 'rgba(255,255,255,0.7)'}}>Shipping</span>
+            <Money data={(order as any).shippingLine.originalPrice} />
+          </div>
+        )}
         <div
           style={{
             display: 'flex',
@@ -755,7 +767,16 @@ export default function OrderDetail() {
           }}
         >
           <span style={{color: 'rgba(255,255,255,0.7)'}}>Tax</span>
-          <Money data={order.totalTax} />
+          {/* Include 15% SA VAT on shipping since Shopify totalTax covers products only */}
+          {(() => {
+            const shippingAmt = parseFloat((order as any).shippingLine?.originalPrice?.amount ?? '0');
+            const shippingVat = parseFloat((shippingAmt * 0.15).toFixed(2));
+            const adjustedTax = {
+              amount: (parseFloat(order.totalTax.amount) + shippingVat).toFixed(2),
+              currencyCode: order.totalTax.currencyCode,
+            };
+            return <Money data={adjustedTax} />;
+          })()}
         </div>
         {order.discountApplications.nodes.length > 0 && (
           <div
@@ -791,7 +812,16 @@ export default function OrderDetail() {
           }}
         >
           <span>Total</span>
-          <Money data={order.totalPrice} />
+          {/* Adjust total to include 15% SA VAT on shipping */}
+          {(() => {
+            const shippingAmt = parseFloat((order as any).shippingLine?.originalPrice?.amount ?? '0');
+            const shippingVat = parseFloat((shippingAmt * 0.15).toFixed(2));
+            const adjustedTotal = {
+              amount: (parseFloat(order.totalPrice.amount) + shippingVat).toFixed(2),
+              currencyCode: order.totalPrice.currencyCode,
+            };
+            return <Money data={adjustedTotal} />;
+          })()}
         </div>
       </div>
 
