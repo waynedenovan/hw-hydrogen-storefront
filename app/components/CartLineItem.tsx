@@ -118,8 +118,13 @@ function CartLineQuantity({line}: {line: CartLine}) {
     }
     if (newQty === quantity) return;
     const formData = new FormData();
-    formData.append('cartAction', CartForm.ACTIONS.LinesUpdate);
-    formData.append('lines', JSON.stringify([{id: lineId, quantity: newQty}]));
+    formData.append(
+      'cartFormInput',
+      JSON.stringify({
+        action: CartForm.ACTIONS.LinesUpdate,
+        inputs: {lines: [{id: lineId, quantity: newQty}]},
+      }),
+    );
     fetcher.submit(formData, {method: 'POST', action: '/cart'});
   }
 
