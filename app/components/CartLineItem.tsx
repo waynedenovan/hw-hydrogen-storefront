@@ -109,7 +109,8 @@ function CartLineQuantity({line}: {line: CartLine}) {
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
   const nextQuantity = Number((quantity + 1).toFixed(0));
   const inputRef = useRef<HTMLInputElement>(null);
-  const fetcher = useFetcher({key: getUpdateKey([lineId])});
+  // Separate key so this fetcher doesn't share state with the +/- CartForm buttons
+  const fetcher = useFetcher({key: getUpdateKey([lineId]) + '-input'});
 
   function submitQuantity(newQty: number) {
     if (newQty < 1) {
@@ -143,6 +144,7 @@ function CartLineQuantity({line}: {line: CartLine}) {
           </button>
         </CartLineUpdateButton>
         <input
+          key={quantity}
           id={`qty-${lineId}`}
           ref={inputRef}
           type="number"
@@ -191,7 +193,7 @@ function CartLineRemoveButton({
 }) {
   return (
     <CartForm
-      fetcherKey={getUpdateKey(lineIds)}
+      fetcherKey={getRemoveKey(lineIds)}
       route="/cart"
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
@@ -224,13 +226,10 @@ function CartLineUpdateButton({
   );
 }
 
-/**
- * Returns a unique key for the update action. This is used to make sure actions modifying the same line
- * items are not run concurrently, but cancel each other. For example, if the user clicks "Increase quantity"
- * and "Decrease quantity" in rapid succession, the actions will cancel each other and only the last one will run.
- * @param lineIds - line ids affected by the update
- * @returns
- */
 function getUpdateKey(lineIds: string[]) {
   return [CartForm.ACTIONS.LinesUpdate, ...lineIds].join('-');
+}
+
+function getRemoveKey(lineIds: string[]) {
+  return [CartForm.ACTIONS.LinesRemove, ...lineIds].join('-');
 }
