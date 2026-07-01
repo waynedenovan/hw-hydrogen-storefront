@@ -107,6 +107,7 @@ aside {
   color: white;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   height: 100vh;
+  height: 100dvh;
   width: min(var(--aside-width), 100vw);
   position: fixed;
   right: calc(-1 * var(--aside-width));
@@ -471,13 +472,13 @@ button.reset:hover:not(:has(> *)) {
 */
 .cart-main {
   height: 100%;
-  max-height: calc(100vh - var(--cart-aside-summary-height) - var(--header-height) - 1rem);
+  max-height: calc(100dvh - var(--cart-aside-summary-height) - var(--header-height) - 1rem);
   overflow-y: auto;
   width: auto;
 }
 
 .cart-main.with-discount {
-  max-height: calc(100vh - var(--cart-aside-summary-height-with-discount) - var(--header-height) - 1rem);
+  max-height: calc(100dvh - var(--cart-aside-summary-height-with-discount) - var(--header-height) - 1rem);
 }
 
 .cart-line {
@@ -503,6 +504,7 @@ button.reset:hover:not(:has(> *)) {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   bottom: 0;
   padding-top: 0.75rem;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   position: absolute;
   width: calc(var(--aside-width) - 40px);
 }
@@ -1251,6 +1253,21 @@ aside input::placeholder {
 .checkout-form-input:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.6);
+}
+
+select.checkout-form-input {
+  background: rgba(200, 200, 200, 0.8);
+  color: rgb(60, 60, 60);
+  border-color: rgba(100, 100, 100, 0.4);
+}
+
+select.checkout-form-input option {
+  background: rgb(210, 210, 210);
+  color: rgb(60, 60, 60);
+}
+
+select.checkout-form-input option:disabled {
+  color: rgba(60, 60, 60, 0.4);
 }
 
 .checkout-submit-btn {

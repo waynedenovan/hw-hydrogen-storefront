@@ -373,6 +373,15 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
   );
 }
 
+function formatRegNumber(value: string): string {
+  if (/^[a-zA-Z]/.test(value)) return value;
+  if (value.includes('/')) return value;
+  const digits = value.replace(/\D/g, '');
+  if (digits.length <= 4) return digits;
+  if (digits.length <= 10) return `${digits.slice(0, 4)}/${digits.slice(4)}`;
+  return `${digits.slice(0, 4)}/${digits.slice(4, 10)}/${digits.slice(10, 12)}`;
+}
+
 function CustomerInfoStep({
   customerInfo,
   isPreFilled,
@@ -546,7 +555,7 @@ function CustomerInfoStep({
               type="text"
               className="checkout-form-input"
               value={businessDetails.regNumber}
-              onChange={(e) => onBusinessDetailChange('regNumber', e.target.value)}
+              onChange={(e) => onBusinessDetailChange('regNumber', formatRegNumber(e.target.value))}
               placeholder="XXXX/XXXXXX/XX"
             />
           </div>
@@ -706,20 +715,20 @@ function ShippingAddressStep({
             onChange={(e) => onFieldChange('countryCode', e.target.value)}
           >
             <option value="ZA">South Africa (ZA)</option>
-            <option value="AU">Australia (AU)</option>
-            <option value="BW">Botswana (BW)</option>
-            <option value="CA">Canada (CA)</option>
-            <option value="GB">United Kingdom (GB)</option>
-            <option value="LS">Lesotho (LS)</option>
-            <option value="MW">Malawi (MW)</option>
-            <option value="MZ">Mozambique (MZ)</option>
-            <option value="NA">Namibia (NA)</option>
-            <option value="NZ">New Zealand (NZ)</option>
-            <option value="SZ">Eswatini (SZ)</option>
-            <option value="TZ">Tanzania (TZ)</option>
-            <option value="US">United States (US)</option>
-            <option value="ZM">Zambia (ZM)</option>
-            <option value="ZW">Zimbabwe (ZW)</option>
+            <option value="AU" disabled>Australia (AU)</option>
+            <option value="BW" disabled>Botswana (BW)</option>
+            <option value="CA" disabled>Canada (CA)</option>
+            <option value="GB" disabled>United Kingdom (GB)</option>
+            <option value="LS" disabled>Lesotho (LS)</option>
+            <option value="MW" disabled>Malawi (MW)</option>
+            <option value="MZ" disabled>Mozambique (MZ)</option>
+            <option value="NA" disabled>Namibia (NA)</option>
+            <option value="NZ" disabled>New Zealand (NZ)</option>
+            <option value="SZ" disabled>Eswatini (SZ)</option>
+            <option value="TZ" disabled>Tanzania (TZ)</option>
+            <option value="US" disabled>United States (US)</option>
+            <option value="ZM" disabled>Zambia (ZM)</option>
+            <option value="ZW" disabled>Zimbabwe (ZW)</option>
           </select>
         </div>
       </div>
