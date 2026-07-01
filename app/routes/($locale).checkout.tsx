@@ -128,6 +128,14 @@ export async function action({request, context}: ActionFunctionArgs) {
       }
     }
   } else if (step === 'shipping-address') {
+    const rawCountryCode = (formData.get('countryCode') as string)?.trim().toUpperCase();
+    const countryCode = /^[A-Z]{2}$/.test(rawCountryCode) ? (rawCountryCode as CountryCode) : null;
+    if (!countryCode) {
+      return data(
+        {step, success: false, errors: [{message: 'Please select a valid country.'}]},
+        {status: 422},
+      );
+    }
     result = await cart.addDeliveryAddresses([
       {
         address: {
@@ -137,7 +145,7 @@ export async function action({request, context}: ActionFunctionArgs) {
             city: formData.get('city') as string,
             provinceCode: (formData.get('provinceCode') as string) || undefined,
             zip: formData.get('zip') as string,
-            countryCode: formData.get('countryCode') as CountryCode,
+            countryCode,
             firstName: formData.get('firstName') as string,
             lastName: formData.get('lastName') as string,
             phone: (formData.get('phone') as string) || undefined,
@@ -227,8 +235,10 @@ export default function Checkout() {
     city: customer?.defaultAddress?.city || '',
     provinceCode: customer?.defaultAddress?.zoneCode || '',
     zip: customer?.defaultAddress?.zip || '',
-    countryCode:
-      (customer?.defaultAddress as any)?.territoryCode || defaultCountry,
+    countryCode: (() => {
+      const raw = (customer?.defaultAddress as any)?.territoryCode || defaultCountry;
+      return /^[A-Z]{2}$/.test(raw) ? raw : defaultCountry;
+    })(),
     phone: customer?.defaultAddress?.phoneNumber || '',
   });
 
@@ -685,21 +695,32 @@ function ShippingAddressStep({
         </div>
         <div className="checkout-form-field">
           <label htmlFor="countryCode" className="checkout-form-label">
-            Country Code
+            Country
           </label>
-          <input
+          <select
             id="countryCode"
             name="countryCode"
-            type="text"
             required
             className="checkout-form-input"
             value={shippingAddress.countryCode}
-            onChange={(e) =>
-              onFieldChange('countryCode', e.target.value.toUpperCase())
-            }
-            maxLength={2}
-            placeholder="ZA"
-          />
+            onChange={(e) => onFieldChange('countryCode', e.target.value)}
+          >
+            <option value="ZA">South Africa (ZA)</option>
+            <option value="AU">Australia (AU)</option>
+            <option value="BW">Botswana (BW)</option>
+            <option value="CA">Canada (CA)</option>
+            <option value="GB">United Kingdom (GB)</option>
+            <option value="LS">Lesotho (LS)</option>
+            <option value="MW">Malawi (MW)</option>
+            <option value="MZ">Mozambique (MZ)</option>
+            <option value="NA">Namibia (NA)</option>
+            <option value="NZ">New Zealand (NZ)</option>
+            <option value="SZ">Eswatini (SZ)</option>
+            <option value="TZ">Tanzania (TZ)</option>
+            <option value="US">United States (US)</option>
+            <option value="ZM">Zambia (ZM)</option>
+            <option value="ZW">Zimbabwe (ZW)</option>
+          </select>
         </div>
       </div>
       <div className="checkout-form-field">
