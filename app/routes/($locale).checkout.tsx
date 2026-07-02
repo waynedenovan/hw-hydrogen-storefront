@@ -375,7 +375,7 @@ function StepIndicator({currentStep}: {currentStep: StepNumber}) {
 
 function formatRegNumber(value: string): string {
   if (/^[a-zA-Z]/.test(value)) return value;
-  if (value.includes('/')) return value;
+  if (/^\d{4}\/\d{6}\/\d{2}$/.test(value)) return value;
   const digits = value.replace(/\D/g, '');
   if (digits.length <= 4) return digits;
   if (digits.length <= 10) return `${digits.slice(0, 4)}/${digits.slice(4)}`;
