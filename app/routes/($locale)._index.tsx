@@ -51,6 +51,15 @@ export default function Homepage() {
 
   return (
     <div className="home">
+      <section className="px-4 pt-8 max-w-7xl mx-auto">
+        <h2 className="text-2xl font-bold text-left">Online</h2>
+      </section>
+      <div className="px-4 max-w-7xl mx-auto">
+        <hr style={{border: 'none', borderTop: '2px solid rgb(0, 0, 0)'}} />
+      </div>
+      <section hidden className="px-4 py-8 max-w-7xl mx-auto">
+        <h2 className="text-2xl font-bold">Instore</h2>
+      </section>
       {collections.length > 0 ? (
         collections.map((collection: any) => (
           <CollectionSection key={collection.id} collection={collection} />
