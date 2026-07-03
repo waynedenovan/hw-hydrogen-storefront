@@ -2,7 +2,7 @@
   "name": "hw-hydrogen-storefront",
   "private": true,
   "sideEffects": false,
-  "version": "2026.1.1",
+  "version": "2026.1.15",
   "type": "module",
   "scripts": {
     "build": "shopify hydrogen build --codegen",
