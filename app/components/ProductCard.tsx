@@ -20,6 +20,7 @@ interface ProductCardProps {
       };
     };
     brand?: {value: string} | null;
+    msq?: {value: string} | null;
     variants?: {
       nodes: {
         id: string;
@@ -32,11 +33,13 @@ interface ProductCardProps {
 export function ProductCard({product}: ProductCardProps) {
   const fetcher = useFetcher({key: `add-to-cart-${product.id}`});
   const firstVariant = product.variants?.nodes[0];
+  const msq = Number(product.msq?.value);
+  const showMoqRibbon = Number.isFinite(msq) && msq > 1;
 
   return (
     <div className="product-card group block">
       <Link to={`/products/${product.handle}`} prefetch="intent" className="block">
-        <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+        <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 moq-ribbon-wrapper">
           {product.featuredImage ? (
             <Image
               data={product.featuredImage}
@@ -48,6 +51,9 @@ export function ProductCard({product}: ProductCardProps) {
             <div className="w-full h-full flex items-center justify-center text-gray-400">
               No image
             </div>
+          )}
+          {showMoqRibbon && (
+            <div className="moq-ribbon">Minimum qty: {msq}</div>
           )}
         </div>
         <div

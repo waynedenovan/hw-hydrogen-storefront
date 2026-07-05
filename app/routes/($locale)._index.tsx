@@ -105,6 +105,9 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
               value
               type
             }
+            msq: metafield(namespace: "app", key: "msq") {
+              value
+            }
             variants(first: 1) {
               nodes {
                 id

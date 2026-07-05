@@ -38,6 +38,17 @@ export default function Product() {
   const {product} = useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
   const [quantity, setQuantity] = useState(1);
+  const dimensions = product.dimensions?.value
+    ? (JSON.parse(product.dimensions.value) as {
+        length?: string;
+        width?: string;
+        height?: string;
+        weight?: string;
+      })
+    : null;
+  const hasDimensions =
+    dimensions &&
+    (dimensions.length || dimensions.width || dimensions.height || dimensions.weight);
   const fetcher = useFetcher({key: 'add-to-cart'});
   const {open} = useAside();
   const prevFetcherState = useRef(fetcher.state);
@@ -83,6 +94,25 @@ export default function Product() {
               className="mt-4 prose text-gray-200"
               dangerouslySetInnerHTML={{__html: descriptionHtml}}
             />
+            {hasDimensions && (
+              <div className="mt-4 text-gray-200">
+                <h3 className="font-semibold mb-2 text-white">
+                  Specifications
+                </h3>
+                <ul className="text-sm space-y-1">
+                  {dimensions?.length && (
+                    <li>Length: {dimensions.length} cm</li>
+                  )}
+                  {dimensions?.width && <li>Width: {dimensions.width} cm</li>}
+                  {dimensions?.height && (
+                    <li>Height: {dimensions.height} cm</li>
+                  )}
+                  {dimensions?.weight && (
+                    <li>Weight: {dimensions.weight} kg</li>
+                  )}
+                </ul>
+              </div>
+            )}
             <VariantSelector
               handle={product.handle}
               options={product.options}
@@ -251,6 +281,9 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       b2cDescription: metafield(namespace: "app", key: "b2c_description") {
+        value
+      }
+      dimensions: metafield(namespace: "app", key: "dimensions") {
         value
       }
     }

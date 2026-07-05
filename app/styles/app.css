@@ -422,6 +422,31 @@ button.reset:hover:not(:has(> *)) {
   line-height: 1;
 }
 
+/* Diagonal "Minimum qty" corner ribbon on the product card image. The wrapper must
+   clip overflow so the rotated strip never spills past the card's own bounds on a
+   360px viewport (site rule #2/#3 above). */
+.moq-ribbon-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.moq-ribbon {
+  position: absolute;
+  top: 12px;
+  left: -34px;
+  width: 140px;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  background: rgba(255, 0, 0, 0.7);
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-align: center;
+  padding: 2px 0;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
 .header-tagline {
   position: relative;
   z-index: 1;
