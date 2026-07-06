@@ -1,2 +1,8 @@
+# Ignore local Shopify CLI configuration and logs
 .shopify
+
+# Ignore any file or directory in the project
 node_modules
+
+# Exclude a folder at any level in the project
+media/suppliers/
