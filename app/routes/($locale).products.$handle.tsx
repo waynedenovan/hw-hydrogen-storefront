@@ -11,6 +11,34 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {QuantitySelector} from '~/components/QuantitySelector';
 import {useAside} from '~/components/Aside';
+import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
+
+// Each thumbnail tracks its own load-failure locally — the resource route serving
+// these files doesn't exist yet (see supplierImages.ts), so most candidates will
+// 404 until the /media/suppliers disk-reading route lands. Hiding on error means
+// the gallery just quietly shows whichever images are actually available.
+function GalleryThumbnail({
+  src,
+  alt,
+  wrapperClassName = 'aspect-square overflow-hidden rounded bg-gray-100',
+}: {
+  src: string;
+  alt: string;
+  wrapperClassName?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <div className={wrapperClassName}>
+      <img
+        src={src}
+        alt={alt}
+        onError={() => setFailed(true)}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  );
+}
 
 export async function loader(args: LoaderFunctionArgs) {
   const {params, request, context} = args;
@@ -49,6 +77,10 @@ export default function Product() {
   const hasDimensions =
     dimensions &&
     (dimensions.length || dimensions.width || dimensions.height || dimensions.weight);
+  const gallerySrcs = getProductGalleryImageSrcs(
+    product.supplierName?.value,
+    product.externalProductId?.value,
+  );
   const fetcher = useFetcher({key: 'add-to-cart'});
   const {open} = useAside();
   const prevFetcherState = useRef(fetcher.state);
@@ -73,11 +105,26 @@ export default function Product() {
       <div className="product max-w-7xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="product-image">
-            {featuredImage && (
+            {featuredImage ? (
               <Image
                 data={featuredImage}
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
+            ) : (
+              gallerySrcs[0] && (
+                <GalleryThumbnail
+                  src={gallerySrcs[0]}
+                  alt={title}
+                  wrapperClassName="w-full aspect-square overflow-hidden rounded"
+                />
+              )
+            )}
+            {gallerySrcs.length > 1 && (
+              <div className="grid grid-cols-4 gap-2 mt-2">
+                {gallerySrcs.slice(1).map((src) => (
+                  <GalleryThumbnail key={src} src={src} alt={title} />
+                ))}
+              </div>
             )}
           </div>
           <div className="product-main">
@@ -284,6 +331,12 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       dimensions: metafield(namespace: "app", key: "dimensions") {
+        value
+      }
+      supplierName: metafield(namespace: "app", key: "supplier_name") {
+        value
+      }
+      externalProductId: metafield(namespace: "app", key: "external_product_id") {
         value
       }
     }

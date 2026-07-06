@@ -309,6 +309,12 @@ const PRODUCT_FIELDS = `#graphql
     msq: metafield(namespace: "app", key: "msq") {
       value
     }
+    supplierName: metafield(namespace: "app", key: "supplier_name") {
+      value
+    }
+    externalProductId: metafield(namespace: "app", key: "external_product_id") {
+      value
+    }
     variants(first: 1) {
       nodes {
         id

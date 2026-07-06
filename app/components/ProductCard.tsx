@@ -1,5 +1,7 @@
+import {useState} from 'react';
 import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
+import {getProductCardImageSrc} from '~/lib/supplierImages';
 
 interface ProductCardProps {
   product: {
@@ -21,6 +23,8 @@ interface ProductCardProps {
     };
     brand?: {value: string} | null;
     msq?: {value: string} | null;
+    supplierName?: {value: string} | null;
+    externalProductId?: {value: string} | null;
     variants?: {
       nodes: {
         id: string;
@@ -35,6 +39,11 @@ export function ProductCard({product}: ProductCardProps) {
   const firstVariant = product.variants?.nodes[0];
   const msq = Number(product.msq?.value);
   const showMoqRibbon = Number.isFinite(msq) && msq > 1;
+  const [localImageFailed, setLocalImageFailed] = useState(false);
+  const localImageSrc = getProductCardImageSrc(
+    product.supplierName?.value,
+    product.externalProductId?.value,
+  );
 
   return (
     <div className="product-card group block">
@@ -45,6 +54,13 @@ export function ProductCard({product}: ProductCardProps) {
               data={product.featuredImage}
               aspectRatio="1/1"
               sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : localImageSrc && !localImageFailed ? (
+            <img
+              src={localImageSrc}
+              alt={product.title}
+              onError={() => setLocalImageFailed(true)}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (

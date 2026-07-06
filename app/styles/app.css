@@ -806,8 +806,14 @@ aside input::placeholder {
 .collections-grid {
   display: grid;
   grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
+  /* Fixed column counts (not auto-fit) so a single collection sits in one
+     column instead of stretching to fill the whole row. Mirrors
+     .recommended-products-grid's established 2/4 breakpoint. */
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: 2rem;
+  @media (min-width: 45em) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .collection-item img {
@@ -830,8 +836,14 @@ aside input::placeholder {
 .products-grid {
   display: grid;
   grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
+  /* Fixed column counts (not auto-fit): this grid always sits next to the
+     220px .collection-filters sidebar, so it needs a wider viewport than
+     .recommended-products-grid before adding a 3rd column. */
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: 2rem;
+  @media (min-width: 64em) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .product-item img {
