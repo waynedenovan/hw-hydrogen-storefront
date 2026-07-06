@@ -848,6 +848,74 @@ aside input::placeholder {
   }
 }
 
+.collection-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  @media (min-width: 45em) {
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+.collection-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-self: start;
+}
+
+.filter-group-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+}
+
+.filter-price-range {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-price-range input {
+  width: 100%;
+  min-width: 0;
+}
+
+.filter-clear-btn {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  color: rgb(37, 99, 235);
+}
+
+.collection-section {
+  margin-bottom: 1.5rem;
+}
+
+.collection-section-toggle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.collection-section .collection-section {
+  margin-left: 1rem;
+}
+
+.collection-section .collection-section-toggle {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 /*
 * --------------------------------------------------
 * routes/products.$handle.tsx

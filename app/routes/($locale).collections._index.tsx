@@ -1,6 +1,7 @@
 import {type LoaderFunctionArgs} from 'react-router';
-import {useLoaderData, Link} from 'react-router';
-import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {useLoaderData} from 'react-router';
+import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {CollectionCard} from '~/components/CollectionCard';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {context, request} = args;
@@ -27,21 +28,7 @@ export default function Collections() {
             </PreviousLink>
             <div className="collections-grid">
               {nodes.map((collection: any) => (
-                <Link
-                  key={collection.id}
-                  className="collection-item"
-                  to={`/collections/${collection.handle}`}
-                  prefetch="intent"
-                >
-                  {collection.image && (
-                    <Image
-                      data={collection.image}
-                      aspectRatio="1/1"
-                      sizes="(min-width: 768px) 25vw, 50vw"
-                    />
-                  )}
-                  <h3 className="mt-2 font-semibold">{collection.title}</h3>
-                </Link>
+                <CollectionCard key={collection.id} collection={collection} />
               ))}
             </div>
             <NextLink>
