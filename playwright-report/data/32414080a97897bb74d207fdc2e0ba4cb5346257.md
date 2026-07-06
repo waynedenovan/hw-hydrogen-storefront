@@ -1,0 +1,2110 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: cart.spec.ts >> Cart Integration >> add to cart produces non-zero price in cart
+- Location: e2e/cart.spec.ts:29:3
+
+# Error details
+
+```
+Error: locator.isDisabled: Error: strict mode violation: locator('button[type="submit"]').filter({ hasText: /add to cart/i }) resolved to 152 elements:
+    1) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).first()
+    2) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).nth(1)
+    3) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).nth(2)
+    4) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).nth(3)
+    5) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).nth(4)
+    6) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka getByRole('button', { name: 'Add to Cart' }).nth(5)
+    7) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka locator('div:nth-child(7) > form > .add-to-cart-btn')
+    8) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka locator('div:nth-child(8) > form > .add-to-cart-btn')
+    9) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka locator('div:nth-child(9) > form > .add-to-cart-btn')
+    10) <button type="submit" class="add-to-cart-btn">Add to Cart</button> aka locator('div:nth-child(10) > form > .add-to-cart-btn')
+    ...
+
+Call log:
+  - waiting for locator('button[type="submit"]').filter({ hasText: /add to cart/i })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e3]:
+    - link "hw-storefront-ui" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img "hw-storefront-ui" [ref=e5]
+    - navigation [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - link "Catalog" [ref=e8] [cursor=pointer]:
+        - /url: /collections/all
+      - link "Contact" [ref=e9] [cursor=pointer]:
+        - /url: /pages/contact
+    - navigation [ref=e10]:
+      - button "Select country" [ref=e12]:
+        - img [ref=e13]
+        - text: ZA
+      - link "Sign in" [ref=e16] [cursor=pointer]:
+        - /url: /account/login
+        - img [ref=e17]
+      - button "Search" [ref=e20]:
+        - img [ref=e21]
+      - link "Cart" [ref=e24] [cursor=pointer]:
+        - /url: /cart
+        - img [ref=e25]
+  - main [ref=e28]:
+    - generic [ref=e29]:
+      - heading "All Products" [level=1] [ref=e30]
+      - generic [ref=e31]:
+        - complementary [ref=e32]:
+          - generic [ref=e33]:
+            - heading "Price" [level=4] [ref=e34]
+            - generic [ref=e35]:
+              - spinbutton [ref=e36]
+              - spinbutton [ref=e37]
+          - generic [ref=e38]:
+            - heading "Brand" [level=4] [ref=e39]
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - checkbox "AIRSHRINK" [ref=e42]
+                - text: AIRSHRINK
+              - generic [ref=e43]:
+                - checkbox "BrassCraft" [ref=e44]
+                - text: BrassCraft
+              - generic [ref=e45]:
+                - checkbox "CamPro" [ref=e46]
+                - text: CamPro
+              - generic [ref=e47]:
+                - checkbox "CINCO" [ref=e48]
+                - text: CINCO
+              - generic [ref=e49]:
+                - checkbox "ClampMaster" [ref=e50]
+                - text: ClampMaster
+              - generic [ref=e51]:
+                - checkbox "HoseWorld" [ref=e52]
+                - text: HoseWorld
+              - generic [ref=e53]:
+                - checkbox "MOTORELLI" [ref=e54]
+                - text: MOTORELLI
+              - generic [ref=e55]:
+                - checkbox "PASCALI" [ref=e56]
+                - text: PASCALI
+              - generic [ref=e57]:
+                - checkbox "PolyFlow" [ref=e58]
+                - text: PolyFlow
+              - generic [ref=e59]:
+                - checkbox "SnapLock" [ref=e60]
+                - text: SnapLock
+              - generic [ref=e61]:
+                - checkbox "SprayPro" [ref=e62]
+                - text: SprayPro
+          - generic [ref=e63]:
+            - heading "Sub Collection" [level=4] [ref=e64]
+            - generic [ref=e66]:
+              - checkbox "Other" [ref=e67]
+              - text: Other
+          - generic [ref=e68]:
+            - heading "Sub-Cat Collection" [level=4] [ref=e69]
+            - generic [ref=e71]:
+              - checkbox "Other" [ref=e72]
+              - text: Other
+        - generic [ref=e74]:
+          - button "▾ Other (209)" [ref=e75]
+          - generic [ref=e76]:
+            - button "▾ Other (209)" [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - link "No image 12mm Brass Hose Barb Fitting FITTINGS ZAR 9.50" [active] [ref=e80] [cursor=pointer]:
+                  - /url: /products/12mm-brass-hose-barb-fitting
+                  - generic [ref=e82]: No image
+                  - generic [ref=e83]:
+                    - heading "12mm Brass Hose Barb Fitting" [level=3] [ref=e84]
+                    - paragraph [ref=e85]: FITTINGS
+                    - generic [ref=e87]: ZAR 9.50
+                - button "Add to Cart" [ref=e89] [cursor=pointer]
+              - generic [ref=e90]:
+                - link "No image 19mm Brass Ball Valve FITTINGS ZAR 31.00" [ref=e91] [cursor=pointer]:
+                  - /url: /products/19mm-brass-ball-valve
+                  - generic [ref=e93]: No image
+                  - generic [ref=e94]:
+                    - heading "19mm Brass Ball Valve" [level=3] [ref=e95]
+                    - paragraph [ref=e96]: FITTINGS
+                    - generic [ref=e98]: ZAR 31.00
+                - button "Add to Cart" [ref=e100] [cursor=pointer]
+              - generic [ref=e101]:
+                - link "No image 25mm Brass Camlock Adapter FITTINGS ZAR 28.00" [ref=e102] [cursor=pointer]:
+                  - /url: /products/25mm-brass-camlock-adapter
+                  - generic [ref=e104]: No image
+                  - generic [ref=e105]:
+                    - heading "25mm Brass Camlock Adapter" [level=3] [ref=e106]
+                    - paragraph [ref=e107]: FITTINGS
+                    - generic [ref=e109]: ZAR 28.00
+                - button "Add to Cart" [ref=e111] [cursor=pointer]
+              - generic [ref=e112]:
+                - link "No image 32mm Brass Y-Piece Connector FITTINGS ZAR 45.50" [ref=e113] [cursor=pointer]:
+                  - /url: /products/32mm-brass-y-piece-connector
+                  - generic [ref=e115]: No image
+                  - generic [ref=e116]:
+                    - heading "32mm Brass Y-Piece Connector" [level=3] [ref=e117]
+                    - paragraph [ref=e118]: FITTINGS
+                    - generic [ref=e120]: ZAR 45.50
+                - button "Add to Cart" [ref=e122] [cursor=pointer]
+              - generic [ref=e123]:
+                - link "No image 12mm Poly Elbow Fitting FITTINGS ZAR 1.80" [ref=e124] [cursor=pointer]:
+                  - /url: /products/12mm-poly-elbow-fitting
+                  - generic [ref=e126]: No image
+                  - generic [ref=e127]:
+                    - heading "12mm Poly Elbow Fitting" [level=3] [ref=e128]
+                    - paragraph [ref=e129]: FITTINGS
+                    - generic [ref=e131]: ZAR 1.80
+                - button "Add to Cart" [ref=e133] [cursor=pointer]
+              - generic [ref=e134]:
+                - link "No image 19mm Poly Tee Connector FITTINGS ZAR 2.50" [ref=e135] [cursor=pointer]:
+                  - /url: /products/19mm-poly-tee-connector
+                  - generic [ref=e137]: No image
+                  - generic [ref=e138]:
+                    - heading "19mm Poly Tee Connector" [level=3] [ref=e139]
+                    - paragraph [ref=e140]: FITTINGS
+                    - generic [ref=e142]: ZAR 2.50
+                - button "Add to Cart" [ref=e144] [cursor=pointer]
+              - generic [ref=e145]:
+                - link "No image 25mm Poly Reducer 25-19mm FITTINGS ZAR 2.20" [ref=e146] [cursor=pointer]:
+                  - /url: /products/25mm-poly-reducer-25-19mm
+                  - generic [ref=e148]: No image
+                  - generic [ref=e149]:
+                    - heading "25mm Poly Reducer 25-19mm" [level=3] [ref=e150]
+                    - paragraph [ref=e151]: FITTINGS
+                    - generic [ref=e153]: ZAR 2.20
+                - button "Add to Cart" [ref=e155] [cursor=pointer]
+              - generic [ref=e156]:
+                - link "No image 19mm Camlock Coupling Type A Male COUPLINGS ZAR 42.00" [ref=e157] [cursor=pointer]:
+                  - /url: /products/19mm-camlock-coupling-type-a-male
+                  - generic [ref=e159]: No image
+                  - generic [ref=e160]:
+                    - heading "19mm Camlock Coupling Type A Male" [level=3] [ref=e161]
+                    - paragraph [ref=e162]: COUPLINGS
+                    - generic [ref=e164]: ZAR 42.00
+                - button "Add to Cart" [ref=e166] [cursor=pointer]
+              - generic [ref=e167]:
+                - link "No image 25mm Camlock Coupling Type B Female COUPLINGS ZAR 55.00" [ref=e168] [cursor=pointer]:
+                  - /url: /products/25mm-camlock-coupling-type-b-female
+                  - generic [ref=e170]: No image
+                  - generic [ref=e171]:
+                    - heading "25mm Camlock Coupling Type B Female" [level=3] [ref=e172]
+                    - paragraph [ref=e173]: COUPLINGS
+                    - generic [ref=e175]: ZAR 55.00
+                - button "Add to Cart" [ref=e177] [cursor=pointer]
+              - generic [ref=e178]:
+                - link "No image 32mm Camlock Type C Hose Tail COUPLINGS ZAR 68.00" [ref=e179] [cursor=pointer]:
+                  - /url: /products/32mm-camlock-type-c-hose-tail
+                  - generic [ref=e181]: No image
+                  - generic [ref=e182]:
+                    - heading "32mm Camlock Type C Hose Tail" [level=3] [ref=e183]
+                    - paragraph [ref=e184]: COUPLINGS
+                    - generic [ref=e186]: ZAR 68.00
+                - button "Add to Cart" [ref=e188] [cursor=pointer]
+              - generic [ref=e189]:
+                - link "No image 50mm Camlock Type D Coupler COUPLINGS ZAR 127.00" [ref=e190] [cursor=pointer]:
+                  - /url: /products/50mm-camlock-type-d-coupler
+                  - generic [ref=e192]: No image
+                  - generic [ref=e193]:
+                    - heading "50mm Camlock Type D Coupler" [level=3] [ref=e194]
+                    - paragraph [ref=e195]: COUPLINGS
+                    - generic [ref=e197]: ZAR 127.00
+                - button "Add to Cart" [ref=e199] [cursor=pointer]
+              - generic [ref=e200]:
+                - link "No image 12mm Quick Connect Socket Brass COUPLINGS ZAR 12.50" [ref=e201] [cursor=pointer]:
+                  - /url: /products/12mm-quick-connect-socket-brass
+                  - generic [ref=e203]: No image
+                  - generic [ref=e204]:
+                    - heading "12mm Quick Connect Socket Brass" [level=3] [ref=e205]
+                    - paragraph [ref=e206]: COUPLINGS
+                    - generic [ref=e208]: ZAR 12.50
+                - button "Add to Cart" [ref=e210] [cursor=pointer]
+              - generic [ref=e211]:
+                - link "No image 19mm Quick Connect Plug Brass COUPLINGS ZAR 15.00" [ref=e212] [cursor=pointer]:
+                  - /url: /products/19mm-quick-connect-plug-brass
+                  - generic [ref=e214]: No image
+                  - generic [ref=e215]:
+                    - heading "19mm Quick Connect Plug Brass" [level=3] [ref=e216]
+                    - paragraph [ref=e217]: COUPLINGS
+                    - generic [ref=e219]: ZAR 15.00
+                - button "Add to Cart" [ref=e221] [cursor=pointer]
+              - generic [ref=e222]:
+                - link "No image 12mm Rubber Water Hose 10m HOSES ZAR 35.00" [ref=e223] [cursor=pointer]:
+                  - /url: /products/12mm-rubber-water-hose-10m
+                  - generic [ref=e225]: No image
+                  - generic [ref=e226]:
+                    - heading "12mm Rubber Water Hose 10m" [level=3] [ref=e227]
+                    - paragraph [ref=e228]: HOSES
+                    - generic [ref=e230]: ZAR 35.00
+                - button "Add to Cart" [ref=e232] [cursor=pointer]
+              - generic [ref=e233]:
+                - link "No image 19mm Rubber Air Hose 15m HOSES ZAR 65.00" [ref=e234] [cursor=pointer]:
+                  - /url: /products/19mm-rubber-air-hose-15m
+                  - generic [ref=e236]: No image
+                  - generic [ref=e237]:
+                    - heading "19mm Rubber Air Hose 15m" [level=3] [ref=e238]
+                    - paragraph [ref=e239]: HOSES
+                    - generic [ref=e241]: ZAR 65.00
+                - button "Add to Cart" [ref=e243] [cursor=pointer]
+              - generic [ref=e244]:
+                - link "No image 25mm Rubber Suction Hose 6m HOSES ZAR 85.00" [ref=e245] [cursor=pointer]:
+                  - /url: /products/25mm-rubber-suction-hose-6m
+                  - generic [ref=e247]: No image
+                  - generic [ref=e248]:
+                    - heading "25mm Rubber Suction Hose 6m" [level=3] [ref=e249]
+                    - paragraph [ref=e250]: HOSES
+                    - generic [ref=e252]: ZAR 85.00
+                - button "Add to Cart" [ref=e254] [cursor=pointer]
+              - generic [ref=e255]:
+                - link "No image 32mm Rubber Discharge Hose 20m HOSES ZAR 120.00" [ref=e256] [cursor=pointer]:
+                  - /url: /products/32mm-rubber-discharge-hose-20m
+                  - generic [ref=e258]: No image
+                  - generic [ref=e259]:
+                    - heading "32mm Rubber Discharge Hose 20m" [level=3] [ref=e260]
+                    - paragraph [ref=e261]: HOSES
+                    - generic [ref=e263]: ZAR 120.00
+                - button "Add to Cart" [ref=e265] [cursor=pointer]
+              - generic [ref=e266]:
+                - link "No image 25mm PVC Clear Hose 30m HOSES ZAR 48.25" [ref=e267] [cursor=pointer]:
+                  - /url: /products/25mm-pvc-clear-hose-30m
+                  - generic [ref=e269]: No image
+                  - generic [ref=e270]:
+                    - heading "25mm PVC Clear Hose 30m" [level=3] [ref=e271]
+                    - paragraph [ref=e272]: HOSES
+                    - generic [ref=e274]: ZAR 48.25
+                - button "Add to Cart" [ref=e276] [cursor=pointer]
+              - generic [ref=e277]:
+                - link "No image 38mm PVC Layflat Hose 50m HOSES ZAR 95.00" [ref=e278] [cursor=pointer]:
+                  - /url: /products/38mm-pvc-layflat-hose-50m
+                  - generic [ref=e280]: No image
+                  - generic [ref=e281]:
+                    - heading "38mm PVC Layflat Hose 50m" [level=3] [ref=e282]
+                    - paragraph [ref=e283]: HOSES
+                    - generic [ref=e285]: ZAR 95.00
+                - button "Add to Cart" [ref=e287] [cursor=pointer]
+              - generic [ref=e288]:
+                - link "No image 50mm PVC Suction Hose 10m HOSES ZAR 110.00" [ref=e289] [cursor=pointer]:
+                  - /url: /products/50mm-pvc-suction-hose-10m
+                  - generic [ref=e291]: No image
+                  - generic [ref=e292]:
+                    - heading "50mm PVC Suction Hose 10m" [level=3] [ref=e293]
+                    - paragraph [ref=e294]: HOSES
+                    - generic [ref=e296]: ZAR 110.00
+                - button "Add to Cart" [ref=e298] [cursor=pointer]
+              - generic [ref=e299]:
+                - link "No image 12-22mm Worm Drive Hose Clamp CLAMPS ZAR 3.50" [ref=e300] [cursor=pointer]:
+                  - /url: /products/12-22mm-worm-drive-hose-clamp
+                  - generic [ref=e302]: No image
+                  - generic [ref=e303]:
+                    - heading "12-22mm Worm Drive Hose Clamp" [level=3] [ref=e304]
+                    - paragraph [ref=e305]: CLAMPS
+                    - generic [ref=e307]: ZAR 3.50
+                - button "Add to Cart" [ref=e309] [cursor=pointer]
+              - generic [ref=e310]:
+                - link "No image 20-32mm Worm Drive Hose Clamp CLAMPS ZAR 1.80" [ref=e311] [cursor=pointer]:
+                  - /url: /products/20-32mm-worm-drive-hose-clamp
+                  - generic [ref=e313]: No image
+                  - generic [ref=e314]:
+                    - heading "20-32mm Worm Drive Hose Clamp" [level=3] [ref=e315]
+                    - paragraph [ref=e316]: CLAMPS
+                    - generic [ref=e318]: ZAR 1.80
+                - button "Add to Cart" [ref=e320] [cursor=pointer]
+              - generic [ref=e321]:
+                - link "No image 32-50mm Worm Drive Hose Clamp CLAMPS ZAR 2.50" [ref=e322] [cursor=pointer]:
+                  - /url: /products/32-50mm-worm-drive-hose-clamp
+                  - generic [ref=e324]: No image
+                  - generic [ref=e325]:
+                    - heading "32-50mm Worm Drive Hose Clamp" [level=3] [ref=e326]
+                    - paragraph [ref=e327]: CLAMPS
+                    - generic [ref=e329]: ZAR 2.50
+                - button "Add to Cart" [ref=e331] [cursor=pointer]
+              - generic [ref=e332]:
+                - link "No image 19mm T-Bolt Hose Clamp CLAMPS ZAR 6.50" [ref=e333] [cursor=pointer]:
+                  - /url: /products/19mm-t-bolt-hose-clamp
+                  - generic [ref=e335]: No image
+                  - generic [ref=e336]:
+                    - heading "19mm T-Bolt Hose Clamp" [level=3] [ref=e337]
+                    - paragraph [ref=e338]: CLAMPS
+                    - generic [ref=e340]: ZAR 6.50
+                - button "Add to Cart" [ref=e342] [cursor=pointer]
+              - generic [ref=e343]:
+                - link "No image Fire Hose Reel Nozzle 19mm ACCESSORIES ZAR 45.00" [ref=e344] [cursor=pointer]:
+                  - /url: /products/fire-hose-reel-nozzle-19mm
+                  - generic [ref=e346]: No image
+                  - generic [ref=e347]:
+                    - heading "Fire Hose Reel Nozzle 19mm" [level=3] [ref=e348]
+                    - paragraph [ref=e349]: ACCESSORIES
+                    - generic [ref=e351]: ZAR 45.00
+                - button "Add to Cart" [ref=e353] [cursor=pointer]
+              - generic [ref=e354]:
+                - link "No image Heavy Duty Trigger Gun Nozzle ACCESSORIES ZAR 22.00" [ref=e355] [cursor=pointer]:
+                  - /url: /products/heavy-duty-trigger-gun-nozzle
+                  - generic [ref=e357]: No image
+                  - generic [ref=e358]:
+                    - heading "Heavy Duty Trigger Gun Nozzle" [level=3] [ref=e359]
+                    - paragraph [ref=e360]: ACCESSORIES
+                    - generic [ref=e362]: ZAR 22.00
+                - button "Add to Cart" [ref=e364] [cursor=pointer]
+              - generic [ref=e365]:
+                - link "No image BSP to Garden Hose Adapter 3/4\" ACCESSORIES ZAR 1,138.00" [ref=e366] [cursor=pointer]:
+                  - /url: /products/bsp-to-garden-hose-adapter-3-6
+                  - generic [ref=e368]: No image
+                  - generic [ref=e369]:
+                    - heading "BSP to Garden Hose Adapter 3/4\"" [level=3] [ref=e370]
+                    - paragraph [ref=e371]: ACCESSORIES
+                    - generic [ref=e373]: ZAR 1,138.00
+                - button "Sold Out" [disabled] [ref=e375]
+              - generic [ref=e376]:
+                - link "No image AIRSHRINK CABLE SPLICE KIT 4 WIRE + FER 1.5-4MM JA ZAR 129.36" [ref=e377] [cursor=pointer]:
+                  - /url: /products/airshrink-cable-splice-kit-4-wire-fer-1-5-4mm
+                  - generic [ref=e379]: No image
+                  - generic [ref=e380]:
+                    - heading "AIRSHRINK CABLE SPLICE KIT 4 WIRE + FER 1.5-4MM" [level=3] [ref=e381]
+                    - paragraph [ref=e382]: JA
+                    - generic [ref=e384]: ZAR 129.36
+                - button "Add to Cart" [ref=e386] [cursor=pointer]
+              - generic [ref=e387]:
+                - link "No image AIRSHRINK CABLE SPLICE KIT 4 WIRE + FER 6-16MM JA ZAR 215.04" [ref=e388] [cursor=pointer]:
+                  - /url: /products/airshrink-cable-splice-kit-4-wire-fer-6-16mm
+                  - generic [ref=e390]: No image
+                  - generic [ref=e391]:
+                    - heading "AIRSHRINK CABLE SPLICE KIT 4 WIRE + FER 6-16MM" [level=3] [ref=e392]
+                    - paragraph [ref=e393]: JA
+                    - generic [ref=e395]: ZAR 215.04
+                - button "Add to Cart" [ref=e397] [cursor=pointer]
+              - generic [ref=e398]:
+                - link "No image PASCALI DIAPHRAGM PUMP DC12V IP54 3.2BAR JA ZAR 1,433.88" [ref=e399] [cursor=pointer]:
+                  - /url: /products/pascali-diaphragm-pump-dc12v-ip54-3-2bar
+                  - generic [ref=e401]: No image
+                  - generic [ref=e402]:
+                    - heading "PASCALI DIAPHRAGM PUMP DC12V IP54 3.2BAR" [level=3] [ref=e403]
+                    - paragraph [ref=e404]: JA
+                    - generic [ref=e406]: ZAR 1,433.88
+                - button "Add to Cart" [ref=e408] [cursor=pointer]
+              - generic [ref=e409]:
+                - link "No image AIRSHRINK CABLE SPLICE KIT ARMOURED 1.5MM TO 4MM JA ZAR 311.64" [ref=e410] [cursor=pointer]:
+                  - /url: /products/airshrink-cable-splice-kit-armoured-1-5mm-to-4mm
+                  - generic [ref=e412]: No image
+                  - generic [ref=e413]:
+                    - heading "AIRSHRINK CABLE SPLICE KIT ARMOURED 1.5MM TO 4MM" [level=3] [ref=e414]
+                    - paragraph [ref=e415]: JA
+                    - generic [ref=e417]: ZAR 311.64
+                - button "Add to Cart" [ref=e419] [cursor=pointer]
+              - generic [ref=e420]:
+                - link "No image CINCO PANEL SOLAR POLY PERC 180W HIGH VOLTAGE 36.8 JA ZAR 2,291.71" [ref=e421] [cursor=pointer]:
+                  - /url: /products/cinco-panel-solar-poly-perc-180w-high-voltage-36-8
+                  - generic [ref=e423]: No image
+                  - generic [ref=e424]:
+                    - heading "CINCO PANEL SOLAR POLY PERC 180W HIGH VOLTAGE 36.8" [level=3] [ref=e425]
+                    - paragraph [ref=e426]: JA
+                    - generic [ref=e428]: ZAR 2,291.71
+                - button "Add to Cart" [ref=e430] [cursor=pointer]
+              - generic [ref=e431]:
+                - link "No image PASCALI TANK PRESSURE 24L JA ZAR 476.28" [ref=e432] [cursor=pointer]:
+                  - /url: /products/pascali-tank-pressure-24l
+                  - generic [ref=e434]: No image
+                  - generic [ref=e435]:
+                    - heading "PASCALI TANK PRESSURE 24L" [level=3] [ref=e436]
+                    - paragraph [ref=e437]: JA
+                    - generic [ref=e439]: ZAR 476.28
+                - button "Add to Cart" [ref=e441] [cursor=pointer]
+              - generic [ref=e442]:
+                - link "No image PASCALI SWITCH PRESSURE SK-2A 2.8BAR JA ZAR 89.04" [ref=e443] [cursor=pointer]:
+                  - /url: /products/pascali-switch-pressure-sk-2a-2-8bar
+                  - generic [ref=e445]: No image
+                  - generic [ref=e446]:
+                    - heading "PASCALI SWITCH PRESSURE SK-2A 2.8BAR" [level=3] [ref=e447]
+                    - paragraph [ref=e448]: JA
+                    - generic [ref=e450]: ZAR 89.04
+                - button "Add to Cart" [ref=e452] [cursor=pointer]
+              - generic [ref=e453]:
+                - link "No image PASCALI GAUGE PRESSURE 0-1200KPA JA ZAR 25.88" [ref=e454] [cursor=pointer]:
+                  - /url: /products/pascali-gauge-pressure-0-1200kpa
+                  - generic [ref=e456]: No image
+                  - generic [ref=e457]:
+                    - heading "PASCALI GAUGE PRESSURE 0-1200KPA" [level=3] [ref=e458]
+                    - paragraph [ref=e459]: JA
+                    - generic [ref=e461]: ZAR 25.88
+                - button "Add to Cart" [ref=e463] [cursor=pointer]
+              - generic [ref=e464]:
+                - link "No image PASCALI CONTROLLER PUMP AUTOMATIC 10A 1.1KW 230V JA ZAR 487.62" [ref=e465] [cursor=pointer]:
+                  - /url: /products/pascali-controller-pump-automatic-10a-1-1kw-230v
+                  - generic [ref=e467]: No image
+                  - generic [ref=e468]:
+                    - heading "PASCALI CONTROLLER PUMP AUTOMATIC 10A 1.1KW 230V" [level=3] [ref=e469]
+                    - paragraph [ref=e470]: JA
+                    - generic [ref=e472]: ZAR 487.62
+                - button "Add to Cart" [ref=e474] [cursor=pointer]
+              - generic [ref=e475]:
+                - link "No image PASCALI CONNECTOR 5 WAY 25MM JA ZAR 96.60" [ref=e476] [cursor=pointer]:
+                  - /url: /products/pascali-connector-5-way-25mm
+                  - generic [ref=e478]: No image
+                  - generic [ref=e479]:
+                    - heading "PASCALI CONNECTOR 5 WAY 25MM" [level=3] [ref=e480]
+                    - paragraph [ref=e481]: JA
+                    - generic [ref=e483]: ZAR 96.60
+                - button "Add to Cart" [ref=e485] [cursor=pointer]
+              - generic [ref=e486]:
+                - link "No image PASCALI MEMBRANE VERTICAL 24L JA ZAR 74.35" [ref=e487] [cursor=pointer]:
+                  - /url: /products/pascali-membrane-vertical-24l
+                  - generic [ref=e489]: No image
+                  - generic [ref=e490]:
+                    - heading "PASCALI MEMBRANE VERTICAL 24L" [level=3] [ref=e491]
+                    - paragraph [ref=e492]: JA
+                    - generic [ref=e494]: ZAR 74.35
+                - button "Add to Cart" [ref=e496] [cursor=pointer]
+              - generic [ref=e497]:
+                - link "No image PASCALI PUMP SELF PRIMING JET 25X25MM 0.75KW 230V JA ZAR 1,755.00" [ref=e498] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-priming-jet-25x25mm-0-75kw-230v
+                  - generic [ref=e500]: No image
+                  - generic [ref=e501]:
+                    - heading "PASCALI PUMP SELF PRIMING JET 25X25MM 0.75KW 230V" [level=3] [ref=e502]
+                    - paragraph [ref=e503]: JA
+                    - generic [ref=e505]: ZAR 1,755.00
+                - button "Add to Cart" [ref=e507] [cursor=pointer]
+              - generic [ref=e508]:
+                - link "No image PASCALI PUMP SELF PRIM JET 25X25MM 0.75KW 230V S/S JA ZAR 1,989.78" [ref=e509] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-25x25mm-0-75kw-230v-s-s
+                  - generic [ref=e511]: No image
+                  - generic [ref=e512]:
+                    - heading "PASCALI PUMP SELF PRIM JET 25X25MM 0.75KW 230V S/S" [level=3] [ref=e513]
+                    - paragraph [ref=e514]: JA
+                    - generic [ref=e516]: ZAR 1,989.78
+                - button "Add to Cart" [ref=e518] [cursor=pointer]
+              - generic [ref=e519]:
+                - link "No image PASCALI PUMP PERIPHERAL 25X25MM 0.75KW 230V JA ZAR 1,415.70" [ref=e520] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-25x25mm-0-75kw-230v
+                  - generic [ref=e522]: No image
+                  - generic [ref=e523]:
+                    - heading "PASCALI PUMP PERIPHERAL 25X25MM 0.75KW 230V" [level=3] [ref=e524]
+                    - paragraph [ref=e525]: JA
+                    - generic [ref=e527]: ZAR 1,415.70
+                - button "Sold Out" [disabled] [ref=e529]
+              - generic [ref=e530]:
+                - link "No image PASCALI PUMP BODY PAS SS800 JA ZAR 0.00" [ref=e531] [cursor=pointer]:
+                  - /url: /products/pascali-pump-body-pas-ss800
+                  - generic [ref=e533]: No image
+                  - generic [ref=e534]:
+                    - heading "PASCALI PUMP BODY PAS SS800" [level=3] [ref=e535]
+                    - paragraph [ref=e536]: JA
+                    - generic [ref=e538]: ZAR 0.00
+                - button "Sold Out" [disabled] [ref=e540]
+              - generic [ref=e541]:
+                - link "No image PASCALI MECHANICAL SEALS PAS QB80 JA ZAR 0.00" [ref=e542] [cursor=pointer]:
+                  - /url: /products/pascali-mechanical-seals-pas-qb80
+                  - generic [ref=e544]: No image
+                  - generic [ref=e545]:
+                    - heading "PASCALI MECHANICAL SEALS PAS QB80" [level=3] [ref=e546]
+                    - paragraph [ref=e547]: JA
+                    - generic [ref=e549]: ZAR 0.00
+                - button "Sold Out" [disabled] [ref=e551]
+              - generic [ref=e552]:
+                - link "No image PASCALI PUMP SELF PRIM JET + 24L TANK 0.75KW 230V JA ZAR 2,578.68" [ref=e553] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-24l-tank-0-75kw-230v
+                  - generic [ref=e555]: No image
+                  - generic [ref=e556]:
+                    - heading "PASCALI PUMP SELF PRIM JET + 24L TANK 0.75KW 230V" [level=3] [ref=e557]
+                    - paragraph [ref=e558]: JA
+                    - generic [ref=e560]: ZAR 2,578.68
+                - button "Add to Cart" [ref=e562] [cursor=pointer]
+              - generic [ref=e563]:
+                - link "No image PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW 230V JA ZAR 2,343.90" [ref=e564] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-flow-switch-0-75kw-230v
+                  - generic [ref=e566]: No image
+                  - generic [ref=e567]:
+                    - heading "PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW 230V" [level=3] [ref=e568]
+                    - paragraph [ref=e569]: JA
+                    - generic [ref=e571]: ZAR 2,343.90
+                - button "Add to Cart" [ref=e573] [cursor=pointer]
+              - generic [ref=e574]:
+                - link "No image PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW S/S JA ZAR 2,564.64" [ref=e575] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-flow-switch-0-75kw-s-s
+                  - generic [ref=e577]: No image
+                  - generic [ref=e578]:
+                    - heading "PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW S/S" [level=3] [ref=e579]
+                    - paragraph [ref=e580]: JA
+                    - generic [ref=e582]: ZAR 2,564.64
+                - button "Add to Cart" [ref=e584] [cursor=pointer]
+              - generic [ref=e585]:
+                - link "No image PASCALI PUMP PERIPHERAL + FLOW SWITCH 0.75KW 230V JA ZAR 2,007.72" [ref=e586] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-flow-switch-0-75kw-230v
+                  - generic [ref=e588]: No image
+                  - generic [ref=e589]:
+                    - heading "PASCALI PUMP PERIPHERAL + FLOW SWITCH 0.75KW 230V" [level=3] [ref=e590]
+                    - paragraph [ref=e591]: JA
+                    - generic [ref=e593]: ZAR 2,007.72
+                - button "Sold Out" [disabled] [ref=e595]
+              - generic [ref=e596]:
+                - link "No image PASCALI PUMP PERIPHERAL + 24L TANK 0.75KW 230V JA ZAR 2,272.14" [ref=e597] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-24l-tank-0-75kw-230v
+                  - generic [ref=e599]: No image
+                  - generic [ref=e600]:
+                    - heading "PASCALI PUMP PERIPHERAL + 24L TANK 0.75KW 230V" [level=3] [ref=e601]
+                    - paragraph [ref=e602]: JA
+                    - generic [ref=e604]: ZAR 2,272.14
+                - button "Add to Cart" [ref=e606] [cursor=pointer]
+              - generic [ref=e607]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.37KW 230V JA ZAR 1,222.26" [ref=e608] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-37kw-230v
+                  - generic [ref=e610]: No image
+                  - generic [ref=e611]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.37KW 230V" [level=3] [ref=e612]
+                    - paragraph [ref=e613]: JA
+                    - generic [ref=e615]: ZAR 1,222.26
+                - button "Add to Cart" [ref=e617] [cursor=pointer]
+              - generic [ref=e618]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.55KW 230V JA ZAR 1,425.84" [ref=e619] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-55kw-230v
+                  - generic [ref=e621]: No image
+                  - generic [ref=e622]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.55KW 230V" [level=3] [ref=e623]
+                    - paragraph [ref=e624]: JA
+                    - generic [ref=e626]: ZAR 1,425.84
+                - button "Add to Cart" [ref=e628] [cursor=pointer]
+              - generic [ref=e629]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.75KW 230V JA ZAR 1,651.26" [ref=e630] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-75kw-230v
+                  - generic [ref=e632]: No image
+                  - generic [ref=e633]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.75KW 230V" [level=3] [ref=e634]
+                    - paragraph [ref=e635]: JA
+                    - generic [ref=e637]: ZAR 1,651.26
+                - button "Add to Cart" [ref=e639] [cursor=pointer]
+              - generic [ref=e640]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.1KW 230V JA ZAR 2,620.80" [ref=e641] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-1kw-230v
+                  - generic [ref=e643]: No image
+                  - generic [ref=e644]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.1KW 230V" [level=3] [ref=e645]
+                    - paragraph [ref=e646]: JA
+                    - generic [ref=e648]: ZAR 2,620.80
+                - button "Add to Cart" [ref=e650] [cursor=pointer]
+              - generic [ref=e651]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.5KW 230V JA ZAR 3,080.22" [ref=e652] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-5kw-230v
+                  - generic [ref=e654]: No image
+                  - generic [ref=e655]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.5KW 230V" [level=3] [ref=e656]
+                    - paragraph [ref=e657]: JA
+                    - generic [ref=e659]: ZAR 3,080.22
+                - button "Add to Cart" [ref=e661] [cursor=pointer]
+              - generic [ref=e662]:
+                - link "No image PASCALI PUMP SEWAGE SUBMERS 50MM 0.75KW 230V S/S JA ZAR 3,258.06" [ref=e663] [cursor=pointer]:
+                  - /url: /products/pascali-pump-sewage-submers-50mm-0-75kw-230v-s-s
+                  - generic [ref=e665]: No image
+                  - generic [ref=e666]:
+                    - heading "PASCALI PUMP SEWAGE SUBMERS 50MM 0.75KW 230V S/S" [level=3] [ref=e667]
+                    - paragraph [ref=e668]: JA
+                    - generic [ref=e670]: ZAR 3,258.06
+                - button "Add to Cart" [ref=e672] [cursor=pointer]
+              - generic [ref=e673]:
+                - link "No image PASCALI HOSE FLEXIBLE LONG QB24 SSS/24 25MM INLET. JA ZAR 116.52" [ref=e674] [cursor=pointer]:
+                  - /url: /products/pascali-hose-flexible-long-qb24-sss-24-25mm-inlet
+                  - generic [ref=e676]: No image
+                  - generic [ref=e677]:
+                    - heading "PASCALI HOSE FLEXIBLE LONG QB24 SSS/24 25MM INLET." [level=3] [ref=e678]
+                    - paragraph [ref=e679]: JA
+                    - generic [ref=e681]: ZAR 116.52
+                - button "Add to Cart" [ref=e683] [cursor=pointer]
+              - generic [ref=e684]:
+                - link "No image PASCALI CONNECTOR 3 WAY 25MM JA ZAR 69.10" [ref=e685] [cursor=pointer]:
+                  - /url: /products/pascali-connector-3-way-25mm
+                  - generic [ref=e687]: No image
+                  - generic [ref=e688]:
+                    - heading "PASCALI CONNECTOR 3 WAY 25MM" [level=3] [ref=e689]
+                    - paragraph [ref=e690]: JA
+                    - generic [ref=e692]: ZAR 69.10
+                - button "Add to Cart" [ref=e694] [cursor=pointer]
+              - generic [ref=e695]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.55KW + DSK2 CONTR 230V JA ZAR 2,121.60" [ref=e696] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-55kw-dsk2-contr-230v
+                  - generic [ref=e698]: No image
+                  - generic [ref=e699]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.55KW + DSK2 CONTR 230V" [level=3] [ref=e700]
+                    - paragraph [ref=e701]: JA
+                    - generic [ref=e703]: ZAR 2,121.60
+                - button "Add to Cart" [ref=e705] [cursor=pointer]
+              - generic [ref=e706]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.75KW + DSK2 CONTR 230V JA ZAR 2,201.94" [ref=e707] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-75kw-dsk2-contr-230v
+                  - generic [ref=e709]: No image
+                  - generic [ref=e710]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.75KW + DSK2 CONTR 230V" [level=3] [ref=e711]
+                    - paragraph [ref=e712]: JA
+                    - generic [ref=e714]: ZAR 2,201.94
+                - button "Add to Cart" [ref=e716] [cursor=pointer]
+              - generic [ref=e717]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.1KW + DSK2 CONTR 230V JA ZAR 3,276.00" [ref=e718] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-1kw-dsk2-contr-230v
+                  - generic [ref=e720]: No image
+                  - generic [ref=e721]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.1KW + DSK2 CONTR 230V" [level=3] [ref=e722]
+                    - paragraph [ref=e723]: JA
+                    - generic [ref=e725]: ZAR 3,276.00
+                - button "Add to Cart" [ref=e727] [cursor=pointer]
+              - generic [ref=e728]:
+                - link "No image PASCALI CONTROLLER PUMP AUTO 25MM 10A 1.1KW 230V JA ZAR 392.04" [ref=e729] [cursor=pointer]:
+                  - /url: /products/pascali-controller-pump-auto-25mm-10a-1-1kw-230v
+                  - generic [ref=e731]: No image
+                  - generic [ref=e732]:
+                    - heading "PASCALI CONTROLLER PUMP AUTO 25MM 10A 1.1KW 230V" [level=3] [ref=e733]
+                    - paragraph [ref=e734]: JA
+                    - generic [ref=e736]: ZAR 392.04
+                - button "Add to Cart" [ref=e738] [cursor=pointer]
+              - generic [ref=e739]:
+                - link "No image PASCALI MECHANICAL SEAL CPM158 JA ZAR 0.00" [ref=e740] [cursor=pointer]:
+                  - /url: /products/pascali-mechanical-seal-cpm158
+                  - generic [ref=e742]: No image
+                  - generic [ref=e743]:
+                    - heading "PASCALI MECHANICAL SEAL CPM158" [level=3] [ref=e744]
+                    - paragraph [ref=e745]: JA
+                    - generic [ref=e747]: ZAR 0.00
+                - button "Sold Out" [disabled] [ref=e749]
+              - generic [ref=e750]:
+                - link "No image PASCALI MECHANICAL SEAL CPM190 JA ZAR 0.00" [ref=e751] [cursor=pointer]:
+                  - /url: /products/pascali-mechanical-seal-cpm190
+                  - generic [ref=e753]: No image
+                  - generic [ref=e754]:
+                    - heading "PASCALI MECHANICAL SEAL CPM190" [level=3] [ref=e755]
+                    - paragraph [ref=e756]: JA
+                    - generic [ref=e758]: ZAR 0.00
+                - button "Sold Out" [disabled] [ref=e760]
+              - generic [ref=e761]:
+                - link "No image PASCALI PUMP PERIPHERAL 25X25MM 0.37KW 230V JA ZAR 828.00" [ref=e762] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-25x25mm-0-37kw-230v
+                  - generic [ref=e764]: No image
+                  - generic [ref=e765]:
+                    - heading "PASCALI PUMP PERIPHERAL 25X25MM 0.37KW 230V" [level=3] [ref=e766]
+                    - paragraph [ref=e767]: JA
+                    - generic [ref=e769]: ZAR 828.00
+                - button "Add to Cart" [ref=e771] [cursor=pointer]
+              - generic [ref=e772]:
+                - link "No image PASCALI PUMP PERIPHERAL + CONTROLLER 0.37KW 230V JA ZAR 1,426.62" [ref=e773] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-controller-0-37kw-230v
+                  - generic [ref=e775]: No image
+                  - generic [ref=e776]:
+                    - heading "PASCALI PUMP PERIPHERAL + CONTROLLER 0.37KW 230V" [level=3] [ref=e777]
+                    - paragraph [ref=e778]: JA
+                    - generic [ref=e780]: ZAR 1,426.62
+                - button "Add to Cart" [ref=e782] [cursor=pointer]
+              - generic [ref=e783]:
+                - link "No image PASCALI SWITCH PRESSURE SK-1 JA ZAR 103.76" [ref=e784] [cursor=pointer]:
+                  - /url: /products/pascali-switch-pressure-sk-1
+                  - generic [ref=e786]: No image
+                  - generic [ref=e787]:
+                    - heading "PASCALI SWITCH PRESSURE SK-1" [level=3] [ref=e788]
+                    - paragraph [ref=e789]: JA
+                    - generic [ref=e791]: ZAR 103.76
+                - button "Sold Out" [disabled] [ref=e793]
+              - generic [ref=e794]:
+                - link "No image PASCALI CONNECTOR FOR PRESS CONTROL PASSK10 25MM JA ZAR 19.32" [ref=e795] [cursor=pointer]:
+                  - /url: /products/pascali-connector-for-press-control-passk10-25mm
+                  - generic [ref=e797]: No image
+                  - generic [ref=e798]:
+                    - heading "PASCALI CONNECTOR FOR PRESS CONTROL PASSK10 25MM" [level=3] [ref=e799]
+                    - paragraph [ref=e800]: JA
+                    - generic [ref=e802]: ZAR 19.32
+                - button "Add to Cart" [ref=e804] [cursor=pointer]
+              - generic [ref=e805]:
+                - link "No image AIRSHRINK CABLE RESIN 2/4 CORE 4MM TO 10MM JA ZAR 95.76" [ref=e806] [cursor=pointer]:
+                  - /url: /products/airshrink-cable-resin-2-4-core-4mm-to-10mm
+                  - generic [ref=e808]: No image
+                  - generic [ref=e809]:
+                    - heading "AIRSHRINK CABLE RESIN 2/4 CORE 4MM TO 10MM" [level=3] [ref=e810]
+                    - paragraph [ref=e811]: JA
+                    - generic [ref=e813]: ZAR 95.76
+                - button "Add to Cart" [ref=e815] [cursor=pointer]
+              - generic [ref=e816]:
+                - link "No image AIRSHRINK CABLE RESIN 2/4 CORE 1.5MM TO 4MM JA ZAR 76.44" [ref=e817] [cursor=pointer]:
+                  - /url: /products/airshrink-cable-resin-2-4-core-1-5mm-to-4mm
+                  - generic [ref=e819]: No image
+                  - generic [ref=e820]:
+                    - heading "AIRSHRINK CABLE RESIN 2/4 CORE 1.5MM TO 4MM" [level=3] [ref=e821]
+                    - paragraph [ref=e822]: JA
+                    - generic [ref=e824]: ZAR 76.44
+                - button "Sold Out" [disabled] [ref=e826]
+              - generic [ref=e827]:
+                - link "No image PASCALI HOSE FLEXIBLE SHORT PASJET/24 8MM INLET JA ZAR 51.82" [ref=e828] [cursor=pointer]:
+                  - /url: /products/pascali-hose-flexible-short-pasjet-24-8mm-inlet
+                  - generic [ref=e830]: No image
+                  - generic [ref=e831]:
+                    - heading "PASCALI HOSE FLEXIBLE SHORT PASJET/24 8MM INLET" [level=3] [ref=e832]
+                    - paragraph [ref=e833]: JA
+                    - generic [ref=e835]: ZAR 51.82
+                - button "Add to Cart" [ref=e837] [cursor=pointer]
+              - generic [ref=e838]:
+                - link "No image PASCALI GAUGE DSK2 JA ZAR 34.87" [ref=e839] [cursor=pointer]:
+                  - /url: /products/pascali-gauge-dsk2
+                  - generic [ref=e841]: No image
+                  - generic [ref=e842]:
+                    - heading "PASCALI GAUGE DSK2" [level=3] [ref=e843]
+                    - paragraph [ref=e844]: JA
+                    - generic [ref=e846]: ZAR 34.87
+                - button "Add to Cart" [ref=e848] [cursor=pointer]
+              - generic [ref=e849]:
+                - link "No image PASCALI CONTROL BOX 0.37KW 230V JA ZAR 153.10" [ref=e850] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-37kw-230v
+                  - generic [ref=e852]: No image
+                  - generic [ref=e853]:
+                    - heading "PASCALI CONTROL BOX 0.37KW 230V" [level=3] [ref=e854]
+                    - paragraph [ref=e855]: JA
+                    - generic [ref=e857]: ZAR 153.10
+                - button "Add to Cart" [ref=e859] [cursor=pointer]
+              - generic [ref=e860]:
+                - link "No image PASCALI CONTROL BOX 0.55KW 230V JA ZAR 161.20" [ref=e861] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-55kw-230v
+                  - generic [ref=e863]: No image
+                  - generic [ref=e864]:
+                    - heading "PASCALI CONTROL BOX 0.55KW 230V" [level=3] [ref=e865]
+                    - paragraph [ref=e866]: JA
+                    - generic [ref=e868]: ZAR 161.20
+                - button "Sold Out" [disabled] [ref=e870]
+              - generic [ref=e871]:
+                - link "No image PASCALI CONTROL BOX 0.75KW 230V JA ZAR 169.30" [ref=e872] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-75kw-230v
+                  - generic [ref=e874]: No image
+                  - generic [ref=e875]:
+                    - heading "PASCALI CONTROL BOX 0.75KW 230V" [level=3] [ref=e876]
+                    - paragraph [ref=e877]: JA
+                    - generic [ref=e879]: ZAR 169.30
+                - button "Sold Out" [disabled] [ref=e881]
+              - generic [ref=e882]:
+                - link "No image PASCALI CONTROLLER VSD 1.5KW 230V JA ZAR 3,654.67" [ref=e883] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-1-5kw-230v
+                  - generic [ref=e885]: No image
+                  - generic [ref=e886]:
+                    - heading "PASCALI CONTROLLER VSD 1.5KW 230V" [level=3] [ref=e887]
+                    - paragraph [ref=e888]: JA
+                    - generic [ref=e890]: ZAR 3,654.67
+                - button "Add to Cart" [ref=e892] [cursor=pointer]
+              - generic [ref=e893]:
+                - link "No image PASCALI CONTROLLER VSD 1.5KW 3X230V JA ZAR 3,037.45" [ref=e894] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-1-5kw-3x230v
+                  - generic [ref=e896]: No image
+                  - generic [ref=e897]:
+                    - heading "PASCALI CONTROLLER VSD 1.5KW 3X230V" [level=3] [ref=e898]
+                    - paragraph [ref=e899]: JA
+                    - generic [ref=e901]: ZAR 3,037.45
+                - button "Add to Cart" [ref=e903] [cursor=pointer]
+              - generic [ref=e904]:
+                - link "No image PASCALI CONTROLLER VSD 2.2KW 400V JA ZAR 3,978.06" [ref=e905] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-2-2kw-400v
+                  - generic [ref=e907]: No image
+                  - generic [ref=e908]:
+                    - heading "PASCALI CONTROLLER VSD 2.2KW 400V" [level=3] [ref=e909]
+                    - paragraph [ref=e910]: JA
+                    - generic [ref=e912]: ZAR 3,978.06
+                - button "Add to Cart" [ref=e914] [cursor=pointer]
+              - generic [ref=e915]:
+                - link "No image PASCALI CONTROLLER VSD 4KW 400V JA ZAR 5,346.00" [ref=e916] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-4kw-400v
+                  - generic [ref=e918]: No image
+                  - generic [ref=e919]:
+                    - heading "PASCALI CONTROLLER VSD 4KW 400V" [level=3] [ref=e920]
+                    - paragraph [ref=e921]: JA
+                    - generic [ref=e923]: ZAR 5,346.00
+                - button "Add to Cart" [ref=e925] [cursor=pointer]
+              - generic [ref=e926]:
+                - link "No image PASCALI CONTROLLER VSD 5.5KW 400V JA ZAR 6,455.66" [ref=e927] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-5-5kw-400v
+                  - generic [ref=e929]: No image
+                  - generic [ref=e930]:
+                    - heading "PASCALI CONTROLLER VSD 5.5KW 400V" [level=3] [ref=e931]
+                    - paragraph [ref=e932]: JA
+                    - generic [ref=e934]: ZAR 6,455.66
+                - button "Add to Cart" [ref=e936] [cursor=pointer]
+              - generic [ref=e937]:
+                - link "No image PASCALI CONTROLLER VSD 7.5KW 400V JA ZAR 6,273.11" [ref=e938] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-7-5kw-400v
+                  - generic [ref=e940]: No image
+                  - generic [ref=e941]:
+                    - heading "PASCALI CONTROLLER VSD 7.5KW 400V" [level=3] [ref=e942]
+                    - paragraph [ref=e943]: JA
+                    - generic [ref=e945]: ZAR 6,273.11
+                - button "Add to Cart" [ref=e947] [cursor=pointer]
+              - generic [ref=e948]:
+                - link "No image PASCALI CONTROLLER PUMP AUTO 32MM 16A 2.2KW 230V JA ZAR 631.80" [ref=e949] [cursor=pointer]:
+                  - /url: /products/pascali-controller-pump-auto-32mm-16a-2-2kw-230v
+                  - generic [ref=e951]: No image
+                  - generic [ref=e952]:
+                    - heading "PASCALI CONTROLLER PUMP AUTO 32MM 16A 2.2KW 230V" [level=3] [ref=e953]
+                    - paragraph [ref=e954]: JA
+                    - generic [ref=e956]: ZAR 631.80
+                - button "Add to Cart" [ref=e958] [cursor=pointer]
+              - generic [ref=e959]:
+                - link "No image PASCALI SWITCH FLOAT 10M 8AMP 16A JA ZAR 299.30" [ref=e960] [cursor=pointer]:
+                  - /url: /products/pascali-switch-float-10m-8amp-16a
+                  - generic [ref=e962]: No image
+                  - generic [ref=e963]:
+                    - heading "PASCALI SWITCH FLOAT 10M 8AMP 16A" [level=3] [ref=e964]
+                    - paragraph [ref=e965]: JA
+                    - generic [ref=e967]: ZAR 299.30
+                - button "Add to Cart" [ref=e969] [cursor=pointer]
+              - generic [ref=e970]:
+                - link "No image PASCALI SWITCH FLOAT 5M 8AMP 16A JA ZAR 241.61" [ref=e971] [cursor=pointer]:
+                  - /url: /products/pascali-switch-float-5m-8amp-16a
+                  - generic [ref=e973]: No image
+                  - generic [ref=e974]:
+                    - heading "PASCALI SWITCH FLOAT 5M 8AMP 16A" [level=3] [ref=e975]
+                    - paragraph [ref=e976]: JA
+                    - generic [ref=e978]: ZAR 241.61
+                - button "Add to Cart" [ref=e980] [cursor=pointer]
+              - generic [ref=e981]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 1.1KW 230V JA ZAR 935.02" [ref=e982] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-1-1kw-230v
+                  - generic [ref=e984]: No image
+                  - generic [ref=e985]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 1.1KW 230V" [level=3] [ref=e986]
+                    - paragraph [ref=e987]: JA
+                    - generic [ref=e989]: ZAR 935.02
+                - button "Add to Cart" [ref=e991] [cursor=pointer]
+              - generic [ref=e992]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 1.5KW230V JA ZAR 923.40" [ref=e993] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-1-5kw230v
+                  - generic [ref=e995]: No image
+                  - generic [ref=e996]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 1.5KW230V" [level=3] [ref=e997]
+                    - paragraph [ref=e998]: JA
+                    - generic [ref=e1000]: ZAR 923.40
+                - button "Add to Cart" [ref=e1002] [cursor=pointer]
+              - generic [ref=e1003]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 2.2KW 230V JA ZAR 881.78" [ref=e1004] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-2-2kw-230v
+                  - generic [ref=e1006]: No image
+                  - generic [ref=e1007]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 2.2KW 230V" [level=3] [ref=e1008]
+                    - paragraph [ref=e1009]: JA
+                    - generic [ref=e1011]: ZAR 881.78
+                - button "Sold Out" [disabled] [ref=e1013]
+              - generic [ref=e1014]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 0.37KW 230V JA ZAR 856.02" [ref=e1015] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-0-37kw-230v
+                  - generic [ref=e1017]: No image
+                  - generic [ref=e1018]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 0.37KW 230V" [level=3] [ref=e1019]
+                    - paragraph [ref=e1020]: JA
+                    - generic [ref=e1022]: ZAR 856.02
+                - button "Add to Cart" [ref=e1024] [cursor=pointer]
+              - generic [ref=e1025]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 0.56KW 230V JA ZAR 955.62" [ref=e1026] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-0-56kw-230v
+                  - generic [ref=e1028]: No image
+                  - generic [ref=e1029]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 0.56KW 230V" [level=3] [ref=e1030]
+                    - paragraph [ref=e1031]: JA
+                    - generic [ref=e1033]: ZAR 955.62
+                - button "Add to Cart" [ref=e1035] [cursor=pointer]
+              - generic [ref=e1036]:
+                - link "No image PASCALI CONTROL BOX INTELLIGENT 0.75KW 230V JA ZAR 952.19" [ref=e1037] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-intelligent-0-75kw-230v
+                  - generic [ref=e1039]: No image
+                  - generic [ref=e1040]:
+                    - heading "PASCALI CONTROL BOX INTELLIGENT 0.75KW 230V" [level=3] [ref=e1041]
+                    - paragraph [ref=e1042]: JA
+                    - generic [ref=e1044]: ZAR 952.19
+                - button "Sold Out" [disabled] [ref=e1046]
+              - generic [ref=e1047]:
+                - link "No image PASCALI SENSOR PRESSURE 0-10BAR VSD JA ZAR 546.00" [ref=e1048] [cursor=pointer]:
+                  - /url: /products/pascali-sensor-pressure-0-10bar-vsd
+                  - generic [ref=e1050]: No image
+                  - generic [ref=e1051]:
+                    - heading "PASCALI SENSOR PRESSURE 0-10BAR VSD" [level=3] [ref=e1052]
+                    - paragraph [ref=e1053]: JA
+                    - generic [ref=e1055]: ZAR 546.00
+                - button "Add to Cart" [ref=e1057] [cursor=pointer]
+              - generic [ref=e1058]:
+                - link "No image PASCALI SENSOR PRESSURE 0-16BAR VSD JA ZAR 588.00" [ref=e1059] [cursor=pointer]:
+                  - /url: /products/pascali-sensor-pressure-0-16bar-vsd
+                  - generic [ref=e1061]: No image
+                  - generic [ref=e1062]:
+                    - heading "PASCALI SENSOR PRESSURE 0-16BAR VSD" [level=3] [ref=e1063]
+                    - paragraph [ref=e1064]: JA
+                    - generic [ref=e1066]: ZAR 588.00
+                - button "Add to Cart" [ref=e1068] [cursor=pointer]
+              - generic [ref=e1069]:
+                - link "No image PASCALI CONTROL BOX 0.75 - 4KW INTEL 400V JA ZAR 1,182.29" [ref=e1070] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-75-4kw-intel-400v
+                  - generic [ref=e1072]: No image
+                  - generic [ref=e1073]:
+                    - heading "PASCALI CONTROL BOX 0.75 - 4KW INTEL 400V" [level=3] [ref=e1074]
+                    - paragraph [ref=e1075]: JA
+                    - generic [ref=e1077]: ZAR 1,182.29
+                - button "Add to Cart" [ref=e1079] [cursor=pointer]
+              - generic [ref=e1080]:
+                - link "No image PASCALI CONTROL BOX 5.5 - 7.5KW INTEL 400V JA ZAR 1,123.91" [ref=e1081] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-5-5-7-5kw-intel-400v
+                  - generic [ref=e1083]: No image
+                  - generic [ref=e1084]:
+                    - heading "PASCALI CONTROL BOX 5.5 - 7.5KW INTEL 400V" [level=3] [ref=e1085]
+                    - paragraph [ref=e1086]: JA
+                    - generic [ref=e1088]: ZAR 1,123.91
+                - button "Add to Cart" [ref=e1090] [cursor=pointer]
+              - generic [ref=e1091]:
+                - link "No image PASCALI CONTROLLER VSD 3X230V 1.1KW JA ZAR 2,673.00" [ref=e1092] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-3x230v-1-1kw
+                  - generic [ref=e1094]: No image
+                  - generic [ref=e1095]:
+                    - heading "PASCALI CONTROLLER VSD 3X230V 1.1KW" [level=3] [ref=e1096]
+                    - paragraph [ref=e1097]: JA
+                    - generic [ref=e1099]: ZAR 2,673.00
+                - button "Add to Cart" [ref=e1101] [cursor=pointer]
+              - generic [ref=e1102]:
+                - link "No image PASCALI CONTROLLER VSD 3X230V 2.2KW JA ZAR 3,322.60" [ref=e1103] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-3x230v-2-2kw
+                  - generic [ref=e1105]: No image
+                  - generic [ref=e1106]:
+                    - heading "PASCALI CONTROLLER VSD 3X230V 2.2KW" [level=3] [ref=e1107]
+                    - paragraph [ref=e1108]: JA
+                    - generic [ref=e1110]: ZAR 3,322.60
+                - button "Add to Cart" [ref=e1112] [cursor=pointer]
+              - generic [ref=e1113]:
+                - link "No image PASCALI CONTROLLER VSD 0.75KW 3X230V JA ZAR 2,764.51" [ref=e1114] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-0-75kw-3x230v
+                  - generic [ref=e1116]: No image
+                  - generic [ref=e1117]:
+                    - heading "PASCALI CONTROLLER VSD 0.75KW 3X230V" [level=3] [ref=e1118]
+                    - paragraph [ref=e1119]: JA
+                    - generic [ref=e1121]: ZAR 2,764.51
+                - button "Add to Cart" [ref=e1123] [cursor=pointer]
+              - generic [ref=e1124]:
+                - link "No image PASCALI CONTROLLER VSD FOR VFF 1.1KW 3X230V JA ZAR 2,919.24" [ref=e1125] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-for-vff-1-1kw-3x230v
+                  - generic [ref=e1127]: No image
+                  - generic [ref=e1128]:
+                    - heading "PASCALI CONTROLLER VSD FOR VFF 1.1KW 3X230V" [level=3] [ref=e1129]
+                    - paragraph [ref=e1130]: JA
+                    - generic [ref=e1132]: ZAR 2,919.24
+                - button "Add to Cart" [ref=e1134] [cursor=pointer]
+              - generic [ref=e1135]:
+                - link "No image PASCALI CONTROLLER VSD FOR VFF 2.2KW 3X230V JA ZAR 3,333.16" [ref=e1136] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-for-vff-2-2kw-3x230v
+                  - generic [ref=e1138]: No image
+                  - generic [ref=e1139]:
+                    - heading "PASCALI CONTROLLER VSD FOR VFF 2.2KW 3X230V" [level=3] [ref=e1140]
+                    - paragraph [ref=e1141]: JA
+                    - generic [ref=e1143]: ZAR 3,333.16
+                - button "Add to Cart" [ref=e1145] [cursor=pointer]
+              - generic [ref=e1146]:
+                - link "No image PASCALI CONTROLLER VSD FOR VFF 0.75KW 3X230V JA ZAR 2,981.62" [ref=e1147] [cursor=pointer]:
+                  - /url: /products/pascali-controller-vsd-for-vff-0-75kw-3x230v
+                  - generic [ref=e1149]: No image
+                  - generic [ref=e1150]:
+                    - heading "PASCALI CONTROLLER VSD FOR VFF 0.75KW 3X230V" [level=3] [ref=e1151]
+                    - paragraph [ref=e1152]: JA
+                    - generic [ref=e1154]: ZAR 2,981.62
+                - button "Add to Cart" [ref=e1156] [cursor=pointer]
+              - generic [ref=e1157]:
+                - link "No image PASCALI CONNECTOR 5 WAY FOR VFF 25MM JA ZAR 352.80" [ref=e1158] [cursor=pointer]:
+                  - /url: /products/pascali-connector-5-way-for-vff-25mm
+                  - generic [ref=e1160]: No image
+                  - generic [ref=e1161]:
+                    - heading "PASCALI CONNECTOR 5 WAY FOR VFF 25MM" [level=3] [ref=e1162]
+                    - paragraph [ref=e1163]: JA
+                    - generic [ref=e1165]: ZAR 352.80
+                - button "Add to Cart" [ref=e1167] [cursor=pointer]
+              - generic [ref=e1168]:
+                - link "No image PASCALI CONNECTOR 5 WAY FOR VFF 40MM JA ZAR 603.12" [ref=e1169] [cursor=pointer]:
+                  - /url: /products/pascali-connector-5-way-for-vff-40mm
+                  - generic [ref=e1171]: No image
+                  - generic [ref=e1172]:
+                    - heading "PASCALI CONNECTOR 5 WAY FOR VFF 40MM" [level=3] [ref=e1173]
+                    - paragraph [ref=e1174]: JA
+                    - generic [ref=e1176]: ZAR 603.12
+                - button "Add to Cart" [ref=e1178] [cursor=pointer]
+              - generic [ref=e1179]:
+                - link "No image PASCALI CONNECTOR 5 WAY FOR VFF 50MM JA ZAR 672.00" [ref=e1180] [cursor=pointer]:
+                  - /url: /products/pascali-connector-5-way-for-vff-50mm
+                  - generic [ref=e1182]: No image
+                  - generic [ref=e1183]:
+                    - heading "PASCALI CONNECTOR 5 WAY FOR VFF 50MM" [level=3] [ref=e1184]
+                    - paragraph [ref=e1185]: JA
+                    - generic [ref=e1187]: ZAR 672.00
+                - button "Add to Cart" [ref=e1189] [cursor=pointer]
+              - generic [ref=e1190]:
+                - link "No image PASCALI CONTROL BOX 1.1KW 230V JA ZAR 178.20" [ref=e1191] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-1-1kw-230v
+                  - generic [ref=e1193]: No image
+                  - generic [ref=e1194]:
+                    - heading "PASCALI CONTROL BOX 1.1KW 230V" [level=3] [ref=e1195]
+                    - paragraph [ref=e1196]: JA
+                    - generic [ref=e1198]: ZAR 178.20
+                - button "Add to Cart" [ref=e1200] [cursor=pointer]
+              - generic [ref=e1201]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 2.2KW 230V JA ZAR 4,261.14" [ref=e1202] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-2-2kw-230v
+                  - generic [ref=e1204]: No image
+                  - generic [ref=e1205]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 2.2KW 230V" [level=3] [ref=e1206]
+                    - paragraph [ref=e1207]: JA
+                    - generic [ref=e1209]: ZAR 4,261.14
+                - button "Sold Out" [disabled] [ref=e1211]
+              - generic [ref=e1212]:
+                - link "No image PASCALI PUMP CENTRI TWIN IMP 40X25MM 1.50KW 230V JA ZAR 2,756.60" [ref=e1213] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centri-twin-imp-40x25mm-1-50kw-230v
+                  - generic [ref=e1215]: No image
+                  - generic [ref=e1216]:
+                    - heading "PASCALI PUMP CENTRI TWIN IMP 40X25MM 1.50KW 230V" [level=3] [ref=e1217]
+                    - paragraph [ref=e1218]: JA
+                    - generic [ref=e1220]: ZAR 2,756.60
+                - button "Add to Cart" [ref=e1222] [cursor=pointer]
+              - generic [ref=e1223]:
+                - link "No image PASCALI TANK PRESSURE 24L STAINLESS STEEL JA ZAR 835.08" [ref=e1224] [cursor=pointer]:
+                  - /url: /products/pascali-tank-pressure-24l-stainless-steel
+                  - generic [ref=e1226]: No image
+                  - generic [ref=e1227]:
+                    - heading "PASCALI TANK PRESSURE 24L STAINLESS STEEL" [level=3] [ref=e1228]
+                    - paragraph [ref=e1229]: JA
+                    - generic [ref=e1231]: ZAR 835.08
+                - button "Add to Cart" [ref=e1233] [cursor=pointer]
+              - generic [ref=e1234]:
+                - link "No image CINCO PANEL SOLAR POLY PERC 160W VOC22.39 IMP8.79A JA ZAR 1,292.00" [ref=e1235] [cursor=pointer]:
+                  - /url: /products/cinco-panel-solar-poly-perc-160w-voc22-39-imp8-79a
+                  - generic [ref=e1237]: No image
+                  - generic [ref=e1238]:
+                    - heading "CINCO PANEL SOLAR POLY PERC 160W VOC22.39 IMP8.79A" [level=3] [ref=e1239]
+                    - paragraph [ref=e1240]: JA
+                    - generic [ref=e1242]: ZAR 1,292.00
+                - button "Add to Cart" [ref=e1244] [cursor=pointer]
+              - generic [ref=e1245]:
+                - link "No image PASCALI CONTROL BOX 0.92KW 230V JA ZAR 164.40" [ref=e1246] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-92kw-230v
+                  - generic [ref=e1248]: No image
+                  - generic [ref=e1249]:
+                    - heading "PASCALI CONTROL BOX 0.92KW 230V" [level=3] [ref=e1250]
+                    - paragraph [ref=e1251]: JA
+                    - generic [ref=e1253]: ZAR 164.40
+                - button "Add to Cart" [ref=e1255] [cursor=pointer]
+              - generic [ref=e1256]:
+                - link "No image PASCALI CONTROL BOX 1.3KW 230V JA ZAR 181.20" [ref=e1257] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-1-3kw-230v
+                  - generic [ref=e1259]: No image
+                  - generic [ref=e1260]:
+                    - heading "PASCALI CONTROL BOX 1.3KW 230V" [level=3] [ref=e1261]
+                    - paragraph [ref=e1262]: JA
+                    - generic [ref=e1264]: ZAR 181.20
+                - button "Add to Cart" [ref=e1266] [cursor=pointer]
+              - generic [ref=e1267]:
+                - link "No image PASCALI CONTROL BOX 1.5KW 230V JA ZAR 196.02" [ref=e1268] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-1-5kw-230v
+                  - generic [ref=e1270]: No image
+                  - generic [ref=e1271]:
+                    - heading "PASCALI CONTROL BOX 1.5KW 230V" [level=3] [ref=e1272]
+                    - paragraph [ref=e1273]: JA
+                    - generic [ref=e1275]: ZAR 196.02
+                - button "Add to Cart" [ref=e1277] [cursor=pointer]
+              - generic [ref=e1278]:
+                - link "No image PASCALI CONTROL BOX 2.2KW 230V JA ZAR 259.20" [ref=e1279] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-2-2kw-230v
+                  - generic [ref=e1281]: No image
+                  - generic [ref=e1282]:
+                    - heading "PASCALI CONTROL BOX 2.2KW 230V" [level=3] [ref=e1283]
+                    - paragraph [ref=e1284]: JA
+                    - generic [ref=e1286]: ZAR 259.20
+                - button "Add to Cart" [ref=e1288] [cursor=pointer]
+              - generic [ref=e1289]:
+                - link "No image PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 2L JA ZAR 254.52" [ref=e1290] [cursor=pointer]:
+                  - /url: /products/pascali-tank-press-vertical-for-vff-pump-25mm-2l
+                  - generic [ref=e1292]: No image
+                  - generic [ref=e1293]:
+                    - heading "PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 2L" [level=3] [ref=e1294]
+                    - paragraph [ref=e1295]: JA
+                    - generic [ref=e1297]: ZAR 254.52
+                - button "Add to Cart" [ref=e1299] [cursor=pointer]
+              - generic [ref=e1300]:
+                - link "No image PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 4L JA ZAR 373.80" [ref=e1301] [cursor=pointer]:
+                  - /url: /products/pascali-tank-press-vertical-for-vff-pump-25mm-4l
+                  - generic [ref=e1303]: No image
+                  - generic [ref=e1304]:
+                    - heading "PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 4L" [level=3] [ref=e1305]
+                    - paragraph [ref=e1306]: JA
+                    - generic [ref=e1308]: ZAR 373.80
+                - button "Add to Cart" [ref=e1310] [cursor=pointer]
+              - generic [ref=e1311]:
+                - link "No image PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 4L JA ZAR 373.80" [ref=e1312] [cursor=pointer]:
+                  - /url: /products/pascali-tank-press-vertical-for-vff-pump-25mm-4l-1
+                  - generic [ref=e1314]: No image
+                  - generic [ref=e1315]:
+                    - heading "PASCALI TANK PRESS VERTICAL FOR VFF PUMP 25MM 4L" [level=3] [ref=e1316]
+                    - paragraph [ref=e1317]: JA
+                    - generic [ref=e1319]: ZAR 373.80
+                - button "Add to Cart" [ref=e1321] [cursor=pointer]
+              - generic [ref=e1322]:
+                - link "No image PASCALI CONTROL BOX 3inch 0.37kW 230V JA ZAR 162.00" [ref=e1323] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-3inch-0-37kw-230v
+                  - generic [ref=e1325]: No image
+                  - generic [ref=e1326]:
+                    - heading "PASCALI CONTROL BOX 3inch 0.37kW 230V" [level=3] [ref=e1327]
+                    - paragraph [ref=e1328]: JA
+                    - generic [ref=e1330]: ZAR 162.00
+                - button "Add to Cart" [ref=e1332] [cursor=pointer]
+              - generic [ref=e1333]:
+                - link "No image PASCALI CONTROL BOX 3inch 0.55kW 230V JA ZAR 165.24" [ref=e1334] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-3inch-0-55kw-230v
+                  - generic [ref=e1336]: No image
+                  - generic [ref=e1337]:
+                    - heading "PASCALI CONTROL BOX 3inch 0.55kW 230V" [level=3] [ref=e1338]
+                    - paragraph [ref=e1339]: JA
+                    - generic [ref=e1341]: ZAR 165.24
+                - button "Add to Cart" [ref=e1343] [cursor=pointer]
+              - generic [ref=e1344]:
+                - link "No image PASCALI CONTROL BOX 3inch 0.75kW 230V JA ZAR 168.48" [ref=e1345] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-3inch-0-75kw-230v
+                  - generic [ref=e1347]: No image
+                  - generic [ref=e1348]:
+                    - heading "PASCALI CONTROL BOX 3inch 0.75kW 230V" [level=3] [ref=e1349]
+                    - paragraph [ref=e1350]: JA
+                    - generic [ref=e1352]: ZAR 168.48
+                - button "Sold Out" [disabled] [ref=e1354]
+              - generic [ref=e1355]:
+                - link "No image PASCALI CONTROL BOX 3inch 0.25KW 230V JA ZAR 158.72" [ref=e1356] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-3inch-0-25kw-230v-2
+                  - generic [ref=e1358]: No image
+                  - generic [ref=e1359]:
+                    - heading "PASCALI CONTROL BOX 3inch 0.25KW 230V" [level=3] [ref=e1360]
+                    - paragraph [ref=e1361]: JA
+                    - generic [ref=e1363]: ZAR 158.72
+                - button "Add to Cart" [ref=e1365] [cursor=pointer]
+              - generic [ref=e1366]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 3inch 0.55kW 230V JB ZAR 990.72" [ref=e1367] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-3inch-0-55kw-230v
+                  - generic [ref=e1369]: No image
+                  - generic [ref=e1370]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 3inch 0.55kW 230V" [level=3] [ref=e1371]
+                    - paragraph [ref=e1372]: JB
+                    - generic [ref=e1374]: ZAR 990.72
+                - button "Add to Cart" [ref=e1376] [cursor=pointer]
+              - generic [ref=e1377]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 3inch 0.75kW 230V JB ZAR 1,113.60" [ref=e1378] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-3inch-0-75kw-230v
+                  - generic [ref=e1380]: No image
+                  - generic [ref=e1381]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 3inch 0.75kW 230V" [level=3] [ref=e1382]
+                    - paragraph [ref=e1383]: JB
+                    - generic [ref=e1385]: ZAR 1,113.60
+                - button "Add to Cart" [ref=e1387] [cursor=pointer]
+              - generic [ref=e1388]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 3inch 0.25kW 230V JB ZAR 765.30" [ref=e1389] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-3inch-0-25kw-230v-2
+                  - generic [ref=e1391]: No image
+                  - generic [ref=e1392]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 3inch 0.25kW 230V" [level=3] [ref=e1393]
+                    - paragraph [ref=e1394]: JB
+                    - generic [ref=e1396]: ZAR 765.30
+                - button "Add to Cart" [ref=e1398] [cursor=pointer]
+              - generic [ref=e1399]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 3inch 0.25kW 230V JA ZAR 448.48" [ref=e1400] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-3inch-0-25kw-230v-2
+                  - generic [ref=e1402]: No image
+                  - generic [ref=e1403]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 3inch 0.25kW 230V" [level=3] [ref=e1404]
+                    - paragraph [ref=e1405]: JA
+                    - generic [ref=e1407]: ZAR 448.48
+                - button "Add to Cart" [ref=e1409] [cursor=pointer]
+              - generic [ref=e1410]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 0.55KW 400V IE3 ALU JB ZAR 1,939.22" [ref=e1411] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-0-55kw-400v-ie3-alu-1
+                  - generic [ref=e1413]: No image
+                  - generic [ref=e1414]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 0.55KW 400V IE3 ALU" [level=3] [ref=e1415]
+                    - paragraph [ref=e1416]: JB
+                    - generic [ref=e1418]: ZAR 1,939.22
+                - button "Sold Out" [disabled] [ref=e1420]
+              - generic [ref=e1421]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 0.55KW 400V IE3 ALU JB ZAR 0.00" [ref=e1422] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-0-55kw-400v-ie3-alu-1
+                  - generic [ref=e1424]: No image
+                  - generic [ref=e1425]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 0.55KW 400V IE3 ALU" [level=3] [ref=e1426]
+                    - paragraph [ref=e1427]: JB
+                    - generic [ref=e1429]: ZAR 0.00
+                - button "Sold Out" [disabled] [ref=e1431]
+              - generic [ref=e1432]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 0.75KW 400V IE3 CI JB ZAR 2,572.44" [ref=e1433] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-0-75kw-400v-ie3-ci-1
+                  - generic [ref=e1435]: No image
+                  - generic [ref=e1436]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 0.75KW 400V IE3 CI" [level=3] [ref=e1437]
+                    - paragraph [ref=e1438]: JB
+                    - generic [ref=e1440]: ZAR 2,572.44
+                - button "Sold Out" [disabled] [ref=e1442]
+              - generic [ref=e1443]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 0.75KW 400V IE3 CI JB ZAR 3,245.23" [ref=e1444] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-0-75kw-400v-ie3-ci-1
+                  - generic [ref=e1446]: No image
+                  - generic [ref=e1447]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 0.75KW 400V IE3 CI" [level=3] [ref=e1448]
+                    - paragraph [ref=e1449]: JB
+                    - generic [ref=e1451]: ZAR 3,245.23
+                - button "Sold Out" [disabled] [ref=e1453]
+              - generic [ref=e1454]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 1.1KW 400V IE3 CI JB ZAR 2,817.82" [ref=e1455] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-1-1kw-400v-ie3-ci-1
+                  - generic [ref=e1457]: No image
+                  - generic [ref=e1458]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 1.1KW 400V IE3 CI" [level=3] [ref=e1459]
+                    - paragraph [ref=e1460]: JB
+                    - generic [ref=e1462]: ZAR 2,817.82
+                - button "Sold Out" [disabled] [ref=e1464]
+              - generic [ref=e1465]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 1.1KW 400V IE3 CI JB ZAR 3,799.30" [ref=e1466] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-1-1kw-400v-ie3-ci-1
+                  - generic [ref=e1468]: No image
+                  - generic [ref=e1469]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 1.1KW 400V IE3 CI" [level=3] [ref=e1470]
+                    - paragraph [ref=e1471]: JB
+                    - generic [ref=e1473]: ZAR 3,799.30
+                - button "Sold Out" [disabled] [ref=e1475]
+              - generic [ref=e1476]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 1.5KW 400V IE3 CI JB ZAR 3,553.92" [ref=e1477] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-1-5kw-400v-ie3-ci-1
+                  - generic [ref=e1479]: No image
+                  - generic [ref=e1480]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 1.5KW 400V IE3 CI" [level=3] [ref=e1481]
+                    - paragraph [ref=e1482]: JB
+                    - generic [ref=e1484]: ZAR 3,553.92
+                - button "Sold Out" [disabled] [ref=e1486]
+              - generic [ref=e1487]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 1.5KW 400V IE3 CI JB ZAR 4,408.76" [ref=e1488] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-1-5kw-400v-ie3-ci-1
+                  - generic [ref=e1490]: No image
+                  - generic [ref=e1491]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 1.5KW 400V IE3 CI" [level=3] [ref=e1492]
+                    - paragraph [ref=e1493]: JB
+                    - generic [ref=e1495]: ZAR 4,408.76
+                - button "Sold Out" [disabled] [ref=e1497]
+              - generic [ref=e1498]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 2.2KW 400V IE3 CI JB ZAR 4,107.98" [ref=e1499] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-2-2kw-400v-ie3-ci-1
+                  - generic [ref=e1501]: No image
+                  - generic [ref=e1502]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 2.2KW 400V IE3 CI" [level=3] [ref=e1503]
+                    - paragraph [ref=e1504]: JB
+                    - generic [ref=e1506]: ZAR 4,107.98
+                - button "Sold Out" [disabled] [ref=e1508]
+              - generic [ref=e1509]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 2.2KW 400V IE3 CI JB ZAR 5,999.72" [ref=e1510] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-2-2kw-400v-ie3-ci-1
+                  - generic [ref=e1512]: No image
+                  - generic [ref=e1513]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 2.2KW 400V IE3 CI" [level=3] [ref=e1514]
+                    - paragraph [ref=e1515]: JB
+                    - generic [ref=e1517]: ZAR 5,999.72
+                - button "Sold Out" [disabled] [ref=e1519]
+              - generic [ref=e1520]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 3KW 400V IE3 CI JB ZAR 5,508.98" [ref=e1521] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-3kw-400v-ie3-ci-1
+                  - generic [ref=e1523]: No image
+                  - generic [ref=e1524]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 3KW 400V IE3 CI" [level=3] [ref=e1525]
+                    - paragraph [ref=e1526]: JB
+                    - generic [ref=e1528]: ZAR 5,508.98
+                - button "Sold Out" [disabled] [ref=e1530]
+              - generic [ref=e1531]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 3KW 400V IE3 CI JB ZAR 6,799.15" [ref=e1532] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-3kw-400v-ie3-ci-1
+                  - generic [ref=e1534]: No image
+                  - generic [ref=e1535]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 3KW 400V IE3 CI" [level=3] [ref=e1536]
+                    - paragraph [ref=e1537]: JB
+                    - generic [ref=e1539]: ZAR 6,799.15
+                - button "Sold Out" [disabled] [ref=e1541]
+              - generic [ref=e1542]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 4KW 400V IE3 CI JB ZAR 6,862.48" [ref=e1543] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-4kw-400v-ie3-ci-1
+                  - generic [ref=e1545]: No image
+                  - generic [ref=e1546]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 4KW 400V IE3 CI" [level=3] [ref=e1547]
+                    - paragraph [ref=e1548]: JB
+                    - generic [ref=e1550]: ZAR 6,862.48
+                - button "Sold Out" [disabled] [ref=e1552]
+              - generic [ref=e1553]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 4KW 400V IE3 CI JB ZAR 8,081.42" [ref=e1554] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-4kw-400v-ie3-ci-1
+                  - generic [ref=e1556]: No image
+                  - generic [ref=e1557]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 4KW 400V IE3 CI" [level=3] [ref=e1558]
+                    - paragraph [ref=e1559]: JB
+                    - generic [ref=e1561]: ZAR 8,081.42
+                - button "Sold Out" [disabled] [ref=e1563]
+              - generic [ref=e1564]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 5.5KW 400V IE3 CI JB ZAR 9,672.37" [ref=e1565] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-5-5kw-400v-ie3-ci-1
+                  - generic [ref=e1567]: No image
+                  - generic [ref=e1568]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 5.5KW 400V IE3 CI" [level=3] [ref=e1569]
+                    - paragraph [ref=e1570]: JB
+                    - generic [ref=e1572]: ZAR 9,672.37
+                - button "Sold Out" [disabled] [ref=e1574]
+              - generic [ref=e1575]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 5.5KW 400V IE3 CI JB ZAR 11,017.96" [ref=e1576] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-5-5kw-400v-ie3-ci-1
+                  - generic [ref=e1578]: No image
+                  - generic [ref=e1579]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 5.5KW 400V IE3 CI" [level=3] [ref=e1580]
+                    - paragraph [ref=e1581]: JB
+                    - generic [ref=e1583]: ZAR 11,017.96
+                - button "Sold Out" [disabled] [ref=e1585]
+              - generic [ref=e1586]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 7.5KW 400V IE3 CI JB ZAR 10,835.90" [ref=e1587] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-7-5kw-400v-ie3-ci-1
+                  - generic [ref=e1589]: No image
+                  - generic [ref=e1590]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 7.5KW 400V IE3 CI" [level=3] [ref=e1591]
+                    - paragraph [ref=e1592]: JB
+                    - generic [ref=e1594]: ZAR 10,835.90
+                - button "Sold Out" [disabled] [ref=e1596]
+              - generic [ref=e1597]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 7.5KW 400V IE3 CI JB ZAR 12,608.92" [ref=e1598] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-7-5kw-400v-ie3-ci-1
+                  - generic [ref=e1600]: No image
+                  - generic [ref=e1601]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 7.5KW 400V IE3 CI" [level=3] [ref=e1602]
+                    - paragraph [ref=e1603]: JB
+                    - generic [ref=e1605]: ZAR 12,608.92
+                - button "Sold Out" [disabled] [ref=e1607]
+              - generic [ref=e1608]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 11KW 400V IE3 CI JB ZAR 17,500.51" [ref=e1609] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-11kw-400v-ie3-ci-1
+                  - generic [ref=e1611]: No image
+                  - generic [ref=e1612]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 11KW 400V IE3 CI" [level=3] [ref=e1613]
+                    - paragraph [ref=e1614]: JB
+                    - generic [ref=e1616]: ZAR 17,500.51
+                - button "Sold Out" [disabled] [ref=e1618]
+              - generic [ref=e1619]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 11KW 400V IE3 CI JB ZAR 18,276.19" [ref=e1620] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-11kw-400v-ie3-ci-1
+                  - generic [ref=e1622]: No image
+                  - generic [ref=e1623]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 11KW 400V IE3 CI" [level=3] [ref=e1624]
+                    - paragraph [ref=e1625]: JB
+                    - generic [ref=e1627]: ZAR 18,276.19
+                - button "Sold Out" [disabled] [ref=e1629]
+              - generic [ref=e1630]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 15KW 400V IE3 CI JB ZAR 18,798.60" [ref=e1631] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-15kw-400v-ie3-ci-1
+                  - generic [ref=e1633]: No image
+                  - generic [ref=e1634]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 15KW 400V IE3 CI" [level=3] [ref=e1635]
+                    - paragraph [ref=e1636]: JB
+                    - generic [ref=e1638]: ZAR 18,798.60
+                - button "Sold Out" [disabled] [ref=e1640]
+              - generic [ref=e1641]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 15KW 400V IE3 CI JB ZAR 21,062.35" [ref=e1642] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-15kw-400v-ie3-ci-1
+                  - generic [ref=e1644]: No image
+                  - generic [ref=e1645]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 15KW 400V IE3 CI" [level=3] [ref=e1646]
+                    - paragraph [ref=e1647]: JB
+                    - generic [ref=e1649]: ZAR 21,062.35
+                - button "Sold Out" [disabled] [ref=e1651]
+              - generic [ref=e1652]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 18.5KW 400V IE3 CI JB ZAR 21,458.11" [ref=e1653] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-18-5kw-400v-ie3-ci-1
+                  - generic [ref=e1655]: No image
+                  - generic [ref=e1656]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 18.5KW 400V IE3 CI" [level=3] [ref=e1657]
+                    - paragraph [ref=e1658]: JB
+                    - generic [ref=e1660]: ZAR 21,458.11
+                - button "Sold Out" [disabled] [ref=e1662]
+              - generic [ref=e1663]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 18.5KW 400V IE3 CI JB ZAR 26,895.85" [ref=e1664] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-18-5kw-400v-ie3-ci-1
+                  - generic [ref=e1666]: No image
+                  - generic [ref=e1667]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 18.5KW 400V IE3 CI" [level=3] [ref=e1668]
+                    - paragraph [ref=e1669]: JB
+                    - generic [ref=e1671]: ZAR 26,895.85
+                - button "Sold Out" [disabled] [ref=e1673]
+              - generic [ref=e1674]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 22KW 400V IE3 CI JB ZAR 27,220.37" [ref=e1675] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-22kw-400v-ie3-ci-1
+                  - generic [ref=e1677]: No image
+                  - generic [ref=e1678]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 22KW 400V IE3 CI" [level=3] [ref=e1679]
+                    - paragraph [ref=e1680]: JB
+                    - generic [ref=e1682]: ZAR 27,220.37
+                - button "Sold Out" [disabled] [ref=e1684]
+              - generic [ref=e1685]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 22KW 400V IE3 CI JB ZAR 29,104.19" [ref=e1686] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-22kw-400v-ie3-ci-1
+                  - generic [ref=e1688]: No image
+                  - generic [ref=e1689]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 22KW 400V IE3 CI" [level=3] [ref=e1690]
+                    - paragraph [ref=e1691]: JB
+                    - generic [ref=e1693]: ZAR 29,104.19
+                - button "Sold Out" [disabled] [ref=e1695]
+              - generic [ref=e1696]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 30KW 400V IE3 CI JB ZAR 35,974.58" [ref=e1697] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-30kw-400v-ie3-ci-1
+                  - generic [ref=e1699]: No image
+                  - generic [ref=e1700]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 30KW 400V IE3 CI" [level=3] [ref=e1701]
+                    - paragraph [ref=e1702]: JB
+                    - generic [ref=e1704]: ZAR 35,974.58
+                - button "Sold Out" [disabled] [ref=e1706]
+              - generic [ref=e1707]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 30KW 400V IE3 CI JB ZAR 39,860.95" [ref=e1708] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-30kw-400v-ie3-ci-1
+                  - generic [ref=e1710]: No image
+                  - generic [ref=e1711]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 30KW 400V IE3 CI" [level=3] [ref=e1712]
+                    - paragraph [ref=e1713]: JB
+                    - generic [ref=e1715]: ZAR 39,860.95
+                - button "Sold Out" [disabled] [ref=e1717]
+              - generic [ref=e1718]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 45KW 400V IE3 CI JB ZAR 47,309.15" [ref=e1719] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-45kw-400v-ie3-ci-1
+                  - generic [ref=e1721]: No image
+                  - generic [ref=e1722]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 45KW 400V IE3 CI" [level=3] [ref=e1723]
+                    - paragraph [ref=e1724]: JB
+                    - generic [ref=e1726]: ZAR 47,309.15
+                - button "Sold Out" [disabled] [ref=e1728]
+              - generic [ref=e1729]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 45KW 400V IE3 CI JB ZAR 51,717.91" [ref=e1730] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-45kw-400v-ie3-ci-1
+                  - generic [ref=e1732]: No image
+                  - generic [ref=e1733]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 45KW 400V IE3 CI" [level=3] [ref=e1734]
+                    - paragraph [ref=e1735]: JB
+                    - generic [ref=e1737]: ZAR 51,717.91
+                - button "Sold Out" [disabled] [ref=e1739]
+              - generic [ref=e1740]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 55KW 400V IE3 CI JB ZAR 51,203.42" [ref=e1741] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-55kw-400v-ie3-ci-1
+                  - generic [ref=e1743]: No image
+                  - generic [ref=e1744]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 55KW 400V IE3 CI" [level=3] [ref=e1745]
+                    - paragraph [ref=e1746]: JB
+                    - generic [ref=e1748]: ZAR 51,203.42
+                - button "Sold Out" [disabled] [ref=e1750]
+              - generic [ref=e1751]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 55KW 400V IE3 CI JB ZAR 61,588.18" [ref=e1752] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-55kw-400v-ie3-ci-1
+                  - generic [ref=e1754]: No image
+                  - generic [ref=e1755]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 55KW 400V IE3 CI" [level=3] [ref=e1756]
+                    - paragraph [ref=e1757]: JB
+                    - generic [ref=e1759]: ZAR 61,588.18
+                - button "Sold Out" [disabled] [ref=e1761]
+              - generic [ref=e1762]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 75KW 400V IE3 CI JB ZAR 63,836.09" [ref=e1763] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-75kw-400v-ie3-ci-1
+                  - generic [ref=e1765]: No image
+                  - generic [ref=e1766]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 75KW 400V IE3 CI" [level=3] [ref=e1767]
+                    - paragraph [ref=e1768]: JB
+                    - generic [ref=e1770]: ZAR 63,836.09
+                - button "Sold Out" [disabled] [ref=e1772]
+              - generic [ref=e1773]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 75KW 400V IE3 CI JB ZAR 71,624.64" [ref=e1774] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-75kw-400v-ie3-ci-1
+                  - generic [ref=e1776]: No image
+                  - generic [ref=e1777]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 75KW 400V IE3 CI" [level=3] [ref=e1778]
+                    - paragraph [ref=e1779]: JB
+                    - generic [ref=e1781]: ZAR 71,624.64
+                - button "Sold Out" [disabled] [ref=e1783]
+              - generic [ref=e1784]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 90KW 400V IE3 CI JB ZAR 81,012.07" [ref=e1785] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-90kw-400v-ie3-ci-1
+                  - generic [ref=e1787]: No image
+                  - generic [ref=e1788]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 90KW 400V IE3 CI" [level=3] [ref=e1789]
+                    - paragraph [ref=e1790]: JB
+                    - generic [ref=e1792]: ZAR 81,012.07
+                - button "Sold Out" [disabled] [ref=e1794]
+              - generic [ref=e1795]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 90KW 400V IE3 CI JB ZAR 93,225.23" [ref=e1796] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-90kw-400v-ie3-ci-1
+                  - generic [ref=e1798]: No image
+                  - generic [ref=e1799]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 90KW 400V IE3 CI" [level=3] [ref=e1800]
+                    - paragraph [ref=e1801]: JB
+                    - generic [ref=e1803]: ZAR 93,225.23
+                - button "Sold Out" [disabled] [ref=e1805]
+              - generic [ref=e1806]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 2P 110KW 400V IE3 CI JB ZAR 104,828.90" [ref=e1807] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-2p-110kw-400v-ie3-ci-1
+                  - generic [ref=e1809]: No image
+                  - generic [ref=e1810]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 2P 110KW 400V IE3 CI" [level=3] [ref=e1811]
+                    - paragraph [ref=e1812]: JB
+                    - generic [ref=e1814]: ZAR 104,828.90
+                - button "Sold Out" [disabled] [ref=e1816]
+              - generic [ref=e1817]:
+                - link "No image MOTORELLI MOTOR ELECTRIC 4P 110KW 400V IE3 CI JB ZAR 113,234.86" [ref=e1818] [cursor=pointer]:
+                  - /url: /products/motorelli-motor-electric-4p-110kw-400v-ie3-ci-1
+                  - generic [ref=e1820]: No image
+                  - generic [ref=e1821]:
+                    - heading "MOTORELLI MOTOR ELECTRIC 4P 110KW 400V IE3 CI" [level=3] [ref=e1822]
+                    - paragraph [ref=e1823]: JB
+                    - generic [ref=e1825]: ZAR 113,234.86
+                - button "Sold Out" [disabled] [ref=e1827]
+              - generic [ref=e1828]:
+                - link "No image CINCO PANEL SOLAR POLY PERC 180W HIGH VOLTAGE 36.8 JA ZAR 2,291.71" [ref=e1829] [cursor=pointer]:
+                  - /url: /products/cinco-panel-solar-poly-perc-180w-high-voltage-36-9
+                  - generic [ref=e1831]: No image
+                  - generic [ref=e1832]:
+                    - heading "CINCO PANEL SOLAR POLY PERC 180W HIGH VOLTAGE 36.8" [level=3] [ref=e1833]
+                    - paragraph [ref=e1834]: JA
+                    - generic [ref=e1836]: ZAR 2,291.71
+                - button "Add to Cart" [ref=e1838] [cursor=pointer]
+              - generic [ref=e1839]:
+                - link "No image PASCALI TANK PRESSURE 24L JA ZAR 476.28" [ref=e1840] [cursor=pointer]:
+                  - /url: /products/pascali-tank-pressure-24l-1
+                  - generic [ref=e1842]: No image
+                  - generic [ref=e1843]:
+                    - heading "PASCALI TANK PRESSURE 24L" [level=3] [ref=e1844]
+                    - paragraph [ref=e1845]: JA
+                    - generic [ref=e1847]: ZAR 476.28
+                - button "Add to Cart" [ref=e1849] [cursor=pointer]
+              - generic [ref=e1850]:
+                - link "No image PASCALI SWITCH PRESSURE SK-2A 2.8BAR JA ZAR 89.04" [ref=e1851] [cursor=pointer]:
+                  - /url: /products/pascali-switch-pressure-sk-2a-2-8bar-1
+                  - generic [ref=e1853]: No image
+                  - generic [ref=e1854]:
+                    - heading "PASCALI SWITCH PRESSURE SK-2A 2.8BAR" [level=3] [ref=e1855]
+                    - paragraph [ref=e1856]: JA
+                    - generic [ref=e1858]: ZAR 89.04
+                - button "Add to Cart" [ref=e1860] [cursor=pointer]
+              - generic [ref=e1861]:
+                - link "No image PASCALI GAUGE PRESSURE 0-1200KPA JA ZAR 25.88" [ref=e1862] [cursor=pointer]:
+                  - /url: /products/pascali-gauge-pressure-0-1200kpa-1
+                  - generic [ref=e1864]: No image
+                  - generic [ref=e1865]:
+                    - heading "PASCALI GAUGE PRESSURE 0-1200KPA" [level=3] [ref=e1866]
+                    - paragraph [ref=e1867]: JA
+                    - generic [ref=e1869]: ZAR 25.88
+                - button "Add to Cart" [ref=e1871] [cursor=pointer]
+              - generic [ref=e1872]:
+                - link "No image PASCALI CONTROLLER PUMP AUTOMATIC 10A 1.1KW 230V JA ZAR 487.62" [ref=e1873] [cursor=pointer]:
+                  - /url: /products/pascali-controller-pump-automatic-10a-1-1kw-230v-1
+                  - generic [ref=e1875]: No image
+                  - generic [ref=e1876]:
+                    - heading "PASCALI CONTROLLER PUMP AUTOMATIC 10A 1.1KW 230V" [level=3] [ref=e1877]
+                    - paragraph [ref=e1878]: JA
+                    - generic [ref=e1880]: ZAR 487.62
+                - button "Add to Cart" [ref=e1882] [cursor=pointer]
+              - generic [ref=e1883]:
+                - link "No image PASCALI CONNECTOR 5 WAY 25MM JA ZAR 96.60" [ref=e1884] [cursor=pointer]:
+                  - /url: /products/pascali-connector-5-way-25mm-1
+                  - generic [ref=e1886]: No image
+                  - generic [ref=e1887]:
+                    - heading "PASCALI CONNECTOR 5 WAY 25MM" [level=3] [ref=e1888]
+                    - paragraph [ref=e1889]: JA
+                    - generic [ref=e1891]: ZAR 96.60
+                - button "Add to Cart" [ref=e1893] [cursor=pointer]
+              - generic [ref=e1894]:
+                - link "No image PASCALI MEMBRANE VERTICAL 24L JA ZAR 74.35" [ref=e1895] [cursor=pointer]:
+                  - /url: /products/pascali-membrane-vertical-24l-1
+                  - generic [ref=e1897]: No image
+                  - generic [ref=e1898]:
+                    - heading "PASCALI MEMBRANE VERTICAL 24L" [level=3] [ref=e1899]
+                    - paragraph [ref=e1900]: JA
+                    - generic [ref=e1902]: ZAR 74.35
+                - button "Add to Cart" [ref=e1904] [cursor=pointer]
+              - generic [ref=e1905]:
+                - link "No image PASCALI PUMP SELF PRIMING JET 25X25MM 0.75KW 230V JA ZAR 1,755.00" [ref=e1906] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-priming-jet-25x25mm-0-75kw-230v-1
+                  - generic [ref=e1908]: No image
+                  - generic [ref=e1909]:
+                    - heading "PASCALI PUMP SELF PRIMING JET 25X25MM 0.75KW 230V" [level=3] [ref=e1910]
+                    - paragraph [ref=e1911]: JA
+                    - generic [ref=e1913]: ZAR 1,755.00
+                - button "Add to Cart" [ref=e1915] [cursor=pointer]
+              - generic [ref=e1916]:
+                - link "No image PASCALI PUMP SELF PRIM JET 25X25MM 0.75KW 230V S/S JA ZAR 1,989.78" [ref=e1917] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-25x25mm-0-75kw-230v-s-s-1
+                  - generic [ref=e1919]: No image
+                  - generic [ref=e1920]:
+                    - heading "PASCALI PUMP SELF PRIM JET 25X25MM 0.75KW 230V S/S" [level=3] [ref=e1921]
+                    - paragraph [ref=e1922]: JA
+                    - generic [ref=e1924]: ZAR 1,989.78
+                - button "Add to Cart" [ref=e1926] [cursor=pointer]
+              - generic [ref=e1927]:
+                - link "No image PASCALI PUMP SELF PRIM JET + 24L TANK 0.75KW 230V JA ZAR 2,578.68" [ref=e1928] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-24l-tank-0-75kw-230v-1
+                  - generic [ref=e1930]: No image
+                  - generic [ref=e1931]:
+                    - heading "PASCALI PUMP SELF PRIM JET + 24L TANK 0.75KW 230V" [level=3] [ref=e1932]
+                    - paragraph [ref=e1933]: JA
+                    - generic [ref=e1935]: ZAR 2,578.68
+                - button "Add to Cart" [ref=e1937] [cursor=pointer]
+              - generic [ref=e1938]:
+                - link "No image PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW 230V JA ZAR 2,343.90" [ref=e1939] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-flow-switch-0-75kw-230v-1
+                  - generic [ref=e1941]: No image
+                  - generic [ref=e1942]:
+                    - heading "PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW 230V" [level=3] [ref=e1943]
+                    - paragraph [ref=e1944]: JA
+                    - generic [ref=e1946]: ZAR 2,343.90
+                - button "Add to Cart" [ref=e1948] [cursor=pointer]
+              - generic [ref=e1949]:
+                - link "No image PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW S/S JA ZAR 2,564.64" [ref=e1950] [cursor=pointer]:
+                  - /url: /products/pascali-pump-self-prim-jet-flow-switch-0-75kw-s-s-1
+                  - generic [ref=e1952]: No image
+                  - generic [ref=e1953]:
+                    - heading "PASCALI PUMP SELF PRIM JET+FLOW SWITCH 0.75KW S/S" [level=3] [ref=e1954]
+                    - paragraph [ref=e1955]: JA
+                    - generic [ref=e1957]: ZAR 2,564.64
+                - button "Add to Cart" [ref=e1959] [cursor=pointer]
+              - generic [ref=e1960]:
+                - link "No image PASCALI PUMP PERIPHERAL + FLOW SWITCH 0.75KW 230V JA ZAR 2,007.72" [ref=e1961] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-flow-switch-0-75kw-230v-1
+                  - generic [ref=e1963]: No image
+                  - generic [ref=e1964]:
+                    - heading "PASCALI PUMP PERIPHERAL + FLOW SWITCH 0.75KW 230V" [level=3] [ref=e1965]
+                    - paragraph [ref=e1966]: JA
+                    - generic [ref=e1968]: ZAR 2,007.72
+                - button "Sold Out" [disabled] [ref=e1970]
+              - generic [ref=e1971]:
+                - link "No image PASCALI PUMP PERIPHERAL + 24L TANK 0.75KW 230V JA ZAR 2,272.14" [ref=e1972] [cursor=pointer]:
+                  - /url: /products/pascali-pump-peripheral-24l-tank-0-75kw-230v-1
+                  - generic [ref=e1974]: No image
+                  - generic [ref=e1975]:
+                    - heading "PASCALI PUMP PERIPHERAL + 24L TANK 0.75KW 230V" [level=3] [ref=e1976]
+                    - paragraph [ref=e1977]: JA
+                    - generic [ref=e1979]: ZAR 2,272.14
+                - button "Add to Cart" [ref=e1981] [cursor=pointer]
+              - generic [ref=e1982]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.37KW 230V JA ZAR 1,222.26" [ref=e1983] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-37kw-230v-1
+                  - generic [ref=e1985]: No image
+                  - generic [ref=e1986]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.37KW 230V" [level=3] [ref=e1987]
+                    - paragraph [ref=e1988]: JA
+                    - generic [ref=e1990]: ZAR 1,222.26
+                - button "Add to Cart" [ref=e1992] [cursor=pointer]
+              - generic [ref=e1993]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.55KW 230V JA ZAR 1,425.84" [ref=e1994] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-55kw-230v-1
+                  - generic [ref=e1996]: No image
+                  - generic [ref=e1997]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.55KW 230V" [level=3] [ref=e1998]
+                    - paragraph [ref=e1999]: JA
+                    - generic [ref=e2001]: ZAR 1,425.84
+                - button "Add to Cart" [ref=e2003] [cursor=pointer]
+              - generic [ref=e2004]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.75KW 230V JA ZAR 1,651.26" [ref=e2005] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-75kw-230v-1
+                  - generic [ref=e2007]: No image
+                  - generic [ref=e2008]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.75KW 230V" [level=3] [ref=e2009]
+                    - paragraph [ref=e2010]: JA
+                    - generic [ref=e2012]: ZAR 1,651.26
+                - button "Add to Cart" [ref=e2014] [cursor=pointer]
+              - generic [ref=e2015]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.1KW 230V JA ZAR 2,620.80" [ref=e2016] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-1kw-230v-1
+                  - generic [ref=e2018]: No image
+                  - generic [ref=e2019]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.1KW 230V" [level=3] [ref=e2020]
+                    - paragraph [ref=e2021]: JA
+                    - generic [ref=e2023]: ZAR 2,620.80
+                - button "Add to Cart" [ref=e2025] [cursor=pointer]
+              - generic [ref=e2026]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.5KW 230V JA ZAR 3,080.22" [ref=e2027] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-5kw-230v-1
+                  - generic [ref=e2029]: No image
+                  - generic [ref=e2030]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.5KW 230V" [level=3] [ref=e2031]
+                    - paragraph [ref=e2032]: JA
+                    - generic [ref=e2034]: ZAR 3,080.22
+                - button "Add to Cart" [ref=e2036] [cursor=pointer]
+              - generic [ref=e2037]:
+                - link "No image PASCALI HOSE FLEXIBLE LONG QB24 SSS/24 25MM INLET. JA ZAR 116.52" [ref=e2038] [cursor=pointer]:
+                  - /url: /products/pascali-hose-flexible-long-qb24-sss-24-25mm-inlet-1
+                  - generic [ref=e2040]: No image
+                  - generic [ref=e2041]:
+                    - heading "PASCALI HOSE FLEXIBLE LONG QB24 SSS/24 25MM INLET." [level=3] [ref=e2042]
+                    - paragraph [ref=e2043]: JA
+                    - generic [ref=e2045]: ZAR 116.52
+                - button "Add to Cart" [ref=e2047] [cursor=pointer]
+              - generic [ref=e2048]:
+                - link "No image PASCALI CONNECTOR 3 WAY 25MM JA ZAR 69.10" [ref=e2049] [cursor=pointer]:
+                  - /url: /products/pascali-connector-3-way-25mm-1
+                  - generic [ref=e2051]: No image
+                  - generic [ref=e2052]:
+                    - heading "PASCALI CONNECTOR 3 WAY 25MM" [level=3] [ref=e2053]
+                    - paragraph [ref=e2054]: JA
+                    - generic [ref=e2056]: ZAR 69.10
+                - button "Add to Cart" [ref=e2058] [cursor=pointer]
+              - generic [ref=e2059]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.55KW + DSK2 CONTR 230V JA ZAR 2,121.60" [ref=e2060] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-55kw-dsk2-contr-230v-1
+                  - generic [ref=e2062]: No image
+                  - generic [ref=e2063]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.55KW + DSK2 CONTR 230V" [level=3] [ref=e2064]
+                    - paragraph [ref=e2065]: JA
+                    - generic [ref=e2067]: ZAR 2,121.60
+                - button "Add to Cart" [ref=e2069] [cursor=pointer]
+              - generic [ref=e2070]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 0.75KW + DSK2 CONTR 230V JA ZAR 2,201.94" [ref=e2071] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-0-75kw-dsk2-contr-230v-1
+                  - generic [ref=e2073]: No image
+                  - generic [ref=e2074]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 0.75KW + DSK2 CONTR 230V" [level=3] [ref=e2075]
+                    - paragraph [ref=e2076]: JA
+                    - generic [ref=e2078]: ZAR 2,201.94
+                - button "Add to Cart" [ref=e2080] [cursor=pointer]
+              - generic [ref=e2081]:
+                - link "No image PASCALI PUMP CENTRIFUGAL 1.1KW + DSK2 CONTR 230V JA ZAR 3,276.00" [ref=e2082] [cursor=pointer]:
+                  - /url: /products/pascali-pump-centrifugal-1-1kw-dsk2-contr-230v-1
+                  - generic [ref=e2084]: No image
+                  - generic [ref=e2085]:
+                    - heading "PASCALI PUMP CENTRIFUGAL 1.1KW + DSK2 CONTR 230V" [level=3] [ref=e2086]
+                    - paragraph [ref=e2087]: JA
+                    - generic [ref=e2089]: ZAR 3,276.00
+                - button "Add to Cart" [ref=e2091] [cursor=pointer]
+              - generic [ref=e2092]:
+                - link "No image PASCALI CONTROLLER PUMP AUTO 25MM 10A 1.1KW 230V JA ZAR 392.04" [ref=e2093] [cursor=pointer]:
+                  - /url: /products/pascali-controller-pump-auto-25mm-10a-1-1kw-230v-1
+                  - generic [ref=e2095]: No image
+                  - generic [ref=e2096]:
+                    - heading "PASCALI CONTROLLER PUMP AUTO 25MM 10A 1.1KW 230V" [level=3] [ref=e2097]
+                    - paragraph [ref=e2098]: JA
+                    - generic [ref=e2100]: ZAR 392.04
+                - button "Add to Cart" [ref=e2102] [cursor=pointer]
+              - generic [ref=e2103]:
+                - link "No image PASCALI SWITCH PRESSURE SK-1 JA ZAR 103.76" [ref=e2104] [cursor=pointer]:
+                  - /url: /products/pascali-switch-pressure-sk-2
+                  - generic [ref=e2106]: No image
+                  - generic [ref=e2107]:
+                    - heading "PASCALI SWITCH PRESSURE SK-1" [level=3] [ref=e2108]
+                    - paragraph [ref=e2109]: JA
+                    - generic [ref=e2111]: ZAR 103.76
+                - button "Sold Out" [disabled] [ref=e2113]
+              - generic [ref=e2114]:
+                - link "No image PASCALI CONNECTOR FOR PRESS CONTROL PASSK10 25MM JA ZAR 19.32" [ref=e2115] [cursor=pointer]:
+                  - /url: /products/pascali-connector-for-press-control-passk10-25mm-1
+                  - generic [ref=e2117]: No image
+                  - generic [ref=e2118]:
+                    - heading "PASCALI CONNECTOR FOR PRESS CONTROL PASSK10 25MM" [level=3] [ref=e2119]
+                    - paragraph [ref=e2120]: JA
+                    - generic [ref=e2122]: ZAR 19.32
+                - button "Add to Cart" [ref=e2124] [cursor=pointer]
+              - generic [ref=e2125]:
+                - link "No image PASCALI HOSE FLEXIBLE SHORT PASJET/24 8MM INLET JA ZAR 51.82" [ref=e2126] [cursor=pointer]:
+                  - /url: /products/pascali-hose-flexible-short-pasjet-24-8mm-inlet-1
+                  - generic [ref=e2128]: No image
+                  - generic [ref=e2129]:
+                    - heading "PASCALI HOSE FLEXIBLE SHORT PASJET/24 8MM INLET" [level=3] [ref=e2130]
+                    - paragraph [ref=e2131]: JA
+                    - generic [ref=e2133]: ZAR 51.82
+                - button "Add to Cart" [ref=e2135] [cursor=pointer]
+              - generic [ref=e2136]:
+                - link "No image PASCALI GAUGE DSK2 JA ZAR 34.87" [ref=e2137] [cursor=pointer]:
+                  - /url: /products/pascali-gauge-dsk2-1
+                  - generic [ref=e2139]: No image
+                  - generic [ref=e2140]:
+                    - heading "PASCALI GAUGE DSK2" [level=3] [ref=e2141]
+                    - paragraph [ref=e2142]: JA
+                    - generic [ref=e2144]: ZAR 34.87
+                - button "Add to Cart" [ref=e2146] [cursor=pointer]
+              - generic [ref=e2147]:
+                - link "No image PASCALI CONTROL BOX 0.37KW 230V JA ZAR 153.10" [ref=e2148] [cursor=pointer]:
+                  - /url: /products/pascali-control-box-0-37kw-230v-1
+                  - generic [ref=e2150]: No image
+                  - generic [ref=e2151]:
+                    - heading "PASCALI CONTROL BOX 0.37KW 230V" [level=3] [ref=e2152]
+                    - paragraph [ref=e2153]: JA
+                    - generic [ref=e2155]: ZAR 153.10
+                - button "Add to Cart" [ref=e2157] [cursor=pointer]
+              - generic [ref=e2158]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 0.37KW 230V JA ZAR 625.92" [ref=e2159] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-0-37kw-230v
+                  - generic [ref=e2161]: No image
+                  - generic [ref=e2162]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 0.37KW 230V" [level=3] [ref=e2163]
+                    - paragraph [ref=e2164]: JA
+                    - generic [ref=e2166]: ZAR 625.92
+                - button "Add to Cart" [ref=e2168] [cursor=pointer]
+              - generic [ref=e2169]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 0.55KW 230V JA ZAR 741.89" [ref=e2170] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-0-55kw-230v
+                  - generic [ref=e2172]: No image
+                  - generic [ref=e2173]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 0.55KW 230V" [level=3] [ref=e2174]
+                    - paragraph [ref=e2175]: JA
+                    - generic [ref=e2177]: ZAR 741.89
+                - button "Add to Cart" [ref=e2179] [cursor=pointer]
+              - generic [ref=e2180]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 0.75KW 230V JA ZAR 811.78" [ref=e2181] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-0-75kw-230v
+                  - generic [ref=e2183]: No image
+                  - generic [ref=e2184]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 0.75KW 230V" [level=3] [ref=e2185]
+                    - paragraph [ref=e2186]: JA
+                    - generic [ref=e2188]: ZAR 811.78
+                - button "Add to Cart" [ref=e2190] [cursor=pointer]
+              - generic [ref=e2191]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 0.37KW 230V JB ZAR 936.96" [ref=e2192] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-0-37kw-230v
+                  - generic [ref=e2194]: No image
+                  - generic [ref=e2195]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 0.37KW 230V" [level=3] [ref=e2196]
+                    - paragraph [ref=e2197]: JB
+                    - generic [ref=e2199]: ZAR 936.96
+                - button "Sold Out" [disabled] [ref=e2201]
+              - generic [ref=e2202]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 0.55KW 230V JB ZAR 1,048.32" [ref=e2203] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-0-55kw-230v
+                  - generic [ref=e2205]: No image
+                  - generic [ref=e2206]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 0.55KW 230V" [level=3] [ref=e2207]
+                    - paragraph [ref=e2208]: JB
+                    - generic [ref=e2210]: ZAR 1,048.32
+                - button "Add to Cart" [ref=e2212] [cursor=pointer]
+              - generic [ref=e2213]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 0.75KW 230V JB ZAR 1,159.68" [ref=e2214] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-0-75kw-230v
+                  - generic [ref=e2216]: No image
+                  - generic [ref=e2217]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 0.75KW 230V" [level=3] [ref=e2218]
+                    - paragraph [ref=e2219]: JB
+                    - generic [ref=e2221]: ZAR 1,159.68
+                - button "Sold Out" [disabled] [ref=e2223]
+              - generic [ref=e2224]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 1.1KW 230V JA ZAR 998.40" [ref=e2225] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-1-1kw-230v
+                  - generic [ref=e2227]: No image
+                  - generic [ref=e2228]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 1.1KW 230V" [level=3] [ref=e2229]
+                    - paragraph [ref=e2230]: JA
+                    - generic [ref=e2232]: ZAR 998.40
+                - button "Add to Cart" [ref=e2234] [cursor=pointer]
+              - generic [ref=e2235]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 1.1KW 230V JB ZAR 1,105.92" [ref=e2236] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-1-1kw-230v
+                  - generic [ref=e2238]: No image
+                  - generic [ref=e2239]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 1.1KW 230V" [level=3] [ref=e2240]
+                    - paragraph [ref=e2241]: JB
+                    - generic [ref=e2243]: ZAR 1,105.92
+                - button "Add to Cart" [ref=e2245] [cursor=pointer]
+              - generic [ref=e2246]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 0.92KW 230V JA ZAR 852.48" [ref=e2247] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-0-92kw-230v
+                  - generic [ref=e2249]: No image
+                  - generic [ref=e2250]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 0.92KW 230V" [level=3] [ref=e2251]
+                    - paragraph [ref=e2252]: JA
+                    - generic [ref=e2254]: ZAR 852.48
+                - button "Add to Cart" [ref=e2256] [cursor=pointer]
+              - generic [ref=e2257]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 1.3KW 230V JA ZAR 1,340.16" [ref=e2258] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-1-3kw-230v
+                  - generic [ref=e2260]: No image
+                  - generic [ref=e2261]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 1.3KW 230V" [level=3] [ref=e2262]
+                    - paragraph [ref=e2263]: JA
+                    - generic [ref=e2265]: ZAR 1,340.16
+                - button "Add to Cart" [ref=e2267] [cursor=pointer]
+              - generic [ref=e2268]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 2.2KW 230V JA ZAR 1,344.00" [ref=e2269] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-2-2kw-230v
+                  - generic [ref=e2271]: No image
+                  - generic [ref=e2272]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 2.2KW 230V" [level=3] [ref=e2273]
+                    - paragraph [ref=e2274]: JA
+                    - generic [ref=e2276]: ZAR 1,344.00
+                - button "Add to Cart" [ref=e2278] [cursor=pointer]
+              - generic [ref=e2279]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 100MM 1.5KW 230V JA ZAR 990.72" [ref=e2280] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-100mm-1-5kw-230v
+                  - generic [ref=e2282]: No image
+                  - generic [ref=e2283]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 100MM 1.5KW 230V" [level=3] [ref=e2284]
+                    - paragraph [ref=e2285]: JA
+                    - generic [ref=e2287]: ZAR 990.72
+                - button "Add to Cart" [ref=e2289] [cursor=pointer]
+              - generic [ref=e2290]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 0.92KW 230V JB ZAR 1,244.16" [ref=e2291] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-0-92kw-230v
+                  - generic [ref=e2293]: No image
+                  - generic [ref=e2294]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 0.92KW 230V" [level=3] [ref=e2295]
+                    - paragraph [ref=e2296]: JB
+                    - generic [ref=e2298]: ZAR 1,244.16
+                - button "Add to Cart" [ref=e2300] [cursor=pointer]
+              - generic [ref=e2301]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 1.3KW 230V JB ZAR 1,466.88" [ref=e2302] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-1-3kw-230v
+                  - generic [ref=e2304]: No image
+                  - generic [ref=e2305]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 1.3KW 230V" [level=3] [ref=e2306]
+                    - paragraph [ref=e2307]: JB
+                    - generic [ref=e2309]: ZAR 1,466.88
+                - button "Add to Cart" [ref=e2311] [cursor=pointer]
+              - generic [ref=e2312]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 1.5KW 230V JB ZAR 1,605.12" [ref=e2313] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-1-5kw-230v
+                  - generic [ref=e2315]: No image
+                  - generic [ref=e2316]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 1.5KW 230V" [level=3] [ref=e2317]
+                    - paragraph [ref=e2318]: JB
+                    - generic [ref=e2320]: ZAR 1,605.12
+                - button "Add to Cart" [ref=e2322] [cursor=pointer]
+              - generic [ref=e2323]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 2.2KW 230V JB ZAR 1,996.80" [ref=e2324] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-2-2kw-230v
+                  - generic [ref=e2326]: No image
+                  - generic [ref=e2327]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 2.2KW 230V" [level=3] [ref=e2328]
+                    - paragraph [ref=e2329]: JB
+                    - generic [ref=e2331]: ZAR 1,996.80
+                - button "Add to Cart" [ref=e2333] [cursor=pointer]
+              - generic [ref=e2334]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 3inch 0.37kW 230V JA ZAR 493.82" [ref=e2335] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-3inch-0-37kw-230v
+                  - generic [ref=e2337]: No image
+                  - generic [ref=e2338]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 3inch 0.37kW 230V" [level=3] [ref=e2339]
+                    - paragraph [ref=e2340]: JA
+                    - generic [ref=e2342]: ZAR 493.82
+                - button "Add to Cart" [ref=e2344] [cursor=pointer]
+              - generic [ref=e2345]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 3inch 0.55kW 230V JA ZAR 601.34" [ref=e2346] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-3inch-0-55kw-230v
+                  - generic [ref=e2348]: No image
+                  - generic [ref=e2349]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 3inch 0.55kW 230V" [level=3] [ref=e2350]
+                    - paragraph [ref=e2351]: JA
+                    - generic [ref=e2353]: ZAR 601.34
+                - button "Add to Cart" [ref=e2355] [cursor=pointer]
+              - generic [ref=e2356]:
+                - link "No image PASCALI PUMP SUBMERSIBLE 3inch 0.75kW 230V JA ZAR 679.68" [ref=e2357] [cursor=pointer]:
+                  - /url: /products/pascali-pump-submersible-3inch-0-75kw-230v
+                  - generic [ref=e2359]: No image
+                  - generic [ref=e2360]:
+                    - heading "PASCALI PUMP SUBMERSIBLE 3inch 0.75kW 230V" [level=3] [ref=e2361]
+                    - paragraph [ref=e2362]: JA
+                    - generic [ref=e2364]: ZAR 679.68
+                - button "Add to Cart" [ref=e2366] [cursor=pointer]
+              - generic [ref=e2367]:
+                - link "No image PASCALI MOTOR SUBMERSIBLE 3inch 0.37kW 230V JB ZAR 860.16" [ref=e2368] [cursor=pointer]:
+                  - /url: /products/pascali-motor-submersible-3inch-0-37kw-230v
+                  - generic [ref=e2370]: No image
+                  - generic [ref=e2371]:
+                    - heading "PASCALI MOTOR SUBMERSIBLE 3inch 0.37kW 230V" [level=3] [ref=e2372]
+                    - paragraph [ref=e2373]: JB
+                    - generic [ref=e2375]: ZAR 860.16
+                - button "Add to Cart" [ref=e2377] [cursor=pointer]
+  - contentinfo [ref=e2378]:
+    - navigation [ref=e2379]:
+      - link "Search" [ref=e2380] [cursor=pointer]:
+        - /url: /search
+      - link "Your Privacy Choices" [ref=e2381] [cursor=pointer]:
+        - /url: /pages/data-sharing-opt-out
+    - generic [ref=e2382]:
+      - link "Privacy Policy" [ref=e2383] [cursor=pointer]:
+        - /url: /policies/privacy-policy
+      - link "Terms of Service" [ref=e2384] [cursor=pointer]:
+        - /url: /policies/terms-of-service
+      - link "Refund Policy" [ref=e2385] [cursor=pointer]:
+        - /url: /policies/refund-policy
+      - link "Shipping Policy" [ref=e2386] [cursor=pointer]:
+        - /url: /policies/shipping-policy
+```
+
+# Test source
+
+```ts
+  1  | import {test, expect} from '@playwright/test';
+  2  | 
+  3  | test.describe('Cart Integration', () => {
+  4  |   test('cart page loads', async ({page}) => {
+  5  |     const response = await page.goto('/cart');
+  6  |     expect(response?.status()).toBeLessThan(500);
+  7  |     await expect(page.locator('h1')).toContainText(/cart/i);
+  8  |   });
+  9  | 
+  10 |   test('can navigate to a product and see non-zero price', async ({page}) => {
+  11 |     await page.goto('/collections/all');
+  12 |     await page.waitForLoadState('networkidle');
+  13 | 
+  14 |     const firstProduct = page.locator('.products-grid a').first();
+  15 |     if (await firstProduct.count() === 0) {
+  16 |       test.skip(true, 'No products available to test');
+  17 |       return;
+  18 |     }
+  19 | 
+  20 |     await firstProduct.click();
+  21 |     await page.waitForLoadState('networkidle');
+  22 | 
+  23 |     await expect(page.locator('h1')).toBeVisible();
+  24 | 
+  25 |     const priceText = await page.locator('.product-main').textContent();
+  26 |     expect(priceText).toBeTruthy();
+  27 |   });
+  28 | 
+  29 |   test('add to cart produces non-zero price in cart', async ({page}) => {
+  30 |     await page.goto('/collections/all');
+  31 |     await page.waitForLoadState('networkidle');
+  32 | 
+  33 |     const firstProduct = page.locator('.products-grid a').first();
+  34 |     if (await firstProduct.count() === 0) {
+  35 |       test.skip(true, 'No products available to test');
+  36 |       return;
+  37 |     }
+  38 | 
+  39 |     await firstProduct.click();
+  40 |     await page.waitForLoadState('networkidle');
+  41 | 
+  42 |     const addToCartBtn = page.locator('button[type="submit"]', {hasText: /add to cart/i});
+> 43 |     if (await addToCartBtn.count() === 0 || await addToCartBtn.isDisabled()) {
+     |                                                                ^ Error: locator.isDisabled: Error: strict mode violation: locator('button[type="submit"]').filter({ hasText: /add to cart/i }) resolved to 152 elements:
+  44 |       test.skip(true, 'Add to cart button not available (product may be sold out)');
+  45 |       return;
+  46 |     }
+  47 | 
+  48 |     await addToCartBtn.click();
+  49 |     await page.waitForTimeout(2000);
+  50 | 
+  51 |     await page.goto('/cart');
+  52 |     await page.waitForLoadState('networkidle');
+  53 | 
+  54 |     const cartContent = await page.locator('.cart').textContent();
+  55 |     expect(cartContent).toBeTruthy();
+  56 | 
+  57 |     const hasZeroPrice = /ZAR\s*0[.,]00|R\s*0[.,]00/.test(cartContent ?? '');
+  58 |     expect(hasZeroPrice, 'Cart should not show ZAR 0.00 — indicates ZA market is DRAFT').toBe(false);
+  59 |   });
+  60 | 
+  61 |   test('debug-availability route shows product data', async ({page}) => {
+  62 |     await page.goto('/collections/all');
+  63 |     await page.waitForLoadState('networkidle');
+  64 | 
+  65 |     const firstProductLink = page.locator('.products-grid a').first();
+  66 |     if (await firstProductLink.count() === 0) {
+  67 |       test.skip(true, 'No products available');
+  68 |       return;
+  69 |     }
+  70 | 
+  71 |     const href = await firstProductLink.getAttribute('href');
+  72 |     const handle = href?.split('/products/')[1]?.split('?')[0];
+  73 |     if (!handle) {
+  74 |       test.skip(true, 'Could not extract product handle');
+  75 |       return;
+  76 |     }
+  77 | 
+  78 |     await page.goto(`/debug-availability?handle=${handle}`);
+  79 |     await page.waitForLoadState('networkidle');
+  80 | 
+  81 |     await expect(page.locator(`text=Debug: ${handle}`)).toBeVisible();
+  82 | 
+  83 |     const diagnosisSection = page.locator('text=Diagnosis');
+  84 |     await expect(diagnosisSection).toBeVisible();
+  85 |   });
+  86 | });
+  87 | 
+```

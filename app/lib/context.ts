@@ -1,5 +1,6 @@
 import {
   createHydrogenContext,
+  InMemoryCache,
   type I18nBase,
   type CountryCode,
   type LanguageCode,
@@ -40,20 +41,21 @@ declare global {
   interface HydrogenAdditionalContext extends AdditionalContextType {}
 }
 
-export async function createHydrogenRouterContext(
-  request: Request,
-  env: Env,
-  executionContext: ExecutionContext,
-) {
+// Node has no Cache API (caches.open) or Workers-style waitUntil — a single
+// process-lifetime in-memory cache replaces the per-isolate Workers cache,
+// and a fire-and-forget shim replaces executionContext.waitUntil.
+const cache = new InMemoryCache();
+
+function waitUntil(promise: Promise<unknown>): void {
+  promise.catch((error: unknown) => console.error(error));
+}
+
+export async function createHydrogenRouterContext(request: Request, env: Env) {
   if (!env?.SESSION_SECRET) {
     throw new Error('SESSION_SECRET environment variable is not set');
   }
 
-  const waitUntil = executionContext.waitUntil.bind(executionContext);
-  const [cache, session] = await Promise.all([
-    caches.open('hydrogen'),
-    AppSession.init(request, [env.SESSION_SECRET]),
-  ]);
+  const session = await AppSession.init(request, [env.SESSION_SECRET]);
 
   const locale = getLocaleFromRequest(request);
 

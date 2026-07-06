@@ -1,0 +1,7 @@
+node_modules
+dist
+.react-router
+.shopify
+media
+.env
+.git
