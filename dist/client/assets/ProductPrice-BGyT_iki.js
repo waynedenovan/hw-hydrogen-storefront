@@ -1,0 +1,1 @@
+import{j as s}from"./chunk-6CSD65Y2-Yw5OWURN.js";import{M as r}from"./Money-B57dmFnt.js";function o({price:a,compareAtPrice:d}){return s.jsx("div",{className:"product-price",children:d?s.jsxs("div",{className:"product-price-on-sale",children:[a?s.jsx(r,{data:a}):null,s.jsx("s",{children:s.jsx(r,{data:d})})]}):a?s.jsx(r,{data:a}):s.jsx("span",{children:" "})})}export{o as P};
