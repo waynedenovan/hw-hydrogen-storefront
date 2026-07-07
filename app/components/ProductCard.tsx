@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
 import {getProductCardImageSrc} from '~/lib/supplierImages';
@@ -44,6 +44,19 @@ export function ProductCard({product}: ProductCardProps) {
     product.supplierName?.value,
     product.externalProductId?.value,
   );
+  const noImageAvailable = !product.featuredImage && (!localImageSrc || localImageFailed);
+
+  // Dev-only trace for "no image" cases — the placeholder itself is expected UI,
+  // but silently showing it makes missing-image data issues hard to spot later.
+  useEffect(() => {
+    if (!noImageAvailable || !import.meta.env.DEV) return;
+    console.warn(
+      `[ProductCard] No image for "${product.title}" (${product.handle}): no Shopify featuredImage, and ` +
+        (localImageSrc
+          ? `local fallback 404'd at ${localImageSrc}.`
+          : 'no supplier_name/external_product_id metafields to build a local fallback path.'),
+    );
+  }, [noImageAvailable, localImageSrc, product.title, product.handle]);
 
   return (
     <div className="product-card group block">
@@ -60,7 +73,13 @@ export function ProductCard({product}: ProductCardProps) {
             <img
               src={localImageSrc}
               alt={product.title}
-              onError={() => setLocalImageFailed(true)}
+              onError={() => {
+                console.warn(
+                  `[ProductCard] Local fallback image 404'd for "${product.title}" (${product.handle}): ${localImageSrc}. ` +
+                    `Check that supplier_name/external_product_id metafields match a real file under media/suppliers/.`,
+                );
+                setLocalImageFailed(true);
+              }}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (

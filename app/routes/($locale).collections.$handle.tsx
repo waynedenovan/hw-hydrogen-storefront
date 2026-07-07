@@ -179,99 +179,172 @@ export default function Collection() {
     return true;
   });
 
-  // Default view: group by sub-collection, then by sub-cat-collection within it.
-  const grouped = new Map<string, Map<string, any[]>>();
+  // Default view: group by brand, then sub-collection, then sub-cat-collection.
+  const grouped = new Map<string, Map<string, Map<string, any[]>>>();
   for (const product of allProducts) {
+    const brand = getBrand(product) || 'Other';
     const subCollection = getSubCollection(product);
     const subCatCollection = getSubCatCollection(product);
-    if (!grouped.has(subCollection)) grouped.set(subCollection, new Map());
-    const subMap = grouped.get(subCollection)!;
-    if (!subMap.has(subCatCollection)) subMap.set(subCatCollection, []);
-    subMap.get(subCatCollection)!.push(product);
+    if (!grouped.has(brand)) grouped.set(brand, new Map());
+    const subCollectionMap = grouped.get(brand)!;
+    if (!subCollectionMap.has(subCollection)) subCollectionMap.set(subCollection, new Map());
+    const subCatMap = subCollectionMap.get(subCollection)!;
+    if (!subCatMap.has(subCatCollection)) subCatMap.set(subCatCollection, []);
+    subCatMap.get(subCatCollection)!.push(product);
   }
 
+  const priceValues = allProducts.map(getPrice);
+  const priceFloor = priceValues.length ? Math.floor(Math.min(...priceValues)) : 0;
+  const priceCeil = priceValues.length ? Math.ceil(Math.max(...priceValues)) : 0;
+  const [filtersOpen, setFiltersOpen] = useState(true);
+
   return (
-    <div className="collection max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">{collection.title}</h1>
-      {collection.description && (
-        <p className="collection-description text-gray-600 mb-6">
-          {collection.description}
-        </p>
-      )}
-
-      <div className="collection-layout">
-        <aside className="collection-filters">
-          <div className="filter-group">
-            <h4 className="font-semibold text-sm mb-1">Price</h4>
-            <div className="filter-price-range">
-              <input
-                type="number"
-                placeholder="Min"
-                value={minPrice}
-                onChange={(e) => setPrice('minPrice', e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={maxPrice}
-                onChange={(e) => setPrice('maxPrice', e.target.value)}
-              />
-            </div>
+    <div
+      style={{
+        maxWidth: '90%',
+        margin: '0 auto',
+        background: 'rgba(50, 50, 50, 0.65)',
+        padding: '2rem',
+        borderRadius: '12px',
+      }}
+    >
+      <div className="collection max-w-7xl mx-auto px-4 py-8">
+        <div className="collection-header">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 text-white">{collection.title}</h1>
+            {collection.description && (
+              <p className="collection-description text-gray-300 mb-6">
+                {collection.description}
+              </p>
+            )}
           </div>
-          <FilterCheckboxGroup
-            title="Brand"
-            options={brandOptions}
-            selected={selectedBrands}
-            onToggle={(v) => toggleParam('brand', v)}
-          />
-          <FilterCheckboxGroup
-            title="Sub Collection"
-            options={subCollectionOptions}
-            selected={selectedSubCollections}
-            onToggle={(v) => toggleParam('subCollection', v)}
-          />
-          <FilterCheckboxGroup
-            title="Sub-Cat Collection"
-            options={subCatCollectionOptions}
-            selected={selectedSubCatCollections}
-            onToggle={(v) => toggleParam('subCatCollection', v)}
-          />
-          {hasFilters && (
-            <button type="button" className="filter-clear-btn" onClick={clearFilters}>
-              Clear filters
-            </button>
-          )}
-        </aside>
+          <button
+            type="button"
+            className="filter-toggle-btn"
+            aria-expanded={filtersOpen}
+            aria-controls="collection-filters"
+            onClick={() => setFiltersOpen((open) => !open)}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <path d="M4 5h16M7 12h10M10 19h4" strokeLinecap="round" />
+            </svg>
+            Filters
+          </button>
+        </div>
 
-        <div className="collection-results">
-          {hasFilters ? (
-            filteredProducts.length > 0 ? (
-              <div className="products-grid">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+        <div className="collection-layout">
+          {filtersOpen && (
+            <aside id="collection-filters" className="collection-filters">
+              <div className="filter-group">
+                <h4 className="font-semibold text-sm mb-1">Price</h4>
+                <div className="filter-price-slider">
+                  <input
+                    type="range"
+                    min={priceFloor}
+                    max={priceCeil}
+                    value={minPrice === '' ? priceFloor : Number(minPrice)}
+                    onChange={(e) =>
+                      setPrice('minPrice', Math.min(Number(e.target.value), maxPrice === '' ? priceCeil : Number(maxPrice)).toString())
+                    }
+                  />
+                  <input
+                    type="range"
+                    min={priceFloor}
+                    max={priceCeil}
+                    value={maxPrice === '' ? priceCeil : Number(maxPrice)}
+                    onChange={(e) =>
+                      setPrice('maxPrice', Math.max(Number(e.target.value), minPrice === '' ? priceFloor : Number(minPrice)).toString())
+                    }
+                  />
+                </div>
+                <div className="filter-price-range">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={minPrice}
+                    onChange={(e) => setPrice('minPrice', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={maxPrice}
+                    onChange={(e) => setPrice('maxPrice', e.target.value)}
+                  />
+                </div>
               </div>
-            ) : (
-              <p className="text-center text-gray-500 py-8">No products match the selected filters.</p>
-            )
-          ) : (
-            [...grouped.entries()].map(([subCollection, subCatMap]) => {
-              const sectionCount = [...subCatMap.values()].reduce((sum, p) => sum + p.length, 0);
-              return (
-                <CollapsibleSection key={subCollection} title={subCollection} count={sectionCount}>
-                  {[...subCatMap.entries()].map(([subCatCollection, products]) => (
-                    <CollapsibleSection key={subCatCollection} title={subCatCollection} count={products.length}>
-                      <div className="products-grid">
-                        {products.map((product) => (
-                          <ProductCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </CollapsibleSection>
-                  ))}
-                </CollapsibleSection>
-              );
-            })
+              <FilterCheckboxGroup
+                title="Brand"
+                options={brandOptions}
+                selected={selectedBrands}
+                onToggle={(v) => toggleParam('brand', v)}
+              />
+              <FilterCheckboxGroup
+                title="Sub Collection"
+                options={subCollectionOptions}
+                selected={selectedSubCollections}
+                onToggle={(v) => toggleParam('subCollection', v)}
+              />
+              <FilterCheckboxGroup
+                title="Sub-Cat Collection"
+                options={subCatCollectionOptions}
+                selected={selectedSubCatCollections}
+                onToggle={(v) => toggleParam('subCatCollection', v)}
+              />
+              {hasFilters && (
+                <button type="button" className="filter-clear-btn" onClick={clearFilters}>
+                  Clear filters
+                </button>
+              )}
+            </aside>
           )}
+
+          <div className="collection-results">
+            {hasFilters ? (
+              filteredProducts.length > 0 ? (
+                <div className="products-grid">
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-gray-300 py-8">No products match the selected filters.</p>
+              )
+            ) : (
+              [...grouped.entries()].map(([brand, subCollectionMap]) => {
+                const brandCount = [...subCollectionMap.values()]
+                  .flatMap((subCatMap) => [...subCatMap.values()])
+                  .reduce((sum, p) => sum + p.length, 0);
+                return (
+                  <CollapsibleSection key={brand} title={brand} count={brandCount}>
+                    {[...subCollectionMap.entries()].map(([subCollection, subCatMap]) => {
+                      const sectionCount = [...subCatMap.values()].reduce((sum, p) => sum + p.length, 0);
+                      return (
+                        <CollapsibleSection key={subCollection} title={subCollection} count={sectionCount}>
+                          {[...subCatMap.entries()].map(([subCatCollection, products]) => (
+                            <CollapsibleSection key={subCatCollection} title={subCatCollection} count={products.length}>
+                              <div className="products-grid">
+                                {products.map((product) => (
+                                  <ProductCard key={product.id} product={product} />
+                                ))}
+                              </div>
+                            </CollapsibleSection>
+                          ))}
+                        </CollapsibleSection>
+                      );
+                    })}
+                  </CollapsibleSection>
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -297,22 +370,22 @@ const PRODUCT_FIELDS = `#graphql
         currencyCode
       }
     }
-    brand: metafield(namespace: "app", key: "brand") {
+    brand: metafield(namespace: "custom", key: "brand") {
       value
     }
-    subCollection: metafield(namespace: "app", key: "sub_collection") {
+    subCollection: metafield(namespace: "custom", key: "sub_collection") {
       value
     }
-    subCatCollection: metafield(namespace: "app", key: "sub_cat_collection") {
+    subCatCollection: metafield(namespace: "custom", key: "sub_cat_collection") {
       value
     }
-    msq: metafield(namespace: "app", key: "msq") {
+    msq: metafield(namespace: "custom", key: "msq") {
       value
     }
-    supplierName: metafield(namespace: "app", key: "supplier_name") {
+    supplierName: metafield(namespace: "custom", key: "supplier_name") {
       value
     }
-    externalProductId: metafield(namespace: "app", key: "external_product_id") {
+    externalProductId: metafield(namespace: "custom", key: "external_product_id") {
       value
     }
     variants(first: 1) {

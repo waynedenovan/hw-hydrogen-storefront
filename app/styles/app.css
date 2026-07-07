@@ -860,6 +860,46 @@ aside input::placeholder {
   }
 }
 
+/* Collection page reuses the product page's dark translucent card look —
+   see the inline style on routes/($locale).collections.$handle.tsx's root
+   and routes/($locale).products.$handle.tsx for the shared rgba(50,50,50,*)
+   tokens (documented in .claude/skills/collection-page-style/SKILL.md). */
+.collection,
+.collection .filter-option,
+.collection .filter-group h4,
+.collection .collection-section-toggle {
+  color: #fff;
+}
+
+.collection .filter-group-options,
+.collection .filter-clear-btn {
+  color: rgb(209, 213, 219);
+}
+
+.collection-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.filter-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 .collection-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -889,6 +929,63 @@ aside input::placeholder {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.875rem;
+}
+
+/* Dual-handle price slider: two overlapping range inputs sharing one track.
+   Each input's own thumb stays clickable; the invisible track lets clicks
+   fall through to whichever handle is nearer (native range behavior). */
+.filter-price-slider {
+  position: relative;
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-price-slider input[type='range'] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.filter-price-slider input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+.filter-price-slider input[type='range']::-moz-range-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+.filter-price-slider input[type='range']::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  margin-top: -6px;
+}
+
+.filter-price-slider input[type='range']::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
 }
 
 .filter-price-range {

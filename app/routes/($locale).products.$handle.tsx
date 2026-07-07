@@ -324,19 +324,19 @@ const PRODUCT_QUERY = `#graphql
           value
         }
       }
-      brand: metafield(namespace: "app", key: "brand") {
+      brand: metafield(namespace: "custom", key: "brand") {
         value
       }
-      b2cDescription: metafield(namespace: "app", key: "b2c_description") {
+      b2cDescription: metafield(namespace: "custom", key: "b2c_description") {
         value
       }
-      dimensions: metafield(namespace: "app", key: "dimensions") {
+      dimensions: metafield(namespace: "custom", key: "dimensions") {
         value
       }
-      supplierName: metafield(namespace: "app", key: "supplier_name") {
+      supplierName: metafield(namespace: "custom", key: "supplier_name") {
         value
       }
-      externalProductId: metafield(namespace: "app", key: "external_product_id") {
+      externalProductId: metafield(namespace: "custom", key: "external_product_id") {
         value
       }
     }
