@@ -1,4 +1,4 @@
-2607071150 claude
+260707 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,15 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- External access to hydrogen storefront
-    - Docker && ngrok:
-        - is up and running correctly
-            - localhost:5130 and https://alfredia-prebudgetary-nonperceptibly.ngrok-free.dev are accessable
-    - cloudflare tunnel is not working correctly as can be seen from the below image:
-        - app/errors/260707114748-errors.png
+- 
 
 ## Step 2: Documentation and exit
-- update @2607071150_todo.md but exclude todo.md from any updating
+- update @260707_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
