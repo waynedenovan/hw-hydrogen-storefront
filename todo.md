@@ -1,4 +1,4 @@
-2607071525 claude
+26070 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -10,19 +10,17 @@ context:
 - when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
 - INCLUDE ONLY: /hw-storefront-ui and ../hw-hydrogen-storefront when planing and implementing any needed actions or changes
 - git: I will always manually commit. Never offer or automatically try or exec a commit
+- versioning: each task bumps the repo-root `VERSION` file by 1, format `yyyy.mm.{n}` (e.g. `2026.07.3`) — `{n}` is a single running counter across all tasks, it never resets month to month (only the `yyyy.mm` prefix reflects the current date). One bump per task/session, not per individual fix within a session. Record the version at the top of that task's timestamped todo file. This assistant never commits, so the `VERSION` file bump rides along in my next manual commit rather than being tagged in git directly.
 
 ## Task requirements:
 - Follow each step
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- Collection pages:
-    - image: app/errors/260707151009-erros.png
-        - You have to take into account that as you use sub sections that the width of your usable space is decreasing, which is pushing the product cards off the screen.
-            - keep the sections and subsection selector exactly as they are but instead start the product cards inline on the left as if their is no sections. This will allow the product cards to use the complete centre section on 80% with correct margens and guttering. As fare as i can remember there should be a margen of 20px on all sides which everything else should fit in and never overlap. This is for the any element ie the area that will contain the page heading, sections product cards etc, and this should have transparent backgournd of rgba(80 80 80 0.65)
+- 
 
 ## Step 2: Documentation and exit
-- update @2607071525_todo.md but exclude todo.md from any updating
+- update @26070_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db

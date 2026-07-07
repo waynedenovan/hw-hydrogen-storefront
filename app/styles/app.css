@@ -838,11 +838,17 @@ aside input::placeholder {
   grid-gap: 1.5rem;
   /* Fixed column counts (not auto-fit): this grid always sits next to the
      220px .collection-filters sidebar, so it needs a wider viewport than
-     .recommended-products-grid before adding a 3rd column. */
-  grid-template-columns: repeat(2, 1fr);
+     .recommended-products-grid before adding a 3rd column.
+     minmax(0, 1fr) (not bare 1fr): without the explicit 0 minimum, a track
+     can't shrink below its item's min-content size. ProductCard's title uses
+     Tailwind `truncate` (white-space: nowrap), whose min-content is the full
+     untruncated text width -- that was forcing the grid wider than its
+     container and pushing cards past the right edge instead of letting the
+     title truncate. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 2rem;
   @media (min-width: 64em) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -857,6 +863,15 @@ aside input::placeholder {
   .collections-grid,
   .blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Very small screens (most phones in portrait): 2 columns leaves each product
+   card too cramped to read, so drop to 1. Must come after the 45em rule
+   above so it wins at widths where both queries match. */
+@media (max-width: 30em) {
+  .products-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -914,6 +929,22 @@ aside input::placeholder {
   flex-direction: column;
   gap: 1.25rem;
   align-self: start;
+  /* .collection-filters is a semantic <aside>, which collides with the
+     generic `aside { position: fixed; right: calc(-1 * var(--aside-width));
+     width: min(var(--aside-width), 100vw); height: 100vh; ... }` rule meant
+     for the cart/menu drawer -- that rule pulled this sidebar out of grid
+     flow and off-screen, leaving .collection-results alone in
+     .collection-layout's grid (auto-placed into the 220px track instead of
+     the wide results track). Reset every property the generic rule sets so
+     this stays a normal in-flow grid item. */
+  position: static;
+  right: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  box-shadow: none;
+  background: none;
+  transition: none;
 }
 
 .filter-group-options {
@@ -1016,13 +1047,17 @@ aside input::placeholder {
   display: block;
 }
 
-.collection-section .collection-section {
-  margin-left: 1rem;
-}
-
+/* Indent nested section titles only, not their content -- a container-level
+   margin-left here would compound through nesting and eat into the width
+   available to .products-grid the deeper a section is nested. */
 .collection-section .collection-section-toggle {
   font-size: 0.95rem;
   font-weight: 600;
+  padding-left: 1rem;
+}
+
+.collection-section .collection-section .collection-section-toggle {
+  padding-left: 2rem;
 }
 
 /*
