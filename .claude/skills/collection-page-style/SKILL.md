@@ -13,16 +13,22 @@ storefront page should too, unless there's a specific reason not to (e.g. checko
 
 ## Tokens
 
-- **Outer card wrapper** (wraps the whole page's content, sits below the header):
+- **Outer card wrapper** (wraps the whole page's content, sits below the header): use the
+  shared `.page-card` class from `app/styles/app.css`, plus `.page-card--narrow` (products,
+  80% max-width on desktop) or `.page-card--wide` (collections, 90% — wider grids):
   ```tsx
-  <div style={{
-    maxWidth: '80%',       // products page uses 80%, collections uses 90% (wider grids)
-    margin: '0 auto',
-    background: 'rgba(50, 50, 50, 0.65)',
-    padding: '2rem',
-    borderRadius: '12px',
-  }}>
+  <div className="page-card page-card--narrow">
   ```
+  Don't reintroduce this as an inline `style={{...}}` — `.page-card` also carries the
+  responsive gutter standard below, which needs real media queries.
+- **Responsive gutter standard**: as the viewport narrows, the outer card's side gutter and
+  padding shrink in steps rather than staying a fixed percentage/rem — see `.page-card`'s
+  `@media` rules in `app/styles/app.css`. Roughly: full gutter (80%/90% max-width, 2rem
+  padding) at ≥45em, half that padding and a couple points more width below 45em, and the
+  narrowest gutter/padding under 30em (phones). Reference screenshot:
+  `app/errors/260708130033-errors.jpeg`. Any new page using `.page-card` gets this for free;
+  if a page needs a third width variant, add a `.page-card--<name>` modifier following the
+  same `@media (min-width: 45em/64em)` steps rather than inventing new breakpoints.
 - **Inner card overlays** (e.g. a product card's text block sitting on its own image):
   `background: rgba(50, 50, 50, 0.85)`, `padding: 0.5rem 0.75rem`, `border-radius: 6px`.
 - **Text color**: headings and primary text are `text-white` (or `color: #fff`);
@@ -40,5 +46,7 @@ storefront page should too, unless there's a specific reason not to (e.g. checko
    `FilterCheckboxGroup`), check whether those components' own text colors need a
    scoped override (see `.collection` rules in `app/styles/app.css`) rather than
    editing every component's className individually.
-4. Keep spacing consistent: `padding: 2rem` on the outer card, `gap: 2rem` between
-   major layout regions (e.g. `.collection-layout`'s filter sidebar vs results grid).
+4. Keep spacing consistent: rely on `.page-card`'s built-in responsive padding (don't
+   hardcode `padding: 2rem`), and use `gap: 2rem` between major layout regions (e.g.
+   `.collection-layout`'s filter sidebar vs results grid, `.product-layout`'s image vs
+   details column).

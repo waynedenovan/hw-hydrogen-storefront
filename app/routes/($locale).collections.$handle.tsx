@@ -200,15 +200,7 @@ export default function Collection() {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        maxWidth: '90%',
-        margin: '0 auto',
-        background: 'rgba(50, 50, 50, 0.65)',
-        padding: '2rem',
-        borderRadius: '12px',
-      }}
-    >
+    <div className="page-card page-card--wide">
       <ScrollToTopButton />
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">

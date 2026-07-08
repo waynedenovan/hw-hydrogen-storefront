@@ -99,7 +99,7 @@ export function ProductCard({product}: ProductCardProps) {
             borderRadius: '6px',
           }}
         >
-          <h3 className="text-sm font-semibold text-white group-hover:underline truncate">
+          <h3 className="text-sm font-semibold text-white group-hover:underline">
             {product.title}
           </h3>
           {product.brand?.value && (

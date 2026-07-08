@@ -1,4 +1,4 @@
-2607081415 claude
+260708 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -17,53 +17,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- Product Detail Page
-    - app/errors/260708130033-errors.jpeg
-        - please apply the same formating to these (Product Detail) pages except:
-            - no filter icon/option is needed on these pages
-        - add a new standard:
-            - as the screen width reduces all the margen can also be reduced to half as per the size in the above picture.
-                - make this a standard throught the website and document.
-    - app/errors/260708130114-errors.png
-        - allow the {desc} to have more horizontal area:
-            - 60% of the central area
-                - this must still work within the set standard for this project
-            - this area must be reduced as the screen width is reduces
-                - all other formating must still apply
-        - The area for the product details below {desc} must also be allowed to have move hozizontal area:
-            - use the standard with correct margins and gutters if used
-            - Start with the "Part No.: " and {"cleansku"} on the first line and then
-            - Include the information from all of the below fields, BUT
-                - Remove any duplicate sentences
-                    - If by removeing duplicate wording/sentenses a field is completly removed then only the fields that remain must be used. Concatenate the text into one text block but seperate the text by adding a seperating line between what would have been each field
-                - Combine the following fields:
-                    - {"shortDescription"}
-                    - {"longtDescription"}
-                    - {"b2c_short_description"}
-                    - {"b2c_description"}
-                    - {"erp_short_description"}
-                    - {"erp_long_description"}
-            - Please add a table at the bottom of the product detail section that contains the following information:
-                - The table must be reactive to screen size and the information within it must be raadable at all times
-                    - it must conform to the set standards for this project
-                - Weight = {"weight"} (kg)
-                - Length = {"length"} (mm)
-                - Width = {"width"} (mm)
-                - Height = {"height"} (mm)
-    - app/errors/260708130114-errors.png
-        - only one image is visable in this product detail page which may be correct if there are no other images as per the pattern to display
-            - create a file suppliers/agrinet/prod/missing_images.md
-                - add the product code {productID} of any product card that does not have an image files to display
-                - if at a later time an image is found for a product card then remove the product code {productID} from the md file
-- Main page:
-    - app/errors/260708130136-errors.png
-        - allow the {desc} to have more vertical to allow all of the {desc} to be read:
-            - this may require that the product cards vertical height be increase as needed to fit the full text into the card area
-- Do not break any project standards be making these changes
-    - if a standard would be impacted ask about what should be done by giving options
+- 
 
 ## Step 2: Documentation and exit
-- update @2607081415_todo.md but exclude todo.md from any updating
+- update @260708_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
