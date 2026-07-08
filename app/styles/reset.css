@@ -136,6 +136,21 @@ body.cart-page {
   background-repeat: no-repeat;
 }
 
+/* When html has no background of its own, the body background image
+   propagates to the whole canvas, so any area past the end of the page
+   (mobile toolbar-collapse overscroll, sub-pixel rounding) shows a strip of
+   the image below the black footer. Giving html an explicit black background
+   on these image pages stops the propagation and makes that strip invisible.
+   Scoped via :has so classless pages (collections, policies…) keep their
+   default white canvas. */
+html:has(> body.home-page),
+html:has(> body.product-page),
+html:has(> body.account-page),
+html:has(> body.contact-page),
+html:has(> body.cart-page) {
+  background-color: #000;
+}
+
 body > main {
   margin: 0 1rem 1rem 1rem;
 }

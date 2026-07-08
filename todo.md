@@ -1,4 +1,4 @@
-2607081815 claude
+26070 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -17,41 +17,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- ../hw-storefront-ui-node-docker:
-    - The following images show the import app's selected collection, brand, sub-collection and sub_cat-collection's
-        - app/errors/260708173830-errors.png
-        - app/errors/260708173845-errors.png
-        - app/errors/260708173901-errors.png
-        - app/errors/260708173917-errors.png
-        - app/errors/260708173934-errors.png
-        - app/errors/260708173948-errors.png
-- Main Page:
-    - The following image shows the collections displayed (which are correct)
-        - app/errors/260708174432-errors.png
-- Collection:
-    - Agricultural:
-        - app/errors/260708174216-errors.png : Filter closed
-        - app/errors/260708174229-errors.png : Filter open
-    - Irrigation-pumps:
-        - app/errors/260708174347-errors.png : Filter closed
-        - app/errors/260708180647-errors.png : Filter open
-    - Plumbing:
-        - app/errors/260708180916-errors.png : Filter closed
-        - app/errors/260708174324-errors.png : Filter open
-    - As can be seen:
-        - Brands are correctly shown but,
-            - Sub-Collection and Sub_Cat-Collections are not pulling through correctly
-
-- Main Page:
-    - Footer is not completly at the bottom of the page
-        - app/errors/260708174432-errors.png
-        - app/errors/260708174508-errors.png
-        - add: without changing the information already displayed
-            - in the centre between the copy right anf the logo
-                - version no
+-
 
 ## Step 2: Documentation and exit
-- update @2607081815_todo.md but exclude todo.md from any updating
+- update @26070_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db

@@ -548,6 +548,21 @@ button.reset:hover:not(:has(> *)) {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.footer-version {
+  text-align: center;
+}
+
+/* Wide screens: equal flex sides put the version at the true centre of the
+   row; below 45em the row falls back to wrapping (space-between + wrap). */
+@media (min-width: 45em) {
+  .footer-brand > * {
+    flex: 1;
+  }
+  .footer-powered-by {
+    justify-content: flex-end;
+  }
+}
+
 .footer-powered-by {
   display: flex;
   align-items: center;

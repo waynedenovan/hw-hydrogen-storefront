@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {Await, NavLink} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import VERSION from '../../VERSION?raw';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -56,6 +57,7 @@ function FooterBrandBar() {
       <p className="footer-copyright">
         © {new Date().getFullYear()} Hose World. All rights reserved.
       </p>
+      <span className="footer-version">v{VERSION.trim()}</span>
       <div className="footer-powered-by">
         <img
           src="/images/rn-logo_50-150dpi.png"
