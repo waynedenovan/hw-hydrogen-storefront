@@ -891,13 +891,29 @@ aside input::placeholder {
   color: rgb(209, 213, 219);
 }
 
+/* Single implicit column -- .collection-header and .collection-layout still
+   simply stack top to bottom like block flow. Existing as a grid (rather than
+   block) purely so .filter-toggle-btn below can span every row via
+   grid-row: 1 / -1, making its containing block the whole page section
+   instead of just one short row -- see the comment on .filter-toggle-btn. */
+.collection {
+  display: grid;
+}
+
 .collection-header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 1rem;
 }
 
+/* sticky (not fixed) so it floats above the product grid once scrolled past.
+   grid-row: 1 / -1 + justify-self: end makes it overlap the same column as
+   .collection-header/.collection-layout (rather than occupying its own row),
+   positioned top-right -- its containing block is therefore the full height
+   of .collection, so it keeps sticking all the way through the product grid
+   instead of un-sticking after .collection-header's own (short) height, and
+   it stays clear of the real site header/nav and cart/search/account icons
+   above this card. */
 .filter-toggle-btn {
   display: flex;
   align-items: center;
@@ -909,18 +925,32 @@ aside input::placeholder {
   font-size: 0.875rem;
   font-weight: 600;
   flex-shrink: 0;
+  position: sticky;
+  top: 1rem;
+  z-index: 5;
+  grid-row: 1 / -1;
+  justify-self: end;
+  align-self: start;
 }
 
 .filter-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.18);
 }
 
+/* grid-template-columns is only widened to 2 tracks via the .filters-open
+   modifier, not unconditionally -- with a fixed 220px track always declared,
+   closing the filter panel (removing .collection-filters from the DOM) left
+   .collection-results as the grid's only child, which CSS grid auto-places
+   into the first (220px) track instead of the wide one, shrinking every
+   product card down to sidebar width. */
 .collection-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
   @media (min-width: 45em) {
-    grid-template-columns: 220px 1fr;
+    &.filters-open {
+      grid-template-columns: 220px 1fr;
+    }
   }
 }
 

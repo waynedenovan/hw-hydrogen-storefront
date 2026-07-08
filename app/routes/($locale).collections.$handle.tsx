@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData, useSearchParams} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
+import {ScrollToTopButton} from '~/components/ScrollToTopButton';
 
 // Collection-wide product count for this store is small (~180) — fetching everything
 // in one request and grouping/filtering here is simpler and more maintainable than
@@ -196,7 +197,7 @@ export default function Collection() {
   const priceValues = allProducts.map(getPrice);
   const priceFloor = priceValues.length ? Math.floor(Math.min(...priceValues)) : 0;
   const priceCeil = priceValues.length ? Math.ceil(Math.max(...priceValues)) : 0;
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
     <div
@@ -208,6 +209,7 @@ export default function Collection() {
         borderRadius: '12px',
       }}
     >
+      <ScrollToTopButton />
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">
           <div>
@@ -218,29 +220,36 @@ export default function Collection() {
               </p>
             )}
           </div>
-          <button
-            type="button"
-            className="filter-toggle-btn"
-            aria-expanded={filtersOpen}
-            aria-controls="collection-filters"
-            onClick={() => setFiltersOpen((open) => !open)}
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path d="M4 5h16M7 12h10M10 19h4" strokeLinecap="round" />
-            </svg>
-            Filters
-          </button>
         </div>
 
-        <div className="collection-layout">
+        {/* Direct child of the grid-ified .collection (not .collection-header, which
+            is only a short flex row) so this sticky button's containing block spans
+            the whole page section -- otherwise it stops sticking as soon as its
+            parent's own (short) height has scrolled by. Placed with grid-row: 1 / -1
+            so it overlaps .collection-header/.collection-layout's shared column
+            instead of pushing them into their own track. */}
+        <button
+          type="button"
+          className="filter-toggle-btn"
+          aria-expanded={filtersOpen}
+          aria-controls="collection-filters"
+          onClick={() => setFiltersOpen((open) => !open)}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path d="M4 5h16M7 12h10M10 19h4" strokeLinecap="round" />
+          </svg>
+          Filters
+        </button>
+
+        <div className={`collection-layout${filtersOpen ? ' filters-open' : ''}`}>
           {filtersOpen && (
             <aside id="collection-filters" className="collection-filters">
               <div className="filter-group">

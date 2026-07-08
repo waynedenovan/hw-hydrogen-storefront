@@ -1,4 +1,4 @@
-2607080825 claude
+260708 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -17,25 +17,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- collcetion page:
-    - app/errors/260708064442-errors.png: shows the page with the filter open
-        - page is showing correctly
-    - app/errors/260708064458-errors.png: show the page with the filter closed
-        - it looks as if the product cards are shrunk to the width of the filter when open
-        - the product cards must contimue to remain the original width without been minimized (width)
-- filter:
-    - the filter must be closed (only show the icon) when the page opens
-    - the filter icon must be floating
-- Return to top icon;
-    - a return to the top of the page icon must be added that is floating and be fixed on the bottom left of the screen.
-    - it must not cover any element, preventing the user from visually seeing an element
-- finish adding the hydrogen storefront ingress to the tunnel
-- Now finish the cloudflare ingress task from todo-cloudflare.md
-
-- on completian of this task please rebuild any parts so that the changes are implmented
+- 
 
 ## Step 2: Documentation and exit
-- update @2607080825_todo.md but exclude todo.md from any updating
+- update @260708_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
