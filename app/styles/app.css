@@ -535,6 +535,31 @@ button.reset:hover:not(:has(> *)) {
   min-width: fit-content;
 }
 
+.footer-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  color: var(--color-light);
+  opacity: 0.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-powered-by {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footer-powered-logo {
+  height: 28px;
+  width: auto;
+  border-radius: 0;
+}
+
 /*
 * --------------------------------------------------
 * components/Cart

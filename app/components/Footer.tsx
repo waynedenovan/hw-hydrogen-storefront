@@ -42,10 +42,29 @@ export function Footer({
               />
             )}
             <FooterUtilities />
+            <FooterBrandBar />
           </footer>
         )}
       </Await>
     </Suspense>
+  );
+}
+
+function FooterBrandBar() {
+  return (
+    <div className="footer-brand">
+      <p className="footer-copyright">
+        © {new Date().getFullYear()} Hose World. All rights reserved.
+      </p>
+      <div className="footer-powered-by">
+        <img
+          src="/images/rn-logo_50-150dpi.png"
+          alt="Rogue Nation"
+          className="footer-powered-logo"
+        />
+        <span>Powered by: Rogue Nation</span>
+      </div>
+    </div>
   );
 }
 
