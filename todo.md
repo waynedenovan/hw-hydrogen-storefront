@@ -1,4 +1,4 @@
-2607100950 claude
+260710 claude
 VERSION: 2026.07.5
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
@@ -18,41 +18,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- ../hw-hydrogen-storefront-node-docker && ../hw-storefront-ui-node-docker:
-    - The Import app is still failing
-        - Attahced are tcpdump extracts and docker log files that point to the issue: prisma and the db not being up
-            - hw-hydrogen-storefront-node-docker/app/errors/hw-hydrogen.log
-            - hw-hydrogen-storefront-node-docker/app/errors/hw-storefront.log
-            - hw-hydrogen-storefront-node-docker/app/errors/2607100920-errors_issues_tcpdump_607091745.md
-        - 1: resolve issue and if needed move prisma from sqlite to a prostgre db in its own docker
-            - We will have to test the new import procedure once implemented to confirm that this is the actual issue
-        - 2: revisit the Import app to make import proceedure improvements
-            - every import starts at the begining and tries to upload everything from scratch
-                - create us ie prisma db, that can compare what is currectly on shopify to any changes and only uploud the changes ie a price change etc for the current import
-                - have a mechanizum that if a specific batch in the import process fails
-                    - the system will wait 30 sec and then restart from the failed batch forward
-                    - if the same batch fails again, record if and move on the the next batch
-                    - if 5 batches fail in a row then end import other wise, record the failures and move on
-                        - once complete with the import, revisit any batchs that failed
-            - do not delete any products that are excluded from the import
-                - ../hw-storefront-ui-node-docker
-                    - must provide a means to disable a
-                        - collection
-                        - brand
-                        - sub-collection
-                        - sub_cat-collection
-                        - product at a granular level as what is shown in the import app
-                    - this will mean that the import app will be less complected
-                    - the import app must still create any of the following on its import and must also be able to disable any of the following if a product is "deleted"
-                        - it can disable the following but must add a notice that the following has been deleted from the suppliers side
-                        - collection
-                        - brand
-                        - sub-collection
-                        - sub_cat-collection
-                        - product
+-
 
 ## Step 2: Documentation and exit
-- update @2607100950_todo.md but exclude todo.md from any updating
+- update @260710_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
