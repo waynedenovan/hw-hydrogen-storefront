@@ -1,99 +1,55 @@
-[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
-config.future.expiringOfflineAccessTokens true
-POST /app/import.data 500 - - 275.019 ms
+GET /extensions 404 - - 9.947 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 330.059 ms
+GET /extensions 404 - - 2.472 ms
+POST /app/import.data 200 - - 63797.013 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 57857.234 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 290.034 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+HEAD / 302 - - 1.784 ms
+HEAD / 302 - - 0.621 ms
+HEAD /auth/login 500 - - 16.525 ms
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 58333.636 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 297.157 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 63162.305 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 295.686 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 57187.064 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 297.113 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 59435.937 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 291.419 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 53212.193 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 273.365 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 60983.662 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
+GET /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 293.294 ms
+[shopify-app/INFO] Authenticating admin request | {shop: hw-storefront-ui.myshopify.com}
 [shopify-app/INFO] Authenticating admin request | {shop: null}
 [shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] No valid session found | {shop: hw-storefront-ui.myshopify.com}
-[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
-config.future.expiringOfflineAccessTokens true
-[shopify-app/INFO] No valid session found | {shop: hw-storefront-ui.myshopify.com}
-[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
-config.future.expiringOfflineAccessTokens true
-[shopify-api/INFO] Creating new session | {shop: hw-storefront-ui.myshopify.com, isOnline: false}
-[shopify-api/INFO] Creating new session | {shop: hw-storefront-ui.myshopify.com, isOnline: false}
-GET /app/agrinet.data 200 - - 537.624 ms
+GET /app/agrinet.data 200 - - 3.367 ms
+POST /app/import.data?embedded=1&hmac=3c7ba131c5a345553d2d6fb47d20e1cc79990def917cc05973c4b99276c7d480&host=YWRtaW4uc2hvcGlmeS5jb20vc3RvcmUvaHctc3RvcmVmcm9udC11aQ&id_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tXC9hZG1pbiIsImRlc3QiOiJodHRwczpcL1wvaHctc3RvcmVmcm9udC11aS5teXNob3BpZnkuY29tIiwiYXVkIjoiYzU3NzkzM2Y4YWQ3MGVhOGQ0OWYzNjNmNjEwZmQ3NTciLCJzdWIiOiIxMDM2MDQ3NDg1MTkiLCJleHAiOjE3ODM2NzU4OTUsIm5iZiI6MTc4MzY3NTgzNSwiaWF0IjoxNzgzNjc1ODM1LCJqdGkiOiI5NGRkOTA1Yy1mZjEyLTQ5NzItOTUyMi01M2U2YTcxMWEzNjYiLCJzaWQiOiJmMDk0YWI4Mi1hMTY5LTQ2YzQtYmFjZS04YjNlMzkxYzQxNzEiLCJzaWciOiI2YjQ1ZjMxZWVlMzhhNzdlNGIwZWNjMTI0MjJhYzY5Y2Y4M2YzYzZhMGIwZjUzOGFjMzM4YzYzYjYzYWY5MmYzIn0.IVDfgOWkcLzQ8ENby8w4K2MiHPXBQEbhlOCWnrxFons&locale=en&session=fb300ce53f4cf07e091b680bdb021199caad6125ffadc5e643d7273c32c1d1fc&shop=hw-storefront-ui.myshopify.com&timestamp=1783675835 200 - - 59604.768 ms
 [shopify-app/INFO] Authenticating admin request | {shop: null}
 [shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 295.163 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 46013.300 ms
+GET /app/agrinet.data 200 - - 2.926 ms
 [shopify-app/INFO] Authenticating admin request | {shop: null}
 [shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 292.884 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 5524.425 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 274.107 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app.data 200 - - 3.750 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 294.464 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 52061.688 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 279.605 ms
-POST /app/import.data 200 - - 60004.230 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 283.789 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 58734.605 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 299.972 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 60735.565 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 281.295 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 62452.484 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 296.966 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 62396.349 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 290.452 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-POST /app/import.data 200 - - 765.560 ms
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-[shopify-app/INFO] Authenticating admin request | {shop: null}
-GET /app/import.data 200 - - 282.727 ms
-
-> hw-storefront-ui@1.0.0 docker-start
-> npm run setup && npm run start
-
-
-> hw-storefront-ui@1.0.0 setup
-> prisma generate && prisma migrate deploy
-
-Prisma schema loaded from prisma/schema.prisma
-
-✔ Generated Prisma Client (6.19.3) to ./generated/prisma in 124ms
-
-✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 173ms
-
-Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
-
-Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
-
-Prisma schema loaded from prisma/schema.prisma
-Datasource "db": SQLite database "dev.sqlite" at "file:/app/prisma/dev.sqlite"
-
-11 migrations found in prisma/migrations
-
-
-No pending migrations to apply.
-
-> hw-storefront-ui@1.0.0 start
-> react-router-serve ./build/server/index.js
-
-[shopify-api/INFO] version 13.0.0, environment React Router
-[react-router-serve] http://localhost:3000 (http://172.20.0.2:3000)
+GET /app/import.data 200 - - 284.398 ms

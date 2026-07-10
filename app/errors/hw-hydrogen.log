@@ -1,49 +1,14 @@
-GET /app/.git/config 404 - - 359.799 ms
-GET /microservices/.git/config 404 - - 368.550 ms
-GET /admin/.git/config 404 - - 373.217 ms
-GET /blog/.git/config 404 - - 366.485 ms
-GET /www/.git/config 404 - - 371.568 ms
-GET /src/.git/config 404 - - 362.979 ms
-GET /api/.git/config 404 - - 370.415 ms
-GET /administrator/.git/config 404 - - 365.080 ms
-GET /modules/.git/config 404 - - 364.088 ms
-GET /wp-admin/.git/config 404 - - 362.216 ms
-GET /wp-admin/.git/config 404 - - 365.708 ms
-GET /dist/.git/config 404 - - 372.137 ms
-GET /wordpress/.git/config 404 - - 375.190 ms
-GET /frontend/.git/config 404 - - 386.727 ms
-GET /packages/.git/config 404 - - 370.649 ms
-GET /backend/.git/config 404 - - 365.205 ms
-GET /src/.git/config 404 - - 362.417 ms
-GET /dist/.git/config 404 - - 393.794 ms
-GET /wp-content/.git/config 404 - - 355.650 ms
-GET /modules/.git/config 404 - - 269.010 ms
-GET /public/.git/config 404 - - 357.527 ms
-GET /.git/config 404 - - 373.532 ms
-GET /libs/.git/config 404 - - 357.177 ms
-GET /wordpress/.git/config 404 - - 246.832 ms
-GET /www/.git/config 404 - - 356.166 ms
-GET /blog/.git/config 404 - - 364.615 ms
-GET /frontend/.git/config 404 - - 370.660 ms
-GET /administrator/.git/config 404 - - 371.557 ms
-GET /build/.git/config 404 - - 365.166 ms
-GET /.git/config 404 - - 370.347 ms
-GET /backend/.git/config 404 - - 364.427 ms
-GET /packages/.git/config 404 - - 362.799 ms
-GET /public/.git/config 404 - - 375.742 ms
-GET /admin/.git/config 404 - - 344.381 ms
-GET /wp-content/.git/config 404 - - 358.218 ms
-GET /libs/.git/config 404 - - 713.236 ms
-GET /microservices/.git/config 404 - - 828.887 ms
-GET /build/.git/config 404 - - 710.511 ms
-GET /api/.git/config 404 - - 840.159 ms
-GET /app/.git/config 404 - - 814.785 ms
-[ELIFECYCLE] Command failed with exit code 143.
-Already up to date
-Done in 295ms using pnpm v11.10.0
-Express server listening at http://0.0.0.0:5130
-GET /sitemap.xml 200 - - 317.086 ms
-[ELIFECYCLE] Command failed with exit code 143.
-Already up to date
-Done in 304ms using pnpm v11.10.0
-Express server listening at http://0.0.0.0:5130
+GET /sitemap.xml 500 - - 255.882 ms
+GET / 200 - - 7.271 ms
+GET /images/260601-logo_rev-02.1.svg 304 - - 1.033 ms
+GET /images/rn-logo_50-150dpi.png 304 - - 0.238 ms
+GET /images/pumps-banner-1.jpg 304 - - 0.566 ms
+GET /images/260601-camlock_irrigation.jpg 304 - - 0.250 ms
+POST /api/unstable/graphql.json 200 - - 231.166 ms
+GET /wp-admin/install.php?step=1 404 - - 4.604 ms
+HEAD / 200 - - 10.196 ms
+HEAD / 200 - - 7.124 ms
+GET / 200 - - 7.506 ms
+POST /api/unstable/graphql.json 200 - - 216.754 ms
+GET / 200 - - 7.139 ms
+POST /api/unstable/graphql.json 200 - - 226.333 ms

@@ -1,4 +1,4 @@
-260710 claude
+2607101420 claude
 VERSION: 2026.07.5
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
@@ -18,10 +18,22 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
--
+- use hw-hydrogen-storefront-node-docker/app/errors/sugested_solution.md
+    - Import App:
+        - last tasks changes do not seem to have been implemented as can be seen from the following images, the first hw-hydrogen-storefront-node-docker/app/errors/260710112948-errors.png shows the start of the import run with the total import @ 13379 and failed at batch 359 yet on the restart hw-hydrogen-storefront-node-docker/app/errors/260710113309-errors.png in the total import is again at @ 13379 which should have reducde by at least 358 (13021). Was the app rebuild for the last tasks implementation to run.
+            - Please provide me the terminal command if I need to rebuild the app for both the storefront and hydrogen apps.
+- use hw-hydrogen-storefront-node-docker/app/errors/sugested_solution.md and implement the the ToDo:
+    - supporting tcpdump files (written to md files)
+        - hw-hydrogen-storefront-node-docker/app/errors/2607101105_hw-storefront.md
+        - hw-hydrogen-storefront-node-docker/app/errors/2607101130_hw-storefront.md
+        - hw-hydrogen-storefront-node-docker/app/errors/2607101105_hw-hydrogen.md
+        - hw-hydrogen-storefront-node-docker/app/errors/2607101130_hw-hydrogen.md
+    - supporting container app logs
+        - hw-hydrogen-storefront-node-docker/app/errors/hw-storefront.log
+        - hw-hydrogen-storefront-node-docker/app/errors/hw-hydrogen.log
 
 ## Step 2: Documentation and exit
-- update @260710_todo.md but exclude todo.md from any updating
+- update @2607101420_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
