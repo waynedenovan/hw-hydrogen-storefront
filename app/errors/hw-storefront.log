@@ -1,0 +1,99 @@
+[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
+config.future.expiringOfflineAccessTokens true
+POST /app/import.data 500 - - 275.019 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] No valid session found | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
+config.future.expiringOfflineAccessTokens true
+[shopify-app/INFO] No valid session found | {shop: hw-storefront-ui.myshopify.com}
+[shopify-app/INFO] Requesting offline access token | {shop: hw-storefront-ui.myshopify.com}
+config.future.expiringOfflineAccessTokens true
+[shopify-api/INFO] Creating new session | {shop: hw-storefront-ui.myshopify.com, isOnline: false}
+[shopify-api/INFO] Creating new session | {shop: hw-storefront-ui.myshopify.com, isOnline: false}
+GET /app/agrinet.data 200 - - 537.624 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 295.163 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 46013.300 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 292.884 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 5524.425 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 274.107 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app.data 200 - - 3.750 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 294.464 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 52061.688 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 279.605 ms
+POST /app/import.data 200 - - 60004.230 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 283.789 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 58734.605 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 299.972 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 60735.565 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 281.295 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 62452.484 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 296.966 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 62396.349 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 290.452 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+POST /app/import.data 200 - - 765.560 ms
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+[shopify-app/INFO] Authenticating admin request | {shop: null}
+GET /app/import.data 200 - - 282.727 ms
+
+> hw-storefront-ui@1.0.0 docker-start
+> npm run setup && npm run start
+
+
+> hw-storefront-ui@1.0.0 setup
+> prisma generate && prisma migrate deploy
+
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (6.19.3) to ./generated/prisma in 124ms
+
+✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 173ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": SQLite database "dev.sqlite" at "file:/app/prisma/dev.sqlite"
+
+11 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> hw-storefront-ui@1.0.0 start
+> react-router-serve ./build/server/index.js
+
+[shopify-api/INFO] version 13.0.0, environment React Router
+[react-router-serve] http://localhost:3000 (http://172.20.0.2:3000)

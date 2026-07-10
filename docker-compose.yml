@@ -1,6 +1,7 @@
 services:
   hydrogen-storefront:
     build: .
+    restart: unless-stopped
     ports:
       - "5130:5130"
     volumes:
