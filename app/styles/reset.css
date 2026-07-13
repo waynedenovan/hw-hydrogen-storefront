@@ -96,7 +96,22 @@ body {
   min-height: 100dvh;
 }
 
-body.home-page {
+/* The page background image lives on .page-bg (PageLayout.tsx), NOT on body.
+   .page-bg wraps header + main only and grows to meet the footer, so the image
+   is physically bounded above the footer top — it can never paint behind or
+   below it, on short or long pages. (The old approach painted the image on
+   body, whose background propagates to the whole canvas when html has none,
+   which showed an image strip below the footer; the html:has() black-canvas
+   hack that papered over that is gone.) The page class is server-rendered on
+   .page-bg itself, so the image is also correct on first paint — the
+   hydration-time body classes below are only used for the solid canvas color. */
+.page-bg {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.page-bg.home-page {
   background: linear-gradient(rgba(100, 100, 100, 0.25), rgba(100, 100, 100, 0.25)), url('/images/260601-camlock_irrigation.jpg');
   background-size: cover;
   background-position: center;
@@ -104,7 +119,7 @@ body.home-page {
   background-repeat: no-repeat;
 }
 
-body.product-page {
+.page-bg.product-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260601-fittings.jpg');
   background-size: cover;
   background-position: center;
@@ -112,7 +127,7 @@ body.product-page {
   background-repeat: no-repeat;
 }
 
-body.account-page {
+.page-bg.account-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-earth-day.jpg');
   background-size: cover;
   background-position: center;
@@ -120,7 +135,7 @@ body.account-page {
   background-repeat: no-repeat;
 }
 
-body.contact-page {
+.page-bg.contact-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-sunflower.jpg');
   background-size: cover;
   background-position: center;
@@ -128,7 +143,7 @@ body.contact-page {
   background-repeat: no-repeat;
 }
 
-body.cart-page {
+.page-bg.cart-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-market.jpg');
   background-size: cover;
   background-position: center;
@@ -136,26 +151,23 @@ body.cart-page {
   background-repeat: no-repeat;
 }
 
-/* When html has no background of its own, the body background image
-   propagates to the whole canvas, so any area past the end of the page
-   (mobile toolbar-collapse overscroll, sub-pixel rounding) shows a strip of
-   the image below the black footer. Giving html an explicit black background
-   on these image pages stops the propagation and makes that strip invisible.
-   Scoped via :has so classless pages (collections, policies…) keep their
-   default white canvas. */
-html:has(> body.home-page),
-html:has(> body.product-page),
-html:has(> body.account-page),
-html:has(> body.contact-page),
-html:has(> body.cart-page) {
+/* Solid black canvas on image pages: a plain color on body propagates to the
+   canvas, so overscroll/sub-pixel areas past the document edge render black —
+   identical to the footer — instead of white (or, previously, the image).
+   Classless pages (collections, policies…) keep their default white canvas. */
+body.home-page,
+body.product-page,
+body.account-page,
+body.contact-page,
+body.cart-page {
   background-color: #000;
 }
 
-body > main {
+.page-bg > main {
   margin: 0 1rem 1rem 1rem;
 }
 
-body:not(.home-page) > main {
+.page-bg:not(.home-page) > main {
   padding-top: 50px;
   padding-bottom: 50px;
 }

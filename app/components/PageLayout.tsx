@@ -97,17 +97,36 @@ export function PageLayout({
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          customerFirstName={customerFirstName}
-          publicStoreDomain={publicStoreDomain}
-          isHomePage={isHomePage}
-        />
-      )}
-      <main>{children}</main>
+      {/* page-bg carries the per-page background image (see reset.css) and
+          stretches to the footer top, so the image can never paint behind or
+          below the footer — the body itself only ever gets a solid color.
+          The page class is rendered here (server-side, from useLocation) so the
+          background is correct on first paint, unlike the body classes above
+          which only land after hydration. */}
+      <div
+        className={[
+          'page-bg',
+          isHomePage && 'home-page',
+          isProductPage && 'product-page',
+          isAccountPage && 'account-page',
+          isContactPage && 'contact-page',
+          isCartPage && 'cart-page',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {header && (
+          <Header
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            customerFirstName={customerFirstName}
+            publicStoreDomain={publicStoreDomain}
+            isHomePage={isHomePage}
+          />
+        )}
+        <main>{children}</main>
+      </div>
       <Footer
         footer={footer}
         footerBanner={footerBanner}

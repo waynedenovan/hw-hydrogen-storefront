@@ -1,5 +1,4 @@
-2607 claude
-VERSION: 2026.07.5
+26071 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -9,19 +8,24 @@ context:
 - use both modes when solving issues ie, finding a bug and then planing a code fix etc.
 - when indexing you are to strickly only use MCP: MCP-Bridge and db: 'project_errors.db'
 - when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
-- INCLUDE ONLY: /hw-storefront-ui and ../hw-hydrogen-storefront when planing and implementing any needed actions or changes
+- INCLUDE ONLY: GIT branch folders when planing and implementing any needed actions or changes
 - git: I will always manually commit. Never offer or automatically try or exec a commit
-- versioning: each task bumps the repo-root `VERSION` file by 1, format `yyyy.mm.{n}` (e.g. `2026.07.3`) — `{n}` is a single running counter across all tasks, it never resets month to month (only the `yyyy.mm` prefix reflects the current date). One bump per task/session, not per individual fix within a session. Record the version at the top of that task's timestamped todo file. This assistant never commits, so the `VERSION` file bump rides along in my next manual commit rather than being tagged in git directly.
 
 ## Task requirements:
 - Follow each step
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- 
+- hw-hydrogen-storefront-node-docker
+    - Collection pages:
+        - Chack that the newly created collection pages conform to the website standard of sizing, spacing and layout
+    - Detailed Product pages:
+        - Chack that the newly created dtailed product pages conform to the website standard of sizing, spacing and layout
+            - The majority do not;
+                - you mustent have to edit every new page as they should be correctly formated by the css of the website to match the website standard of sizing, spacing and layout and this does not happen on their being created
 
 ## Step 2: Documentation and exit
-- update @2607_todo.md but exclude todo.md from any updating
+- update @26071_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
