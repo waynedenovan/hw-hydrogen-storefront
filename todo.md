@@ -1,12 +1,12 @@
-2607141050 claude
+2607141105 claude
 
-"For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first query the project_errors.db and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server and the project_errors.db. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
+"For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
 context:
 - use "plan mode" for this task where you are asked to make changes, add functionality or identify how an aspect of this porjects works.
 - use "debug mode" when asked to identify any causes of the project that are not working or if you detect a bug.
 - use both modes when solving issues ie, finding a bug and then planing a code fix etc.
-- when indexing you are to strickly only use MCP: MCP-Bridge and db: 'project_errors.db'
+- when indexing you are to strickly only use MCP: MCP-Bridge i.e. hoseworld-dev-knowledge
 - when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
 - INCLUDE ONLY: GIT branch folders when planing and implementing any needed actions or changes
 - git: I will always manually commit. Never offer or automatically try or exec a commit
@@ -28,12 +28,12 @@ context:
     - There is a mismatch of "active" products on Shopify: Products / App: Disabled
         - hw-hydrogen-storefront-node-docker/app/errors/260714103144-errors.png
         - hw-hydrogen-storefront-node-docker/app/errors/260714103200-errors.png
-    - and those that are visable and being displayed on the on the Hydrogen Storefront
+    - and those that are visible and being displayed on the on the Hydrogen Storefront
         - hw-hydrogen-storefront-node-docker/app/errors/260714101856-errors.png
     - I have enabled some of the products to confirm that they would pull through and become visible but that has not happened
     - I have selected the excluded "Brand" and imported the list again and they still do not pull through or become visible on the Hydrogen Storefront
 - hw-storefront-ui-node-docker
-    - The following collection will not import for some reason, I have selected it everytime I have done an import but it stays available
+    - The following collection will not import for some reason, I have selected it every time I have done an import but it stays available
         - hw-hydrogen-storefront-node-docker/app/errors/260714103650-errors.png
 - hw-storefront-ui-node-docker
     - Disabled app:
@@ -53,8 +53,22 @@ context:
             - This must only apply to the hw-hydrogen-storefront-node-docker images being displayed and not to Shopify as Shopify products do not have any images available.
         - Please provide a export option to export the lists as csv or xlsx files to download
 
+- Project wide:
+    - my current todo.md file context section is as follows
+        - "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
+
+        context:
+            - use "plan mode" for this task where you are asked to make changes, add functionality or identify how an aspect of this porjects works.
+            - use "debug mode" when asked to identify any causes of the project that are not working or if you detect a bug.
+            - use both modes when solving issues ie, finding a bug and then planing a code fix etc.
+            - when indexing you are to strickly only use MCP: MCP-Bridge i.e. hoseworld-dev-knowledge
+            - when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
+            - INCLUDE ONLY: GIT branch folders when planing and implementing any needed actions or changes
+            - git: I will always manually commit. Never offer or automatically try or exec a commit
+    - Please help me standardize the wording and references to the MCP servers so that there is no misunderstanding and every project can access and use the MCP servers as purpost
+
 ## Step 2: Documentation and exit
-- update @2607141050_todo.md but exclude todo.md from any updating
+- update @2607141105_todo.md but exclude todo.md from any updating
 - update with latest project plan update and any new issues found, the errors causing the issue and the step by step resolution:
     - update "MCP-Bridge" project plan
     - update the @project_errors.db
