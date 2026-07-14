@@ -3,6 +3,8 @@ interface QuantitySelectorProps {
   onChange: (quantity: number) => void;
   min?: number;
   max?: number;
+  /** Step size for each +/- click — e.g. a product's minimum order quantity (MOQ). */
+  step?: number;
 }
 
 export function QuantitySelector({
@@ -10,13 +12,14 @@ export function QuantitySelector({
   onChange,
   min = 1,
   max,
+  step = 1,
 }: QuantitySelectorProps) {
   return (
     <div className="quantity-selector">
       <button
         type="button"
         className="quantity-btn"
-        onClick={() => onChange(Math.max(min, quantity - 1))}
+        onClick={() => onChange(Math.max(min, quantity - step))}
         disabled={quantity <= min}
         aria-label="Decrease quantity"
       >
@@ -26,7 +29,7 @@ export function QuantitySelector({
       <button
         type="button"
         className="quantity-btn"
-        onClick={() => onChange(max ? Math.min(max, quantity + 1) : quantity + 1)}
+        onClick={() => onChange(max ? Math.min(max, quantity + step) : quantity + step)}
         disabled={max !== undefined && quantity >= max}
         aria-label="Increase quantity"
       >

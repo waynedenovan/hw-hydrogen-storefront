@@ -88,7 +88,10 @@ export function ProductCard({product}: ProductCardProps) {
             </div>
           )}
           {showMoqRibbon && (
-            <div className="moq-ribbon">Minimum qty: {msq}</div>
+            <div className="moq-ribbon">
+              <span className="moq-ribbon-label">Min Order Qty</span>
+              <span className="moq-ribbon-value">{msq}</span>
+            </div>
           )}
         </div>
         <div
@@ -124,7 +127,9 @@ export function ProductCard({product}: ProductCardProps) {
                 lines: [
                   {
                     merchandiseId: firstVariant.id,
-                    quantity: 1,
+                    // MOQ products must enter the cart already at their minimum
+                    // order quantity, not 1 — see moq_cart_msq_stepping pattern.
+                    quantity: showMoqRibbon ? msq : 1,
                   },
                 ],
               },

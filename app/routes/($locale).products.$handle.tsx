@@ -105,7 +105,9 @@ export async function loader(args: LoaderFunctionArgs) {
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
-  const [quantity, setQuantity] = useState(1);
+  const msqValue = Number(product.msq?.value);
+  const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
+  const [quantity, setQuantity] = useState(msq);
   const dimensions = product.dimensions?.value
     ? (JSON.parse(product.dimensions.value) as {
         length?: string;
@@ -295,7 +297,14 @@ export default function Product() {
               <QuantitySelector
                 quantity={quantity}
                 onChange={setQuantity}
+                min={msq}
+                step={msq}
               />
+              {msq > 1 && (
+                <p className="text-xs text-gray-300 mt-1">
+                  Sold in multiples of {msq}
+                </p>
+              )}
             </div>
             <fetcher.Form method="post" action="/cart">
               <input
@@ -317,6 +326,7 @@ export default function Product() {
                                 title: product.title,
                                 id: product.id,
                                 vendor: product.vendor,
+                                msq: product.msq,
                               },
                             }
                           : undefined,
@@ -448,6 +458,9 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       externalProductId: metafield(namespace: "custom", key: "external_product_id") {
+        value
+      }
+      msq: metafield(namespace: "custom", key: "msq") {
         value
       }
     }

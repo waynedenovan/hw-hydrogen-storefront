@@ -105,18 +105,27 @@ export function CartLineItem({
  */
 function CartLineQuantity({line}: {line: CartLine}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
-  const {id: lineId, quantity, isOptimistic} = line;
-  const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
-  const nextQuantity = Number((quantity + 1).toFixed(0));
+  const {id: lineId, quantity, isOptimistic, merchandise} = line;
+  const msqValue = Number(merchandise?.product?.msq?.value);
+  // MOQ (minimum order quantity): a product with one steps/rounds the Qty
+  // field in multiples of it instead of 1 — see moq_cart_msq_stepping pattern.
+  const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
+  const prevQuantity = Number(Math.max(msq, quantity - msq).toFixed(0));
+  const nextQuantity = Number((quantity + msq).toFixed(0));
   const inputRef = useRef<HTMLInputElement>(null);
   // Separate key so this fetcher doesn't share state with the +/- CartForm buttons
   const fetcher = useFetcher({key: getUpdateKey([lineId]) + '-input'});
 
-  function submitQuantity(newQty: number) {
-    if (newQty < 1) {
+  function submitQuantity(rawQty: number) {
+    if (!Number.isFinite(rawQty)) {
       if (inputRef.current) inputRef.current.value = String(quantity);
       return;
     }
+    // Round manual entry to the closest multiple of msq, floored at msq itself
+    // — a MOQ product can never have fewer than msq in the cart while the line
+    // still exists, so anything below msq rounds UP to msq rather than down to 0.
+    const newQty = Math.max(msq, Math.round(rawQty / msq) * msq);
+    if (inputRef.current) inputRef.current.value = String(newQty);
     if (newQty === quantity) return;
     const formData = new FormData();
     formData.append(
@@ -136,7 +145,7 @@ function CartLineQuantity({line}: {line: CartLine}) {
         <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
           <button
             aria-label="Decrease quantity"
-            disabled={quantity <= 1 || !!isOptimistic}
+            disabled={quantity <= msq || !!isOptimistic}
             name="decrease-quantity"
             value={prevQuantity}
           >
@@ -150,7 +159,8 @@ function CartLineQuantity({line}: {line: CartLine}) {
           type="number"
           className="cart-line-qty-input"
           defaultValue={quantity}
-          min={1}
+          min={msq}
+          step={msq}
           disabled={!!isOptimistic}
           aria-label="Quantity"
           onBlur={(e) => submitQuantity(parseInt(e.target.value, 10))}
@@ -172,6 +182,9 @@ function CartLineQuantity({line}: {line: CartLine}) {
           </button>
         </CartLineUpdateButton>
       </div>
+      {msq > 1 && (
+        <p className="cart-line-moq-note">Sold in multiples of {msq}</p>
+      )}
       <div className="cart-line-remove">
         <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
       </div>

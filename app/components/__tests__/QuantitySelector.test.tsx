@@ -87,4 +87,31 @@ describe('QuantitySelector', () => {
     fireEvent.click(plusButton);
     expect(onChange).toHaveBeenCalledWith(1000);
   });
+
+  it('increments by step (MOQ) when provided', () => {
+    const onChange = vi.fn();
+    const {getByLabelText} = render(
+      <QuantitySelector quantity={5} onChange={onChange} min={5} step={5} />,
+    );
+    fireEvent.click(getByLabelText('Increase quantity'));
+    expect(onChange).toHaveBeenCalledWith(10);
+  });
+
+  it('decrements by step (MOQ) but never below min', () => {
+    const onChange = vi.fn();
+    const {getByLabelText} = render(
+      <QuantitySelector quantity={10} onChange={onChange} min={5} step={5} />,
+    );
+    fireEvent.click(getByLabelText('Decrease quantity'));
+    expect(onChange).toHaveBeenCalledWith(5);
+  });
+
+  it('disables minus at the MOQ floor', () => {
+    const {getByLabelText} = render(
+      <QuantitySelector quantity={5} onChange={() => {}} min={5} step={5} />,
+    );
+    expect(
+      (getByLabelText('Decrease quantity') as HTMLButtonElement).disabled,
+    ).toBe(true);
+  });
 });
