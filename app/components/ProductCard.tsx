@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
 import {getProductCardImageSrc} from '~/lib/supplierImages';
@@ -41,10 +41,21 @@ export function ProductCard({product}: ProductCardProps) {
   const msq = Number(product.msq?.value);
   const showMoqRibbon = Number.isFinite(msq) && msq > 1;
   const [localImageFailed, setLocalImageFailed] = useState(false);
+  const localImageRef = useRef<HTMLImageElement>(null);
   const localImageSrc = getProductCardImageSrc(
     product.supplierName?.value,
     product.externalProductId?.value,
   );
+
+  // An SSR'd <img> whose 404 lands before React hydrates has already fired its
+  // error event by the time onError attaches — the handler never runs and the
+  // card shows a broken image instead of the "No image" placeholder (a race:
+  // worst on phones, where hydration is slowest). Re-check on mount for a
+  // failure that was missed that way (complete + naturalWidth 0 = failed).
+  useEffect(() => {
+    const img = localImageRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setLocalImageFailed(true);
+  }, []);
   const noImageAvailable = !product.featuredImage && (!localImageSrc || localImageFailed);
 
   // Dev-only trace for "no image" cases — the placeholder itself is expected UI,
@@ -72,6 +83,7 @@ export function ProductCard({product}: ProductCardProps) {
             />
           ) : localImageSrc && !localImageFailed ? (
             <img
+              ref={localImageRef}
               src={localImageSrc}
               alt={product.title}
               onError={() => {

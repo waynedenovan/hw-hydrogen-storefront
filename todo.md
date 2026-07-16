@@ -1,4 +1,4 @@
-2607161525 claude
+26071 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,19 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - Last tasks font and font sizing changes are working perfectly
-        - Can we add an intermedietry font sizing so that we can go from a large, medium(new) and small screen
-            - I will leave the sizing to you but choose sizing in the middle betwwn large and small when you create it.
-            - I will check and confirm that I am happy with it after the task is completed
-    - The Issue with the "Detailed Product" page still has not been resolved
-        - I asked that you get me to confirm but you skipped that request assuming that the issue was rectified
-            - This issue has persisted for longer than a week/month (I cannot even remember) and over mean attempts on both Sonnet-5 and Fable-5 without being able to rectify it
-                - hw-hydrogen-storefront-node-docker/app/errors/260716150022-errors.jpeg
-                - hw-hydrogen-storefront-node-docker/app/errors/260716150140-errors.jpeg
+- 
 
 ## Step 2: Documentation and exit
-- update @2607161525_todo.md but exclude todo.md from any updating
+- update @26071_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 

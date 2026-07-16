@@ -118,10 +118,13 @@ html {
    as the Product Cards at every breakpoint (task 2607161330/2607161425), so
    its h1/h3/p/price/table rules are declared together with .product-card's.
 
-   Small screens (default, <45em): the compact sizes confirmed working on
-   phones — title 10px/350, brand/type/body 9px/250, price 12px/400.
-   Large screens (>=45em): original (pre-shrink) sizes with adjusted weights —
-   title 1.1rem/350, body 1rem/300, price 0.875rem/600 (task 2607161425). */
+   Three tiers (task 2607161525):
+   - Small (default, <45em): the compact sizes confirmed working on phones —
+     title 10px/350, brand/type/body 9px/250, price 12px/400.
+   - Medium (45em–64em, new): midpoints between small and large —
+     title 14px/350, body 12px/275, price 13px/500.
+   - Large (>=64em): original (pre-shrink) sizes with adjusted weights —
+     title 1.1rem/350, body 1rem/300, price 0.875rem/600 (task 2607161425). */
 .product-card h3,
 .product-main h1,
 .product-main h3 {
@@ -150,6 +153,31 @@ html {
 }
 
 @media (min-width: 45em) {
+  .product-card h3,
+  .product-main h1,
+  .product-main h3 {
+    font-size: 14px;
+    font-weight: 350;
+  }
+
+  .product-card p,
+  .product-main p,
+  .product-main .product-description {
+    font-size: 12px;
+    font-weight: 275;
+  }
+
+  .product-price-display {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .product-main table {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 64em) {
   .product-card h3,
   .product-main h1,
   .product-main h3 {

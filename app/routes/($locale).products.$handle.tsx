@@ -14,10 +14,6 @@ import {useAside} from '~/components/Aside';
 import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
 
-// Each thumbnail tracks its own load-failure locally — the resource route serving
-// these files doesn't exist yet (see supplierImages.ts), so most candidates will
-// 404 until the /media/suppliers disk-reading route lands. Hiding on error means
-// the gallery just quietly shows whichever images are actually available.
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
@@ -58,6 +54,12 @@ function buildCombinedDetails(
   return blocks;
 }
 
+// The loader only sends srcs whose files exist on disk, so failures here are
+// rare (file deleted between loader and fetch) — but an SSR'd <img> that fails
+// BEFORE React hydrates has already fired its error event when onError
+// attaches, so the mount effect re-checks for an already-missed failure
+// (complete + naturalWidth 0 = the load failed). Without this, broken tiles
+// stay visible whenever the failure wins the race against hydration.
 function GalleryThumbnail({
   src,
   alt,
@@ -68,10 +70,16 @@ function GalleryThumbnail({
   wrapperClassName?: string;
 }) {
   const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
   if (failed) return null;
   return (
     <div className={wrapperClassName}>
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
         onError={() => setFailed(true)}
@@ -100,11 +108,47 @@ export async function loader(args: LoaderFunctionArgs) {
     throw new Response('Product not found', {status: 404});
   }
 
-  return {product};
+  // Gallery candidate URLs are checked against the actual files on disk HERE,
+  // server-side, and only existing ones are sent to the client. Previously the
+  // component rendered all 11 candidates and relied on each <img onError> to
+  // hide itself — but an SSR'd <img> whose 404 lands before React hydrates has
+  // already fired its error event by the time the handler attaches, so dead
+  // tiles stayed visible as a grid of broken images (count varied per load —
+  // it's a race, worst on phones where hydration is slowest). This was the
+  // long-recurring "Detailed Product page" bug. node:fs is imported
+  // dynamically per project pattern ERR-IMPORT-001 (a static server-only
+  // import in a route with a client component breaks the client bundle).
+  const candidates = getProductGalleryImageSrcs(
+    product.supplierName?.value,
+    product.externalProductId?.value,
+  );
+  let gallerySrcs: string[] = [];
+  if (candidates.length > 0) {
+    const [fs, path] = await Promise.all([
+      import('node:fs/promises'),
+      import('node:path'),
+    ]);
+    const root = path.resolve(process.cwd(), 'media', 'suppliers');
+    gallerySrcs = (
+      await Promise.all(
+        candidates.map(async (src) => {
+          const rel = src.replace(/^\/media\/suppliers\//, '');
+          try {
+            await fs.access(path.resolve(root, rel));
+            return src;
+          } catch {
+            return null;
+          }
+        }),
+      )
+    ).filter((src): src is string => src !== null);
+  }
+
+  return {product, gallerySrcs};
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
+  const {product, gallerySrcs} = useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
   const msqValue = Number(product.msq?.value);
   const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
@@ -120,10 +164,6 @@ export default function Product() {
   const hasDimensions =
     dimensions &&
     (dimensions.length || dimensions.width || dimensions.height || dimensions.weight);
-  const gallerySrcs = getProductGalleryImageSrcs(
-    product.supplierName?.value,
-    product.externalProductId?.value,
-  );
   const combinedDetailBlocks = buildCombinedDetails(
     [
       {text: product.shortDescription?.value},
@@ -156,14 +196,16 @@ export default function Product() {
                 data={featuredImage}
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
+            ) : gallerySrcs[0] ? (
+              <GalleryThumbnail
+                src={gallerySrcs[0]}
+                alt={title}
+                wrapperClassName="w-full aspect-square overflow-hidden rounded"
+              />
             ) : (
-              gallerySrcs[0] && (
-                <GalleryThumbnail
-                  src={gallerySrcs[0]}
-                  alt={title}
-                  wrapperClassName="w-full aspect-square overflow-hidden rounded"
-                />
-              )
+              <div className="w-full aspect-square rounded bg-gray-100 flex items-center justify-center text-gray-400">
+                No image
+              </div>
             )}
             {gallerySrcs.length > 1 && (
               <div className="grid grid-cols-4 gap-2 mt-2">
