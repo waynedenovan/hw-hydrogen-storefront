@@ -68,16 +68,6 @@ function CartCheckoutActions({
       >
         {isCartUpdating ? 'Updating cart…' : 'Proceed to Checkout →'}
       </Link>
-      <a
-        href={checkoutUrl}
-        target="_self"
-        onClick={handleCheckoutClick}
-        className={`checkout-skip-btn${isCartUpdating ? ' checkout-btn-disabled' : ''}`}
-        aria-disabled={isCartUpdating}
-        style={isCartUpdating ? {opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none'} : undefined}
-      >
-        Skip to payment &rarr;
-      </a>
     </div>
   );
 }

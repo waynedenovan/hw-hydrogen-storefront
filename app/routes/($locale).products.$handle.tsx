@@ -12,6 +12,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {QuantitySelector} from '~/components/QuantitySelector';
 import {useAside} from '~/components/Aside';
 import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
+import {withDisplayVat} from '~/lib/displayVat';
 
 // Each thumbnail tracks its own load-failure locally — the resource route serving
 // these files doesn't exist yet (see supplierImages.ts), so most candidates will
@@ -176,9 +177,15 @@ export default function Product() {
             <h1 className="text-3xl font-bold mb-4 text-white">{title}</h1>
             <div className="text-white text-xl font-semibold">
               <ProductPrice
-                price={product.selectedOrFirstAvailableVariant?.price}
+                price={
+                  product.selectedOrFirstAvailableVariant?.price
+                    ? withDisplayVat(product.selectedOrFirstAvailableVariant.price)
+                    : undefined
+                }
                 compareAtPrice={
                   product.selectedOrFirstAvailableVariant?.compareAtPrice
+                    ? withDisplayVat(product.selectedOrFirstAvailableVariant.compareAtPrice)
+                    : undefined
                 }
               />
             </div>
@@ -349,6 +356,17 @@ export default function Product() {
                     : 'Add to Cart'
                   : 'Sold Out'}
               </button>
+              {/* Shopify silently caps quantity to whatever's actually in stock
+                  (MERCHANDISE_NOT_ENOUGH_STOCK) instead of rejecting the add —
+                  surface that here so a lower-than-requested cart quantity
+                  doesn't look like a stepping/MOQ bug. */}
+              {(fetcher.data as {warnings?: {message: string}[]} | undefined)?.warnings?.map(
+                (warning, index) => (
+                  <p key={index} className="text-xs text-amber-300 mt-2">
+                    {warning.message}
+                  </p>
+                ),
+              )}
             </fetcher.Form>
           </div>
         </div>
