@@ -64,10 +64,12 @@ function GalleryThumbnail({
   src,
   alt,
   wrapperClassName = 'aspect-square overflow-hidden rounded bg-gray-100',
+  onExpand,
 }: {
   src: string;
   alt: string;
   wrapperClassName?: string;
+  onExpand?: () => void;
 }) {
   const [failed, setFailed] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -76,15 +78,104 @@ function GalleryThumbnail({
     if (img && img.complete && img.naturalWidth === 0) setFailed(true);
   }, []);
   if (failed) return null;
+  const img = (
+    <img
+      ref={imgRef}
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+      className="w-full h-full object-cover"
+    />
+  );
+  if (onExpand) {
+    return (
+      <button
+        type="button"
+        onClick={onExpand}
+        className={`${wrapperClassName} block w-full p-0 border-0 cursor-zoom-in`}
+        aria-label={`Expand image: ${alt}`}
+      >
+        {img}
+      </button>
+    );
+  }
+  return <div className={wrapperClassName}>{img}</div>;
+}
+
+// Full-screen expanded view of a gallery image (todo spec: extra images are
+// shown minimised and, when selected, expand for better viewing; closing
+// returns them to the minimised grid). Prev/next cycle through gallerySrcs.
+function GalleryCarousel({
+  srcs,
+  index,
+  alt,
+  onNavigate,
+  onClose,
+}: {
+  srcs: string[];
+  index: number;
+  alt: string;
+  onNavigate: (index: number) => void;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowLeft')
+        onNavigate((index - 1 + srcs.length) % srcs.length);
+      if (event.key === 'ArrowRight') onNavigate((index + 1) % srcs.length);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [index, srcs.length, onNavigate, onClose]);
   return (
-    <div className={wrapperClassName}>
+    <div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Expanded product image"
+      onClick={onClose}
+    >
       <img
-        ref={imgRef}
-        src={src}
+        src={srcs[index]}
         alt={alt}
-        onError={() => setFailed(true)}
-        className="w-full h-full object-cover"
+        className="max-w-[90vw] max-h-[85vh] object-contain rounded bg-white"
+        onClick={(event) => event.stopPropagation()}
       />
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close expanded image"
+        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white"
+      >
+        ×
+      </button>
+      {srcs.length > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label="Previous image"
+            onClick={(event) => {
+              event.stopPropagation();
+              onNavigate((index - 1 + srcs.length) % srcs.length);
+            }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            aria-label="Next image"
+            onClick={(event) => {
+              event.stopPropagation();
+              onNavigate((index + 1) % srcs.length);
+            }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white"
+          >
+            ›
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -175,6 +266,7 @@ export default function Product() {
     descriptionHtml ? stripHtml(descriptionHtml) : null,
   );
   const partNo = product.cleansku?.value;
+  const [expandedImage, setExpandedImage] = useState<number | null>(null);
   const fetcher = useFetcher({key: 'add-to-cart'});
   const {open} = useAside();
   const prevFetcherState = useRef(fetcher.state);
@@ -188,7 +280,10 @@ export default function Product() {
 
   return (
     <div className="page-card page-card--narrow">
-      <div className="product max-w-7xl mx-auto px-4 py-8">
+      {/* No max-width cap: the content area must keep expanding with the
+          screen, bounded only by the 90%-of-card / 5%-inset rule enforced
+          in app.css (.product padding-inline at >=45em). */}
+      <div className="product mx-auto px-4 py-8">
         <div className="product-layout">
           <div className="product-image">
             {featuredImage ? (
@@ -201,6 +296,7 @@ export default function Product() {
                 src={gallerySrcs[0]}
                 alt={title}
                 wrapperClassName="w-full aspect-square overflow-hidden rounded"
+                onExpand={() => setExpandedImage(0)}
               />
             ) : (
               <div className="w-full aspect-square rounded bg-gray-100 flex items-center justify-center text-gray-400">
@@ -209,10 +305,24 @@ export default function Product() {
             )}
             {gallerySrcs.length > 1 && (
               <div className="grid grid-cols-4 gap-2 mt-2">
-                {gallerySrcs.slice(1).map((src) => (
-                  <GalleryThumbnail key={src} src={src} alt={title} />
+                {gallerySrcs.slice(1).map((src, thumbIndex) => (
+                  <GalleryThumbnail
+                    key={src}
+                    src={src}
+                    alt={title}
+                    onExpand={() => setExpandedImage(thumbIndex + 1)}
+                  />
                 ))}
               </div>
+            )}
+            {expandedImage !== null && gallerySrcs[expandedImage] && (
+              <GalleryCarousel
+                srcs={gallerySrcs}
+                index={expandedImage}
+                alt={title}
+                onNavigate={setExpandedImage}
+                onClose={() => setExpandedImage(null)}
+              />
             )}
           </div>
           <div className="product-main">

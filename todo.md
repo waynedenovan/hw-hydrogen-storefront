@@ -1,4 +1,4 @@
-2607161650 claude
+26071 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,18 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - And yet once again we try sort out tyhe same issue with the "Detailed Products" page
-        - This should consist of an area with a transparent grey background with rounded corners within the main "Detailed Products" page above the main pages backround that will have a picture displayed. This picture will have the same formating as the main pages backgound picture and should also only be from the bottom of the header to the top of the footer. (The image should never go behind the Header and/or Footer)
-        - An Image (i.e. {productId}) for the product and any other images associated with the page (i.e. {productId}_01, {productId}_02, {productId}A etc)
-            - the extra images if available should be visable and if selected expanded (picture carosol) to allow better viewing.
-            - once the carosol is closed they should again be minimised
-        - A Text area that expands as the screwen expands but never greater than 90% the width and height of the trandpatent background
-            - It must allow the text to be expanded horizontally as the screen size changes to use more horizontal space as provided by this text area, but should never allow the text or other elements to extend past its boundries, thus keeping the text at a minimum distance to 5% from the transparent background
-    - Lets see if we can resolve this issue of the text and other elements extending past the righthand side of the transparent background and even screen edge.
+- 
 
 ## Step 2: Documentation and exit
-- update @2607161650_todo.md but exclude todo.md from any updating
+- update @26071_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 
