@@ -6,6 +6,7 @@ import {Link, useFetcher} from 'react-router';
 import {useRef} from 'react';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
+import {withDisplayVat} from '~/lib/displayVat';
 import type {
   CartApiQueryFragment,
   CartLineFragment,
@@ -63,7 +64,9 @@ export function CartLineItem({
               <strong>{product.title}</strong>
             </p>
           </Link>
-          <ProductPrice price={line?.cost?.totalAmount} />
+          <ProductPrice
+            price={line?.cost?.totalAmount ? withDisplayVat(line.cost.totalAmount) : undefined}
+          />
           <ul>
             {selectedOptions.map((option) => (
               <li key={option.name}>

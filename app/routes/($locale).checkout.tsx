@@ -10,6 +10,7 @@ import {useState, useEffect, useRef} from 'react';
 import {Money, Image, CartForm} from '@shopify/hydrogen';
 import type {CountryCode, CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {withDisplayVat, displayVatOnly} from '~/lib/displayVat';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
 import type {CustomerDetailsQuery} from 'customer-accountapi.generated';
 
@@ -951,6 +952,18 @@ function OrderReviewStep({
   const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
   const selectedDelivery = deliveryGroup?.selectedDeliveryOption;
 
+  // Display-only VAT estimate (matches the same 15% rate the real charge uses
+  // server-side via the Shopify draft order) — subtotal + shipping combined.
+  const vatBaseAmount = cart.cost?.subtotalAmount
+    ? {
+        amount: (
+          parseFloat(cart.cost.subtotalAmount.amount) +
+          (selectedDelivery ? parseFloat(selectedDelivery.estimatedCost.amount) : 0)
+        ).toFixed(2),
+        currencyCode: cart.cost.subtotalAmount.currencyCode,
+      }
+    : null;
+
   return (
     <div className="checkout-review">
       <h2 className="checkout-section-title">Order Review</h2>
@@ -1025,7 +1038,7 @@ function OrderReviewStep({
                   </p>
                 </div>
                 <div className="checkout-review-line-price">
-                  <Money data={line.cost.totalAmount} />
+                  <Money data={withDisplayVat(line.cost.totalAmount)} />
                 </div>
               </li>
             );
@@ -1035,7 +1048,7 @@ function OrderReviewStep({
 
       <div className="checkout-review-section checkout-review-totals">
         <div className="checkout-review-total-row">
-          <span>Subtotal</span>
+          <span>Subtotal (excl. VAT)</span>
           <span>
             {cart.cost?.subtotalAmount ? (
               <Money data={cart.cost.subtotalAmount} />
@@ -1053,11 +1066,19 @@ function OrderReviewStep({
               </span>
             </div>
           )}
+        {vatBaseAmount && (
+          <div className="checkout-review-total-row">
+            <span>VAT</span>
+            <span>
+              <Money data={displayVatOnly(vatBaseAmount)} />
+            </span>
+          </div>
+        )}
         <div className="checkout-review-total-row checkout-review-grand-total">
-          <span>Total</span>
+          <span>Total (incl. VAT)</span>
           <span>
-            {cart.cost?.totalAmount ? (
-              <Money data={cart.cost.totalAmount} />
+            {vatBaseAmount ? (
+              <Money data={withDisplayVat(vatBaseAmount)} />
             ) : (
               '-'
             )}

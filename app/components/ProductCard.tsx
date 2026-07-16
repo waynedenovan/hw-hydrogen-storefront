@@ -103,16 +103,19 @@ export function ProductCard({product}: ProductCardProps) {
             borderRadius: '6px',
           }}
         >
-          <h3 className="text-xs font-medium leading-snug text-white group-hover:underline">
+          {/* h3/p font-size + font-weight are set in app.css (.product-card h3/p) —
+              Tailwind text-size/font-weight utility classes here would be silently
+              overridden by reset.css's unlayered h3/p rules, see app.css comment. */}
+          <h3 className="leading-snug text-white group-hover:underline">
             {product.title}
           </h3>
           {product.brand?.value && (
-            <p className="text-[11px] font-normal text-gray-300 mt-0.5">{product.brand.value}</p>
+            <p className="text-gray-300 mt-0.5">{product.brand.value}</p>
           )}
           {product.productType && (
-            <p className="text-[11px] font-normal text-gray-400 mt-0.5">{product.productType}</p>
+            <p className="text-gray-400 mt-0.5">{product.productType}</p>
           )}
-          <div className="mt-1 text-xs font-semibold text-white">
+          <div className="mt-1 text-xs font-[400] text-white">
             <Money data={withDisplayVat(product.priceRange.minVariantPrice)} />
           </div>
         </div>

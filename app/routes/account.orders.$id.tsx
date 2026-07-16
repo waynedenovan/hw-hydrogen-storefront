@@ -2,6 +2,7 @@ import {useLoaderData, Link, redirect, useFetcher} from 'react-router';
 import {useState} from 'react';
 import type {LoaderFunctionArgs, ActionFunctionArgs, MetaFunction} from 'react-router';
 import {Money, Image} from '@shopify/hydrogen';
+import {withDisplayVat} from '~/lib/displayVat';
 import {ORDER_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
@@ -408,7 +409,7 @@ export default function OrderDetail() {
                   )}
                 </div>
                 <div style={{textAlign: 'right', flexShrink: 0}}>
-                  <Money data={lineItem.price} />
+                  <Money data={withDisplayVat(lineItem.price)} />
                 </div>
               </div>
             );
@@ -705,7 +706,7 @@ export default function OrderDetail() {
               </p>
             </div>
             <div style={{textAlign: 'right'}}>
-              <Money data={lineItem.price} />
+              <Money data={withDisplayVat(lineItem.price)} />
               {lineItem.discountAllocations.length > 0 && (
                 <p
                   style={{
@@ -744,7 +745,7 @@ export default function OrderDetail() {
             marginBottom: '0.5rem',
           }}
         >
-          <span style={{color: 'rgba(255,255,255,0.7)'}}>Subtotal</span>
+          <span style={{color: 'rgba(255,255,255,0.7)'}}>Subtotal (excl. VAT)</span>
           <Money data={order.subtotal} />
         </div>
         {(order as any).shippingLine && parseFloat((order as any).shippingLine.originalPrice?.amount ?? '0') > 0 && (
@@ -766,7 +767,7 @@ export default function OrderDetail() {
             marginBottom: '0.5rem',
           }}
         >
-          <span style={{color: 'rgba(255,255,255,0.7)'}}>Tax</span>
+          <span style={{color: 'rgba(255,255,255,0.7)'}}>VAT</span>
           {/* Include 15% SA VAT on shipping since Shopify totalTax covers products only */}
           {(() => {
             const shippingAmt = parseFloat((order as any).shippingLine?.originalPrice?.amount ?? '0');
@@ -811,7 +812,7 @@ export default function OrderDetail() {
             fontSize: '1.1rem',
           }}
         >
-          <span>Total</span>
+          <span>Total (incl. VAT)</span>
           {/* Adjust total to include 15% SA VAT on shipping */}
           {(() => {
             const shippingAmt = parseFloat((order as any).shippingLine?.originalPrice?.amount ?? '0');

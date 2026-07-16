@@ -100,6 +100,34 @@ html {
   max-width: none;
 }
 
+/* `@import "tailwindcss";` (top of this file) puts every Tailwind utility
+   class inside CSS cascade layers. reset.css is a separate, non-Tailwind
+   stylesheet, so its h1/h2/h3/p rules are NOT in any layer. Per the CSS
+   Cascade Layers spec, an unlayered rule always wins over a layered one
+   regardless of specificity or source order — so Tailwind font-size/
+   font-weight utility classes (text-xs, font-medium, font-[350], etc.) on
+   h1/h2/h3 or font-size utilities on p silently lose to reset.css's bare
+   element rules, no matter what value is set. This is the actual root cause
+   behind the font-weight/size changes on Product Card + Detailed Product
+   Card "not sticking" across several sessions — previous fixes correctly
+   edited the Tailwind classes, but they were never able to take effect.
+   Fix: set the real values here instead, as plain (unlayered) CSS, which
+   wins against reset.css the same way the box-reset block above does. */
+.product-card h3 {
+  font-size: 10px;
+  font-weight: 350;
+}
+
+.product-card p {
+  font-size: 9px;
+  font-weight: 250;
+}
+
+.product-main h1 {
+  font-size: 1.25rem;
+  font-weight: 350;
+}
+
 img {
   border-radius: 4px;
 }

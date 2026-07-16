@@ -1,4 +1,4 @@
-2607161330 claude
+26071 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,44 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - Cart:
-        - I have unfortunitly created more confusion by just getting the "Product Cards" and "Detailed Product Info" pages to show the price including VAT
-            - Every step from the "Product Cards", "Detailed Product Info", Cart, Cart summary, Payfast and Order History must show the price including VAT. Do not break the functions in correctly handling the items VAT and Shipping VAT as they are correct at the moment
-                - Only the Subtotal, VAT and Total must seperate out the vales into Subtotal(excl. VAT), VAT, Total(incl. VAT)
-                - In the images below you can see the confusion created:
-                    - hw-hydrogen-storefront-node-docker/app/errors/260716124319-errors.png
-                        - Product Card showing the correct value, but the cart makes it confusing showing value excl VAT
-                    - hw-hydrogen-storefront-node-docker/app/errors/260716124334-errors.png
-                        - Proceed to checkout again makes it confusing showing value excl VAT
-                    - hw-hydrogen-storefront-node-docker/app/errors/260716124414-errors.png
-                        - Checkout summary again makes it confusing showing value excl VAT
-                    - hw-hydrogen-storefront-node-docker/app/errors/260716124426-errors.png
-                        - PayFast showing correct value incl VAT
-- hw-storefront-ui-node-docker
-    - Xero:
-        - When adding an Inventory item to Xero, the rule was that the first thre char of the supliers name would be used to proceed the {productId} seperated by a "-"
-            - THis is not happening as can be seen in the images below
-                - hw-hydrogen-storefront-node-docker/app/errors/260716124810-errors.png
-                - hw-hydrogen-storefront-node-docker/app/errors/260716124818-errors.png
-                - hw-hydrogen-storefront-node-docker/app/errors/260716124940-errors.png
-                    - this image show the correct naming convention to be used i.e. an Agrinet product "Agr-PAS24L" etc
-                    - lets get this working as the "Bulk Create All Missing Items" function
- - hw-hydrogen-storefront-node-docker
-   - Product Cards:
-        - Project Wide Rules
-            - Decrease the font weight even further,
-                - Confirm current weight and then let me decide
-            - "Detailed Product Cards" can follow the same font formatting as the "Product Cards"
-                - Font size, weight etc
-            - "Detailed Product Cards" are all still not being formated correctly
-                - hw-hydrogen-storefront-node-docker/app/errors/260716132157-errors.jpeg
-                - hw-hydrogen-storefront-node-docker/app/errors/260716132220-errors.jpeg
-                - I am sorry but this again is a issue that has continued over a few tasks
-                    - You say it is corrected but it is not, especially when a new prodcut is added, with its "Detailed Product Cards"
+- 
 
 ## Step 2: Documentation and exit
-- update @2607161330_todo.md but exclude todo.md from any updating
+- update @26071_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 

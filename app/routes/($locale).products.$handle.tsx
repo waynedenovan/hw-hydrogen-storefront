@@ -174,8 +174,11 @@ export default function Product() {
             )}
           </div>
           <div className="product-main">
-            <h1 className="text-3xl font-bold mb-4 text-white">{title}</h1>
-            <div className="text-white text-xl font-semibold">
+            {/* font-size/weight set in app.css (.product-main h1) — Tailwind
+                text-size/font-weight classes here would be silently overridden
+                by reset.css's unlayered h1 rule, see app.css comment. */}
+            <h1 className="mb-4 text-white">{title}</h1>
+            <div className="text-white text-base font-[400]">
               <ProductPrice
                 price={
                   product.selectedOrFirstAvailableVariant?.price
