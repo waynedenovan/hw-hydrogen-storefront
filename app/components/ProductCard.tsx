@@ -115,7 +115,7 @@ export function ProductCard({product}: ProductCardProps) {
           {product.productType && (
             <p className="text-gray-400 mt-0.5">{product.productType}</p>
           )}
-          <div className="mt-1 text-xs font-[400] text-white">
+          <div className="mt-1 text-white product-price-display">
             <Money data={withDisplayVat(product.priceRange.minVariantPrice)} />
           </div>
         </div>

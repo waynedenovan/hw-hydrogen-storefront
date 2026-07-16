@@ -178,7 +178,7 @@ export default function Product() {
                 text-size/font-weight classes here would be silently overridden
                 by reset.css's unlayered h1 rule, see app.css comment. */}
             <h1 className="mb-4 text-white">{title}</h1>
-            <div className="text-white text-base font-[400]">
+            <div className="text-white product-price-display">
               <ProductPrice
                 price={
                   product.selectedOrFirstAvailableVariant?.price
@@ -198,11 +198,15 @@ export default function Product() {
             />
             {(partNo || combinedDetailBlocks.length > 0) && (
               <div className="mt-6 text-gray-200">
-                <h3 className="font-semibold mb-2 text-white">
+                {/* h1/h3/p/table font-size + weight for this page are set in
+                    app.css (.product-main …) alongside .product-card's — see
+                    the cascade-layers comment there. Tailwind text-size/weight
+                    classes on these elements would be silent no-ops. */}
+                <h3 className="mb-2 text-white">
                   Product Details
                 </h3>
                 {partNo && (
-                  <p className="text-sm">
+                  <p>
                     <span className="font-semibold text-white">
                       Part No.:{' '}
                     </span>
@@ -212,11 +216,11 @@ export default function Product() {
                 {combinedDetailBlocks.map((block, index) => (
                   <p
                     key={index}
-                    className={`text-sm${
+                    className={
                       index > 0 || partNo
-                        ? ' mt-3 pt-3 border-t border-gray-600'
-                        : ''
-                    }`}
+                        ? 'mt-3 pt-3 border-t border-gray-600'
+                        : undefined
+                    }
                   >
                     {block}
                   </p>
@@ -225,11 +229,11 @@ export default function Product() {
             )}
             {hasDimensions && (
               <div className="mt-6 text-gray-200">
-                <h3 className="font-semibold mb-2 text-white">
+                <h3 className="mb-2 text-white">
                   Specifications
                 </h3>
                 <div className="product-dimensions-table">
-                  <table className="w-full text-sm text-left border-collapse">
+                  <table className="w-full text-left border-collapse">
                     <tbody>
                       {dimensions?.weight && (
                         <tr className="border-b border-gray-600">
@@ -275,7 +279,7 @@ export default function Product() {
             >
               {({option}) => (
                 <div key={option.name} className="mt-4">
-                  <h3 className="font-semibold mb-2 text-white">
+                  <h3 className="mb-2 text-white">
                     {option.name}
                   </h3>
                   <div className="flex flex-wrap gap-2">

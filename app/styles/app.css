@@ -112,20 +112,66 @@ html {
    Card "not sticking" across several sessions — previous fixes correctly
    edited the Tailwind classes, but they were never able to take effect.
    Fix: set the real values here instead, as plain (unlayered) CSS, which
-   wins against reset.css the same way the box-reset block above does. */
-.product-card h3 {
+   wins against reset.css the same way the box-reset block above does.
+
+   The Detailed Product page (.product-main) follows the same font formatting
+   as the Product Cards at every breakpoint (task 2607161330/2607161425), so
+   its h1/h3/p/price/table rules are declared together with .product-card's.
+
+   Small screens (default, <45em): the compact sizes confirmed working on
+   phones — title 10px/350, brand/type/body 9px/250, price 12px/400.
+   Large screens (>=45em): original (pre-shrink) sizes with adjusted weights —
+   title 1.1rem/350, body 1rem/300, price 0.875rem/600 (task 2607161425). */
+.product-card h3,
+.product-main h1,
+.product-main h3 {
   font-size: 10px;
   font-weight: 350;
 }
 
-.product-card p {
+/* .product-description is included by itself (not just its p descendants)
+   because Shopify's descriptionHtml is often bare text with no <p> wrapper —
+   without this the description silently keeps the 16px default (the exact
+   still-huge-description symptom from screenshot 260716141429). */
+.product-card p,
+.product-main p,
+.product-main .product-description {
   font-size: 9px;
   font-weight: 250;
 }
 
-.product-main h1 {
-  font-size: 1.25rem;
-  font-weight: 350;
+.product-price-display {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.product-main table {
+  font-size: 9px;
+}
+
+@media (min-width: 45em) {
+  .product-card h3,
+  .product-main h1,
+  .product-main h3 {
+    font-size: 1.1rem;
+    font-weight: 350;
+  }
+
+  .product-card p,
+  .product-main p,
+  .product-main .product-description {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .product-price-display {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .product-main table {
+    font-size: 0.875rem;
+  }
 }
 
 img {
