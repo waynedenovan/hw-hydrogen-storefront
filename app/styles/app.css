@@ -125,7 +125,15 @@ html {
    - Medium (45em–64em): midpoints between small and large —
      title 15px/350, body 13px/275, price 12px/500.
    - Large (>=64em): original (pre-shrink) sizes with adjusted weights —
-     title 1.1rem/350, body 1rem/300, price 0.75rem/600. */
+     title 1.1rem/350, body 1rem/300, price 0.75rem/600.
+
+   Task 2607171010: Detailed Product page (.product-main) ONLY — product
+   detail information (description/Product Details/Specifications text +
+   table) and price text bumped +2pt (literal +2px, same convention as the
+   prior +2pt/-2pt tier adjustments above) at every tier. Product Card
+   values (.product-card p, .product-card .product-price-display) are
+   deliberately left untouched, so the shared p/table/price-display
+   selectors are split per page below instead of staying combined. */
 .product-card h3,
 .product-main h1,
 .product-main h3 {
@@ -137,10 +145,14 @@ html {
    because Shopify's descriptionHtml is often bare text with no <p> wrapper —
    without this the description silently keeps the 16px default (the exact
    still-huge-description symptom from screenshot 260716141429). */
-.product-card p,
+.product-card p {
+  font-size: 11px;
+  font-weight: 250;
+}
+
 .product-main p,
 .product-main .product-description {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 250;
 }
 
@@ -149,14 +161,21 @@ html {
    only ~91px fits a card on Wayne's phone (effective ~305px viewport), and
    the Intl currency formatter uses a non-breaking space so the price can
    never wrap — 12px (89px) is the first size that fits. Measured live via
-   canvas measureText with the element's real font stack. */
-.product-price-display {
+   canvas measureText with the element's real font stack. Product Card stays
+   at 12px; the Detailed Product page's price is bumped +2pt (task 2607171010)
+   since it isn't width-constrained the same way a card is. */
+.product-card .product-price-display {
   font-size: 12px;
   font-weight: 400;
 }
 
+.product-main .product-price-display {
+  font-size: 14px;
+  font-weight: 400;
+}
+
 .product-main table {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 @media (min-width: 45em) {
@@ -167,20 +186,29 @@ html {
     font-weight: 350;
   }
 
-  .product-card p,
-  .product-main p,
-  .product-main .product-description {
+  .product-card p {
     font-size: 13px;
     font-weight: 275;
   }
 
-  .product-price-display {
+  .product-main p,
+  .product-main .product-description {
+    font-size: 15px;
+    font-weight: 275;
+  }
+
+  .product-card .product-price-display {
     font-size: 12px;
     font-weight: 500;
   }
 
+  .product-main .product-price-display {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
   .product-main table {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
@@ -192,20 +220,29 @@ html {
     font-weight: 350;
   }
 
-  .product-card p,
-  .product-main p,
-  .product-main .product-description {
+  .product-card p {
     font-size: 1rem;
     font-weight: 300;
   }
 
-  .product-price-display {
+  .product-main p,
+  .product-main .product-description {
+    font-size: 1.125rem;
+    font-weight: 300;
+  }
+
+  .product-card .product-price-display {
     font-size: 0.75rem;
     font-weight: 600;
   }
 
-  .product-main table {
+  .product-main .product-price-display {
     font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .product-main table {
+    font-size: 1rem;
   }
 }
 
