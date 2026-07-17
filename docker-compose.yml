@@ -1,6 +1,11 @@
 services:
   hydrogen-storefront:
     build: .
+    # Tag local builds so they're push-ready for the production registry flow
+    # (see guides/production-deploy.md). REGISTRY example: docker.io/<namespace>
+    # or ghcr.io/<user>. TAG normally comes from the repo-root VERSION file via
+    # scripts/release.sh; plain `docker compose build` still works unchanged.
+    image: ${REGISTRY:-hoseworld}/hw-hydrogen-storefront:${TAG:-latest}
     restart: unless-stopped
     ports:
       - "5130:5130"

@@ -119,13 +119,13 @@ html {
    its h1/h3/p/price/table rules are declared together with .product-card's.
 
    Three tiers (task 2607161525; small tier +2pt and medium re-midpointed
-   per Wayne, task 2607161650):
+   per Wayne, task 2607161650; price -2pt at all tiers, task 2607170910):
    - Small (default, <45em): title 12px/350, brand/type/body 11px/250,
-     price 14px/400.
+     price 12px/400.
    - Medium (45em–64em): midpoints between small and large —
-     title 15px/350, body 13px/275, price 14px/500.
+     title 15px/350, body 13px/275, price 12px/500.
    - Large (>=64em): original (pre-shrink) sizes with adjusted weights —
-     title 1.1rem/350, body 1rem/300, price 0.875rem/600 (task 2607161425). */
+     title 1.1rem/350, body 1rem/300, price 0.75rem/600. */
 .product-card h3,
 .product-main h1,
 .product-main h3 {
@@ -144,8 +144,14 @@ html {
   font-weight: 250;
 }
 
+/* Price is 12px at every tier (task 2607170910, -2pt from 14px): the widest
+   real price (ZAR 146,497.59) measures 103.8px at 14px / 96.4px at 13px but
+   only ~91px fits a card on Wayne's phone (effective ~305px viewport), and
+   the Intl currency formatter uses a non-breaking space so the price can
+   never wrap — 12px (89px) is the first size that fits. Measured live via
+   canvas measureText with the element's real font stack. */
 .product-price-display {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
 }
 
@@ -169,7 +175,7 @@ html {
   }
 
   .product-price-display {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
   }
 
@@ -194,7 +200,7 @@ html {
   }
 
   .product-price-display {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
   }
 

@@ -1,0 +1,32 @@
+# Production compose file — runs on the remote VPS. There is deliberately NO
+# `build:` section: production never rebuilds. The dev machine builds and
+# pushes a version-tagged image (scripts/release.sh) and the VPS only pulls:
+#
+#   REGISTRY=<registry>/<namespace> TAG=<VERSION> \
+#     docker compose -f docker-compose.prod.yml pull && \
+#   REGISTRY=<registry>/<namespace> TAG=<VERSION> \
+#     docker compose -f docker-compose.prod.yml up -d
+#
+# Rollback = rerun with an older TAG. Full procedure: guides/production-deploy.md
+services:
+  hydrogen-storefront:
+    image: ${REGISTRY:-hoseworld}/hw-hydrogen-storefront:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "5130:5130"
+    volumes:
+      # Supplier images live OUTSIDE the image on purpose — the set is still
+      # being collected. rsync new files into /srv/hoseworld/media/suppliers/
+      # on the VPS and they're served immediately (server.ts express.static
+      # reads the mount per-request; no restart, no rebuild).
+      - /srv/hoseworld/media:/app/media:ro
+    env_file:
+      # Production env values (domains, tokens). Kept on the VPS only —
+      # never baked into the image, never committed.
+      - .env.production
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: "1420"

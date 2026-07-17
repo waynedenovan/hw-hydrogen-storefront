@@ -59,6 +59,27 @@ if (isProduction) {
   app.use(vite.middlewares);
 }
 
+// Serve supplier images straight from disk (the read-only host bind mount),
+// short-circuiting the SSR pipeline entirely. Without this, every request —
+// including the very common miss (the image set is still being collected) —
+// ran through the full react-router render AND storefrontRedirect()'s live
+// Storefront-API urlRedirects query, turning a "file not found" into a
+// 350–750ms Shopify round-trip (observed in hw-hydrogen.log; caused the
+// Cloudflare stream-cancellation errors). New files dropped into the host
+// folder are picked up per-request — no rebuild or restart needed.
+// Registered after morgan on purpose: the 404 log lines are how missing
+// images get noticed while the image set is still being collected.
+app.use(
+  '/media/suppliers',
+  express.static('media/suppliers', {
+    maxAge: '1y',
+    immutable: true,
+    index: false,
+    redirect: false,
+  }),
+  (_req, res) => res.status(404).end(),
+);
+
 app.all('*', async (req, res) => {
   try {
     const request = createFetchRequest(req, res);
@@ -86,9 +107,16 @@ app.all('*', async (req, res) => {
       );
     }
 
-    if (response.status === 404) {
+    if (
+      response.status === 404 &&
+      !new URL(request.url).pathname.startsWith('/media/')
+    ) {
       // Check for redirects only when there's a 404 from the app. If the
       // redirect doesn't exist, storefrontRedirect passes through the 404.
+      // /media/ paths never have Shopify URL redirects — each lookup is a
+      // live Storefront API query, so a missing image must not trigger one
+      // (belt-and-braces; the express.static handler above already catches
+      // these before they reach the router).
       response = await storefrontRedirect({
         request,
         response,
