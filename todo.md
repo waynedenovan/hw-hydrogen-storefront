@@ -1,4 +1,4 @@
-2607171535 claude
+26071 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,65 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - Product Cards:
-        - MOQ:
-            - as you can see in the image below, the wording "Min Order Qty" and {"msq"} are viewable and showing on two rows within the band BUT,
-                - the wording is not aligned in the centre of the band. The "y" in Qty is touching the top of the image
-                    - hw-hydrogen-storefront-node-docker/app/errors/260717133420-errors.png
-                - the wording should have an even space between the top side of the image and the left side of the image
-    - Product Cards & Detailed Product pages
-        - New functionality
-            - Please lets create a "Wish List" so that even though the customer does not buy the product we can communicate changes in Stock i.e. when available and/or if there is a special on the product
-            - This must be accesable via
-                - an icon at the top right hand side of the page between the /account (user) icon and the "Search" icon
-                - User profile, between the Orders and Profile options
-                - hw-hydrogen-storefront-node-docker/app/errors/260717135508-errors.png
-- hw-storefront-ui-node-docker
-    - Import App:
-        - Do not chnage the Import process as it is working but we need to change the "Collection"'s and how the products are assigned to a collection
-        - New "Collection" structure
-            - We are not going to use the Import app to create "Collection" but instead are going to have a fixed list:
-                - Agricultural
-                - Automotive
-                - Construction
-                - Electrical
-                - Fire Protection
-                - Garden & Lawn
-                - Irrigation
-                - Garden Irrigation
-                - Hardware & Tools
-                - Household
-                - Livestock & Animals
-                - Outdoor
-                - Paint & Related
-                - Plumbing
-                - Power Products
-                - Welding
-                - PPE
-                - Agricultural
-        - The new "Collection" list must have the ability to add an image to the "Collection" which will be displayed on the Hydrogen storefront only
-        - The Imported "Sub Collection" must have the ability to add an image to the "Sub Collection" which will be displayed on the Hydrogen storefront only
-            - hw-hydrogen-storefront-node-docker:
-                - Main page will have the new "Collection" list instead of the current "Collection" that have been created by the current Import App
-                    - Each of the "Collection" in the new "Collection" List will be deisplayed as a Hydrogen "Collection Item" and have an image and the "Collection" name visable
-                        - The "Collection" name must be in <h2> and centered both horizontally and vertically in the "Collection Item"
-                - The "Collection Item" must retain the main pages formatting standard for this website
-                - We need a way for products to be assigned to the new "Collection" list
-                    - "Sub Collection" will be used to add the products with the marked "Sub Collection" to the main "Collection"
-                        - When clicking on a "Collection" it must open a "Collection" page identified by the "Collection" name showing all of the "Sub Collection" that have been assigned to the "Collection"
-                            - Each of the "Sub Collection" in the new "Collection" List will be deisplayed as a Hydrogen "Collection Item" and have an image and the "Collection" name visable
-                            - The "Sub Collection Item" must retain the main pages formatting standard for this website
-                                - The "Sub Collection" name must be in <h3> and centered both horizontally and vertically in the "Collection Item"
-                        - Clicking on a "Sub Collection" must in turn open a "Sub Collection" page identified by the "Sub Collection" name showing all of the "Products" which have been assigned to the "Sub Collection"
-- hw-storefront-ui-node-docker
-    - review below files, make a diagnosis of if there is still an error and if so lets fix it, otherwise confirm working normally, but there were two tunnel errors
-    - hw-hydrogen-storefront-node-docker/app/errors/260717153500-cloadflare.md
-        - hw-hydrogen-storefront-node-docker/app/errors/hw-hydrogen.log
-        - hw-hydrogen-storefront-node-docker/app/errors/hw-storefront.log
+- 
 
 ## Step 2: Documentation and exit
-- update @2607171535_todo.md but exclude todo.md from any updating
+- update @26071_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 

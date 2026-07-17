@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData, useSearchParams} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
+import {CollectionCard} from '~/components/CollectionCard';
 import {ScrollToTopButton} from '~/components/ScrollToTopButton';
 
 // Collection-wide product count for this store is small (~180) — fetching everything
@@ -36,6 +37,7 @@ export async function loader(args: LoaderFunctionArgs) {
         description: '',
         products,
       },
+      subCollections: null,
     };
   }
 
@@ -43,7 +45,20 @@ export async function loader(args: LoaderFunctionArgs) {
     throw new Response('Collection not found', {status: 404});
   }
 
-  return {collection};
+  // Fixed main Collections (custom.collection_role = "main") don't show products —
+  // they show their assigned Sub Collections as tiles (spec 2607171535). A sub's
+  // assignment lives in its custom.parent_collection metafield (the main
+  // collection's TITLE), written by the admin app's Collections page.
+  if ((collection as any).role?.value === 'main') {
+    const childData = await storefront.query(CHILD_COLLECTIONS_QUERY);
+    const wanted = collection.title.trim().toLowerCase();
+    const subCollections = ((childData.collections?.nodes ?? []) as any[])
+      .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
+      .sort((a, b) => a.title.localeCompare(b.title, undefined, {numeric: true}));
+    return {collection, subCollections};
+  }
+
+  return {collection, subCollections: null};
 }
 
 function getSubCollection(product: any) {
@@ -124,7 +139,56 @@ function CollapsibleSection({
 }
 
 export default function Collection() {
-  const {collection} = useLoaderData<typeof loader>();
+  const {collection, subCollections} = useLoaderData<typeof loader>();
+
+  // Main (fixed) Collection → grid of its assigned Sub Collection tiles.
+  // Rendered by a separate component from the product view so the hook count
+  // stays stable when navigating between a main and a sub collection (the route
+  // component instance is reused across $handle param changes).
+  if (subCollections) {
+    return <SubCollectionsView collection={collection} subCollections={subCollections} />;
+  }
+
+  return <CollectionProductsView collection={collection} />;
+}
+
+function SubCollectionsView({
+  collection,
+  subCollections,
+}: {
+  collection: any;
+  subCollections: any[];
+}) {
+  return (
+    <div className="page-card page-card--wide">
+      <div className="collection max-w-7xl mx-auto px-4 py-8">
+        <div className="collection-header">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 text-white">{collection.title}</h1>
+            {collection.description && (
+              <p className="collection-description text-gray-300 mb-6">
+                {collection.description}
+              </p>
+            )}
+          </div>
+        </div>
+        {subCollections.length > 0 ? (
+          <div className="collections-grid">
+            {subCollections.map((sub: any) => (
+              <CollectionCard key={sub.id} collection={sub} headingLevel="h3" />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-300 py-8">
+            No Sub Collections have been assigned to this Collection yet.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CollectionProductsView({collection}: {collection: any}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const allProducts: any[] = collection.products.nodes;
@@ -410,6 +474,9 @@ const COLLECTION_QUERY = `#graphql
       title
       handle
       description
+      role: metafield(namespace: "custom", key: "collection_role") {
+        value
+      }
       products(first: $first) {
         nodes {
           ...CollectionProductFields
@@ -418,6 +485,33 @@ const COLLECTION_QUERY = `#graphql
     }
   }
   ${PRODUCT_FIELDS}
+` as const;
+
+// All collections with their parent-assignment metafield — filtered in the
+// loader down to the children of one main Collection. Collection count for this
+// store stays well under 100 (17 fixed + imported subs).
+const CHILD_COLLECTIONS_QUERY = `#graphql
+  query ChildCollections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    collections(first: 100) {
+      nodes {
+        id
+        title
+        handle
+        image {
+          url
+          altText
+          width
+          height
+        }
+        parent: metafield(namespace: "custom", key: "parent_collection") {
+          value
+        }
+      }
+    }
+  }
 ` as const;
 
 const ALL_PRODUCTS_QUERY = `#graphql

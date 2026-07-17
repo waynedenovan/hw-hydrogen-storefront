@@ -10,6 +10,7 @@ import {
 } from '@shopify/hydrogen';
 import {ProductPrice} from '~/components/ProductPrice';
 import {QuantitySelector} from '~/components/QuantitySelector';
+import {WishlistButton} from '~/components/WishlistButton';
 import {useAside} from '~/components/Aside';
 import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
@@ -527,6 +528,14 @@ export default function Product() {
                 ),
               )}
             </fetcher.Form>
+            <div className="mt-3">
+              <WishlistButton
+                productId={product.id}
+                productHandle={product.handle}
+                productTitle={product.title}
+                variant="button"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData} from 'react-router';
 import {CollectionCard} from '~/components/CollectionCard';
+import {sortMainCollections} from '~/lib/fixedCollections';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {context} = args;
@@ -8,9 +9,22 @@ export async function loader(args: LoaderFunctionArgs) {
 
   const data = await storefront.query(HOMEPAGE_COLLECTIONS_QUERY);
 
-  const collections = (data.collections?.nodes ?? []).filter(
-    (col: any) => col.title !== 'JSON Imported' && col.products.nodes.length > 0,
-  );
+  const nodes = (data.collections?.nodes ?? []) as any[];
+  // The homepage shows the FIXED main Collection list (custom.collection_role =
+  // "main", managed on the admin app's Collections page) — never the imported
+  // sub collections. Empty mains still show: they're permanent structure.
+  const mains = nodes.filter((col: any) => col.role?.value === 'main');
+  // Pre-setup fallback: until "Create / repair fixed Collections" has been run
+  // on the admin app's Collections page, no collection carries role=main —
+  // keep the old dynamic list (non-empty collections) so the homepage never
+  // goes blank because of deploy ordering.
+  const collections =
+    mains.length > 0
+      ? sortMainCollections(mains)
+      : nodes.filter(
+          (col: any) =>
+            col.title !== 'JSON Imported' && col.products.nodes.length > 0,
+        );
 
   return {collections};
 }
@@ -33,11 +47,18 @@ export default function Homepage() {
         {collections.length > 0 ? (
           <div className="collections-grid">
             {collections.map((collection: any) => (
-              <CollectionCard key={collection.id} collection={collection} />
+              <CollectionCard
+                key={collection.id}
+                collection={collection}
+                headingLevel="h2"
+              />
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 py-8">No collections available yet.</p>
+          <p className="text-center text-gray-500 py-8">
+            No collections available yet. Run &ldquo;Create / repair fixed
+            Collections&rdquo; on the admin app&rsquo;s Collections page.
+          </p>
         )}
       </section>
     </div>
@@ -49,7 +70,7 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 20) {
+    collections(first: 100) {
       nodes {
         id
         title
@@ -59,6 +80,9 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
           altText
           width
           height
+        }
+        role: metafield(namespace: "custom", key: "collection_role") {
+          value
         }
         products(first: 1) {
           nodes {

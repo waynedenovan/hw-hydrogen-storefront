@@ -1,5 +1,9 @@
 import 'dotenv/config';
 import {setDefaultResultOrder} from 'node:dns';
+import {
+  setDefaultAutoSelectFamily,
+  setDefaultAutoSelectFamilyAttemptTimeout,
+} from 'node:net';
 import compression from 'compression';
 import express, {type Request as ExpressRequest, type Response as ExpressResponse} from 'express';
 import morgan from 'morgan';
@@ -15,6 +19,19 @@ import {createHydrogenRouterContext} from '~/lib/context';
 // outbound fetch() calls to Shopify's API until ETIMEDOUT — a well-known
 // Node-in-Docker gotcha, not something the Workers/Oxygen runtime ever hit.
 setDefaultResultOrder('ipv4first');
+
+// ipv4first only fixes DNS ORDERING — Node 20+/22 additionally applies a
+// happy-eyeballs CONNECT timeout of 250ms per address-family attempt
+// (autoSelectFamilyAttemptTimeout). Any TCP connect to Shopify whose SYN-ACK
+// takes >250ms (regular occurrence on this container's route to Shopify's edge)
+// gets aborted, every fallback attempt fails inside the same budget, and the
+// loader 500s with "TypeError: fetch failed / AggregateError [ETIMEDOUT]".
+// Diagnosed 2607171535: every such 500 completed in a 255.3–255.8ms band — the
+// 250ms attempt-timeout signature. Disable the auto-family race entirely (DNS
+// ordering above already guarantees IPv4 first) and, belt-and-braces, raise the
+// attempt timeout for anything that still opts in per-socket.
+setDefaultAutoSelectFamily(false);
+setDefaultAutoSelectFamilyAttemptTimeout(2000);
 
 // Node's undici requires an explicit `duplex` option on any fetch() call whose
 // body is a ReadableStream (Workers' fetch has no such requirement, so this

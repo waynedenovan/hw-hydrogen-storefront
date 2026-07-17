@@ -3,6 +3,7 @@ import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
 import {getProductCardImageSrc} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
+import {WishlistButton} from '~/components/WishlistButton';
 
 interface ProductCardProps {
   product: {
@@ -132,8 +133,9 @@ export function ProductCard({product}: ProductCardProps) {
           </div>
         </div>
       </Link>
-      {firstVariant && (
-        <fetcher.Form method="post" action="/cart">
+      <div className="product-card-actions">
+        {firstVariant && (
+        <fetcher.Form method="post" action="/cart" className="product-card-cart-form">
           <input
             type="hidden"
             name={CartForm.INPUT_NAME}
@@ -174,7 +176,13 @@ export function ProductCard({product}: ProductCardProps) {
             ),
           )}
         </fetcher.Form>
-      )}
+        )}
+        <WishlistButton
+          productId={product.id}
+          productHandle={product.handle}
+          productTitle={product.title}
+        />
+      </div>
     </div>
   );
 }
