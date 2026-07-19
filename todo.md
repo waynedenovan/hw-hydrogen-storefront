@@ -16,11 +16,23 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker && hw-storefront-ui-node-docker
+- hw-hydrogen-storefront-node-docker && hw-storefront-ui-node-docker:
     - Additional comparitive pattern to link a {productId} to a image file
         - If the {productId} contains any of the following char they must be excluded in the matching pattern
             - " " and "/"
                 - i.e. "AO757/0813" must be patterned using "AO7570813" which will find the file named "AO7570813.jpg"
+- hw-hydrogen-storefront-node-docker:
+    - The "Search" icon in the menu on the main page does not work
+        - Please create a search function the will allow the client to search
+            - Specific words with in the,
+                - "Collection"
+                - "Sub Collection"
+                - "Sub_cat Collection"
+                - "Product" Names
+                - "Detailed Product Information"
+                - "Brands"
+        - The search must weight the relavence to the best match againts what the users has entered
+            - This search function must be handed to a server-side runner
 
 ## Step 2: Documentation and exit
 - update @2607191820_todo.md but exclude todo.md from any updating
