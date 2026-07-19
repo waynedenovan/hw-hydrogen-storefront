@@ -17,15 +17,29 @@ export function getSupplierFolderPrefix(supplierName: string): string {
   return lower.length <= SUPPLIER_PREFIX_LENGTH ? lower : lower.slice(0, SUPPLIER_PREFIX_LENGTH);
 }
 
+// Supplier image files on disk are named without the " " and "/" characters that
+// some raw product ids carry (e.g. product "AO757/0813" -> file "AO7570813.jpg"),
+// so both must be excluded when linking a productId to an image filename. Kept in
+// sync with hasLocalSupplierImage in hw-storefront-ui-node-docker's
+// dataQuality.server.js, which matches the same files.
+export function normalizeProductIdForImage(
+  externalProductId: string | null | undefined,
+): string | null {
+  if (!externalProductId) return null;
+  const normalized = externalProductId.replace(/[ /]/g, '');
+  return normalized || null;
+}
+
 // The card/primary image is always the bare {productId}.jpg file — no directory
 // listing needed, so this can be wired up before the disk-reading route exists.
 export function getProductCardImageSrc(
   supplierName: string | null | undefined,
   externalProductId: string | null | undefined,
 ): string | null {
-  if (!supplierName || !externalProductId) return null;
+  const productId = normalizeProductIdForImage(externalProductId);
+  if (!supplierName || !productId) return null;
   const prefix = getSupplierFolderPrefix(supplierName);
-  return `/media/suppliers/${prefix}/${externalProductId}.jpg`;
+  return `/media/suppliers/${prefix}/${productId}.jpg`;
 }
 
 // Detail-view gallery: additional images are named {productId}_0.jpg, {productId}_1.jpg,
@@ -41,9 +55,10 @@ export function getProductGalleryImageSrcs(
   const cardSrc = getProductCardImageSrc(supplierName, externalProductId);
   if (!cardSrc) return [];
   const prefix = getSupplierFolderPrefix(supplierName as string);
+  const productId = normalizeProductIdForImage(externalProductId);
   const suffixed = Array.from(
     {length: maxSuffix + 1},
-    (_, i) => `/media/suppliers/${prefix}/${externalProductId}_${i}.jpg`,
+    (_, i) => `/media/suppliers/${prefix}/${productId}_${i}.jpg`,
   );
   return [cardSrc, ...suffixed];
 }

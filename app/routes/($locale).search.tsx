@@ -1,133 +1,181 @@
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData, Link} from 'react-router';
-import {Image, Money, Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {SearchFormPredictive} from '~/components/SearchFormPredictive';
+import {ProductCard} from '~/components/ProductCard';
+import {CollectionCard} from '~/components/CollectionCard';
 import {
-  SearchFormPredictive,
-} from '~/components/SearchFormPredictive';
+  getEmptyPredictiveSearchResult,
+  type PredictiveSearchReturn,
+  type RegularSearchReturn,
+  type SearchCollectionResult,
+  type SearchProductResult,
+} from '~/lib/search';
 
-export async function loader({request, context}: LoaderFunctionArgs) {
+// Search runs entirely server-side (task 2607191820): the loader hands the term
+// to the weighted engine in app/lib/searchIndex.server.ts, which scores the
+// whole catalog (collections, sub/sub-cat collections, product names, detailed
+// product info, brands) and returns best-match-first results. The same loader
+// also answers the header search aside's predictive fetcher requests
+// (?predictive=true&limit=N) — previously those returned an incompatible shape,
+// which is why the header Search icon never showed results.
+export async function loader({
+  request,
+  context,
+}: LoaderFunctionArgs): Promise<PredictiveSearchReturn | RegularSearchReturn> {
   const url = new URL(request.url);
-  const searchTerm = url.searchParams.get('q') || '';
-  const paginationVariables = getPaginationVariables(request, {pageBy: 12});
+  const term = String(url.searchParams.get('q') || '').trim();
+  const isPredictive = url.searchParams.has('predictive');
+  const limit = Math.max(1, Math.min(10, Number(url.searchParams.get('limit')) || 5));
 
-  if (!searchTerm) {
-    return {searchTerm, products: null};
+  // Server-only engine — dynamic import per ERR-IMPORT-001 (a static import of a
+  // .server module from a route with client components breaks the client bundle).
+  const engine = await import('~/lib/searchIndex.server');
+
+  if (isPredictive) {
+    if (!term) {
+      return {
+        type: 'predictive',
+        term,
+        result: getEmptyPredictiveSearchResult(),
+      };
+    }
+    const results = await engine.searchCatalog(context.storefront, term);
+    return engine.toPredictiveResult(term, results, limit);
   }
 
-  const {search} = await context.storefront.query(SEARCH_QUERY, {
-    variables: {query: searchTerm, ...paginationVariables},
-  });
+  if (!term) {
+    return {
+      type: 'regular',
+      term,
+      result: {
+        total: 0,
+        items: {products: [], mainCollections: [], subCollections: [], brands: []},
+      },
+    };
+  }
+  const results = await engine.searchCatalog(context.storefront, term);
+  return engine.toRegularResult(term, results);
+}
 
-  return {searchTerm, products: search};
+// CollectionCard expects the metafield shape ({value}) the collection routes
+// query; the search engine returns display names as plain strings.
+function toCardCollection(collectionResult: SearchCollectionResult) {
+  return {
+    id: collectionResult.id,
+    title: collectionResult.title,
+    handle: collectionResult.handle,
+    image: collectionResult.image
+      ? {
+          url: collectionResult.image.url,
+          altText: collectionResult.image.altText,
+          width: collectionResult.image.width ?? undefined,
+          height: collectionResult.image.height ?? undefined,
+        }
+      : null,
+    displayName: collectionResult.displayName
+      ? {value: collectionResult.displayName}
+      : null,
+  };
+}
+
+// ProductCard types its optional fields as undefined; GraphQL returns nulls.
+function toCardProduct(productResult: SearchProductResult) {
+  return {
+    ...productResult,
+    productType: productResult.productType ?? undefined,
+    featuredImage: productResult.featuredImage
+      ? {
+          url: productResult.featuredImage.url,
+          altText: productResult.featuredImage.altText,
+          width: productResult.featuredImage.width ?? undefined,
+          height: productResult.featuredImage.height ?? undefined,
+        }
+      : null,
+  };
 }
 
 export default function Search() {
-  const {searchTerm, products} = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
+  if (data.type !== 'regular') return null;
+  const {term, result} = data;
+  const {products, mainCollections, subCollections, brands} = result.items;
 
   return (
-    <div className="search max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Search</h1>
+    <div className="page-card page-card--wide search">
+      <h1>Search</h1>
       <SearchFormPredictive>
         {({fetchResults, goToSearch, inputRef}) => (
-          <div className="flex gap-2 mb-8">
+          <div className="search-page-form">
             <input
               name="q"
-              defaultValue={searchTerm}
+              defaultValue={term}
               onChange={fetchResults}
               onFocus={fetchResults}
-              placeholder="Search products..."
+              placeholder="Search products, collections, brands..."
               ref={inputRef}
               type="search"
-              className="flex-1 px-4 py-2 border border-gray-300 rounded"
             />
-            <button
-              onClick={goToSearch}
-              className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
-            >
-              Search
-            </button>
+            <button onClick={goToSearch}>Search</button>
           </div>
         )}
       </SearchFormPredictive>
 
-      {searchTerm && !products?.nodes?.length && (
-        <p className="text-gray-500">
-          No results found for <q>{searchTerm}</q>
+      {term && !result.total ? (
+        <p className="text-gray-300">
+          No results found for <q>{term}</q>
         </p>
-      )}
+      ) : null}
 
-      {products?.nodes?.length ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.nodes.map((product: any) => (
-            <Link
-              key={product.id}
-              to={`/products/${product.handle}`}
-              prefetch="intent"
-              className="group"
-            >
-              {product.featuredImage && (
-                <Image
-                  data={product.featuredImage}
-                  aspectRatio="1/1"
-                  sizes="(min-width: 768px) 25vw, 50vw"
-                />
-              )}
-              <h3 className="mt-2 font-semibold group-hover:underline">
-                {product.title}
-              </h3>
-              <Money data={product.priceRange.minVariantPrice} />
-            </Link>
-          ))}
-        </div>
+      {mainCollections.length ? (
+        <section className="search-section">
+          <h2>Collections</h2>
+          <div className="collections-grid">
+            {mainCollections.map((c) => (
+              <CollectionCard key={c.id} collection={toCardCollection(c)} headingLevel="h2" />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {subCollections.length ? (
+        <section className="search-section">
+          <h2>Sub Collections</h2>
+          <div className="collections-grid">
+            {subCollections.map((c) => (
+              <CollectionCard key={c.id} collection={toCardCollection(c)} headingLevel="h3" />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {brands.length ? (
+        <section className="search-section">
+          <h2>Brands</h2>
+          <div className="search-brand-list">
+            {brands.map((brand) => (
+              <Link
+                key={brand.name}
+                className="search-brand-chip"
+                to={`/search?q=${encodeURIComponent(brand.name)}`}
+              >
+                {brand.name}
+                <span className="search-brand-count">{brand.productCount}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {products.length ? (
+        <section className="search-section">
+          <h2>Products</h2>
+          <div className="products-grid">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={toCardProduct(product)} />
+            ))}
+          </div>
+        </section>
       ) : null}
     </div>
   );
 }
-
-const SEARCH_QUERY = `#graphql
-  query Search(
-    $query: String!
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-    $country: CountryCode
-    $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
-    search(
-      query: $query
-      types: [PRODUCT]
-      first: $first
-      last: $last
-      before: $startCursor
-      after: $endCursor
-    ) {
-      nodes {
-        ... on Product {
-          id
-          title
-          handle
-          productType
-          featuredImage {
-            url
-            altText
-            width
-            height
-          }
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-        }
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-` as const;
