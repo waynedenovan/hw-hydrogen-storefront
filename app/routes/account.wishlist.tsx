@@ -254,6 +254,9 @@ const WISHLIST_PRODUCTS_QUERY = `#graphql
         supplierName: metafield(namespace: "custom", key: "supplier_name") {
           value
         }
+        type: metafield(namespace: "custom", key: "type") {
+          value
+        }
         externalProductId: metafield(namespace: "custom", key: "external_product_id") {
           value
         }

@@ -24,6 +24,12 @@ interface ProductCardProps {
       };
     };
     brand?: {value: string} | null;
+    /**
+     * custom.type metafield — the supplier type code stripped from the
+     * Sub/Sub-Cat Collection display names (e.g. "ACAE", task 2607191357).
+     * Still identifies the sub collection now that names no longer carry it.
+     */
+    type?: {value: string} | null;
     msq?: {value: string} | null;
     supplierName?: {value: string} | null;
     externalProductId?: {value: string} | null;
@@ -127,6 +133,9 @@ export function ProductCard({product}: ProductCardProps) {
           )}
           {product.productType && (
             <p className="text-gray-400 mt-0.5">{product.productType}</p>
+          )}
+          {product.type?.value && (
+            <p className="text-gray-400 mt-0.5">Type: {product.type.value}</p>
           )}
           <div className="mt-1 text-white product-price-display">
             <Money data={withDisplayVat(product.priceRange.minVariantPrice)} />

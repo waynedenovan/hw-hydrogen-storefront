@@ -349,7 +349,7 @@ export default function Product() {
               className="mt-4 prose product-description text-gray-200"
               dangerouslySetInnerHTML={{__html: descriptionHtml}}
             />
-            {(partNo || combinedDetailBlocks.length > 0) && (
+            {(partNo || product.type?.value || combinedDetailBlocks.length > 0) && (
               <div className="mt-6 text-gray-200">
                 {/* h1/h3/p/table font-size + weight for this page are set in
                     app.css (.product-main …) alongside .product-card's — see
@@ -364,6 +364,14 @@ export default function Product() {
                       Part No.:{' '}
                     </span>
                     {partNo}
+                  </p>
+                )}
+                {product.type?.value && (
+                  <p>
+                    <span className="font-semibold text-white">
+                      Type:{' '}
+                    </span>
+                    {product.type.value}
                   </p>
                 )}
                 {combinedDetailBlocks.map((block, index) => (
@@ -647,6 +655,9 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       msq: metafield(namespace: "custom", key: "msq") {
+        value
+      }
+      type: metafield(namespace: "custom", key: "type") {
         value
       }
     }

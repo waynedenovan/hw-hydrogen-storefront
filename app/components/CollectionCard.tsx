@@ -12,6 +12,13 @@ interface CollectionCardProps {
       width?: number;
       height?: number;
     } | null;
+    /**
+     * custom.display_name metafield — the cleaned Sub Collection name with the
+     * supplier type code stripped ("BINDING" for the collection titled
+     * "AC BINDING", task 2607191357). Tiles show this when present; the coded
+     * title remains the identity (handle/URL) and the fallback label.
+     */
+    displayName?: {value: string} | null;
   };
   /**
    * Heading element for the tile name — spec (2607171535): main Collections use
@@ -42,7 +49,9 @@ export function CollectionCard({collection, headingLevel = 'h3'}: CollectionCard
           <div className="collection-item-placeholder" aria-hidden="true" />
         )}
         <span className="collection-item-title-wrap">
-          <Heading className="collection-item-title">{collection.title}</Heading>
+          <Heading className="collection-item-title">
+            {collection.displayName?.value || collection.title}
+          </Heading>
         </span>
       </div>
     </Link>

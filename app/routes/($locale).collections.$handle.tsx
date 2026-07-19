@@ -48,17 +48,28 @@ export async function loader(args: LoaderFunctionArgs) {
   // Fixed main Collections (custom.collection_role = "main") don't show products —
   // they show their assigned Sub Collections as tiles (spec 2607171535). A sub's
   // assignment lives in its custom.parent_collection metafield (the main
-  // collection's TITLE), written by the admin app's Collections page.
+  // collection's TITLE), written by the admin app's Collections page. Tiles sort
+  // and label by the sub's cleaned display name ("BINDING", task 2607191357) —
+  // the coded title ("AC BINDING") stays the identity key/handle source.
   if ((collection as any).role?.value === 'main') {
     const childData = await storefront.query(CHILD_COLLECTIONS_QUERY);
     const wanted = collection.title.trim().toLowerCase();
     const subCollections = ((childData.collections?.nodes ?? []) as any[])
       .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
-      .sort((a, b) => a.title.localeCompare(b.title, undefined, {numeric: true}));
+      .sort((a, b) =>
+        getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}),
+      );
     return {collection, subCollections};
   }
 
   return {collection, subCollections: null};
+}
+
+// Cleaned display name for a collection (custom.display_name, written by the
+// admin app for imported Sub Collections) — falls back to the title for main
+// collections and anything imported before the naming change.
+function getDisplayName(collection: any) {
+  return collection.displayName?.value || collection.title;
 }
 
 function getSubCollection(product: any) {
@@ -114,30 +125,6 @@ function FilterCheckboxGroup({
   );
 }
 
-function CollapsibleSection({
-  title,
-  count,
-  children,
-}: {
-  title: string;
-  count: number;
-  children: React.ReactNode;
-}) {
-  const [collapsed, setCollapsed] = useState(false);
-  return (
-    <div className="collection-section">
-      <button
-        type="button"
-        className="collection-section-toggle"
-        onClick={() => setCollapsed((c) => !c)}
-      >
-        {collapsed ? '▸' : '▾'} {title} ({count})
-      </button>
-      {!collapsed && children}
-    </div>
-  );
-}
-
 export default function Collection() {
   const {collection, subCollections} = useLoaderData<typeof loader>();
 
@@ -164,7 +151,7 @@ function SubCollectionsView({
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">
           <div>
-            <h1 className="text-3xl font-bold mb-2 text-white">{collection.title}</h1>
+            <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
             {collection.description && (
               <p className="collection-description text-gray-300 mb-6">
                 {collection.description}
@@ -234,6 +221,8 @@ function CollectionProductsView({collection}: {collection: any}) {
     setSearchParams(new URLSearchParams(), {preventScrollReset: true});
   }
 
+  // One flat grid always (task 2607191357 removed the old collapsible
+  // Brand > Sub > Sub-cat tree — the Filters panel covers the same job).
   const filteredProducts = allProducts.filter((product) => {
     if (selectedBrands.size > 0 && !selectedBrands.has(getBrand(product))) return false;
     if (selectedSubCollections.size > 0 && !selectedSubCollections.has(getSubCollection(product))) return false;
@@ -243,20 +232,6 @@ function CollectionProductsView({collection}: {collection: any}) {
     if (maxPrice !== '' && price > Number(maxPrice)) return false;
     return true;
   });
-
-  // Default view: group by brand, then sub-collection, then sub-cat-collection.
-  const grouped = new Map<string, Map<string, Map<string, any[]>>>();
-  for (const product of allProducts) {
-    const brand = getBrand(product) || 'Other';
-    const subCollection = getSubCollection(product);
-    const subCatCollection = getSubCatCollection(product);
-    if (!grouped.has(brand)) grouped.set(brand, new Map());
-    const subCollectionMap = grouped.get(brand)!;
-    if (!subCollectionMap.has(subCollection)) subCollectionMap.set(subCollection, new Map());
-    const subCatMap = subCollectionMap.get(subCollection)!;
-    if (!subCatMap.has(subCatCollection)) subCatMap.set(subCatCollection, []);
-    subCatMap.get(subCatCollection)!.push(product);
-  }
 
   const priceValues = allProducts.map(getPrice);
   const priceFloor = priceValues.length ? Math.floor(Math.min(...priceValues)) : 0;
@@ -269,7 +244,7 @@ function CollectionProductsView({collection}: {collection: any}) {
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">
           <div>
-            <h1 className="text-3xl font-bold mb-2 text-white">{collection.title}</h1>
+            <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
             {collection.description && (
               <p className="collection-description text-gray-300 mb-6">
                 {collection.description}
@@ -372,42 +347,18 @@ function CollectionProductsView({collection}: {collection: any}) {
           )}
 
           <div className="collection-results">
-            {hasFilters ? (
-              filteredProducts.length > 0 ? (
-                <div className="products-grid">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-gray-300 py-8">No products match the selected filters.</p>
-              )
+            {filteredProducts.length > 0 ? (
+              <div className="products-grid">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
             ) : (
-              [...grouped.entries()].map(([brand, subCollectionMap]) => {
-                const brandCount = [...subCollectionMap.values()]
-                  .flatMap((subCatMap) => [...subCatMap.values()])
-                  .reduce((sum, p) => sum + p.length, 0);
-                return (
-                  <CollapsibleSection key={brand} title={brand} count={brandCount}>
-                    {[...subCollectionMap.entries()].map(([subCollection, subCatMap]) => {
-                      const sectionCount = [...subCatMap.values()].reduce((sum, p) => sum + p.length, 0);
-                      return (
-                        <CollapsibleSection key={subCollection} title={subCollection} count={sectionCount}>
-                          {[...subCatMap.entries()].map(([subCatCollection, products]) => (
-                            <CollapsibleSection key={subCatCollection} title={subCatCollection} count={products.length}>
-                              <div className="products-grid">
-                                {products.map((product) => (
-                                  <ProductCard key={product.id} product={product} />
-                                ))}
-                              </div>
-                            </CollapsibleSection>
-                          ))}
-                        </CollapsibleSection>
-                      );
-                    })}
-                  </CollapsibleSection>
-                );
-              })
+              <p className="text-center text-gray-300 py-8">
+                {hasFilters
+                  ? 'No products match the selected filters.'
+                  : 'No products in this collection yet.'}
+              </p>
             )}
           </div>
         </div>
@@ -453,6 +404,9 @@ const PRODUCT_FIELDS = `#graphql
     externalProductId: metafield(namespace: "custom", key: "external_product_id") {
       value
     }
+    type: metafield(namespace: "custom", key: "type") {
+      value
+    }
     variants(first: 1) {
       nodes {
         id
@@ -475,6 +429,12 @@ const COLLECTION_QUERY = `#graphql
       handle
       description
       role: metafield(namespace: "custom", key: "collection_role") {
+        value
+      }
+      displayName: metafield(namespace: "custom", key: "display_name") {
+        value
+      }
+      typeCode: metafield(namespace: "custom", key: "collection_type") {
         value
       }
       products(first: $first) {
@@ -507,6 +467,9 @@ const CHILD_COLLECTIONS_QUERY = `#graphql
           height
         }
         parent: metafield(namespace: "custom", key: "parent_collection") {
+          value
+        }
+        displayName: metafield(namespace: "custom", key: "display_name") {
           value
         }
       }

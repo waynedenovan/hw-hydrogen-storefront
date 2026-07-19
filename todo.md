@@ -1,4 +1,4 @@
-2607191357 claude
+2607 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debugin a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,36 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - hw-hydrogen-storefront-node-docker/app/errors/260719133530-errors.png
-        - lets remove this feature and only have the "Filter" available as it forms the same function
-- hw-storefront-ui-node-docker
-    - Collections app:
-        - On initial usesage I got this error, which I don't know if it casued any problems
-            - hw-hydrogen-storefront-node-docker/app/errors/260717165541-errors.png
-        - hw-hydrogen-storefront-node-docker:
-            - I am not able to vual all of the collections even though they have sub-collections attached
-                - hw-hydrogen-storefront-node-docker/app/errors/260719125207-errors.png
-            - Collections App:
-                - The list shows that there are Sub Collections assisned to collection
-                    - hw-hydrogen-storefront-node-docker/app/errors/260719131023-errors.png
-                    - hw-hydrogen-storefront-node-docker/app/errors/260719131033-errors.png
-    - Import app:
-        - Please drop the import batch size from 15 down to 10
-- hw-hydrogen-storefront-node-docker && hw-storefront-ui-node-docker
-    - The below image show on Hydrogen Storefront
-        - hw-hydrogen-storefront-node-docker/app/errors/260719132145-errors.png
-            - This is the "Collection" page which correctly has the "Collection" name at the top of the page.
-        - hw-hydrogen-storefront-node-docker/app/errors/260719133530-errors.png
-            - This is the "Sub Collection" page which correctly has the "Sub Collection" name at the top of the page.
-                - We need to change the naming convention for the "Sub Collection" and "Sub_cat Collections":
-                    - We need to remove the prefix char i.e. "AC" from all of the "Sub Collection" names.
-                    - We need to remove the prefix char i.e. "FZ" (as above) & "FZAA" from all of the "Sub_cat Collection" names.
-                        - This we need to do at the Import App (hw-storefront-ui-node-docker). We cannot ignore the prefix char as they are still relivent in itentifying the "Sub Collection". Create another field i.e. {type} which can be added to the "Product Cards" and on "Detailed Product information" pages but we need to change the naming convention for the "Sub Collection"
-            - These changes must not break the current intergration. All needed changes to db, storefront apps and shopify intergation must be updated.
+- 
 
 ## Step 2: Documentation and exit
-- update @2607191357_todo.md but exclude todo.md from any updating
+- update @2607_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 
