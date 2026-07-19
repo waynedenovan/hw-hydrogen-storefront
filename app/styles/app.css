@@ -2006,6 +2006,27 @@ select.checkout-form-input option:disabled {
   margin-top: 1rem;
 }
 
+/* PayFast service-status banner on the Review step (task 2607191915) */
+.checkout-payfast-status-banner {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.checkout-payfast-status-banner.is-minor {
+  background: rgba(180, 130, 20, 0.25);
+  border: 1px solid rgba(234, 179, 8, 0.6);
+  color: #fde68a;
+}
+
+.checkout-payfast-status-banner.is-outage {
+  background: rgba(150, 40, 40, 0.3);
+  border: 1px solid rgba(248, 113, 113, 0.6);
+  color: #fecaca;
+}
+
 /* Checkout errors */
 .checkout-errors {
   background: rgba(229, 62, 62, 0.2);

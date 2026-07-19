@@ -19,6 +19,28 @@ export async function action({request, context}: ActionFunctionArgs) {
     );
   }
 
+  // Pre-payment PayFast availability gate (task 2607191915): during a reported
+  // major/critical PayFast outage, redirecting the customer would strand them
+  // on a dead payment page with an orphaned draft order. Fails open when the
+  // status page itself is unreachable. Server-only module — dynamic import per
+  // ERR-IMPORT-001.
+  const {getPayfastStatus, isPayfastOutage} = await import(
+    '~/lib/payfastStatus.server'
+  );
+  const payfastStatus = await getPayfastStatus();
+  if (isPayfastOutage(payfastStatus)) {
+    console.error('[checkout/payment] blocked by PayFast outage:', payfastStatus);
+    return data(
+      {
+        error:
+          'The payment provider (PayFast) is currently reporting an outage' +
+          (payfastStatus.description ? ` ("${payfastStatus.description}")` : '') +
+          '. Your cart has been saved — please try again shortly.',
+      },
+      {status: 503},
+    );
+  }
+
   const formData = await request.formData();
 
   const orderPayload = {

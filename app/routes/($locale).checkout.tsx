@@ -69,7 +69,18 @@ export async function loader({context}: LoaderFunctionArgs) {
 
   const paymentGateway = (context.env as any).PUBLIC_PAYMENT_GATEWAY ?? 'shopify';
 
-  return {cart: cartData, customer, paymentGateway, businessProfile};
+  // PayFast service-status banner data (task 2607191915) — 60s-cached, 3s
+  // timeout, fails open to 'unknown'. Dynamic import per ERR-IMPORT-001.
+  let payfastStatus = null as null | {indicator: string; description: string};
+  if (paymentGateway === 'payfast') {
+    const {getPayfastStatus, isPayfastDegraded} = await import(
+      '~/lib/payfastStatus.server'
+    );
+    const status = await getPayfastStatus();
+    if (isPayfastDegraded(status)) payfastStatus = status;
+  }
+
+  return {cart: cartData, customer, paymentGateway, businessProfile, payfastStatus};
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
@@ -176,7 +187,8 @@ export async function action({request, context}: ActionFunctionArgs) {
 type StepNumber = 1 | 2 | 3 | 4;
 
 export default function Checkout() {
-  const {cart, customer, paymentGateway, businessProfile} = useLoaderData<typeof loader>();
+  const {cart, customer, paymentGateway, businessProfile, payfastStatus} =
+    useLoaderData<typeof loader>();
   const fetcher = useFetcher<{
     step?: string;
     success?: boolean;
@@ -333,6 +345,7 @@ export default function Checkout() {
             onInvoiceEmailChange={setInvoiceEmailRequested}
             businessCustomer={businessCustomer}
             businessDetails={businessDetails}
+            payfastStatus={payfastStatus}
             onBack={() => setCurrentStep(3)}
           />
         )}
@@ -926,6 +939,7 @@ function OrderReviewStep({
   onInvoiceEmailChange,
   businessCustomer,
   businessDetails,
+  payfastStatus,
   onBack,
 }: {
   cart: CartApiQueryFragment;
@@ -947,6 +961,7 @@ function OrderReviewStep({
   onInvoiceEmailChange: (v: boolean) => void;
   businessCustomer: boolean;
   businessDetails: {companyName: string; vatNumber: string; regNumber: string};
+  payfastStatus: {indicator: string; description: string} | null;
   onBack: () => void;
 }) {
   const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
@@ -1129,6 +1144,22 @@ function OrderReviewStep({
           .
         </p>
       </div>
+
+      {paymentGateway === 'payfast' && payfastStatus && (
+        <div
+          className={`checkout-payfast-status-banner ${
+            payfastStatus.indicator === 'minor' ? 'is-minor' : 'is-outage'
+          }`}
+        >
+          {payfastStatus.indicator === 'minor'
+            ? `PayFast is currently reporting degraded service${
+                payfastStatus.description ? ` (“${payfastStatus.description}”)` : ''
+              }. Your payment may be slower than usual.`
+            : `PayFast is currently reporting an outage${
+                payfastStatus.description ? ` (“${payfastStatus.description}”)` : ''
+              }. Payment is temporarily unavailable — your cart is saved, please try again shortly.`}
+        </div>
+      )}
 
       <div className="checkout-nav-buttons">
         <button type="button" className="checkout-back-btn" onClick={onBack}>
