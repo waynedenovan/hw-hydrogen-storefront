@@ -251,6 +251,124 @@ export function tokenize(term: string): string[] {
     .filter((token) => token.length > 0);
 }
 
+// Query-operator support (task 2607210950): mirrors Shopify's own documented
+// search grammar (shopify.dev/docs/api/usage/search-syntax) for quoted
+// phrases and AND/OR (& / |) connectives, following its documented
+// precedence — OR binds tighter than AND, e.g. their own example
+// "bob OR norman AND Shopify" == "(bob OR norman) AND Shopify". Deliberately
+// excludes NOT/- exclusion and ".." range syntax, and widens */? to match
+// anywhere in a field rather than Shopify's stricter prefix-only semantics
+// (more useful for this catalog's product codes, e.g. "AO757*0813"). Plain
+// queries with no operators at all never reach this path — searchCatalog
+// falls back to the original token scoring, unchanged.
+export interface QueryTerm {
+  raw: string;
+  phrase: boolean;
+  regex: RegExp;
+}
+export type QueryGroup = QueryTerm[];
+export interface ParsedQuery {
+  groups: QueryGroup[];
+  hasOperators: boolean;
+  plainTerms: string[];
+}
+
+function wildcardToRegex(raw: string): RegExp {
+  const pattern = raw
+    .split('')
+    .map((ch) => (ch === '*' ? '.*' : ch === '?' ? '.' : escapeRegExp(ch)))
+    .join('');
+  return new RegExp(pattern);
+}
+
+function makeQueryTerm(raw: string, phrase: boolean): QueryTerm {
+  return {raw, phrase, regex: phrase ? new RegExp(escapeRegExp(raw)) : wildcardToRegex(raw)};
+}
+
+const PHRASE_PLACEHOLDER = /^ (\d+) $/;
+
+export function parseQuery(term: string): ParsedQuery {
+  const phrases: string[] = [];
+  const withoutPhrases = lower(term)
+    .trim()
+    .replace(/"([^"]+)"/g, (_match, inner: string) => {
+      phrases.push(inner.trim());
+      return `  ${phrases.length - 1}  `;
+    });
+
+  const groups: QueryGroup[] = [];
+  let currentGroup: QueryGroup = [];
+  let pendingOr = false;
+  let hasConnective = false;
+  let hasWildcard = false;
+
+  function commitTerm(t: QueryTerm) {
+    if (currentGroup.length && !pendingOr) {
+      groups.push(currentGroup);
+      currentGroup = [];
+    }
+    currentGroup.push(t);
+    pendingOr = false;
+  }
+
+  for (const token of withoutPhrases.split(/\s+/).filter(Boolean)) {
+    const placeholder = PHRASE_PLACEHOLDER.exec(token);
+    if (placeholder) {
+      commitTerm(makeQueryTerm(phrases[Number(placeholder[1])], true));
+      continue;
+    }
+    if (token === '&' || token === 'and') {
+      hasConnective = true;
+      pendingOr = false;
+      continue;
+    }
+    if (token === '|' || token === 'or') {
+      hasConnective = true;
+      pendingOr = true;
+      continue;
+    }
+    if (token.includes('*') || token.includes('?')) hasWildcard = true;
+    commitTerm(makeQueryTerm(token, false));
+  }
+  if (currentGroup.length) groups.push(currentGroup);
+
+  const plainTerms = groups
+    .flatMap((group) => group.map((t) => t.raw.replace(/[*?]/g, '')))
+    .filter(Boolean);
+
+  return {
+    groups,
+    hasOperators: phrases.length > 0 || hasConnective || hasWildcard,
+    plainTerms,
+  };
+}
+
+export function matchesQuery(parsed: ParsedQuery, fields: string[]): boolean {
+  return parsed.groups.every((group) =>
+    group.some((t) =>
+      t.phrase ? fields.some((f) => f.includes(t.raw)) : fields.some((f) => t.regex.test(f)),
+    ),
+  );
+}
+
+function productSearchFields(entry: IndexedProduct): string[] {
+  return [
+    entry.title,
+    entry.brand,
+    entry.subCollection,
+    entry.subCatCollection,
+    entry.typeCode,
+    entry.productType,
+    entry.vendor,
+    entry.body,
+    entry.externalId,
+  ];
+}
+
+function collectionSearchFields(entry: IndexedCollection): string[] {
+  return [entry.title, entry.displayName, entry.body];
+}
+
 // Per-token field score: whole-word match earns the full weight, substring match
 // 60% of it. Summed over tokens so multi-word queries reward fields hitting more
 // of the query.
@@ -312,30 +430,30 @@ export interface WeightedSearchResults {
   brands: Array<{name: string; score: number; productCount: number}>;
 }
 
-export async function searchCatalog(
-  storefront: StorefrontClient,
-  term: string,
-  cacheKey?: string,
-): Promise<WeightedSearchResults> {
-  const phrase = lower(term).trim();
-  const tokens = tokenize(term);
-  if (!tokens.length) return {products: [], collections: [], brands: []};
-  const compactPhrase = phrase.replace(/[ /]/g, '');
+function rankAndShape(
+  productList: IndexedProduct[],
+  collectionList: IndexedCollection[],
+  tokens: string[],
+  phrase: string,
+  compactPhrase: string,
+  gateByScore: boolean,
+): WeightedSearchResults {
+  let products = productList.map((entry) => ({
+    entry,
+    score: scoreProduct(entry, tokens, phrase, compactPhrase),
+  }));
+  if (gateByScore) products = products.filter((hit) => hit.score > 0);
+  products.sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
 
-  const index = await getSearchIndex(storefront, cacheKey);
-
-  const products = index.products
-    .map((entry) => ({entry, score: scoreProduct(entry, tokens, phrase, compactPhrase)}))
-    .filter((hit) => hit.score > 0)
-    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
-
-  const collections = index.collections
-    .map((entry) => ({entry, score: scoreCollection(entry, tokens, phrase)}))
-    .filter((hit) => hit.score > 0)
-    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
+  let collections = collectionList.map((entry) => ({
+    entry,
+    score: scoreCollection(entry, tokens, phrase),
+  }));
+  if (gateByScore) collections = collections.filter((hit) => hit.score > 0);
+  collections.sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
 
   const brandMap = new Map<string, {name: string; score: number; productCount: number}>();
-  for (const {node, brand} of index.products) {
+  for (const {node, brand} of productList) {
     const name = node.brand?.value;
     if (!name || !brand) continue;
     let hit = brandMap.get(brand);
@@ -353,6 +471,41 @@ export async function searchCatalog(
     .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 
   return {products, collections, brands};
+}
+
+export async function searchCatalog(
+  storefront: StorefrontClient,
+  term: string,
+  cacheKey?: string,
+): Promise<WeightedSearchResults> {
+  const parsed = parseQuery(term);
+
+  // Plain queries with no operator syntax at all: unchanged legacy scoring
+  // (implicit-OR, ranked by field weight) — this is the behavior the live
+  // search already has, and it must not regress for everyday searches.
+  if (!parsed.hasOperators) {
+    const phrase = lower(term).trim();
+    const tokens = tokenize(term);
+    if (!tokens.length) return {products: [], collections: [], brands: []};
+    const compactPhrase = phrase.replace(/[ /]/g, '');
+    const index = await getSearchIndex(storefront, cacheKey);
+    return rankAndShape(index.products, index.collections, tokens, phrase, compactPhrase, true);
+  }
+
+  // Operator query: boolean-gate first via matchesQuery, then rank the
+  // matched set by the same field-weighted scorer (not gated by score>0,
+  // since a wildcard/phrase match may legitimately score 0 against the
+  // plain-text tokens used only for ranking).
+  if (!parsed.groups.length) return {products: [], collections: [], brands: []};
+  const tokens = tokenize(parsed.plainTerms.join(' '));
+  const index = await getSearchIndex(storefront, cacheKey);
+  const matchedProducts = index.products.filter((entry) =>
+    matchesQuery(parsed, productSearchFields(entry)),
+  );
+  const matchedCollections = index.collections.filter((entry) =>
+    matchesQuery(parsed, collectionSearchFields(entry)),
+  );
+  return rankAndShape(matchedProducts, matchedCollections, tokens, '', '', false);
 }
 
 /** Shapes weighted results for the predictive-search aside dropdown. */

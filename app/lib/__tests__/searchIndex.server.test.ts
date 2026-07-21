@@ -1,5 +1,7 @@
 import {describe, it, expect} from 'vitest';
 import {
+  matchesQuery,
+  parseQuery,
   searchCatalog,
   tokenize,
   toPredictiveResult,
@@ -95,6 +97,55 @@ describe('tokenize', () => {
   });
 });
 
+describe('parseQuery', () => {
+  it('extracts a quoted phrase as a single atomic term', () => {
+    const parsed = parseQuery('"steel pipe"');
+    expect(parsed.hasOperators).toBe(true);
+    expect(parsed.groups).toEqual([[{raw: 'steel pipe', phrase: true, regex: expect.any(RegExp)}]]);
+    expect(parsed.plainTerms).toEqual(['steel pipe']);
+  });
+
+  it('does not flag a plain multi-word query as using operators', () => {
+    const parsed = parseQuery('garden hose');
+    expect(parsed.hasOperators).toBe(false);
+  });
+
+  it('follows Shopify\'s documented precedence: OR binds tighter than AND', () => {
+    // shopify.dev's own example: "bob OR norman AND Shopify" == "(bob OR norman) AND Shopify"
+    const parsed = parseQuery('bob OR norman AND shopify');
+    expect(parsed.groups.map((g) => g.map((t) => t.raw))).toEqual([['bob', 'norman'], ['shopify']]);
+  });
+
+  it('treats & and | symbols the same as the AND/OR keywords', () => {
+    const words = parseQuery('bob OR norman AND shopify');
+    const symbols = parseQuery('bob | norman & shopify');
+    expect(symbols.groups.map((g) => g.map((t) => t.raw))).toEqual(
+      words.groups.map((g) => g.map((t) => t.raw)),
+    );
+  });
+
+  it('produces no groups for a connective with nothing around it', () => {
+    const parsed = parseQuery('AND');
+    expect(parsed.groups).toEqual([]);
+    expect(parsed.hasOperators).toBe(true);
+  });
+});
+
+describe('matchesQuery wildcards', () => {
+  it('matches * inline within a field, not just as a prefix', () => {
+    const parsed = parseQuery('cam*lock');
+    expect(matchesQuery(parsed, ['a camlock example'])).toBe(true);
+    expect(matchesQuery(parsed, ['no match here'])).toBe(false);
+  });
+
+  it('matches ? as exactly one character', () => {
+    const parsed = parseQuery('v?lve');
+    expect(matchesQuery(parsed, ['ball valve'])).toBe(true);
+    expect(matchesQuery(parsed, ['ball valves'])).toBe(true);
+    expect(matchesQuery(parsed, ['ball vlve'])).toBe(false);
+  });
+});
+
 describe('searchCatalog weighting', () => {
   it('ranks a title match above a description match', async () => {
     const {products} = await search('camlock');
@@ -141,6 +192,53 @@ describe('searchCatalog weighting', () => {
     expect(products).toEqual([]);
     expect(collections).toEqual([]);
     expect(brands).toEqual([]);
+  });
+});
+
+describe('searchCatalog operators', () => {
+  it('exact phrase: matches a title containing the exact phrase, not just its words', async () => {
+    const {products} = await search('"garden hose"');
+    expect(products.map((p) => p.entry.node.title)).toEqual(['Garden Hose 20mm']);
+  });
+
+  it('exact phrase: does not match when the words appear but not adjacent/in order', async () => {
+    const {products} = await search('"hose garden"');
+    expect(products).toEqual([]);
+  });
+
+  it('AND (&): requires every term to be present somewhere', async () => {
+    const {products} = await search('gator AND coupling');
+    expect(products.map((p) => p.entry.node.title)).toEqual(['Camlock Coupling Type A']);
+    const {products: viaSymbol} = await search('gator & coupling');
+    expect(viaSymbol.map((p) => p.entry.node.title)).toEqual(['Camlock Coupling Type A']);
+  });
+
+  it('OR (|): matches either term', async () => {
+    const {products} = await search('ball | garden');
+    expect(products.map((p) => p.entry.node.title).sort()).toEqual(['Ball Valve', 'Garden Hose 20mm']);
+    const {products: viaWord} = await search('ball OR garden');
+    expect(viaWord.map((p) => p.entry.node.title).sort()).toEqual(['Ball Valve', 'Garden Hose 20mm']);
+  });
+
+  it('* wildcard: matches inline within a field', async () => {
+    const {products} = await search('camlo*');
+    expect(products.map((p) => p.entry.node.title).sort()).toEqual([
+      'Camlock Coupling Type A',
+      'Garden Hose 20mm',
+    ]);
+  });
+
+  it('? wildcard: matches exactly one character', async () => {
+    const {products} = await search('v?lve');
+    expect(products.map((p) => p.entry.node.title)).toEqual(['Ball Valve']);
+  });
+
+  it('regression: a plain multi-word query with no operators keeps the pre-existing implicit-OR behavior', async () => {
+    const {products} = await search('camlock garden');
+    expect(products.map((p) => p.entry.node.title).sort()).toEqual([
+      'Camlock Coupling Type A',
+      'Garden Hose 20mm',
+    ]);
   });
 });
 

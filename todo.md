@@ -1,4 +1,4 @@
-2607210950 claude
+260721 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debuging a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,20 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- Search:
-    - New functionality
-        - Please include in the search parameters the inclusion of
-            - "": wording must match exactly
-            - and, &: and
-            - or, |: or
-            - not: exclude
-            - *: wild card
-            - ?: char
-            - ..: numeric range
-            - etc, but these should cover most of the search criteria
+- 
 
 ## Step 2: Documentation and exit
-- update @2607210950_todo.md but exclude todo.md from any updating
+- update @26072_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 
