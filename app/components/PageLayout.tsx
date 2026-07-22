@@ -50,6 +50,8 @@ export function PageLayout({
     /^(\/(en-nz|en-au|en-us|en-za))?\/cart/.test(location.pathname);
   const isCheckoutPage =
     /^(\/(en-nz|en-au|en-us|en-za))?\/checkout/.test(location.pathname);
+  const isCollectionPage =
+    /^(\/(en-nz|en-au|en-us|en-za))?\/collections/.test(location.pathname);
 
   useEffect(() => {
     if (isHomePage) {
@@ -82,6 +84,11 @@ export function PageLayout({
     } else {
       document.body.classList.remove('checkout-page');
     }
+    if (isCollectionPage) {
+      document.body.classList.add('collection-page');
+    } else {
+      document.body.classList.remove('collection-page');
+    }
     return () => {
       document.body.classList.remove('home-page');
       document.body.classList.remove('product-page');
@@ -89,8 +96,17 @@ export function PageLayout({
       document.body.classList.remove('contact-page');
       document.body.classList.remove('cart-page');
       document.body.classList.remove('checkout-page');
+      document.body.classList.remove('collection-page');
     };
-  }, [isHomePage, isProductPage, isAccountPage, isContactPage, isCartPage, isCheckoutPage]);
+  }, [
+    isHomePage,
+    isProductPage,
+    isAccountPage,
+    isContactPage,
+    isCartPage,
+    isCheckoutPage,
+    isCollectionPage,
+  ]);
 
   return (
     <Aside.Provider>
@@ -111,6 +127,7 @@ export function PageLayout({
           isAccountPage && 'account-page',
           isContactPage && 'contact-page',
           isCartPage && 'cart-page',
+          isCollectionPage && 'collection-page',
         ]
           .filter(Boolean)
           .join(' ')}

@@ -1,4 +1,4 @@
-2607220830 claude
+26072 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debuging a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,43 +16,10 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- hw-hydrogen-storefront-node-docker
-    - Collection page && Sub Collection page
-        - Please review previous issue where footer is not completely at the bottom of the page. This was sorted out but was not implemented with the "Collection" and "Sub Collection" pages. If you were using the MCP servers as you should be you would have picked this issue up and already coded the correction needed when we added the "Collection" and "Sub Collection" pages
-            - Shows the main landing page with the correct footer css formatting
-                - hw-hydrogen-storefront-node-docker/app/errors/260722083003-errors.png
-            - "Collection" and "Sub Collection" pages without the correct css formatting
-                - hw-hydrogen-storefront-node-docker/app/errors/260722080151-errors.png
-                - hw-hydrogen-storefront-node-docker/app/errors/260722080158-errors.png
-- hw-storefront-ui-node-docker
-    - Import app:
-        - New import rule:
-            - If the Product's 'Stock' {"available"} is less than the 'Stock' {"msq"} then the Product must be disabled (Draft) temperarally until the 'Stock' {"available"} is greater than the 'Stock' {"msq"} by the multiple of the 'Stock' {"msq"}
-        - The suppliers API json files have some discrepencies in they usage of the "Collection", "Sub Collectio" and "Sut_cat Collection"
-            - We are going to have to review our Import function to cater for this by also looking at the following fields in the products json file
-                - Collection: Please use {"assigned_major_desc"} but but keep {"assignedMajorDescription"} as a reference or backup
-                    - use {"assigned_major"} to identify if any prefix has been added to the "Collection" and needs to be removed
-                - Sub Collection: Please use {"assigned_sub_cat_desc"} but but keep {"assignedSubCatDescription"} as a reference or backup
-                    - use {"assigned_sub_cat"} to identify if any prefix has been added to the "Collection" and needs to be removed
-    - PayFast:
-        - Failure alert:
-            - Is visable, thank you
-                - hw-storefront-ui-node-docker/app/errors/260722085204-errors.png
-                - hw-storefront-ui-node-docker/app/errors/260722080505-errors.png
-            - but if I click on the "Retry" button it give the follwing message "Retry finished with status ORDER_FAILED: draftOrderComplete userErrors: Draft order not found"
-                - is this because it was a test you created??
-        - using the follwing url https://developers.payfast.co.za/api#system-status-all-scheduled-maintenances
-            - please update the PayFast Skill
-            - implement a "Refund" option:
-                - the refund must only be provided when a product that the client ordered is not available from the supplier at the time we order it from them
-                    - this means that admin will have to iniciate the refund process which will need to be emailed to the client explaining that they hav two options
-                        - either wait for the supplier to get stock or
-                        - get a refund
-                - this must not be available under any other circumstances
-                - refunds must and can only be made back into the originating source of the payment
+- 
 
 ## Step 2: Documentation and exit
-- update @2607220830_todo.md but exclude todo.md from any updating
+- update @26072_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 

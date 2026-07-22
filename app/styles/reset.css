@@ -151,15 +151,31 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Collection/Sub Collection pages have no hero image, but still need
+   .page-bg to paint something other than transparent — otherwise the flex
+   space below a short .page-card (see reset.css .page-card) shows through to
+   an unstyled white canvas, breaking the dark theme and reading as a
+   "footer not at the bottom" bug even though the footer IS correctly pinned.
+   var(--color-dark) matches .footer's own background (app.css) so the card
+   flows straight into the footer with no visible seam, on any content
+   length. Solid color, not an image, since this route has no dedicated
+   photo the way home/product/account/contact/cart do. */
+.page-bg.collection-page {
+  background: var(--color-dark);
+}
+
 /* Solid black canvas on image pages: a plain color on body propagates to the
    canvas, so overscroll/sub-pixel areas past the document edge render black —
    identical to the footer — instead of white (or, previously, the image).
-   Classless pages (collections, policies…) keep their default white canvas. */
+   collection-page is included too now that .page-bg paints solid black for
+   it above. Other classless pages (policies…) keep their default white
+   canvas. */
 body.home-page,
 body.product-page,
 body.account-page,
 body.contact-page,
-body.cart-page {
+body.cart-page,
+body.collection-page {
   background-color: #000;
 }
 
