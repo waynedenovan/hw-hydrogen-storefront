@@ -4,6 +4,17 @@ import type {LoaderFunctionArgs} from 'react-router';
 
 const SUPPLIERS_ROOT = path.resolve(process.cwd(), 'media', 'suppliers');
 
+// This route now serves both the image gallery (media/suppliers/{prefix}/*.jpg)
+// and doc links (media/suppliers/{prefix}/docs/*.pdf) — content type must be
+// inferred per file rather than hardcoded to image/jpeg.
+const CONTENT_TYPES: Record<string, string> = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.pdf': 'application/pdf',
+};
+
 export async function loader({params}: LoaderFunctionArgs) {
   const splat = params['*'] ?? '';
   const resolved = path.resolve(SUPPLIERS_ROOT, splat);
@@ -27,9 +38,12 @@ export async function loader({params}: LoaderFunctionArgs) {
     return new Response(null, {status: 404});
   }
 
+  const ext = path.extname(resolved).toLowerCase();
+  const contentType = CONTENT_TYPES[ext] ?? 'application/octet-stream';
+
   return new Response(new Uint8Array(file), {
     headers: {
-      'Content-Type': 'image/jpeg',
+      'Content-Type': contentType,
       'Cache-Control': 'public, max-age=31536000, immutable',
     },
   });

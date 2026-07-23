@@ -62,3 +62,19 @@ export function getProductGalleryImageSrcs(
   );
   return [cardSrc, ...suffixed];
 }
+
+// Technical Information / User Manual links (custom.tech_info_pdf /
+// custom.user_manual_pdf metafields): the value is either a full URL —
+// rendered as-is, no local file involved — or a bare filename resolved
+// against media/suppliers/{prefix}/docs/{filename}, a docs/ subfolder kept
+// separate from the image gallery files under the same per-supplier root.
+export function getSupplierDocSrc(
+  supplierName: string | null | undefined,
+  value: string | null | undefined,
+): string | null {
+  if (!value) return null;
+  if (/^https?:\/\//i.test(value)) return value;
+  if (!supplierName) return null;
+  const prefix = getSupplierFolderPrefix(supplierName);
+  return `/media/suppliers/${prefix}/docs/${value}`;
+}

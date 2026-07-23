@@ -12,7 +12,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {QuantitySelector} from '~/components/QuantitySelector';
 import {WishlistButton} from '~/components/WishlistButton';
 import {useAside} from '~/components/Aside';
-import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
+import {getProductGalleryImageSrcs, getSupplierDocSrc} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
 
 function stripHtml(html: string): string {
@@ -214,33 +214,76 @@ export async function loader(args: LoaderFunctionArgs) {
     product.supplierName?.value,
     product.externalProductId?.value,
   );
+
+  // tech_info_pdf/user_manual_pdf resolve to either a full URL (trusted as-is,
+  // no disk involved) or a local media/suppliers/{prefix}/docs/{filename} path
+  // — the latter needs the same existence check as gallery images below so a
+  // typo'd/missing filename in the supplier feed renders no link instead of a
+  // dead one.
+  const techInfoPdfCandidate = getSupplierDocSrc(
+    product.supplierName?.value,
+    product.techInfoPdf?.value,
+  );
+  const userManualPdfCandidate = getSupplierDocSrc(
+    product.supplierName?.value,
+    product.userManualPdf?.value,
+  );
+  const isLocalMediaSrc = (src: string | null) =>
+    src !== null && !/^https?:\/\//i.test(src);
+
   let gallerySrcs: string[] = [];
-  if (candidates.length > 0) {
+  let techInfoPdfSrc = isLocalMediaSrc(techInfoPdfCandidate)
+    ? null
+    : techInfoPdfCandidate;
+  let userManualPdfSrc = isLocalMediaSrc(userManualPdfCandidate)
+    ? null
+    : userManualPdfCandidate;
+
+  if (
+    candidates.length > 0 ||
+    isLocalMediaSrc(techInfoPdfCandidate) ||
+    isLocalMediaSrc(userManualPdfCandidate)
+  ) {
     const [fs, path] = await Promise.all([
       import('node:fs/promises'),
       import('node:path'),
     ]);
     const root = path.resolve(process.cwd(), 'media', 'suppliers');
-    gallerySrcs = (
-      await Promise.all(
-        candidates.map(async (src) => {
-          const rel = src.replace(/^\/media\/suppliers\//, '');
-          try {
-            await fs.access(path.resolve(root, rel));
-            return src;
-          } catch {
-            return null;
-          }
-        }),
-      )
-    ).filter((src): src is string => src !== null);
+    const existsOnDisk = async (src: string) => {
+      const rel = src.replace(/^\/media\/suppliers\//, '');
+      try {
+        await fs.access(path.resolve(root, rel));
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (candidates.length > 0) {
+      gallerySrcs = (
+        await Promise.all(
+          candidates.map(async (src) => ((await existsOnDisk(src)) ? src : null)),
+        )
+      ).filter((src): src is string => src !== null);
+    }
+    if (isLocalMediaSrc(techInfoPdfCandidate)) {
+      techInfoPdfSrc = (await existsOnDisk(techInfoPdfCandidate as string))
+        ? techInfoPdfCandidate
+        : null;
+    }
+    if (isLocalMediaSrc(userManualPdfCandidate)) {
+      userManualPdfSrc = (await existsOnDisk(userManualPdfCandidate as string))
+        ? userManualPdfCandidate
+        : null;
+    }
   }
 
-  return {product, gallerySrcs};
+  return {product, gallerySrcs, techInfoPdfSrc, userManualPdfSrc};
 }
 
 export default function Product() {
-  const {product, gallerySrcs} = useLoaderData<typeof loader>();
+  const {product, gallerySrcs, techInfoPdfSrc, userManualPdfSrc} =
+    useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
   const msqValue = Number(product.msq?.value);
   const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
@@ -431,6 +474,32 @@ export default function Product() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
+            {techInfoPdfSrc && (
+              <div className="mt-6 text-gray-200">
+                <h3 className="mb-2 text-white">Technical Information</h3>
+                <a
+                  href={techInfoPdfSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{color: 'rgb(37, 99, 235)', textDecoration: 'underline'}}
+                >
+                  View technical information (PDF)
+                </a>
+              </div>
+            )}
+            {userManualPdfSrc && (
+              <div className="mt-6 text-gray-200">
+                <h3 className="mb-2 text-white">User Manual</h3>
+                <a
+                  href={userManualPdfSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{color: 'rgb(37, 99, 235)', textDecoration: 'underline'}}
+                >
+                  View user manual (PDF)
+                </a>
               </div>
             )}
             <VariantSelector
@@ -658,6 +727,12 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       type: metafield(namespace: "custom", key: "type") {
+        value
+      }
+      techInfoPdf: metafield(namespace: "custom", key: "tech_info_pdf") {
+        value
+      }
+      userManualPdf: metafield(namespace: "custom", key: "user_manual_pdf") {
         value
       }
     }
