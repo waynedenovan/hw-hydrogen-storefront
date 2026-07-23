@@ -24,6 +24,228 @@ html {
   overflow-x: clip; /* Prevent horizontal scroll on all pages */
 }
 
+/*
+* --------------------------------------------------
+* Shared dark-card page wrapper (Product details + Collection pages, and any
+* new storefront page that should match — see
+* .claude/skills/collection-page-style/SKILL.md). Standard: the outer gutter
+* and padding shrink in steps as the viewport narrows (mobile-first below;
+* .page-card--narrow/--wide only grow the max-width back out at wider
+* breakpoints), so the card fills most of the screen on phones instead of
+* keeping a full-size gutter. Reference screenshot:
+* app/errors/260708130033-errors.jpeg.
+* --------------------------------------------------
+*/
+.page-card {
+  margin: 0 auto;
+  background: rgba(50, 50, 50, 0.65);
+  border-radius: 12px;
+  max-width: 96%;
+  padding: 1rem;
+  @media (min-width: 30em) {
+    max-width: 94%;
+    padding: 1.5rem;
+  }
+  @media (min-width: 45em) {
+    padding: 2rem;
+  }
+}
+
+.page-card--narrow {
+  @media (min-width: 45em) {
+    max-width: 90%;
+  }
+  @media (min-width: 64em) {
+    max-width: 80%;
+  }
+}
+
+.page-card--wide {
+  @media (min-width: 45em) {
+    max-width: 95%;
+  }
+  @media (min-width: 64em) {
+    max-width: 90%;
+  }
+}
+
+/* reset.css gives every h1-h5 its own rgba(50,50,50,0.85) pill background so
+   headings stay legible sitting directly on the sitewide .page-bg hero image
+   (see Design Rule: Text Visibility Over Background Images). That's correct
+   for bare headings (home page, CollectionCard/ProductCard image overlays),
+   but .page-card already darkens its whole content area — so a heading
+   inside one (product detail h1, "Specifications"/"Product Details" h3,
+   collection title h1, filter group h4s) got a REDUNDANT nested box on top
+   of the page-card's own background. This is the root cause of the
+   recurring "Detailed Product Card formatting" bug: previous sessions only
+   ever adjusted .product-main/.product-layout sizing, never this global
+   per-heading box, so it kept resurfacing (most visibly on long/wrapping
+   titles, incl. every newly added product). ProductCard's own text box
+   (inline style, ProductCard.tsx) has the same redundant-box problem for
+   its <h3> title, hence the second selector below. */
+.page-card h1,
+.page-card h2,
+.page-card h3,
+.page-card h4,
+.page-card h5,
+.product-card h1,
+.product-card h2,
+.product-card h3,
+.product-card h4,
+.product-card h5 {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  width: auto;
+  max-width: none;
+}
+
+/* `@import "tailwindcss";` (top of this file) puts every Tailwind utility
+   class inside CSS cascade layers. reset.css is a separate, non-Tailwind
+   stylesheet, so its h1/h2/h3/p rules are NOT in any layer. Per the CSS
+   Cascade Layers spec, an unlayered rule always wins over a layered one
+   regardless of specificity or source order — so Tailwind font-size/
+   font-weight utility classes (text-xs, font-medium, font-[350], etc.) on
+   h1/h2/h3 or font-size utilities on p silently lose to reset.css's bare
+   element rules, no matter what value is set. This is the actual root cause
+   behind the font-weight/size changes on Product Card + Detailed Product
+   Card "not sticking" across several sessions — previous fixes correctly
+   edited the Tailwind classes, but they were never able to take effect.
+   Fix: set the real values here instead, as plain (unlayered) CSS, which
+   wins against reset.css the same way the box-reset block above does.
+
+   The Detailed Product page (.product-main) follows the same font formatting
+   as the Product Cards at every breakpoint (task 2607161330/2607161425), so
+   its h1/h3/p/price/table rules are declared together with .product-card's.
+
+   Three tiers (task 2607161525; small tier +2pt and medium re-midpointed
+   per Wayne, task 2607161650; price -2pt at all tiers, task 2607170910):
+   - Small (default, <45em): title 12px/350, brand/type/body 11px/250,
+     price 12px/400.
+   - Medium (45em–64em): midpoints between small and large —
+     title 15px/350, body 13px/275, price 12px/500.
+   - Large (>=64em): original (pre-shrink) sizes with adjusted weights —
+     title 1.1rem/350, body 1rem/300, price 0.75rem/600.
+
+   Task 2607171010: Detailed Product page (.product-main) ONLY — product
+   detail information (description/Product Details/Specifications text +
+   table) and price text bumped +2pt (literal +2px, same convention as the
+   prior +2pt/-2pt tier adjustments above) at every tier. Product Card
+   values (.product-card p, .product-card .product-price-display) are
+   deliberately left untouched, so the shared p/table/price-display
+   selectors are split per page below instead of staying combined. */
+.product-card h3,
+.product-main h1,
+.product-main h3 {
+  font-size: 12px;
+  font-weight: 350;
+}
+
+/* .product-description is included by itself (not just its p descendants)
+   because Shopify's descriptionHtml is often bare text with no <p> wrapper —
+   without this the description silently keeps the 16px default (the exact
+   still-huge-description symptom from screenshot 260716141429). */
+.product-card p {
+  font-size: 11px;
+  font-weight: 250;
+}
+
+.product-main p,
+.product-main .product-description {
+  font-size: 13px;
+  font-weight: 250;
+}
+
+/* Price is 12px at every tier (task 2607170910, -2pt from 14px): the widest
+   real price (ZAR 146,497.59) measures 103.8px at 14px / 96.4px at 13px but
+   only ~91px fits a card on Wayne's phone (effective ~305px viewport), and
+   the Intl currency formatter uses a non-breaking space so the price can
+   never wrap — 12px (89px) is the first size that fits. Measured live via
+   canvas measureText with the element's real font stack. Product Card stays
+   at 12px; the Detailed Product page's price is bumped +2pt (task 2607171010)
+   since it isn't width-constrained the same way a card is. */
+.product-card .product-price-display {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.product-main .product-price-display {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.product-main table {
+  font-size: 13px;
+}
+
+@media (min-width: 45em) {
+  .product-card h3,
+  .product-main h1,
+  .product-main h3 {
+    font-size: 15px;
+    font-weight: 350;
+  }
+
+  .product-card p {
+    font-size: 13px;
+    font-weight: 275;
+  }
+
+  .product-main p,
+  .product-main .product-description {
+    font-size: 15px;
+    font-weight: 275;
+  }
+
+  .product-card .product-price-display {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .product-main .product-price-display {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .product-main table {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 64em) {
+  .product-card h3,
+  .product-main h1,
+  .product-main h3 {
+    font-size: 1.1rem;
+    font-weight: 350;
+  }
+
+  .product-card p {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .product-main p,
+  .product-main .product-description {
+    font-size: 1.125rem;
+    font-weight: 300;
+  }
+
+  .product-card .product-price-display {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .product-main .product-price-display {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .product-main table {
+    font-size: 1rem;
+  }
+}
+
 img {
   border-radius: 4px;
 }
@@ -432,19 +654,36 @@ button.reset:hover:not(:has(> *)) {
 
 .moq-ribbon {
   position: absolute;
-  top: 12px;
-  left: -34px;
-  width: 140px;
-  transform: rotate(-45deg);
+  top: 0;
+  left: 0;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centre the strip exactly on the card's top-left corner, rotate it, then push
+     it down the corner diagonal by a fixed perpendicular distance. Because the
+     offset is along the diagonal itself, the text is always equidistant from the
+     image's top and left edges — top/left pixel offsets (the old approach) drift
+     off-centre whenever the strip's content height changes. */
+  transform: translate(-50%, -50%) rotate(-45deg) translateY(44px);
   transform-origin: center;
   background: rgba(255, 0, 0, 0.7);
   color: rgb(255, 255, 255);
-  font-weight: 700;
-  font-size: 0.65rem;
   text-align: center;
-  padding: 2px 0;
-  line-height: 1.2;
+  padding: 4px 0 5px;
+  line-height: 1.15;
   pointer-events: none;
+}
+
+.moq-ribbon-label {
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.01em;
+}
+
+.moq-ribbon-value {
+  font-weight: 800;
+  font-size: 0.75rem;
 }
 
 .header-tagline {
@@ -488,6 +727,46 @@ button.reset:hover:not(:has(> *)) {
 .footer-menu a {
   color: var(--color-light);
   min-width: fit-content;
+}
+
+.footer-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  color: var(--color-light);
+  opacity: 0.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-version {
+  text-align: center;
+}
+
+/* Wide screens: equal flex sides put the version at the true centre of the
+   row; below 45em the row falls back to wrapping (space-between + wrap). */
+@media (min-width: 45em) {
+  .footer-brand > * {
+    flex: 1;
+  }
+  .footer-powered-by {
+    justify-content: flex-end;
+  }
+}
+
+.footer-powered-by {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footer-powered-logo {
+  height: 28px;
+  width: auto;
+  border-radius: 0;
 }
 
 /*
@@ -577,6 +856,12 @@ button.reset:hover:not(:has(> *)) {
 .cart-line-qty-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.cart-line-moq-note {
+  font-size: 0.7rem;
+  opacity: 0.75;
+  margin: 0;
 }
 
 .cart-line-remove button {
@@ -761,6 +1046,67 @@ aside input::placeholder {
   gap: 1rem;
 }
 
+/* Full /search results page (task 2607191820) — dark translucent page-card look
+   per the collection-page-style skill; grids reuse .collections-grid /
+   .products-grid so results match the collection pages. */
+.search-page-form {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+  max-width: 40rem;
+}
+
+.search-page-form input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.search-page-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-page-form button {
+  background: rgb(37, 99, 235);
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+}
+
+.search-section {
+  margin-top: 2rem;
+}
+
+.search-brand-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.search-brand-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(50, 50, 50, 0.85);
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+}
+
+.search-brand-chip:hover {
+  background: rgba(70, 70, 70, 0.9);
+}
+
+.search-brand-count {
+  background: rgb(37, 99, 235);
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+}
+
 /*
 * --------------------------------------------------
 * routes/__index
@@ -820,6 +1166,44 @@ aside input::placeholder {
   height: auto;
 }
 
+/* Collection tile: name centred both horizontally and vertically over the image
+   (spec 2607171535 — main Collections h2, Sub Collections h3). The heading keeps
+   its sitewide dark-chip look from reset.css (text-over-image standard). */
+.collection-item-media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.collection-item-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-item-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(50, 50, 50, 0.35);
+}
+
+.collection-item-title-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.collection-item-title-wrap h2,
+.collection-item-title-wrap h3 {
+  margin: 0;
+  text-align: center;
+  max-width: 100%;
+}
+
 /*
 * --------------------------------------------------
 * routes/collections.$handle.tsx
@@ -835,14 +1219,28 @@ aside input::placeholder {
 
 .products-grid {
   display: grid;
-  grid-gap: 1.5rem;
+  grid-gap: 1rem;
   /* Fixed column counts (not auto-fit): this grid always sits next to the
      220px .collection-filters sidebar, so it needs a wider viewport than
-     .recommended-products-grid before adding a 3rd column. */
-  grid-template-columns: repeat(2, 1fr);
+     .recommended-products-grid before adding more columns.
+     minmax(0, 1fr) (not bare 1fr): without the explicit 0 minimum, a track
+     can't shrink below its item's min-content size. ProductCard's title uses
+     Tailwind `truncate` (white-space: nowrap), whose min-content is the full
+     untruncated text width -- that was forcing the grid wider than its
+     container and pushing cards past the right edge instead of letting the
+     title truncate.
+     Site policy: minimum of 2 columns even on the smallest phone viewport,
+     scaling up to 5 on the largest screens (never drop to 1 column). */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 2rem;
+  @media (min-width: 40em) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   @media (min-width: 64em) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  @media (min-width: 90em) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -853,19 +1251,88 @@ aside input::placeholder {
 
 /* Mobile: always 2 columns — minmax(0,1fr) prevents items expanding beyond their share */
 @media (max-width: 45em) {
-  .products-grid,
   .collections-grid,
   .blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
+/* Collection page reuses the product page's dark translucent card look —
+   see the inline style on routes/($locale).collections.$handle.tsx's root
+   and routes/($locale).products.$handle.tsx for the shared rgba(50,50,50,*)
+   tokens (documented in .claude/skills/collection-page-style/SKILL.md). */
+.collection,
+.collection .filter-option,
+.collection .filter-group h4,
+.collection .collection-section-toggle {
+  color: #fff;
+}
+
+.collection .filter-group-options,
+.collection .filter-clear-btn {
+  color: rgb(209, 213, 219);
+}
+
+/* Single implicit column -- .collection-header and .collection-layout still
+   simply stack top to bottom like block flow. Existing as a grid (rather than
+   block) purely so .filter-toggle-btn below can span every row via
+   grid-row: 1 / -1, making its containing block the whole page section
+   instead of just one short row -- see the comment on .filter-toggle-btn. */
+.collection {
+  display: grid;
+}
+
+.collection-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* sticky (not fixed) so it floats above the product grid once scrolled past.
+   grid-row: 1 / -1 + justify-self: end makes it overlap the same column as
+   .collection-header/.collection-layout (rather than occupying its own row),
+   positioned top-right -- its containing block is therefore the full height
+   of .collection, so it keeps sticking all the way through the product grid
+   instead of un-sticking after .collection-header's own (short) height, and
+   it stays clear of the real site header/nav and cart/search/account icons
+   above this card. */
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  position: sticky;
+  top: 1rem;
+  z-index: 5;
+  grid-row: 1 / -1;
+  justify-self: end;
+  align-self: start;
+}
+
+.filter-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* grid-template-columns is only widened to 2 tracks via the .filters-open
+   modifier, not unconditionally -- with a fixed 220px track always declared,
+   closing the filter panel (removing .collection-filters from the DOM) left
+   .collection-results as the grid's only child, which CSS grid auto-places
+   into the first (220px) track instead of the wide one, shrinking every
+   product card down to sidebar width. */
 .collection-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
   @media (min-width: 45em) {
-    grid-template-columns: 220px 1fr;
+    &.filters-open {
+      grid-template-columns: 220px 1fr;
+    }
   }
 }
 
@@ -874,6 +1341,22 @@ aside input::placeholder {
   flex-direction: column;
   gap: 1.25rem;
   align-self: start;
+  /* .collection-filters is a semantic <aside>, which collides with the
+     generic `aside { position: fixed; right: calc(-1 * var(--aside-width));
+     width: min(var(--aside-width), 100vw); height: 100vh; ... }` rule meant
+     for the cart/menu drawer -- that rule pulled this sidebar out of grid
+     flow and off-screen, leaving .collection-results alone in
+     .collection-layout's grid (auto-placed into the 220px track instead of
+     the wide results track). Reset every property the generic rule sets so
+     this stays a normal in-flow grid item. */
+  position: static;
+  right: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  box-shadow: none;
+  background: none;
+  transition: none;
 }
 
 .filter-group-options {
@@ -889,6 +1372,63 @@ aside input::placeholder {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.875rem;
+}
+
+/* Dual-handle price slider: two overlapping range inputs sharing one track.
+   Each input's own thumb stays clickable; the invisible track lets clicks
+   fall through to whichever handle is nearer (native range behavior). */
+.filter-price-slider {
+  position: relative;
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-price-slider input[type='range'] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.filter-price-slider input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+.filter-price-slider input[type='range']::-moz-range-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+.filter-price-slider input[type='range']::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  margin-top: -6px;
+}
+
+.filter-price-slider input[type='range']::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
 }
 
 .filter-price-range {
@@ -919,13 +1459,17 @@ aside input::placeholder {
   display: block;
 }
 
-.collection-section .collection-section {
-  margin-left: 1rem;
-}
-
+/* Indent nested section titles only, not their content -- a container-level
+   margin-left here would compound through nesting and eat into the width
+   available to .products-grid the deeper a section is nested. */
 .collection-section .collection-section-toggle {
   font-size: 0.95rem;
   font-weight: 600;
+  padding-left: 1rem;
+}
+
+.collection-section .collection-section .collection-section-toggle {
+  padding-left: 2rem;
 }
 
 /*
@@ -933,11 +1477,26 @@ aside input::placeholder {
 * routes/products.$handle.tsx
 * --------------------------------------------------
 */
+/* .product was a two-column grid from the skeleton, back when .product-image
+   and .product-main were its direct children. They now sit inside the single
+   .product-layout wrapper, so the leftover 1fr 1fr split parked the entire
+   layout in the LEFT column only — .product-layout then split that half again
+   2fr/3fr, leaving the text ~20% of the viewport on desktop (error
+   260716161934/260716165322). .product-layout owns the column split;
+   .product is a plain block. overflow-x: clip enforces site rule 2 ("all
+   elements render strictly within their parent") as a last-resort guard:
+   content that still refuses to shrink clips at the card's inner edge instead
+   of running past the card and screen edge (errors 260716161757/-161814). */
 .product {
-  display: grid;
+  overflow-x: clip;
+  /* Spec (task 2607161650): the content area expands with the screen but
+     never exceeds ~90% of the page-card's width, keeping >=5% clear of the
+     card edge on both sides. The card's own 2rem padding plus this 3%
+     padding-inline lands the content at ~89% of card width / ~5.4% inset at
+     1600px (Tailwind's px-4 still provides the inset below 45em — this
+     unlayered rule overrides it only at >=45em). */
   @media (min-width: 45em) {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 4rem;
+    padding-inline: 3%;
   }
 }
 
@@ -954,6 +1513,48 @@ aside input::placeholder {
   align-self: start;
   position: sticky;
   top: 6rem;
+}
+
+/* Two-region layout for the image + description/details column. 60%/40%
+   split (rather than an even 1fr 1fr) gives the description, combined
+   details block, and dimensions table more horizontal room to read, per
+   app/errors/260708130114-errors.png. Single column below 45em, matching
+   the site's existing mobile-stacking breakpoint.
+
+   All tracks are minmax(0, Nfr), never bare Nfr: grid items default to
+   min-width auto, so the dimensions table's min-width: 260px propagated up
+   through .product-main → .product-layout → .product and stopped the whole
+   column shrinking below ~260px + gutters. On narrow effective viewports
+   (small phones, or a phone with browser zoom / OS text scaling, which
+   shrinks the CSS viewport) the column then overflowed past the card's and
+   the screen's right edge — unreachable, since html is overflow-x: clip
+   (errors 260716161757/260716161814). minmax(0, …) lets the tracks shrink,
+   so the table wrapper scrolls horizontally as designed instead. */
+.product-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  @media (min-width: 45em) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 2rem;
+  }
+}
+
+.product-image,
+.product-main {
+  min-width: 0;
+  /* Supplier descriptions can contain long unbroken tokens (part numbers,
+     URLs) — wrap them rather than letting them widen the text column. */
+  overflow-wrap: break-word;
+}
+
+/* Dimensions table: horizontal scroll container so narrow labels/values
+   never wrap awkwardly or overflow the page card on small viewports. */
+.product-dimensions-table {
+  overflow-x: auto;
+}
+.product-dimensions-table table {
+  min-width: 260px;
 }
 
 .product-price-on-sale {
@@ -1211,19 +1812,6 @@ aside input::placeholder {
   background: #e5e5e5;
 }
 
-.checkout-skip-btn {
-  display: block;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: color 200ms;
-}
-
-.checkout-skip-btn:hover {
-  color: white;
-}
-
 /*
 * --------------------------------------------------
 * routes/checkout
@@ -1416,6 +2004,27 @@ select.checkout-form-input option:disabled {
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+/* PayFast service-status banner on the Review step (task 2607191915) */
+.checkout-payfast-status-banner {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.checkout-payfast-status-banner.is-minor {
+  background: rgba(180, 130, 20, 0.25);
+  border: 1px solid rgba(234, 179, 8, 0.6);
+  color: #fde68a;
+}
+
+.checkout-payfast-status-banner.is-outage {
+  background: rgba(150, 40, 40, 0.3);
+  border: 1px solid rgba(248, 113, 113, 0.6);
+  color: #fecaca;
 }
 
 /* Checkout errors */
@@ -1771,9 +2380,9 @@ body.checkout-page main {
   background: white;
   color: black;
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.5rem;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 200ms;
@@ -1787,4 +2396,90 @@ body.checkout-page main {
 .add-to-cart-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.cart-stock-warning {
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: rgb(252, 211, 77);
+}
+
+/* Wish List — card action row: Add to Cart keeps the full remaining width,
+   the heart button sits beside it at the same height. */
+.product-card-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.product-card-cart-form {
+  flex: 1;
+  min-width: 0;
+}
+
+.wishlist-icon-btn {
+  margin-top: 0.5rem;
+  background: white;
+  color: rgb(200, 30, 30);
+  border: none;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.wishlist-icon-btn:hover:not(:disabled) {
+  background: #e5e5e5;
+}
+
+.wishlist-icon-btn:disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.wishlist-icon-btn svg {
+  display: block;
+}
+
+/* Detailed Product page variant: full-width outlined button below Add to Cart */
+.wishlist-add-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wishlist-add-btn:hover:not(:disabled) {
+  border-color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.wishlist-add-btn:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.wishlist-remove-btn {
+  margin-top: 0.35rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.wishlist-remove-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
 }

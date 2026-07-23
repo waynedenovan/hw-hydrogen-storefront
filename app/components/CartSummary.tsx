@@ -4,6 +4,7 @@ import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
 import {Link, useFetcher, useLocation} from 'react-router';
 import {useAside} from '~/components/Aside';
+import {withDisplayVat, displayVatOnly} from '~/lib/displayVat';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -19,7 +20,7 @@ export function CartSummary({cart, layout, isCartUpdating}: CartSummaryProps) {
     <div aria-labelledby="cart-summary" className={className}>
       <h4>Totals</h4>
       <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>Subtotal (excl. VAT)</dt>
         <dd>
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
@@ -28,6 +29,22 @@ export function CartSummary({cart, layout, isCartUpdating}: CartSummaryProps) {
           )}
         </dd>
       </dl>
+      {cart?.cost?.subtotalAmount?.amount && (
+        <>
+          <dl className="cart-vat">
+            <dt>VAT</dt>
+            <dd>
+              <Money data={displayVatOnly(cart.cost.subtotalAmount)} />
+            </dd>
+          </dl>
+          <dl className="cart-total-incl-vat">
+            <dt>Total (incl. VAT)</dt>
+            <dd>
+              <Money data={withDisplayVat(cart.cost.subtotalAmount)} />
+            </dd>
+          </dl>
+        </>
+      )}
       {layout === 'page' && <CartDiscounts discountCodes={cart?.discountCodes} />}
       {layout === 'page' && <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} isCartUpdating={isCartUpdating} />
@@ -68,16 +85,6 @@ function CartCheckoutActions({
       >
         {isCartUpdating ? 'Updating cart…' : 'Proceed to Checkout →'}
       </Link>
-      <a
-        href={checkoutUrl}
-        target="_self"
-        onClick={handleCheckoutClick}
-        className={`checkout-skip-btn${isCartUpdating ? ' checkout-btn-disabled' : ''}`}
-        aria-disabled={isCartUpdating}
-        style={isCartUpdating ? {opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none'} : undefined}
-      >
-        Skip to payment &rarr;
-      </a>
     </div>
   );
 }

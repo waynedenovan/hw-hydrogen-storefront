@@ -2,6 +2,8 @@ import {useState} from 'react';
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData, useSearchParams} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
+import {CollectionCard} from '~/components/CollectionCard';
+import {ScrollToTopButton} from '~/components/ScrollToTopButton';
 
 // Collection-wide product count for this store is small (~180) — fetching everything
 // in one request and grouping/filtering here is simpler and more maintainable than
@@ -35,6 +37,7 @@ export async function loader(args: LoaderFunctionArgs) {
         description: '',
         products,
       },
+      subCollections: null,
     };
   }
 
@@ -42,7 +45,31 @@ export async function loader(args: LoaderFunctionArgs) {
     throw new Response('Collection not found', {status: 404});
   }
 
-  return {collection};
+  // Fixed main Collections (custom.collection_role = "main") don't show products —
+  // they show their assigned Sub Collections as tiles (spec 2607171535). A sub's
+  // assignment lives in its custom.parent_collection metafield (the main
+  // collection's TITLE), written by the admin app's Collections page. Tiles sort
+  // and label by the sub's cleaned display name ("BINDING", task 2607191357) —
+  // the coded title ("AC BINDING") stays the identity key/handle source.
+  if ((collection as any).role?.value === 'main') {
+    const childData = await storefront.query(CHILD_COLLECTIONS_QUERY);
+    const wanted = collection.title.trim().toLowerCase();
+    const subCollections = ((childData.collections?.nodes ?? []) as any[])
+      .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
+      .sort((a, b) =>
+        getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}),
+      );
+    return {collection, subCollections};
+  }
+
+  return {collection, subCollections: null};
+}
+
+// Cleaned display name for a collection (custom.display_name, written by the
+// admin app for imported Sub Collections) — falls back to the title for main
+// collections and anything imported before the naming change.
+function getDisplayName(collection: any) {
+  return collection.displayName?.value || collection.title;
 }
 
 function getSubCollection(product: any) {
@@ -98,32 +125,57 @@ function FilterCheckboxGroup({
   );
 }
 
-function CollapsibleSection({
-  title,
-  count,
-  children,
+export default function Collection() {
+  const {collection, subCollections} = useLoaderData<typeof loader>();
+
+  // Main (fixed) Collection → grid of its assigned Sub Collection tiles.
+  // Rendered by a separate component from the product view so the hook count
+  // stays stable when navigating between a main and a sub collection (the route
+  // component instance is reused across $handle param changes).
+  if (subCollections) {
+    return <SubCollectionsView collection={collection} subCollections={subCollections} />;
+  }
+
+  return <CollectionProductsView collection={collection} />;
+}
+
+function SubCollectionsView({
+  collection,
+  subCollections,
 }: {
-  title: string;
-  count: number;
-  children: React.ReactNode;
+  collection: any;
+  subCollections: any[];
 }) {
-  const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="collection-section">
-      <button
-        type="button"
-        className="collection-section-toggle"
-        onClick={() => setCollapsed((c) => !c)}
-      >
-        {collapsed ? '▸' : '▾'} {title} ({count})
-      </button>
-      {!collapsed && children}
+    <div className="page-card page-card--wide">
+      <div className="collection max-w-7xl mx-auto px-4 py-8">
+        <div className="collection-header">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
+            {collection.description && (
+              <p className="collection-description text-gray-300 mb-6">
+                {collection.description}
+              </p>
+            )}
+          </div>
+        </div>
+        {subCollections.length > 0 ? (
+          <div className="collections-grid">
+            {subCollections.map((sub: any) => (
+              <CollectionCard key={sub.id} collection={sub} headingLevel="h3" />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-300 py-8">
+            No Sub Collections have been assigned to this Collection yet.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
 
-export default function Collection() {
-  const {collection} = useLoaderData<typeof loader>();
+function CollectionProductsView({collection}: {collection: any}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const allProducts: any[] = collection.products.nodes;
@@ -169,6 +221,8 @@ export default function Collection() {
     setSearchParams(new URLSearchParams(), {preventScrollReset: true});
   }
 
+  // One flat grid always (task 2607191357 removed the old collapsible
+  // Brand > Sub > Sub-cat tree — the Filters panel covers the same job).
   const filteredProducts = allProducts.filter((product) => {
     if (selectedBrands.size > 0 && !selectedBrands.has(getBrand(product))) return false;
     if (selectedSubCollections.size > 0 && !selectedSubCollections.has(getSubCollection(product))) return false;
@@ -179,99 +233,134 @@ export default function Collection() {
     return true;
   });
 
-  // Default view: group by sub-collection, then by sub-cat-collection within it.
-  const grouped = new Map<string, Map<string, any[]>>();
-  for (const product of allProducts) {
-    const subCollection = getSubCollection(product);
-    const subCatCollection = getSubCatCollection(product);
-    if (!grouped.has(subCollection)) grouped.set(subCollection, new Map());
-    const subMap = grouped.get(subCollection)!;
-    if (!subMap.has(subCatCollection)) subMap.set(subCatCollection, []);
-    subMap.get(subCatCollection)!.push(product);
-  }
+  const priceValues = allProducts.map(getPrice);
+  const priceFloor = priceValues.length ? Math.floor(Math.min(...priceValues)) : 0;
+  const priceCeil = priceValues.length ? Math.ceil(Math.max(...priceValues)) : 0;
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
-    <div className="collection max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">{collection.title}</h1>
-      {collection.description && (
-        <p className="collection-description text-gray-600 mb-6">
-          {collection.description}
-        </p>
-      )}
-
-      <div className="collection-layout">
-        <aside className="collection-filters">
-          <div className="filter-group">
-            <h4 className="font-semibold text-sm mb-1">Price</h4>
-            <div className="filter-price-range">
-              <input
-                type="number"
-                placeholder="Min"
-                value={minPrice}
-                onChange={(e) => setPrice('minPrice', e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={maxPrice}
-                onChange={(e) => setPrice('maxPrice', e.target.value)}
-              />
-            </div>
+    <div className="page-card page-card--wide">
+      <ScrollToTopButton />
+      <div className="collection max-w-7xl mx-auto px-4 py-8">
+        <div className="collection-header">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
+            {collection.description && (
+              <p className="collection-description text-gray-300 mb-6">
+                {collection.description}
+              </p>
+            )}
           </div>
-          <FilterCheckboxGroup
-            title="Brand"
-            options={brandOptions}
-            selected={selectedBrands}
-            onToggle={(v) => toggleParam('brand', v)}
-          />
-          <FilterCheckboxGroup
-            title="Sub Collection"
-            options={subCollectionOptions}
-            selected={selectedSubCollections}
-            onToggle={(v) => toggleParam('subCollection', v)}
-          />
-          <FilterCheckboxGroup
-            title="Sub-Cat Collection"
-            options={subCatCollectionOptions}
-            selected={selectedSubCatCollections}
-            onToggle={(v) => toggleParam('subCatCollection', v)}
-          />
-          {hasFilters && (
-            <button type="button" className="filter-clear-btn" onClick={clearFilters}>
-              Clear filters
-            </button>
-          )}
-        </aside>
+        </div>
 
-        <div className="collection-results">
-          {hasFilters ? (
-            filteredProducts.length > 0 ? (
+        {/* Direct child of the grid-ified .collection (not .collection-header, which
+            is only a short flex row) so this sticky button's containing block spans
+            the whole page section -- otherwise it stops sticking as soon as its
+            parent's own (short) height has scrolled by. Placed with grid-row: 1 / -1
+            so it overlaps .collection-header/.collection-layout's shared column
+            instead of pushing them into their own track. */}
+        <button
+          type="button"
+          className="filter-toggle-btn"
+          aria-expanded={filtersOpen}
+          aria-controls="collection-filters"
+          onClick={() => setFiltersOpen((open) => !open)}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path d="M4 5h16M7 12h10M10 19h4" strokeLinecap="round" />
+          </svg>
+          Filters
+        </button>
+
+        <div className={`collection-layout${filtersOpen ? ' filters-open' : ''}`}>
+          {filtersOpen && (
+            <aside id="collection-filters" className="collection-filters">
+              <div className="filter-group">
+                <h4 className="font-semibold text-sm mb-1">Price</h4>
+                <div className="filter-price-slider">
+                  <input
+                    type="range"
+                    min={priceFloor}
+                    max={priceCeil}
+                    value={minPrice === '' ? priceFloor : Number(minPrice)}
+                    onChange={(e) =>
+                      setPrice('minPrice', Math.min(Number(e.target.value), maxPrice === '' ? priceCeil : Number(maxPrice)).toString())
+                    }
+                  />
+                  <input
+                    type="range"
+                    min={priceFloor}
+                    max={priceCeil}
+                    value={maxPrice === '' ? priceCeil : Number(maxPrice)}
+                    onChange={(e) =>
+                      setPrice('maxPrice', Math.max(Number(e.target.value), minPrice === '' ? priceFloor : Number(minPrice)).toString())
+                    }
+                  />
+                </div>
+                <div className="filter-price-range">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={minPrice}
+                    onChange={(e) => setPrice('minPrice', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={maxPrice}
+                    onChange={(e) => setPrice('maxPrice', e.target.value)}
+                  />
+                </div>
+              </div>
+              <FilterCheckboxGroup
+                title="Brand"
+                options={brandOptions}
+                selected={selectedBrands}
+                onToggle={(v) => toggleParam('brand', v)}
+              />
+              <FilterCheckboxGroup
+                title="Sub Collection"
+                options={subCollectionOptions}
+                selected={selectedSubCollections}
+                onToggle={(v) => toggleParam('subCollection', v)}
+              />
+              <FilterCheckboxGroup
+                title="Sub-Cat Collection"
+                options={subCatCollectionOptions}
+                selected={selectedSubCatCollections}
+                onToggle={(v) => toggleParam('subCatCollection', v)}
+              />
+              {hasFilters && (
+                <button type="button" className="filter-clear-btn" onClick={clearFilters}>
+                  Clear filters
+                </button>
+              )}
+            </aside>
+          )}
+
+          <div className="collection-results">
+            {filteredProducts.length > 0 ? (
               <div className="products-grid">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-500 py-8">No products match the selected filters.</p>
-            )
-          ) : (
-            [...grouped.entries()].map(([subCollection, subCatMap]) => {
-              const sectionCount = [...subCatMap.values()].reduce((sum, p) => sum + p.length, 0);
-              return (
-                <CollapsibleSection key={subCollection} title={subCollection} count={sectionCount}>
-                  {[...subCatMap.entries()].map(([subCatCollection, products]) => (
-                    <CollapsibleSection key={subCatCollection} title={subCatCollection} count={products.length}>
-                      <div className="products-grid">
-                        {products.map((product) => (
-                          <ProductCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </CollapsibleSection>
-                  ))}
-                </CollapsibleSection>
-              );
-            })
-          )}
+              <p className="text-center text-gray-300 py-8">
+                {hasFilters
+                  ? 'No products match the selected filters.'
+                  : 'No products in this collection yet.'}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -297,22 +386,25 @@ const PRODUCT_FIELDS = `#graphql
         currencyCode
       }
     }
-    brand: metafield(namespace: "app", key: "brand") {
+    brand: metafield(namespace: "custom", key: "brand") {
       value
     }
-    subCollection: metafield(namespace: "app", key: "sub_collection") {
+    subCollection: metafield(namespace: "custom", key: "sub_collection") {
       value
     }
-    subCatCollection: metafield(namespace: "app", key: "sub_cat_collection") {
+    subCatCollection: metafield(namespace: "custom", key: "sub_cat_collection") {
       value
     }
-    msq: metafield(namespace: "app", key: "msq") {
+    msq: metafield(namespace: "custom", key: "msq") {
       value
     }
-    supplierName: metafield(namespace: "app", key: "supplier_name") {
+    supplierName: metafield(namespace: "custom", key: "supplier_name") {
       value
     }
-    externalProductId: metafield(namespace: "app", key: "external_product_id") {
+    externalProductId: metafield(namespace: "custom", key: "external_product_id") {
+      value
+    }
+    type: metafield(namespace: "custom", key: "type") {
       value
     }
     variants(first: 1) {
@@ -336,6 +428,15 @@ const COLLECTION_QUERY = `#graphql
       title
       handle
       description
+      role: metafield(namespace: "custom", key: "collection_role") {
+        value
+      }
+      displayName: metafield(namespace: "custom", key: "display_name") {
+        value
+      }
+      typeCode: metafield(namespace: "custom", key: "collection_type") {
+        value
+      }
       products(first: $first) {
         nodes {
           ...CollectionProductFields
@@ -344,6 +445,36 @@ const COLLECTION_QUERY = `#graphql
     }
   }
   ${PRODUCT_FIELDS}
+` as const;
+
+// All collections with their parent-assignment metafield — filtered in the
+// loader down to the children of one main Collection. Collection count for this
+// store stays well under 100 (17 fixed + imported subs).
+const CHILD_COLLECTIONS_QUERY = `#graphql
+  query ChildCollections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    collections(first: 100) {
+      nodes {
+        id
+        title
+        handle
+        image {
+          url
+          altText
+          width
+          height
+        }
+        parent: metafield(namespace: "custom", key: "parent_collection") {
+          value
+        }
+        displayName: metafield(namespace: "custom", key: "display_name") {
+          value
+        }
+      }
+    }
+  }
 ` as const;
 
 const ALL_PRODUCTS_QUERY = `#graphql

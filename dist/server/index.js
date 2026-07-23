@@ -1,950 +1,82 @@
-var Wd=Object.defineProperty;var ji=e=>{throw TypeError(e)};var Yd=(e,t,r)=>t in e?Wd(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r;var an=(e,t,r)=>Yd(e,typeof t!="symbol"?t+"":t,r),Ei=(e,t,r)=>t.has(e)||ji("Cannot "+r);var wt=(e,t,r)=>(Ei(e,t,"read from private field"),r?r.call(e):t.get(e)),No=(e,t,r)=>t.has(e)?ji("Cannot add the same private member more than once"):t instanceof WeakSet?t.add(e):t.set(e,r),To=(e,t,r,n)=>(Ei(e,t,"write to private field"),n?n.call(e,r):t.set(e,r),r);function Gd(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var $o={exports:{}},on={},Po={exports:{}},pe={};/**
- * @license React
- * react.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var ki;function Xd(){if(ki)return pe;ki=1;var e=Symbol.for("react.element"),t=Symbol.for("react.portal"),r=Symbol.for("react.fragment"),n=Symbol.for("react.strict_mode"),a=Symbol.for("react.profiler"),o=Symbol.for("react.provider"),i=Symbol.for("react.context"),l=Symbol.for("react.forward_ref"),u=Symbol.for("react.suspense"),c=Symbol.for("react.memo"),d=Symbol.for("react.lazy"),p=Symbol.iterator;function y(O){return O===null||typeof O!="object"?null:(O=p&&O[p]||O["@@iterator"],typeof O=="function"?O:null)}var w={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},m=Object.assign,S={};function x(O,H,K){this.props=O,this.context=H,this.refs=S,this.updater=K||w}x.prototype.isReactComponent={},x.prototype.setState=function(O,H){if(typeof O!="object"&&typeof O!="function"&&O!=null)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,O,H,"setState")},x.prototype.forceUpdate=function(O){this.updater.enqueueForceUpdate(this,O,"forceUpdate")};function E(){}E.prototype=x.prototype;function I(O,H,K){this.props=O,this.context=H,this.refs=S,this.updater=K||w}var k=I.prototype=new E;k.constructor=I,m(k,x.prototype),k.isPureReactComponent=!0;var P=Array.isArray,N=Object.prototype.hasOwnProperty,A={current:null},T={key:!0,ref:!0,__self:!0,__source:!0};function $(O,H,K){var ue,ne={},ye=null,se=null;if(H!=null)for(ue in H.ref!==void 0&&(se=H.ref),H.key!==void 0&&(ye=""+H.key),H)N.call(H,ue)&&!T.hasOwnProperty(ue)&&(ne[ue]=H[ue]);var he=arguments.length-2;if(he===1)ne.children=K;else if(1<he){for(var ce=Array(he),we=0;we<he;we++)ce[we]=arguments[we+2];ne.children=ce}if(O&&O.defaultProps)for(ue in he=O.defaultProps,he)ne[ue]===void 0&&(ne[ue]=he[ue]);return{$$typeof:e,type:O,key:ye,ref:se,props:ne,_owner:A.current}}function V(O,H){return{$$typeof:e,type:O.type,key:H,ref:O.ref,props:O.props,_owner:O._owner}}function X(O){return typeof O=="object"&&O!==null&&O.$$typeof===e}function q(O){var H={"=":"=0",":":"=2"};return"$"+O.replace(/[=:]/g,function(K){return H[K]})}var G=/\/+/g;function J(O,H){return typeof O=="object"&&O!==null&&O.key!=null?q(""+O.key):H.toString(36)}function Z(O,H,K,ue,ne){var ye=typeof O;(ye==="undefined"||ye==="boolean")&&(O=null);var se=!1;if(O===null)se=!0;else switch(ye){case"string":case"number":se=!0;break;case"object":switch(O.$$typeof){case e:case t:se=!0}}if(se)return se=O,ne=ne(se),O=ue===""?"."+J(se,0):ue,P(ne)?(K="",O!=null&&(K=O.replace(G,"$&/")+"/"),Z(ne,H,K,"",function(we){return we})):ne!=null&&(X(ne)&&(ne=V(ne,K+(!ne.key||se&&se.key===ne.key?"":(""+ne.key).replace(G,"$&/")+"/")+O)),H.push(ne)),1;if(se=0,ue=ue===""?".":ue+":",P(O))for(var he=0;he<O.length;he++){ye=O[he];var ce=ue+J(ye,he);se+=Z(ye,H,K,ce,ne)}else if(ce=y(O),typeof ce=="function")for(O=ce.call(O),he=0;!(ye=O.next()).done;)ye=ye.value,ce=ue+J(ye,he++),se+=Z(ye,H,K,ce,ne);else if(ye==="object")throw H=String(O),Error("Objects are not valid as a React child (found: "+(H==="[object Object]"?"object with keys {"+Object.keys(O).join(", ")+"}":H)+"). If you meant to render a collection of children, use an array instead.");return se}function B(O,H,K){if(O==null)return O;var ue=[],ne=0;return Z(O,ue,"","",function(ye){return H.call(K,ye,ne++)}),ue}function Q(O){if(O._status===-1){var H=O._result;H=H(),H.then(function(K){(O._status===0||O._status===-1)&&(O._status=1,O._result=K)},function(K){(O._status===0||O._status===-1)&&(O._status=2,O._result=K)}),O._status===-1&&(O._status=0,O._result=H)}if(O._status===1)return O._result.default;throw O._result}var ae={current:null},fe={transition:null},ge={ReactCurrentDispatcher:ae,ReactCurrentBatchConfig:fe,ReactCurrentOwner:A};function Se(){throw Error("act(...) is not supported in production builds of React.")}return pe.Children={map:B,forEach:function(O,H,K){B(O,function(){H.apply(this,arguments)},K)},count:function(O){var H=0;return B(O,function(){H++}),H},toArray:function(O){return B(O,function(H){return H})||[]},only:function(O){if(!X(O))throw Error("React.Children.only expected to receive a single React element child.");return O}},pe.Component=x,pe.Fragment=r,pe.Profiler=a,pe.PureComponent=I,pe.StrictMode=n,pe.Suspense=u,pe.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=ge,pe.act=Se,pe.cloneElement=function(O,H,K){if(O==null)throw Error("React.cloneElement(...): The argument must be a React element, but you passed "+O+".");var ue=m({},O.props),ne=O.key,ye=O.ref,se=O._owner;if(H!=null){if(H.ref!==void 0&&(ye=H.ref,se=A.current),H.key!==void 0&&(ne=""+H.key),O.type&&O.type.defaultProps)var he=O.type.defaultProps;for(ce in H)N.call(H,ce)&&!T.hasOwnProperty(ce)&&(ue[ce]=H[ce]===void 0&&he!==void 0?he[ce]:H[ce])}var ce=arguments.length-2;if(ce===1)ue.children=K;else if(1<ce){he=Array(ce);for(var we=0;we<ce;we++)he[we]=arguments[we+2];ue.children=he}return{$$typeof:e,type:O.type,key:ne,ref:ye,props:ue,_owner:se}},pe.createContext=function(O){return O={$$typeof:i,_currentValue:O,_currentValue2:O,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null},O.Provider={$$typeof:o,_context:O},O.Consumer=O},pe.createElement=$,pe.createFactory=function(O){var H=$.bind(null,O);return H.type=O,H},pe.createRef=function(){return{current:null}},pe.forwardRef=function(O){return{$$typeof:l,render:O}},pe.isValidElement=X,pe.lazy=function(O){return{$$typeof:d,_payload:{_status:-1,_result:O},_init:Q}},pe.memo=function(O,H){return{$$typeof:c,type:O,compare:H===void 0?null:H}},pe.startTransition=function(O){var H=fe.transition;fe.transition={};try{O()}finally{fe.transition=H}},pe.unstable_act=Se,pe.useCallback=function(O,H){return ae.current.useCallback(O,H)},pe.useContext=function(O){return ae.current.useContext(O)},pe.useDebugValue=function(){},pe.useDeferredValue=function(O){return ae.current.useDeferredValue(O)},pe.useEffect=function(O,H){return ae.current.useEffect(O,H)},pe.useId=function(){return ae.current.useId()},pe.useImperativeHandle=function(O,H,K){return ae.current.useImperativeHandle(O,H,K)},pe.useInsertionEffect=function(O,H){return ae.current.useInsertionEffect(O,H)},pe.useLayoutEffect=function(O,H){return ae.current.useLayoutEffect(O,H)},pe.useMemo=function(O,H){return ae.current.useMemo(O,H)},pe.useReducer=function(O,H,K){return ae.current.useReducer(O,H,K)},pe.useRef=function(O){return ae.current.useRef(O)},pe.useState=function(O){return ae.current.useState(O)},pe.useSyncExternalStore=function(O,H,K){return ae.current.useSyncExternalStore(O,H,K)},pe.useTransition=function(){return ae.current.useTransition()},pe.version="18.3.1",pe}var Ri;function Xa(){return Ri||(Ri=1,Po.exports=Xd()),Po.exports}/**
- * @license React
- * react-jsx-runtime.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var _i;function Jd(){if(_i)return on;_i=1;var e=Xa(),t=Symbol.for("react.element"),r=Symbol.for("react.fragment"),n=Object.prototype.hasOwnProperty,a=e.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,o={key:!0,ref:!0,__self:!0,__source:!0};function i(l,u,c){var d,p={},y=null,w=null;c!==void 0&&(y=""+c),u.key!==void 0&&(y=""+u.key),u.ref!==void 0&&(w=u.ref);for(d in u)n.call(u,d)&&!o.hasOwnProperty(d)&&(p[d]=u[d]);if(l&&l.defaultProps)for(d in u=l.defaultProps,u)p[d]===void 0&&(p[d]=u[d]);return{$$typeof:t,type:l,key:y,ref:w,props:p,_owner:a.current}}return on.Fragment=r,on.jsx=i,on.jsxs=i,on}var Ii;function Zd(){return Ii||(Ii=1,$o.exports=Jd()),$o.exports}var s=Zd(),b=Xa();const Ve=Gd(b);/**
- * react-router v7.17.0
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */var hu=e=>{throw TypeError(e)},Qd=(e,t,r)=>t.has(e)||hu("Cannot "+r),Oo=(e,t,r)=>(Qd(e,t,"read from private field"),r?r.call(e):t.get(e)),Kd=(e,t,r)=>t.has(e)?hu("Cannot add the same private member more than once"):t instanceof WeakSet?t.add(e):t.set(e,r);function me(e,t){if(e===!1||e===null||typeof e>"u")throw new Error(t)}function Ne(e,t){if(!e){typeof console<"u"&&console.warn(t);try{throw new Error(t)}catch{}}}function ef(){return Math.random().toString(36).substring(2,10)}function Ai(e,t,r=null,n,a){return{pathname:typeof e=="string"?e:e.pathname,search:"",hash:"",...typeof t=="string"?ur(t):t,state:r,key:t&&t.key||n||ef(),mask:a}}function Pr({pathname:e="/",search:t="",hash:r=""}){return t&&t!=="?"&&(e+=t.charAt(0)==="?"?t:"?"+t),r&&r!=="#"&&(e+=r.charAt(0)==="#"?r:"#"+r),e}function ur(e){let t={};if(e){let r=e.indexOf("#");r>=0&&(t.hash=e.substring(r),e=e.substring(0,r));let n=e.indexOf("?");n>=0&&(t.search=e.substring(n),e=e.substring(0,n)),e&&(t.pathname=e)}return t}function Mr(e){return{defaultValue:e}}var dn,ar=class{constructor(e){if(Kd(this,dn,new Map),e)for(let[t,r]of e)this.set(t,r)}get(e){if(Oo(this,dn).has(e))return Oo(this,dn).get(e);if(e.defaultValue!==void 0)return e.defaultValue;throw new Error("No value found for context")}set(e,t){Oo(this,dn).set(e,t)}};dn=new WeakMap;var tf=new Set(["lazy","caseSensitive","path","id","index","children"]);function rf(e){return tf.has(e)}var nf=new Set(["lazy","caseSensitive","path","id","index","middleware","children"]);function af(e){return nf.has(e)}function of(e){return e.index===!0}function Ns(e,t,r=[],n={},a=!1){return e.map((o,i)=>{let l=[...r,String(i)],u=typeof o.id=="string"?o.id:l.join("-");if(me(o.index!==!0||!o.children,"Cannot specify children on an index route"),me(a||!n[u],`Found a route id collision on id "${u}".  Route id's must be globally unique within Data Router usages`),of(o)){let c={...o,id:u};return n[u]=Ni(c,t(c)),c}else{let c={...o,id:u,children:void 0};return n[u]=Ni(c,t(c)),o.children&&(c.children=Ns(o.children,t,l,n,a)),c}})}function Ni(e,t){return Object.assign(e,{...t,...typeof t.lazy=="object"&&t.lazy!=null?{lazy:{...e.lazy,...t.lazy}}:{}})}function pu(e,t,r="/"){return gn(e,t,r,!1)}function gn(e,t,r,n,a){let o=typeof t=="string"?ur(t):t,i=We(o.pathname||"/",r);if(i==null)return null;let l=a??mu(e),u=null,c=xf(i);for(let d=0;u==null&&d<l.length;++d)u=gf(l[d],c,n);return u}function sf(e,t){let{route:r,pathname:n,params:a}=e;return{id:r.id,pathname:n,params:a,data:t[r.id],loaderData:t[r.id],handle:r.handle}}function mu(e){let t=yu(e);return lf(t),t}function yu(e,t=[],r=[],n="",a=!1){let o=(i,l,u=a,c)=>{let d={relativePath:c===void 0?i.path||"":c,caseSensitive:i.caseSensitive===!0,childrenIndex:l,route:i};if(d.relativePath.startsWith("/")){if(!d.relativePath.startsWith(n)&&u)return;me(d.relativePath.startsWith(n),`Absolute route path "${d.relativePath}" nested under path "${n}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`),d.relativePath=d.relativePath.slice(n.length)}let p=et([n,d.relativePath]),y=r.concat(d);i.children&&i.children.length>0&&(me(i.index!==!0,`Index routes must not have child routes. Please remove all child routes from route path "${p}".`),yu(i.children,t,y,p,u)),!(i.path==null&&!i.index)&&t.push({path:p,score:mf(p,i.index),routesMeta:y})};return e.forEach((i,l)=>{var u;if(i.path===""||!((u=i.path)!=null&&u.includes("?")))o(i,l);else for(let c of gu(i.path))o(i,l,!0,c)}),t}function gu(e){let t=e.split("/");if(t.length===0)return[];let[r,...n]=t,a=r.endsWith("?"),o=r.replace(/\?$/,"");if(n.length===0)return a?[o,""]:[o];let i=gu(n.join("/")),l=[];return l.push(...i.map(u=>u===""?o:[o,u].join("/"))),a&&l.push(...i),l.map(u=>e.startsWith("/")&&u===""?"/":u)}function lf(e){e.sort((t,r)=>t.score!==r.score?r.score-t.score:yf(t.routesMeta.map(n=>n.childrenIndex),r.routesMeta.map(n=>n.childrenIndex)))}var uf=/^:[\w-]+$/,cf=3,df=2,ff=1,hf=10,pf=-2,Ti=e=>e==="*";function mf(e,t){let r=e.split("/"),n=r.length;return r.some(Ti)&&(n+=pf),t&&(n+=df),r.filter(a=>!Ti(a)).reduce((a,o)=>a+(uf.test(o)?cf:o===""?ff:hf),n)}function yf(e,t){return e.length===t.length&&e.slice(0,-1).every((n,a)=>n===t[a])?e[e.length-1]-t[t.length-1]:0}function gf(e,t,r=!1){let{routesMeta:n}=e,a={},o="/",i=[];for(let l=0;l<n.length;++l){let u=n[l],c=l===n.length-1,d=o==="/"?t:t.slice(o.length)||"/",p=Pa({path:u.relativePath,caseSensitive:u.caseSensitive,end:c},d),y=u.route;if(!p&&c&&r&&!n[n.length-1].route.index&&(p=Pa({path:u.relativePath,caseSensitive:u.caseSensitive,end:!1},d)),!p)return null;Object.assign(a,p.params),i.push({params:a,pathname:et([o,p.pathname]),pathnameBase:Cf(et([o,p.pathnameBase])),route:y}),p.pathnameBase!=="/"&&(o=et([o,p.pathnameBase]))}return i}function Pa(e,t){typeof e=="string"&&(e={path:e,caseSensitive:!1,end:!0});let[r,n]=vf(e.path,e.caseSensitive,e.end),a=t.match(r);if(!a)return null;let o=a[0],i=o.replace(/(.)\/+$/,"$1"),l=a.slice(1);return{params:n.reduce((c,{paramName:d,isOptional:p},y)=>{if(d==="*"){let m=l[y]||"";i=o.slice(0,o.length-m.length).replace(/(.)\/+$/,"$1")}const w=l[y];return p&&!w?c[d]=void 0:c[d]=(w||"").replace(/%2F/g,"/"),c},{}),pathname:o,pathnameBase:i,pattern:e}}function vf(e,t=!1,r=!0){Ne(e==="*"||!e.endsWith("*")||e.endsWith("/*"),`Route path "${e}" will be treated as if it were "${e.replace(/\*$/,"/*")}" because the \`*\` character must always follow a \`/\` in the pattern. To get rid of this warning, please change the route path to "${e.replace(/\*$/,"/*")}".`);let n=[],a="^"+e.replace(/\/*\*?$/,"").replace(/^\/*/,"/").replace(/[\\.*+^${}|()[\]]/g,"\\$&").replace(/\/:([\w-]+)(\?)?/g,(i,l,u,c,d)=>{if(n.push({paramName:l,isOptional:u!=null}),u){let p=d.charAt(c+i.length);return p&&p!=="/"?"/([^\\/]*)":"(?:/([^\\/]*))?"}return"/([^\\/]+)"}).replace(/\/([\w-]+)\?(\/|$)/g,"(/$1)?$2");return e.endsWith("*")?(n.push({paramName:"*"}),a+=e==="*"||e==="/*"?"(.*)$":"(?:\\/(.+)|\\/*)$"):r?a+="\\/*$":e!==""&&e!=="/"&&(a+="(?:(?=\\/|$))"),[new RegExp(a,t?void 0:"i"),n]}function xf(e){try{return e.split("/").map(t=>decodeURIComponent(t).replace(/\//g,"%2F")).join("/")}catch(t){return Ne(!1,`The URL path "${e}" could not be decoded because it is a malformed URL segment. This is probably due to a bad percent encoding (${t}).`),e}}function We(e,t){if(t==="/")return e;if(!e.toLowerCase().startsWith(t.toLowerCase()))return null;let r=t.endsWith("/")?t.length-1:t.length,n=e.charAt(r);return n&&n!=="/"?null:e.slice(r)||"/"}function wf({basename:e,pathname:t}){return t==="/"?e:et([e,t])}var vu=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,bf=e=>vu.test(e);function Sf(e,t="/"){let{pathname:r,search:n="",hash:a=""}=typeof e=="string"?ur(e):e,o;return r?(r=wu(r),r.startsWith("/")?o=$i(r.substring(1),"/"):o=$i(r,t)):o=t,{pathname:o,search:jf(n),hash:Ef(a)}}function $i(e,t){let r=Oa(t).split("/");return e.split("/").forEach(a=>{a===".."?r.length>1&&r.pop():a!=="."&&r.push(a)}),r.length>1?r.join("/"):"/"}function Lo(e,t,r,n){return`Cannot include a '${e}' character in a manually specified \`to.${t}\` field [${JSON.stringify(n)}].  Please separate it out to the \`to.${r}\` field. Alternatively you may provide the full path as a string in <Link to="..."> and the router will parse it for you.`}function xu(e){return e.filter((t,r)=>r===0||t.route.path&&t.route.path.length>0)}function Ts(e){let t=xu(e);return t.map((r,n)=>n===t.length-1?r.pathname:r.pathnameBase)}function Ja(e,t,r,n=!1){let a;typeof e=="string"?a=ur(e):(a={...e},me(!a.pathname||!a.pathname.includes("?"),Lo("?","pathname","search",a)),me(!a.pathname||!a.pathname.includes("#"),Lo("#","pathname","hash",a)),me(!a.search||!a.search.includes("#"),Lo("#","search","hash",a)));let o=e===""||a.pathname==="",i=o?"/":a.pathname,l;if(i==null)l=r;else{let p=t.length-1;if(!n&&i.startsWith("..")){let y=i.split("/");for(;y[0]==="..";)y.shift(),p-=1;a.pathname=y.join("/")}l=p>=0?t[p]:"/"}let u=Sf(a,l),c=i&&i!=="/"&&i.endsWith("/"),d=(o||i===".")&&r.endsWith("/");return!u.pathname.endsWith("/")&&(c||d)&&(u.pathname+="/"),u}var wu=e=>e.replace(/\/\/+/g,"/"),et=e=>wu(e.join("/")),Oa=e=>e.replace(/\/+$/,""),Cf=e=>Oa(e).replace(/^\/*/,"/"),jf=e=>!e||e==="?"?"":e.startsWith("?")?e:"?"+e,Ef=e=>!e||e==="#"?"":e.startsWith("#")?e:"#"+e,kf=class{constructor(e,t){this.type="DataWithResponseInit",this.data=e,this.init=t||null}};function Ct(e,t){return new kf(e,typeof t=="number"?{status:t}:t)}var Et=(e,t=302)=>{let r=t;typeof r=="number"?r={status:r}:typeof r.status>"u"&&(r.status=302);let n=new Headers(r.headers);return n.set("Location",e),new Response(null,{...r,headers:n})},Rf=(e,t)=>{let r=Et(e,t);return r.headers.set("X-Remix-Reload-Document","true"),r},_f=(e,t)=>{let r=Et(e,t);return r.headers.set("X-Remix-Replace","true"),r},kt=class{constructor(e,t,r,n=!1){this.status=e,this.statusText=t||"",this.internal=n,r instanceof Error?(this.data=r.toString(),this.error=r):this.data=r}};function Oe(e){return e!=null&&typeof e.status=="number"&&typeof e.statusText=="string"&&typeof e.internal=="boolean"&&"data"in e}function or(e){let t=e.map(r=>r.route.path).filter(Boolean);return et(t)||"/"}var bu=typeof window<"u"&&typeof window.document<"u"&&typeof window.document.createElement<"u";function Su(e,t){let r=e;if(typeof r!="string"||!vu.test(r))return{absoluteURL:void 0,isExternal:!1,to:r};let n=r,a=!1;if(bu)try{let o=new URL(window.location.href),i=r.startsWith("//")?new URL(o.protocol+r):new URL(r),l=We(i.pathname,t);i.origin===o.origin&&l!=null?r=l+i.search+i.hash:a=!0}catch{Ne(!1,`<Link to="${r}"> contains an invalid URL which will probably break when clicked - please update to a valid URL path.`)}return{absoluteURL:n,isExternal:a,to:r}}var ma=Symbol("Uninstrumented");function If(e,t){let r={lazy:[],"lazy.loader":[],"lazy.action":[],"lazy.middleware":[],middleware:[],loader:[],action:[]};e.forEach(a=>a({id:t.id,index:t.index,path:t.path,instrument(o){let i=Object.keys(r);for(let l of i)o[l]&&r[l].push(o[l])}}));let n={};if(typeof t.lazy=="function"&&r.lazy.length>0){let a=fn(r.lazy,t.lazy,()=>{});a&&(n.lazy=a)}if(typeof t.lazy=="object"){let a=t.lazy;["middleware","loader","action"].forEach(o=>{let i=a[o],l=r[`lazy.${o}`];if(typeof i=="function"&&l.length>0){let u=fn(l,i,()=>{});u&&(n.lazy=Object.assign(n.lazy||{},{[o]:u}))}})}return["loader","action"].forEach(a=>{let o=t[a];if(typeof o=="function"&&r[a].length>0){let i=o[ma]??o,l=fn(r[a],i,(...u)=>Pi(u[0]));l&&(a==="loader"&&i.hydrate===!0&&(l.hydrate=!0),l[ma]=i,n[a]=l)}}),t.middleware&&t.middleware.length>0&&r.middleware.length>0&&(n.middleware=t.middleware.map(a=>{let o=a[ma]??a,i=fn(r.middleware,o,(...l)=>Pi(l[0]));return i?(i[ma]=o,i):a})),n}function Af(e,t){let r={request:[]};t.forEach(a=>a({instrument(o){let i=Object.keys(o);for(let l of i)o[l]&&r[l].push(o[l])}}));let n=e;return r.request.length>0&&(n=fn(r.request,e,(...a)=>{let[o,i]=a;return{request:ju(o),context:i!=null?Eu(i):i}})),n}function fn(e,t,r){return e.length===0?null:async(...n)=>{let a=await Cu(e,r(...n),()=>t(...n),e.length-1);if(a.type==="error")throw a.value;return a.value}}async function Cu(e,t,r,n){let a=e[n],o;if(a){let i,l=async()=>(i?console.error("You cannot call instrumented handlers more than once"):i=Cu(e,t,r,n-1),o=await i,me(o,"Expected a result"),o.type==="error"&&o.value instanceof Error?{status:"error",error:o.value}:{status:"success",error:void 0});try{await a(l,t)}catch(u){console.error("An instrumentation function threw an error:",u)}i||await l(),await i}else try{o={type:"success",value:await r()}}catch(i){o={type:"error",value:i}}return o||{type:"error",value:new Error("No result assigned in instrumentation chain.")}}function Pi(e){let{request:t,context:r,params:n,pattern:a}=e;return{request:ju(t),params:{...n},pattern:a,context:Eu(r)}}function ju(e){return{method:e.method,url:e.url,headers:{get:(...t)=>e.headers.get(...t)}}}function Eu(e){if(Tf(e)){let t={...e};return Object.freeze(t),t}else return{get:t=>e.get(t)}}var Nf=Object.getOwnPropertyNames(Object.prototype).sort().join("\0");function Tf(e){if(e===null||typeof e!="object")return!1;const t=Object.getPrototypeOf(e);return t===Object.prototype||t===null||Object.getOwnPropertyNames(t).sort().join("\0")===Nf}var ku=["POST","PUT","PATCH","DELETE"],$f=new Set(ku),Pf=["GET",...ku],Of=new Set(Pf),Ru=new Set([301,302,303,307,308]),Lf={state:"idle",location:void 0,matches:void 0,historyAction:void 0,formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0},_u={state:"idle",data:void 0,formMethod:void 0,formAction:void 0,formEncType:void 0,formData:void 0,json:void 0,text:void 0},Df={state:"unblocked",proceed:void 0,reset:void 0,location:void 0},Mf=e=>({hasErrorBoundary:!!e.hasErrorBoundary}),Ff=Symbol("ResetLoaderData");function Uf(e,t){me(e.length>0,"You must provide a non-empty routes array to createStaticHandler");let r={},n=(t?t.basename:null)||"/",a=(t==null?void 0:t.mapRouteProperties)||Mf,o=a;if({...t==null?void 0:t.future},t!=null&&t.instrumentations){let m=t.instrumentations;o=S=>({...a(S),...If(m.map(x=>x.route).filter(Boolean),S)})}let i=Ns(e,o,void 0,r),l=mu(i);async function u(m,{requestContext:S,filterMatchesToLoad:x,skipLoaderErrorBubbling:E,skipRevalidation:I,dataStrategy:k,generateMiddlewareResponse:P,normalizePath:N}={}){let A=N||Li,T=m.method,$=Ai("",A(m),null,"default"),V=gn(i,$,n,!1,l);if(S=S??new ar,!Hi(T)&&T!=="HEAD"){let q=bt(405,{method:T}),{matches:G,route:J}=qi(i),Z={basename:n,location:$,matches:G,loaderData:{},actionData:null,errors:{[J.id]:q},statusCode:q.status,loaderHeaders:{},actionHeaders:{}};return P?P(()=>Promise.resolve(Z)):Z}else if(!V){let q=bt(404,{pathname:$.pathname}),{matches:G,route:J}=qi(i),Z={basename:n,location:$,matches:G,loaderData:{},actionData:null,errors:{[J.id]:q},statusCode:q.status,loaderHeaders:{},actionHeaders:{}};return P?P(()=>Promise.resolve(Z)):Z}if(P){me(S instanceof ar,"When using middleware in `staticHandler.query()`, any provided `requestContext` must be an instance of `RouterContextProvider`");try{await Ui(V,r,o);let q,G=await Bi({request:m,url:La(m,$),pattern:or(V),matches:V,params:V[0].params,context:S},async()=>await P(async(Z,B={})=>{let Q=await d(Z,$,V,S,k||null,E===!0,null,"filterMatchesToLoad"in B?B.filterMatchesToLoad??null:x??null,I===!0);return _e(Q)?Q:(q={location:$,basename:n,...Q},q)}),async(J,Z)=>{var B;if(Da(J))return J;if(_e(J))try{J=new kt(J.status,J.statusText,await Tu(J))}catch(Q){J=Q}if(sr(J)&&(J=$u(J)),q){Z in q.loaderData&&(q.loaderData[Z]=void 0);let Q=Iu(i,q,J,E?Z:hn(V,Z).route.id);return P(()=>Promise.resolve(Q))}else{let Q=E?Z:hn(V,((B=V.find(fe=>fe.route.id===Z||fe.route.loader))==null?void 0:B.route.id)||Z).route.id,ae={matches:V,location:$,basename:n,loaderData:{},actionData:null,errors:{[Q]:J},statusCode:Oe(J)?J.status:500,actionHeaders:{},loaderHeaders:{}};return P(()=>Promise.resolve(ae))}});return me(_e(G),"Expected a response in query()"),G}catch(q){if(_e(q))return q;throw q}}let X=await d(m,$,V,S,k||null,E===!0,null,x||null,I===!0);return _e(X)?X:{location:$,basename:n,...X}}async function c(m,{routeId:S,requestContext:x,dataStrategy:E,generateMiddlewareResponse:I,normalizePath:k}={}){let P=k||Li,N=m.method,A=Ai("",P(m),null,"default"),T=gn(i,A,n,!1,l);if(x=x??new ar,!Hi(N)&&N!=="HEAD"&&N!=="OPTIONS")throw bt(405,{method:N});if(!T)throw bt(404,{pathname:A.pathname});let $=S?T.find(q=>q.route.id===S):Vi(T,A);if(S&&!$)throw bt(403,{pathname:A.pathname,routeId:S});if(!$)throw bt(404,{pathname:A.pathname});if(I)return me(x instanceof ar,"When using middleware in `staticHandler.queryRoute()`, any provided `requestContext` must be an instance of `RouterContextProvider`"),await Ui(T,r,o),await Bi({request:m,url:La(m,A),pattern:or(T),matches:T,params:T[0].params,context:x},async()=>await I(async J=>{let Z=await d(J,A,T,x,E||null,!1,$,null,!1),B=X(Z);return _e(B)?B:typeof B=="string"?new Response(B):Response.json(B)}),G=>{if(sr(G))return Promise.resolve(cs(G));if(_e(G))return Promise.resolve(G);throw G});let V=await d(m,A,T,x,E||null,!1,$,null,!1);return X(V);function X(q){if(_e(q))return q;let G=q.errors?Object.values(q.errors)[0]:void 0;if(G!==void 0)throw G;if(q.actionData)return Object.values(q.actionData)[0];if(q.loaderData)return Object.values(q.loaderData)[0]}}async function d(m,S,x,E,I,k,P,N,A){me(m.signal,"query()/queryRoute() requests must contain an AbortController signal");try{if(lr(m.method))return await p(m,S,x,P||Vi(x,S),E,I,k,P!=null,N,A);let T=await y(m,S,x,E,I,k,P,N);return _e(T)?T:{...T,actionData:null,actionHeaders:{}}}catch(T){if(Zf(T)&&_e(T.result)){if(T.type==="error")throw T.result;return T.result}if(Da(T))return T;throw T}}async function p(m,S,x,E,I,k,P,N,A,T){let $;if(!E.route.action&&!E.route.lazy){let q=bt(405,{method:m.method,pathname:new URL(m.url).pathname,routeId:E.route.id});if(N)throw q;$={type:"error",error:q}}else{let q=zi(o,r,m,S,x,E,[],I);$=(await w(m,S,q,N,I,k))[E.route.id],m.signal.aborted&&Oi(m,N)}if(Pu($))throw new Response(null,{status:$.response.status,headers:{Location:$.response.headers.get("Location")}});if(N){if(nr($))throw $.error;return{matches:[E],loaderData:{},actionData:{[E.route.id]:$.data},errors:null,statusCode:200,loaderHeaders:{},actionHeaders:{}}}if(T)if(nr($)){let q=P?E:hn(x,E.route.id);return{statusCode:Oe($.error)?$.error.status:$.statusCode!=null?$.statusCode:500,actionData:null,actionHeaders:{...$.headers?{[E.route.id]:$.headers}:{}},matches:x,loaderData:{},errors:{[q.route.id]:$.error},loaderHeaders:{}}}else return{actionData:{[E.route.id]:$.data},actionHeaders:$.headers?{[E.route.id]:$.headers}:{},matches:x,loaderData:{},errors:null,statusCode:$.statusCode||200,loaderHeaders:{}};let V=new Request(m.url,{headers:m.headers,redirect:m.redirect,signal:m.signal});if(nr($)){let q=P?E:hn(x,E.route.id);return{...await y(V,S,x,I,k,P,null,A,[q.route.id,$]),statusCode:Oe($.error)?$.error.status:$.statusCode!=null?$.statusCode:500,actionData:null,actionHeaders:{...$.headers?{[E.route.id]:$.headers}:{}}}}return{...await y(V,S,x,I,k,P,null,A),actionData:{[E.route.id]:$.data},...$.statusCode?{statusCode:$.statusCode}:{},actionHeaders:$.headers?{[E.route.id]:$.headers}:{}}}async function y(m,S,x,E,I,k,P,N,A){let T=P!=null;if(T&&!(P!=null&&P.route.loader)&&!(P!=null&&P.route.lazy))throw bt(400,{method:m.method,pathname:new URL(m.url).pathname,routeId:P==null?void 0:P.route.id});let $;if(P)$=zi(o,r,m,S,x,P,[],E);else{let q=A&&nr(A[1])?x.findIndex(J=>J.route.id===A[0])-1:void 0,G=or(x);$=x.map((J,Z)=>q!=null&&Z>q?us(o,r,m,S,G,J,[],E,!1):us(o,r,m,S,G,J,[],E,(J.route.loader||J.route.lazy)!=null&&(!N||N(J))))}if(!I&&!$.some(q=>q.shouldLoad))return{matches:x,loaderData:{},errors:A&&nr(A[1])?{[A[0]]:A[1].error}:null,statusCode:200,loaderHeaders:{}};let V=await w(m,S,$,T,E,I);return m.signal.aborted&&Oi(m,T),{...Jf(x,V,A,!0,k),matches:x}}async function w(m,S,x,E,I,k){let P=await Wf(k||Hf,m,S,x,null,I),N={};return await Promise.all(x.map(async A=>{if(!(A.route.id in P))return;let T=P[A.route.id];if(Qf(T)){let $=T.result;throw Xf($,m,A.route.id,x,n)}if(E){if(_e(T.result))throw T;if(sr(T.result))throw cs(T.result)}N[A.route.id]=await Gf(T)})),N}return{dataRoutes:i,_internalRouteBranches:l,query:u,queryRoute:c}}function Iu(e,t,r,n){let a=n||t._deepestRenderedBoundaryId||e[0].id;return{...t,statusCode:Oe(r)?r.status:500,errors:{[a]:r}}}function Oi(e,t){if(e.signal.reason!==void 0)throw e.signal.reason;let r=t?"queryRoute":"query";throw new Error(`${r}() call aborted without an \`AbortSignal.reason\`: ${e.method} ${e.url}`)}function Li(e){let t=new URL(e.url);return{pathname:t.pathname,search:t.search,hash:t.hash}}function Bf(e,t,r,n,a,o){let i,l;i=t,l=t[t.length-1];let u=Ja(n||".",Ts(i),We(e.pathname,r)||e.pathname,o==="path");if(n==null&&(u.search=e.search,u.hash=e.hash),(n==null||n===""||n===".")&&l){let c=Ou(u.search);if(l.route.index&&!c)u.search=u.search?u.search.replace(/^\?/,"?index&"):"?index";else if(!l.route.index&&c){let d=new URLSearchParams(u.search),p=d.getAll("index");d.delete("index"),p.filter(w=>w).forEach(w=>d.append("index",w));let y=d.toString();u.search=y?`?${y}`:""}}return r!=="/"&&(u.pathname=wf({basename:r,pathname:u.pathname})),Pr(u)}function Di(e,t){if(e.route.shouldRevalidate){let r=e.route.shouldRevalidate(t);if(typeof r=="boolean")return r}return t.defaultShouldRevalidate}var Mi=new WeakMap,$s=({key:e,route:t,manifest:r,mapRouteProperties:n})=>{let a=r[t.id];if(me(a,"No route found in manifest"),!a.lazy||typeof a.lazy!="object")return;let o=a.lazy[e];if(!o)return;let i=Mi.get(a);i||(i={},Mi.set(a,i));let l=i[e];if(l)return l;let u=(async()=>{let c=rf(e),p=a[e]!==void 0&&e!=="hasErrorBoundary";if(c)Ne(!c,"Route property "+e+" is not a supported lazy route property. This property will be ignored."),i[e]=Promise.resolve();else if(p)Ne(!1,`Route "${a.id}" has a static property "${e}" defined. The lazy property will be ignored.`);else{let y=await o();y!=null&&(Object.assign(a,{[e]:y}),Object.assign(a,n(a)))}typeof a.lazy=="object"&&(a.lazy[e]=void 0,Object.values(a.lazy).every(y=>y===void 0)&&(a.lazy=void 0))})();return i[e]=u,u},Fi=new WeakMap;function zf(e,t,r,n,a){let o=r[e.id];if(me(o,"No route found in manifest"),!e.lazy)return{lazyRoutePromise:void 0,lazyHandlerPromise:void 0};if(typeof e.lazy=="function"){let d=Fi.get(o);if(d)return{lazyRoutePromise:d,lazyHandlerPromise:d};let p=(async()=>{me(typeof e.lazy=="function","No lazy route function found");let y=await e.lazy(),w={};for(let m in y){let S=y[m];if(S===void 0)continue;let x=af(m),I=o[m]!==void 0&&m!=="hasErrorBoundary";x?Ne(!x,"Route property "+m+" is not a supported property to be returned from a lazy route function. This property will be ignored."):I?Ne(!I,`Route "${o.id}" has a static property "${m}" defined but its lazy function is also returning a value for this property. The lazy route property "${m}" will be ignored.`):w[m]=S}Object.assign(o,w),Object.assign(o,{...n(o),lazy:void 0})})();return Fi.set(o,p),p.catch(()=>{}),{lazyRoutePromise:p,lazyHandlerPromise:p}}let i=Object.keys(e.lazy),l=[],u;for(let d of i){if(a&&a.includes(d))continue;let p=$s({key:d,route:e,manifest:r,mapRouteProperties:n});p&&(l.push(p),d===t&&(u=p))}let c=l.length>0?Promise.all(l).then(()=>{}):void 0;return c==null||c.catch(()=>{}),u==null||u.catch(()=>{}),{lazyRoutePromise:c,lazyHandlerPromise:u}}function qf(e){return e!==void 0}function Ui(e,t,r){let n=e.map(({route:a})=>{if(!(typeof a.lazy!="object"||!a.lazy.middleware))return $s({key:"middleware",route:a,manifest:t,mapRouteProperties:r})}).filter(qf);return n.length>0?Promise.all(n):void 0}async function Hf(e){let t=e.matches.filter(a=>a.shouldLoad),r={};return(await Promise.all(t.map(a=>a.resolve()))).forEach((a,o)=>{r[t[o].route.id]=a}),r}function Bi(e,t,r){return Vf(e,t,n,_e,r);function n(a){return sr(a)?cs(a):a}}async function Vf(e,t,r,n,a){let{matches:o,...i}=e,l=o.flatMap(c=>c.route.middleware?c.route.middleware.map(d=>[c.route.id,d]):[]);return await Au(i,l,t,r,n,a)}async function Au(e,t,r,n,a,o,i=0){let{request:l}=e;if(l.signal.aborted)throw l.signal.reason??new Error(`Request aborted: ${l.method} ${l.url}`);let u=t[i];if(!u)return await r();let[c,d]=u,p,y=async()=>{if(p)throw new Error("You may only call `next()` once per middleware");try{return p={value:await Au(e,t,r,n,a,o,i+1)},p.value}catch(w){return p={value:await o(w,c,p)},p.value}};try{let w=await d(e,y),m=w!=null?n(w):void 0;return a(m)?m:p?m??p.value:(p={value:await y()},p.value)}catch(w){return await o(w,c,p)}}function Nu(e,t,r,n,a){let o=$s({key:"middleware",route:n.route,manifest:t,mapRouteProperties:e}),i=zf(n.route,lr(r.method)?"action":"loader",t,e,a);return{middleware:o,route:i.lazyRoutePromise,handler:i.lazyHandlerPromise}}function us(e,t,r,n,a,o,i,l,u,c=null,d){let p=!1,y=Nu(e,t,r,o,i);return{...o,_lazyPromises:y,shouldLoad:u,shouldRevalidateArgs:c,shouldCallHandler(w){return p=!0,c?typeof w=="boolean"?Di(o,{...c,defaultShouldRevalidate:w}):Di(o,c):u},resolve(w){let{lazy:m,loader:S,middleware:x}=o.route,E=p||u||w&&!lr(r.method)&&(m||S),I=x&&x.length>0&&!S&&!m;return E&&(lr(r.method)||!I)?Yf({request:r,path:n,pattern:a,match:o,lazyHandlerPromise:y==null?void 0:y.handler,lazyRoutePromise:y==null?void 0:y.route,handlerOverride:w,scopedContext:l}):Promise.resolve({type:"data",result:void 0})}}}function zi(e,t,r,n,a,o,i,l,u=null){return a.map(c=>c.route.id!==o.route.id?{...c,shouldLoad:!1,shouldRevalidateArgs:u,shouldCallHandler:()=>!1,_lazyPromises:Nu(e,t,r,c,i),resolve:()=>Promise.resolve({type:"data",result:void 0})}:us(e,t,r,n,or(a),c,i,l,!0,u))}async function Wf(e,t,r,n,a,o,i){n.some(d=>{var p;return(p=d._lazyPromises)==null?void 0:p.middleware})&&await Promise.all(n.map(d=>{var p;return(p=d._lazyPromises)==null?void 0:p.middleware}));let l={request:t,url:La(t,r),pattern:or(n),params:n[0].params,context:o,matches:n},c=await e({...l,fetcherKey:a,runClientMiddleware:()=>{throw new Error("You cannot call `runClientMiddleware()` from a static handler `dataStrategy`. Middleware is run outside of `dataStrategy` during SSR in order to bubble up the Response.  You can enable middleware via the `respond` API in `query`/`queryRoute`")}});try{await Promise.all(n.flatMap(d=>{var p,y;return[(p=d._lazyPromises)==null?void 0:p.handler,(y=d._lazyPromises)==null?void 0:y.route]}))}catch{}return c}async function Yf({request:e,path:t,pattern:r,match:n,lazyHandlerPromise:a,lazyRoutePromise:o,handlerOverride:i,scopedContext:l}){let u,c,d=lr(e.method),p=d?"action":"loader",y=w=>{let m,S=new Promise((I,k)=>m=k);c=()=>m(),e.signal.addEventListener("abort",c);let x=I=>typeof w!="function"?Promise.reject(new Error(`You cannot call the handler for a route which defines a boolean "${p}" [routeId: ${n.route.id}]`)):w({request:e,url:La(e,t),pattern:r,params:n.params,context:l},...I!==void 0?[I]:[]),E=(async()=>{try{return{type:"data",result:await(i?i(k=>x(k)):x())}}catch(I){return{type:"error",result:I}}})();return Promise.race([E,S])};try{let w=d?n.route.action:n.route.loader;if(a||o)if(w){let m,[S]=await Promise.all([y(w).catch(x=>{m=x}),a,o]);if(m!==void 0)throw m;u=S}else{await a;let m=d?n.route.action:n.route.loader;if(m)[u]=await Promise.all([y(m),o]);else if(p==="action"){let S=new URL(e.url),x=S.pathname+S.search;throw bt(405,{method:e.method,pathname:x,routeId:n.route.id})}else return{type:"data",result:void 0}}else if(w)u=await y(w);else{let m=new URL(e.url),S=m.pathname+m.search;throw bt(404,{pathname:S})}}catch(w){return{type:"error",result:w}}finally{c&&e.signal.removeEventListener("abort",c)}return u}async function Tu(e){let t=e.headers.get("Content-Type");return t&&/\bapplication\/json\b/.test(t)?e.body==null?null:e.json():e.text()}async function Gf(e){var n,a,o,i,l;let{result:t,type:r}=e;if(_e(t)){let u;try{u=await Tu(t)}catch(c){return{type:"error",error:c}}return r==="error"?{type:"error",error:new kt(t.status,t.statusText,u),statusCode:t.status,headers:t.headers}:{type:"data",data:u,statusCode:t.status,headers:t.headers}}return r==="error"?sr(t)?t.data instanceof Error?{type:"error",error:t.data,statusCode:(n=t.init)==null?void 0:n.status,headers:(a=t.init)!=null&&a.headers?new Headers(t.init.headers):void 0}:{type:"error",error:$u(t),statusCode:Oe(t)?t.status:void 0,headers:(o=t.init)!=null&&o.headers?new Headers(t.init.headers):void 0}:{type:"error",error:t,statusCode:Oe(t)?t.status:void 0}:sr(t)?{type:"data",data:t.data,statusCode:(i=t.init)==null?void 0:i.status,headers:(l=t.init)!=null&&l.headers?new Headers(t.init.headers):void 0}:{type:"data",data:t}}function Xf(e,t,r,n,a){let o=e.headers.get("Location");if(me(o,"Redirects returned/thrown from loaders/actions must have a Location header"),!bf(o)){let i=n.slice(0,n.findIndex(l=>l.route.id===r)+1);o=Bf(new URL(t.url),i,a,o),e.headers.set("Location",o)}return e}function La(e,t){let r=new URL(e.url),n=typeof t=="string"?ur(t):t;if(r.pathname=n.pathname||"/",n.search){let a=new URLSearchParams(n.search),o=a.getAll("index");a.delete("index");for(let i of o.filter(Boolean))a.append("index",i);r.search=a.size?`?${a.toString()}`:""}else r.search="";return r.hash=n.hash||"",r}function Jf(e,t,r,n=!1,a=!1){let o={},i=null,l,u=!1,c={},d=r&&nr(r[1])?r[1].error:void 0;return e.forEach(p=>{if(!(p.route.id in t))return;let y=p.route.id,w=t[y];if(me(!Pu(w),"Cannot handle redirect results in processLoaderData"),nr(w)){let m=w.error;if(d!==void 0&&(m=d,d=void 0),i=i||{},a)i[y]=m;else{let S=hn(e,y);i[S.route.id]==null&&(i[S.route.id]=m)}n||(o[y]=Ff),u||(u=!0,l=Oe(w.error)?w.error.status:500),w.headers&&(c[y]=w.headers)}else o[y]=w.data,w.statusCode&&w.statusCode!==200&&!u&&(l=w.statusCode),w.headers&&(c[y]=w.headers)}),d!==void 0&&r&&(i={[r[0]]:d},r[2]&&(o[r[2]]=void 0)),{loaderData:o,errors:i,statusCode:l||200,loaderHeaders:c}}function hn(e,t){return(t?e.slice(0,e.findIndex(n=>n.route.id===t)+1):[...e]).reverse().find(n=>n.route.hasErrorBoundary===!0)||e[0]}function qi(e){let t=e.length===1?e[0]:e.find(r=>r.index||!r.path||r.path==="/")||{id:"__shim-error-route__"};return{matches:[{params:{},pathname:"",pathnameBase:"",route:t}],route:t}}function bt(e,{pathname:t,routeId:r,method:n,type:a,message:o}={}){let i="Unknown Server Error",l="Unknown @remix-run/router error";return e===400?(i="Bad Request",n&&t&&r?l=`You made a ${n} request to "${t}" but did not provide a \`loader\` for route "${r}", so there is no way to handle the request.`:a==="invalid-body"&&(l="Unable to encode submission body")):e===403?(i="Forbidden",l=`Route "${r}" does not match URL "${t}"`):e===404?(i="Not Found",l=`No route matches URL "${t}"`):e===405&&(i="Method Not Allowed",n&&t&&r?l=`You made a ${n.toUpperCase()} request to "${t}" but did not provide an \`action\` for route "${r}", so there is no way to handle the request.`:n&&(l=`Invalid request method "${n.toUpperCase()}"`)),new kt(e||500,i,new Error(l),!0)}function cs(e){return Response.json(e.data,e.init??void 0)}function $u(e){var t,r;return new kt(((t=e.init)==null?void 0:t.status)??500,((r=e.init)==null?void 0:r.statusText)??"Internal Server Error",e.data)}function Zf(e){return e!=null&&typeof e=="object"&&"type"in e&&"result"in e&&(e.type==="data"||e.type==="error")}function Qf(e){return _e(e.result)&&Ru.has(e.result.status)}function nr(e){return e.type==="error"}function Pu(e){return(e&&e.type)==="redirect"}function sr(e){return typeof e=="object"&&e!=null&&"type"in e&&"data"in e&&"init"in e&&e.type==="DataWithResponseInit"}function _e(e){return e!=null&&typeof e.status=="number"&&typeof e.statusText=="string"&&typeof e.headers=="object"&&typeof e.body<"u"}function Za(e){return Ru.has(e)}function Da(e){return _e(e)&&Za(e.status)&&e.headers.has("Location")}function Hi(e){return Of.has(e.toUpperCase())}function lr(e){return $f.has(e.toUpperCase())}function Ou(e){return new URLSearchParams(e).getAll("index").some(t=>t==="")}function Vi(e,t){let r=typeof t=="string"?ur(t).search:t.search;if(e[e.length-1].route.index&&Ou(r||""))return e[e.length-1];let n=xu(e);return n[n.length-1]}var qt=b.createContext(null);qt.displayName="DataRouter";var cr=b.createContext(null);cr.displayName="DataRouterState";var Lu=b.createContext(!1);function Du(){return b.useContext(Lu)}var Ps=b.createContext({isTransitioning:!1});Ps.displayName="ViewTransition";var Os=b.createContext(new Map);Os.displayName="Fetchers";var Ma=b.createContext(null);Ma.displayName="Await";var Ge=b.createContext(null);Ge.displayName="Navigation";var Qa=b.createContext(null);Qa.displayName="Location";var st=b.createContext({outlet:null,matches:[],isDataRoute:!1});st.displayName="Route";var Ls=b.createContext(null);Ls.displayName="RouteError";var Mu="REACT_ROUTER_ERROR",Kf="REDIRECT",eh="ROUTE_ERROR_RESPONSE";function th(e){if(e.startsWith(`${Mu}:${Kf}:{`))try{let t=JSON.parse(e.slice(28));if(typeof t=="object"&&t&&typeof t.status=="number"&&typeof t.statusText=="string"&&typeof t.location=="string"&&typeof t.reloadDocument=="boolean"&&typeof t.replace=="boolean")return t}catch{}}function rh(e){if(e.startsWith(`${Mu}:${eh}:{`))try{let t=JSON.parse(e.slice(40));if(typeof t=="object"&&t&&typeof t.status=="number"&&typeof t.statusText=="string")return new kt(t.status,t.statusText,t.data)}catch{}}function nh(e,{relative:t}={}){me(Cn(),"useHref() may be used only in the context of a <Router> component.");let{basename:r,navigator:n}=b.useContext(Ge),{hash:a,pathname:o,search:i}=En(e,{relative:t}),l=o;return r!=="/"&&(l=o==="/"?r:et([r,o])),n.createHref({pathname:l,search:i,hash:a})}function Cn(){return b.useContext(Qa)!=null}function Ae(){return me(Cn(),"useLocation() may be used only in the context of a <Router> component."),b.useContext(Qa).location}var Fu="You should call navigate() in a React.useEffect(), not when your component is first rendered.";function Uu(e){b.useContext(Ge).static||b.useLayoutEffect(e)}function jn(){let{isDataRoute:e}=b.useContext(st);return e?mh():ah()}function ah(){me(Cn(),"useNavigate() may be used only in the context of a <Router> component.");let e=b.useContext(qt),{basename:t,navigator:r}=b.useContext(Ge),{matches:n}=b.useContext(st),{pathname:a}=Ae(),o=JSON.stringify(Ts(n)),i=b.useRef(!1);return Uu(()=>{i.current=!0}),b.useCallback((u,c={})=>{if(Ne(i.current,Fu),!i.current)return;if(typeof u=="number"){r.go(u);return}let d=Ja(u,JSON.parse(o),a,c.relative==="path");e==null&&t!=="/"&&(d.pathname=d.pathname==="/"?t:et([t,d.pathname])),(c.replace?r.replace:r.push)(d,c.state,c)},[t,r,o,a,e])}var Bu=b.createContext(null);function Ds(){return b.useContext(Bu)}function oh(e){let t=b.useContext(st).outlet;return b.useMemo(()=>t&&b.createElement(Bu.Provider,{value:e},t),[t,e])}function zu(){let{matches:e}=b.useContext(st),t=e[e.length-1];return(t==null?void 0:t.params)??{}}function En(e,{relative:t}={}){let{matches:r}=b.useContext(st),{pathname:n}=Ae(),a=JSON.stringify(Ts(r));return b.useMemo(()=>Ja(e,JSON.parse(a),n,t==="path"),[e,a,n,t])}function sh(e,t,r){me(Cn(),"useRoutes() may be used only in the context of a <Router> component.");let{navigator:n}=b.useContext(Ge),{matches:a}=b.useContext(st),o=a[a.length-1],i=o?o.params:{},l=o?o.pathname:"/",u=o?o.pathnameBase:"/",c=o&&o.route;{let x=c&&c.path||"";Yu(l,!c||x.endsWith("*")||x.endsWith("*?"),`You rendered descendant <Routes> (or called \`useRoutes()\`) at "${l}" (under <Route path="${x}">) but the parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
+import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
+import { PassThrough } from 'node:stream';
+import { createReadableStreamFromReadable } from '@react-router/node';
+import { ServerRouter, Await, NavLink, useLocation, useFetcher, useAsyncValue, Link, useNavigate, UNSAFE_withComponentProps, useRouteLoaderData, Outlet, UNSAFE_withErrorBoundaryProps, useRouteError, isRouteErrorResponse, Meta, Links, ScrollRestoration, Scripts, useLoaderData, useSearchParams, data, redirect, useRevalidator, useActionData, Form, useOutletContext } from 'react-router';
+import { isbot } from 'isbot';
+import { renderToPipeableStream } from 'react-dom/server';
+import { createContentSecurityPolicy, CartForm, useOptimisticCart, useAnalytics, Money, Image, Analytics, useNonce, getShopAnalytics, VariantSelector, getSelectedProductOptions, getSitemap, getPaginationVariables, getSitemapIndex } from '@shopify/hydrogen';
+import { createContext, useEffect, useContext, useState, Suspense, useRef, useMemo, useId } from 'react';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
 
-Please change the parent <Route path="${x}"> to <Route path="${x==="/"?"*":`${x}/*`}">.`)}let d=Ae(),p;p=d;let y=p.pathname||"/",w=y;if(u!=="/"){let x=u.replace(/^\//,"").split("/");w="/"+y.replace(/^\//,"").split("/").slice(x.length).join("/")}let m=r&&r.state.matches.length?r.state.matches.map(x=>Object.assign(x,{route:r.manifest[x.route.id]||x.route})):pu(e,{pathname:w});return Ne(c||m!=null,`No routes matched location "${p.pathname}${p.search}${p.hash}" `),Ne(m==null||m[m.length-1].route.element!==void 0||m[m.length-1].route.Component!==void 0||m[m.length-1].route.lazy!==void 0,`Matched leaf route at location "${p.pathname}${p.search}${p.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`),dh(m&&m.map(x=>Object.assign({},x,{params:Object.assign({},i,x.params),pathname:et([u,n.encodeLocation?n.encodeLocation(x.pathname.replace(/%/g,"%25").replace(/\?/g,"%3F").replace(/#/g,"%23")).pathname:x.pathname]),pathnameBase:x.pathnameBase==="/"?u:et([u,n.encodeLocation?n.encodeLocation(x.pathnameBase.replace(/%/g,"%25").replace(/\?/g,"%3F").replace(/#/g,"%23")).pathname:x.pathnameBase])})),a,r)}function ih(){let e=eo(),t=Oe(e)?`${e.status} ${e.statusText}`:e instanceof Error?e.message:JSON.stringify(e),r=e instanceof Error?e.stack:null,n="rgba(200,200,200, 0.5)",a={padding:"0.5rem",backgroundColor:n},o={padding:"2px 4px",backgroundColor:n},i=null;return console.error("Error handled by React Router default ErrorBoundary:",e),i=b.createElement(b.Fragment,null,b.createElement("p",null,"💿 Hey developer 👋"),b.createElement("p",null,"You can provide a way better UX than this when your app throws errors by providing your own ",b.createElement("code",{style:o},"ErrorBoundary")," or"," ",b.createElement("code",{style:o},"errorElement")," prop on your route.")),b.createElement(b.Fragment,null,b.createElement("h2",null,"Unexpected Application Error!"),b.createElement("h3",{style:{fontStyle:"italic"}},t),r?b.createElement("pre",{style:a},r):null,i)}var lh=b.createElement(ih,null),qu=class extends b.Component{constructor(e){super(e),this.state={location:e.location,revalidation:e.revalidation,error:e.error}}static getDerivedStateFromError(e){return{error:e}}static getDerivedStateFromProps(e,t){return t.location!==e.location||t.revalidation!=="idle"&&e.revalidation==="idle"?{error:e.error,location:e.location,revalidation:e.revalidation}:{error:e.error!==void 0?e.error:t.error,location:t.location,revalidation:e.revalidation||t.revalidation}}componentDidCatch(e,t){this.props.onError?this.props.onError(e,t):console.error("React Router caught the following error during render",e)}render(){let e=this.state.error;if(this.context&&typeof e=="object"&&e&&"digest"in e&&typeof e.digest=="string"){const r=rh(e.digest);r&&(e=r)}let t=e!==void 0?b.createElement(st.Provider,{value:this.props.routeContext},b.createElement(Ls.Provider,{value:e,children:this.props.component})):this.props.children;return this.context?b.createElement(uh,{error:e},t):t}};qu.contextType=Lu;var Do=new WeakMap;function uh({children:e,error:t}){let{basename:r}=b.useContext(Ge);if(typeof t=="object"&&t&&"digest"in t&&typeof t.digest=="string"){let n=th(t.digest);if(n){let a=Do.get(t);if(a)throw a;let o=Su(n.location,r);if(bu&&!Do.get(t))if(o.isExternal||n.reloadDocument)window.location.href=o.absoluteURL||o.to;else{const i=Promise.resolve().then(()=>window.__reactRouterDataRouter.navigate(o.to,{replace:n.replace}));throw Do.set(t,i),i}return b.createElement("meta",{httpEquiv:"refresh",content:`0;url=${o.absoluteURL||o.to}`})}}return e}function ch({routeContext:e,match:t,children:r}){let n=b.useContext(qt);return n&&n.static&&n.staticContext&&(t.route.errorElement||t.route.ErrorBoundary)&&(n.staticContext._deepestRenderedBoundaryId=t.route.id),b.createElement(st.Provider,{value:e},r)}function dh(e,t=[],r){let n=r==null?void 0:r.state;if(e==null){if(!n)return null;if(n.errors)e=n.matches;else if(t.length===0&&!n.initialized&&n.matches.length>0)e=n.matches;else return null}let a=e,o=n==null?void 0:n.errors;if(o!=null){let d=a.findIndex(p=>p.route.id&&(o==null?void 0:o[p.route.id])!==void 0);me(d>=0,`Could not find a matching route for errors on route IDs: ${Object.keys(o).join(",")}`),a=a.slice(0,Math.min(a.length,d+1))}let i=!1,l=-1;if(r&&n){i=n.renderFallback;for(let d=0;d<a.length;d++){let p=a[d];if((p.route.HydrateFallback||p.route.hydrateFallbackElement)&&(l=d),p.route.id){let{loaderData:y,errors:w}=n,m=p.route.loader&&!y.hasOwnProperty(p.route.id)&&(!w||w[p.route.id]===void 0);if(p.route.lazy||m){r.isStatic&&(i=!0),l>=0?a=a.slice(0,l+1):a=[a[0]];break}}}}let u=r==null?void 0:r.onError,c=n&&u?(d,p)=>{var y,w;u(d,{location:n.location,params:((w=(y=n.matches)==null?void 0:y[0])==null?void 0:w.params)??{},pattern:or(n.matches),errorInfo:p})}:void 0;return a.reduceRight((d,p,y)=>{let w,m=!1,S=null,x=null;n&&(w=o&&p.route.id?o[p.route.id]:void 0,S=p.route.errorElement||lh,i&&(l<0&&y===0?(Yu("route-fallback",!1,"No `HydrateFallback` element provided to render during initial hydration"),m=!0,x=null):l===y&&(m=!0,x=p.route.hydrateFallbackElement||null)));let E=t.concat(a.slice(0,y+1)),I=()=>{let k;return w?k=S:m?k=x:p.route.Component?k=b.createElement(p.route.Component,null):p.route.element?k=p.route.element:k=d,b.createElement(ch,{match:p,routeContext:{outlet:d,matches:E,isDataRoute:n!=null},children:k})};return n&&(p.route.ErrorBoundary||p.route.errorElement||y===0)?b.createElement(qu,{location:n.location,revalidation:n.revalidation,component:S,error:w,children:I(),routeContext:{outlet:null,matches:E,isDataRoute:!0},onError:c}):I()},null)}function Ms(e){return`${e} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`}function Hu(e){let t=b.useContext(qt);return me(t,Ms(e)),t}function dr(e){let t=b.useContext(cr);return me(t,Ms(e)),t}function fh(e){let t=b.useContext(st);return me(t,Ms(e)),t}function kn(e){let t=fh(e),r=t.matches[t.matches.length-1];return me(r.route.id,`${e} can only be used on routes that contain a unique "id"`),r.route.id}function hh(){return kn("useRouteId")}function Ka(){let e=dr("useNavigation");return b.useMemo(()=>{let{matches:t,historyAction:r,...n}=e.navigation;return n},[e.navigation])}function Vu(){let e=Hu("useRevalidator"),t=dr("useRevalidator"),r=b.useCallback(async()=>{await e.router.revalidate()},[e.router]);return b.useMemo(()=>({revalidate:r,state:t.revalidation}),[r,t.revalidation])}function Fs(){let{matches:e,loaderData:t}=dr("useMatches");return b.useMemo(()=>e.map(r=>sf(r,t)),[e,t])}function Te(){let e=dr("useLoaderData"),t=kn("useLoaderData");return e.loaderData[t]}function ph(e){return dr("useRouteLoaderData").loaderData[e]}function Rn(){let e=dr("useActionData"),t=kn("useLoaderData");return e.actionData?e.actionData[t]:void 0}function eo(){var n;let e=b.useContext(Ls),t=dr("useRouteError"),r=kn("useRouteError");return e!==void 0?e:(n=t.errors)==null?void 0:n[r]}function Wu(){let e=b.useContext(Ma);return e==null?void 0:e._data}function mh(){let{router:e}=Hu("useNavigate"),t=kn("useNavigate"),r=b.useRef(!1);return Uu(()=>{r.current=!0}),b.useCallback(async(a,o={})=>{Ne(r.current,Fu),r.current&&(typeof a=="number"?await e.navigate(a):await e.navigate(a,{fromRouteId:t,...o}))},[e,t])}var Wi={};function Yu(e,t,r){!t&&!Wi[e]&&(Wi[e]=!0,Ne(!1,r))}var Yi={};function Us(e,t){!e&&!Yi[t]&&(Yi[t]=!0,console.warn(t))}function yh(e){let t={hasErrorBoundary:e.hasErrorBoundary||e.ErrorBoundary!=null||e.errorElement!=null};return e.Component&&(e.element&&Ne(!1,"You should not include both `Component` and `element` on your route - `Component` will be used."),Object.assign(t,{element:b.createElement(e.Component),Component:void 0})),e.HydrateFallback&&(e.hydrateFallbackElement&&Ne(!1,"You should not include both `HydrateFallback` and `hydrateFallbackElement` on your route - `HydrateFallback` will be used."),Object.assign(t,{hydrateFallbackElement:b.createElement(e.HydrateFallback),HydrateFallback:void 0})),e.ErrorBoundary&&(e.errorElement&&Ne(!1,"You should not include both `ErrorBoundary` and `errorElement` on your route - `ErrorBoundary` will be used."),Object.assign(t,{errorElement:b.createElement(e.ErrorBoundary),ErrorBoundary:void 0})),t}b.memo(Gu);function Gu({routes:e,manifest:t,future:r,state:n,isStatic:a,onError:o}){return sh(e,void 0,{manifest:t,state:n,isStatic:a,onError:o})}function Fa(e){return oh(e.context)}function gh({basename:e="/",children:t=null,location:r,navigationType:n="POP",navigator:a,static:o=!1,useTransitions:i}){me(!Cn(),"You cannot render a <Router> inside another <Router>. You should never have more than one in your app.");let l=e.replace(/^\/*/,"/"),u=b.useMemo(()=>({basename:l,navigator:a,static:o,useTransitions:i,future:{}}),[l,a,o,i]);typeof r=="string"&&(r=ur(r));let{pathname:c="/",search:d="",hash:p="",state:y=null,key:w="default",mask:m}=r,S=b.useMemo(()=>{let x=We(c,l);return x==null?null:{location:{pathname:x,search:d,hash:p,state:y,key:w,mask:m},navigationType:n}},[l,c,d,p,y,w,n,m]);return Ne(S!=null,`<Router basename="${l}"> is not able to match the URL "${c}${d}${p}" because it does not start with the basename, so the <Router> won't render anything.`),S==null?null:b.createElement(Ge.Provider,{value:u},b.createElement(Qa.Provider,{children:t,value:S}))}function Or({children:e,errorElement:t,resolve:r}){let n=b.useContext(qt),a=b.useContext(cr),o=b.useCallback((i,l)=>{var u;n&&n.onError&&a&&n.onError(i,{location:a.location,params:((u=a.matches[0])==null?void 0:u.params)||{},pattern:or(a.matches),errorInfo:l})},[n,a]);return b.createElement(vh,{resolve:r,errorElement:t,onError:o},b.createElement(xh,null,e))}var vh=class extends b.Component{constructor(e){super(e),this.state={error:null}}static getDerivedStateFromError(e){return{error:e}}componentDidCatch(e,t){this.props.onError?this.props.onError(e,t):console.error("<Await> caught the following error during render",e,t)}render(){let{children:e,errorElement:t,resolve:r}=this.props,n=null,a=0;if(!(r instanceof Promise))a=1,n=Promise.resolve(),Object.defineProperty(n,"_tracked",{get:()=>!0}),Object.defineProperty(n,"_data",{get:()=>r});else if(this.state.error){a=2;let o=this.state.error;n=Promise.reject().catch(()=>{}),Object.defineProperty(n,"_tracked",{get:()=>!0}),Object.defineProperty(n,"_error",{get:()=>o})}else r._tracked?(n=r,a="_error"in n?2:"_data"in n?1:0):(a=0,Object.defineProperty(r,"_tracked",{get:()=>!0}),n=r.then(o=>Object.defineProperty(r,"_data",{get:()=>o}),o=>{var i,l;(l=(i=this.props).onError)==null||l.call(i,o),Object.defineProperty(r,"_error",{get:()=>o})}));if(a===2&&!t)throw n._error;if(a===2)return b.createElement(Ma.Provider,{value:n,children:t});if(a===1)return b.createElement(Ma.Provider,{value:n,children:e});throw n}};function xh({children:e}){let t=Wu(),r=typeof e=="function"?e(t):e;return b.createElement(b.Fragment,null,r)}function wh(){return{params:zu(),loaderData:Te(),actionData:Rn(),matches:Fs()}}function ke(e){return function(){const r=wh();return b.createElement(e,r)}}function bh(){return{params:zu(),loaderData:Te(),actionData:Rn(),error:eo()}}function Sh(e){return function(){const r=bh();return b.createElement(e,r)}}var ka="get",Ra="application/x-www-form-urlencoded";function to(e){return typeof HTMLElement<"u"&&e instanceof HTMLElement}function Ch(e){return to(e)&&e.tagName.toLowerCase()==="button"}function jh(e){return to(e)&&e.tagName.toLowerCase()==="form"}function Eh(e){return to(e)&&e.tagName.toLowerCase()==="input"}function kh(e){return!!(e.metaKey||e.altKey||e.ctrlKey||e.shiftKey)}function Rh(e,t){return e.button===0&&(!t||t==="_self")&&!kh(e)}function ds(e=""){return new URLSearchParams(typeof e=="string"||Array.isArray(e)||e instanceof URLSearchParams?e:Object.keys(e).reduce((t,r)=>{let n=e[r];return t.concat(Array.isArray(n)?n.map(a=>[r,a]):[[r,n]])},[]))}function _h(e,t){let r=ds(e);return t&&t.forEach((n,a)=>{r.has(a)||t.getAll(a).forEach(o=>{r.append(a,o)})}),r}var ya=null;function Ih(){if(ya===null)try{new FormData(document.createElement("form"),0),ya=!1}catch{ya=!0}return ya}var Ah=new Set(["application/x-www-form-urlencoded","multipart/form-data","text/plain"]);function Mo(e){return e!=null&&!Ah.has(e)?(Ne(!1,`"${e}" is not a valid \`encType\` for \`<Form>\`/\`<fetcher.Form>\` and will default to "${Ra}"`),null):e}function Nh(e,t){let r,n,a,o,i;if(jh(e)){let l=e.getAttribute("action");n=l?We(l,t):null,r=e.getAttribute("method")||ka,a=Mo(e.getAttribute("enctype"))||Ra,o=new FormData(e)}else if(Ch(e)||Eh(e)&&(e.type==="submit"||e.type==="image")){let l=e.form;if(l==null)throw new Error('Cannot submit a <button> or <input type="submit"> without a <form>');let u=e.getAttribute("formaction")||l.getAttribute("action");if(n=u?We(u,t):null,r=e.getAttribute("formmethod")||l.getAttribute("method")||ka,a=Mo(e.getAttribute("formenctype"))||Mo(l.getAttribute("enctype"))||Ra,o=new FormData(l,e),!Ih()){let{name:c,type:d,value:p}=e;if(d==="image"){let y=c?`${c}.`:"";o.append(`${y}x`,"0"),o.append(`${y}y`,"0")}else c&&o.append(c,p)}}else{if(to(e))throw new Error('Cannot submit element that is not <form>, <button>, or <input type="submit|image">');r=ka,n=null,a=Ra,i=e}return o&&a==="text/plain"&&(i=o,o=void 0),{action:n,method:r.toLowerCase(),encType:a,formData:o,body:i}}var Xu=-1,Bs=-2,zs=-3,qs=-4,Ua=-5,Hs=-6,Vs=-7,Ju="B",Zu="D",_r="E",fs="M",Qu="N",Ir="P",Ku="R",hs="S",ec="Y",tc="U",ps="Z",rc=["EvalError","RangeError","ReferenceError","SyntaxError","TypeError","URIError"],nc=class{constructor(){this.promise=new Promise((e,t)=>{this.resolve=e,this.reject=t})}};function Th(){const e=new TextDecoder;let t="";return new TransformStream({transform(r,n){const a=e.decode(r,{stream:!0}),o=(t+a).split(`
-`);t=o.pop()||"";for(const i of o)n.enqueue(i)},flush(r){t&&r.enqueue(t)}})}var $h=1,Fo=()=>Date.now(),Ph=()=>new Promise(e=>setTimeout(e,0));async function Uo(e){const{indices:t}=this,r=t.get(e);if(r)return[r];if(e===void 0)return Vs;if(e===null)return Ua;if(Number.isNaN(e))return Bs;if(e===Number.POSITIVE_INFINITY)return Hs;if(e===Number.NEGATIVE_INFINITY)return zs;if(e===0&&1/e<0)return qs;const n=this.index++;t.set(e,n);const a=[[e,n]];return await Oh.call(this,a),n}async function Oh(e){const{deferred:t,indices:r,plugins:n,postPlugins:a}=this,o=this.stringified;let i=Fo();const l=c=>{const d=r.get(c);if(d)return[d];if(c===void 0)return Vs;if(c===null)return Ua;if(Number.isNaN(c))return Bs;if(c===Number.POSITIVE_INFINITY)return Hs;if(c===Number.NEGATIVE_INFINITY)return zs;if(c===0&&1/c<0)return qs;const p=this.index++;return r.set(c,p),e.push([c,p]),p};let u=0;for(;e.length>0;){const c=Fo();++u%6e3===0&&c-i>=$h&&(await Ph(),i=Fo());const[d,p]=e.pop(),y=m=>Object.keys(m).map(S=>`"_${l(S)}":${l(m[S])}`).join(",");let w=null;switch(typeof d){case"boolean":case"number":case"string":o[p]=JSON.stringify(d);break;case"bigint":o[p]=`["${Ju}","${d}"]`;break;case"symbol":{const m=Symbol.keyFor(d);m?o[p]=`["${ec}",${JSON.stringify(m)}]`:w=new Error("Cannot encode symbol unless created with Symbol.for()");break}case"object":{if(!d){o[p]=`${Ua}`;break}const m=Array.isArray(d);let S=!1;if(!m&&n)for(const x of n){const E=x(d);if(Array.isArray(E)){S=!0;const[I,...k]=E;o[p]=`[${JSON.stringify(I)}`,k.length>0&&(o[p]+=`,${k.map(P=>l(P)).join(",")}`),o[p]+="]";break}}if(!S){let x=m?"[":"{";if(m){for(let E=0;E<d.length;E++)x+=(E?",":"")+(E in d?l(d[E]):Xu);o[p]=`${x}]`}else if(d instanceof Date){const E=d.getTime();o[p]=`["${Zu}",${Number.isNaN(E)?JSON.stringify("invalid"):E}]`}else d instanceof URL?o[p]=`["${tc}",${JSON.stringify(d.href)}]`:d instanceof RegExp?o[p]=`["${Ku}",${JSON.stringify(d.source)},${JSON.stringify(d.flags)}]`:d instanceof Set?d.size>0?o[p]=`["${hs}",${[...d].map(E=>l(E)).join(",")}]`:o[p]=`["${hs}"]`:d instanceof Map?d.size>0?o[p]=`["${fs}",${[...d].flatMap(([E,I])=>[l(E),l(I)]).join(",")}]`:o[p]=`["${fs}"]`:d instanceof Promise?(o[p]=`["${Ir}",${p}]`,t[p]=d):d instanceof Error?(o[p]=`["${_r}",${JSON.stringify(d.message)}`,d.name!=="Error"&&(o[p]+=`,${JSON.stringify(d.name)}`),o[p]+="]"):Object.getPrototypeOf(d)===null?o[p]=`["${Qu}",{${y(d)}}]`:Dh(d)?o[p]=`{${y(d)}}`:w=new Error("Cannot encode object with prototype")}break}default:{const m=Array.isArray(d);let S=!1;if(!m&&n)for(const x of n){const E=x(d);if(Array.isArray(E)){S=!0;const[I,...k]=E;o[p]=`[${JSON.stringify(I)}`,k.length>0&&(o[p]+=`,${k.map(P=>l(P)).join(",")}`),o[p]+="]";break}}S||(w=new Error("Cannot encode function or unexpected type"))}}if(w){let m=!1;if(a)for(const S of a){const x=S(d);if(Array.isArray(x)){m=!0;const[E,...I]=x;o[p]=`[${JSON.stringify(E)}`,I.length>0&&(o[p]+=`,${I.map(k=>l(k)).join(",")}`),o[p]+="]";break}}if(!m)throw w}}}var Lh=Object.getOwnPropertyNames(Object.prototype).sort().join("\0");function Dh(e){const t=Object.getPrototypeOf(e);return t===Object.prototype||t===null||Object.getOwnPropertyNames(t).sort().join("\0")===Lh}var ga=typeof window<"u"?window:typeof globalThis<"u"?globalThis:void 0;function ms(e){const{hydrated:t,values:r}=this;if(typeof e=="number")return Gi.call(this,e);if(!Array.isArray(e)||!e.length)throw new SyntaxError;const n=r.length;for(const a of e)r.push(a);return t.length=r.length,Gi.call(this,n)}function Gi(e){const{hydrated:t,values:r,deferred:n,plugins:a}=this;let o;const i=[[e,u=>{o=u}]];let l=[];for(;i.length>0;){const[u,c]=i.pop();switch(u){case Vs:c(void 0);continue;case Ua:c(null);continue;case Bs:c(NaN);continue;case Hs:c(1/0);continue;case zs:c(-1/0);continue;case qs:c(-0);continue}if(t[u]){c(t[u]);continue}const d=r[u];if(!d||typeof d!="object"){t[u]=d,c(d);continue}if(Array.isArray(d))if(typeof d[0]=="string"){const[p,y,w]=d;switch(p){case Zu:c(t[u]=new Date(y));continue;case tc:c(t[u]=new URL(y));continue;case Ju:c(t[u]=BigInt(y));continue;case Ku:c(t[u]=new RegExp(y,w));continue;case ec:c(t[u]=Symbol.for(y));continue;case hs:const m=new Set;t[u]=m;for(let P=d.length-1;P>0;P--)i.push([d[P],N=>{m.add(N)}]);c(m);continue;case fs:const S=new Map;t[u]=S;for(let P=d.length-2;P>0;P-=2){const N=[];i.push([d[P+1],A=>{N[1]=A}]),i.push([d[P],A=>{N[0]=A}]),l.push(()=>{S.set(N[0],N[1])})}c(S);continue;case Qu:const x=Object.create(null);t[u]=x;for(const P of Object.keys(y).reverse()){const N=[];i.push([y[P],A=>{N[1]=A}]),i.push([Number(P.slice(1)),A=>{N[0]=A}]),l.push(()=>{x[N[0]]=N[1]})}c(x);continue;case Ir:if(t[y])c(t[u]=t[y]);else{const P=new nc;n[y]=P,c(t[u]=P.promise)}continue;case _r:const[,E,I]=d;let k=I&&ga&&rc.includes(I)&&I in ga&&typeof ga[I]=="function"?new ga[I](E):new Error(E);t[u]=k,c(k);continue;case ps:c(t[u]=t[y]);continue;default:if(Array.isArray(a)){const P=[],N=d.slice(1);for(let A=0;A<N.length;A++){const T=N[A];i.push([T,$=>{P[A]=$}])}l.push(()=>{for(const A of a){const T=A(d[0],...P);if(T){c(t[u]=T.value);return}}throw new SyntaxError});continue}throw new SyntaxError}}else{const p=[];t[u]=p;for(let y=0;y<d.length;y++){const w=d[y];w!==Xu&&i.push([w,m=>{p[y]=m}])}c(p);continue}else{const p={};t[u]=p;for(const y of Object.keys(d).reverse()){const w=[];i.push([d[y],m=>{w[1]=m}]),i.push([Number(y.slice(1)),m=>{w[0]=m}]),l.push(()=>{p[w[0]]=w[1]})}c(p);continue}}for(;l.length>0;)l.pop()();return o}async function Mh(e,t){const{plugins:r}=t??{},n=new nc,a=e.pipeThrough(Th()).getReader(),o={values:[],hydrated:[],deferred:{},plugins:r},i=await Fh.call(o,a);let l=n.promise;return i.done?n.resolve():l=Uh.call(o,a).then(n.resolve).catch(u=>{for(const c of Object.values(o.deferred))c.reject(u);n.reject(u)}),{done:l.then(()=>a.closed),value:i.value}}async function Fh(e){const t=await e.read();if(!t.value)throw new SyntaxError;let r;try{r=JSON.parse(t.value)}catch{throw new SyntaxError}return{done:t.done,value:ms.call(this,r)}}async function Uh(e){let t=await e.read();for(;!t.done;){if(!t.value)continue;const r=t.value;switch(r[0]){case Ir:{const n=r.indexOf(":"),a=Number(r.slice(1,n)),o=this.deferred[a];if(!o)throw new Error(`Deferred ID ${a} not found in stream`);const i=r.slice(n+1);let l;try{l=JSON.parse(i)}catch{throw new SyntaxError}const u=ms.call(this,l);o.resolve(u);break}case _r:{const n=r.indexOf(":"),a=Number(r.slice(1,n)),o=this.deferred[a];if(!o)throw new Error(`Deferred ID ${a} not found in stream`);const i=r.slice(n+1);let l;try{l=JSON.parse(i)}catch{throw new SyntaxError}const u=ms.call(this,l);o.reject(u);break}default:throw new SyntaxError}t=await e.read()}}function Bh(e,t){const{onComplete:r,plugins:n,postPlugins:a,signal:o}=t??{},i={deferred:{},index:0,indices:new Map,stringified:[],plugins:n,postPlugins:a,signal:o},l=new TextEncoder;let u=0;return new ReadableStream({async start(d){const p=await Uo.call(i,e);if(Array.isArray(p))throw new Error("This should never happen");p<0?d.enqueue(l.encode(`${p}
-`)):(d.enqueue(l.encode(`[${i.stringified.join(",")}]
-`)),u=i.stringified.length-1);const y=new WeakSet;let w=Promise.resolve();if(Object.keys(i.deferred).length){let m;const S=new Promise((x,E)=>{if(m=x,o){const I=()=>E(o.reason||new Error("Signal was aborted."));o.aborted?I():o.addEventListener("abort",k=>{I()})}});for(;Object.keys(i.deferred).length>0;){for(const[x,E]of Object.entries(i.deferred))y.has(E)||y.add(i.deferred[Number(x)]=Promise.race([S,E]).then(I=>(w=w.then(async()=>{const k=await Uo.call(i,I);if(Array.isArray(k))d.enqueue(l.encode(`${Ir}${x}:[["${ps}",${k[0]}]]
-`)),i.index++,u++;else if(k<0)d.enqueue(l.encode(`${Ir}${x}:${k}
-`));else{const P=i.stringified.slice(u+1).join(",");d.enqueue(l.encode(`${Ir}${x}:[${P}]
-`)),u=i.stringified.length-1}}),w),I=>(w=w.then(async()=>{(!I||typeof I!="object"||!(I instanceof Error))&&(I=new Error("An unknown error occurred"));const k=await Uo.call(i,I);if(Array.isArray(k))d.enqueue(l.encode(`${_r}${x}:[["${ps}",${k[0]}]]
-`)),i.index++,u++;else if(k<0)d.enqueue(l.encode(`${_r}${x}:${k}
-`));else{const P=i.stringified.slice(u+1).join(",");d.enqueue(l.encode(`${_r}${x}:[${P}]
-`)),u=i.stringified.length-1}}),w)).finally(()=>{delete i.deferred[Number(x)]}));await Promise.race(Object.values(i.deferred))}m()}await Promise.all(Object.values(i.deferred)),await w,d.close(),r==null||r()}})}var zh={"&":"\\u0026",">":"\\u003e","<":"\\u003c","\u2028":"\\u2028","\u2029":"\\u2029"},qh=/[&><\u2028\u2029]/g;function Lr(e){return e.replace(qh,t=>zh[t])}function _n(e,t){if(e===!1||e===null||typeof e>"u")throw new Error(t)}var Dr=Symbol("SingleFetchRedirect"),Hh=202,Vh=new Set([100,101,204,205]);function ac({context:e,identifier:t,reader:r,textDecoder:n,nonce:a}){if(!e.renderMeta||!e.renderMeta.didRenderScripts)return null;e.renderMeta.streamCache||(e.renderMeta.streamCache={});let{streamCache:o}=e.renderMeta,i=o[t];if(i||(i=o[t]=r.read().then(d=>{o[t].result={done:d.done,value:n.decode(d.value,{stream:!0})}}).catch(d=>{o[t].error=d})),i.error)throw i.error;if(i.result===void 0)throw i;let{done:l,value:u}=i.result,c=u?b.createElement("script",{nonce:a,dangerouslySetInnerHTML:{__html:`window.__reactRouterContext.streamController.enqueue(${Lr(JSON.stringify(u))});`}}):null;return l?b.createElement(b.Fragment,null,c,b.createElement("script",{nonce:a,dangerouslySetInnerHTML:{__html:"window.__reactRouterContext.streamController.close();"}})):b.createElement(b.Fragment,null,c,b.createElement(b.Suspense,null,b.createElement(ac,{context:e,identifier:t+1,reader:r,textDecoder:n,nonce:a})))}function oc(e,t,r,n){let a=typeof e=="string"?new URL(e,typeof window>"u"?"server://singlefetch/":window.location.origin):e;return r?a.pathname.endsWith("/")?a.pathname=`${a.pathname}_.${n}`:a.pathname=`${a.pathname}.${n}`:a.pathname==="/"?a.pathname=`_root.${n}`:t&&We(a.pathname,t)==="/"?a.pathname=`${Oa(t)}/_root.${n}`:a.pathname=`${Oa(a.pathname)}.${n}`,a}function Wh(e,t){return Mh(e,{plugins:[(r,...n)=>{if(r==="SanitizedError"){let[a,o,i]=n,l=Error;a&&rc.includes(a)&&a in t&&typeof t[a]=="function"&&(l=t[a]);let u=new l(o);return u.stack=i,{value:u}}if(r==="ErrorResponse"){let[a,o,i]=n;return{value:new kt(o,i,a)}}if(r==="SingleFetchRedirect")return{value:{[Dr]:n[0]}};if(r==="SingleFetchClassInstance")return{value:n[0]};if(r==="SingleFetchFallback")return{value:void 0}}]})}async function Yh(e,t){if(e.id in t)return t[e.id];try{let r=await import(e.module);return t[e.id]=r,r}catch(r){return console.error(`Error loading route module \`${e.module}\`, reloading page...`),console.error(r),window.__reactRouterContext&&window.__reactRouterContext.isSpaMode,window.location.reload(),new Promise(()=>{})}}function Gh(e,t,r){let n=e.map(o=>{var u;let i=t[o.route.id],l=r.routes[o.route.id];return[l&&l.css?l.css.map(c=>({rel:"stylesheet",href:c})):[],((u=i==null?void 0:i.links)==null?void 0:u.call(i))||[]]}).flat(2),a=Ws(e,r);return ic(n,a)}function sc(e){return e!=null&&typeof e.page=="string"}function Xh(e){return e==null?!1:e.href==null?e.rel==="preload"&&typeof e.imageSrcSet=="string"&&typeof e.imageSizes=="string":typeof e.rel=="string"&&typeof e.href=="string"}async function Jh(e,t,r){let n=await Promise.all(e.map(async a=>{let o=t.routes[a.route.id];if(o){let i=await Yh(o,r);return i.links?i.links():[]}return[]}));return ic(n.flat(1).filter(Xh).filter(a=>a.rel==="stylesheet"||a.rel==="preload").map(a=>a.rel==="stylesheet"?{...a,rel:"prefetch",as:"style"}:{...a,rel:"prefetch"}))}function Xi(e,t,r,n,a,o){let i=(u,c)=>r[c]?u.route.id!==r[c].route.id:!0,l=(u,c)=>{var d;return r[c].pathname!==u.pathname||((d=r[c].route.path)==null?void 0:d.endsWith("*"))&&r[c].params["*"]!==u.params["*"]};return o==="assets"?t.filter((u,c)=>i(u,c)||l(u,c)):o==="data"?t.filter((u,c)=>{var p;let d=n.routes[u.route.id];if(!d||!d.hasLoader)return!1;if(i(u,c)||l(u,c))return!0;if(u.route.shouldRevalidate){let y=u.route.shouldRevalidate({currentUrl:new URL(a.pathname+a.search+a.hash,window.origin),currentParams:((p=r[0])==null?void 0:p.params)||{},nextUrl:new URL(e,window.origin),nextParams:u.params,defaultShouldRevalidate:!0});if(typeof y=="boolean")return y}return!0}):[]}function Ws(e,t,{includeHydrateFallback:r}={}){return Zh(e.map(n=>{let a=t.routes[n.route.id];if(!a)return[];let o=[a.module];return a.clientActionModule&&(o=o.concat(a.clientActionModule)),a.clientLoaderModule&&(o=o.concat(a.clientLoaderModule)),r&&a.hydrateFallbackModule&&(o=o.concat(a.hydrateFallbackModule)),a.imports&&(o=o.concat(a.imports)),o}).flat(1))}function Zh(e){return[...new Set(e)]}function Qh(e){let t={},r=Object.keys(e).sort();for(let n of r)t[n]=e[n];return t}function ic(e,t){let r=new Set,n=new Set(t);return e.reduce((a,o)=>{if(t&&!sc(o)&&o.as==="script"&&o.href&&n.has(o.href))return a;let l=JSON.stringify(Qh(o));return r.has(l)||(r.add(l),a.push({key:l,link:o})),a},[])}function Kh(){return b.createElement(ys,{title:"Loading...",renderScripts:!0},b.createElement("script",{dangerouslySetInnerHTML:{__html:`
-              console.log(
-                "💿 Hey developer 👋. You can provide a way better UX than this " +
-                "when your app is loading JS modules and/or running \`clientLoader\` " +
-                "functions. Check out https://reactrouter.com/start/framework/route-module#hydratefallback " +
-                "for more information."
-              );
-            `}}))}function ep(e){let t={};return Object.values(e).forEach(r=>{if(r){let n=r.parentId||"";t[n]||(t[n]=[]),t[n].push(r)}}),t}function tp(e,t,r){let n=rp(t),a=t.HydrateFallback&&(!r||e.id==="root")?t.HydrateFallback:e.id==="root"?Kh:void 0,o=t.ErrorBoundary?t.ErrorBoundary:e.id==="root"?()=>b.createElement(dc,{error:eo()}):void 0;return e.id==="root"&&t.Layout?{...n?{element:b.createElement(t.Layout,null,b.createElement(n,null))}:{Component:n},...o?{errorElement:b.createElement(t.Layout,null,b.createElement(o,null))}:{ErrorBoundary:o},...a?{hydrateFallbackElement:b.createElement(t.Layout,null,b.createElement(a,null))}:{HydrateFallback:a}}:{Component:n,ErrorBoundary:o,HydrateFallback:a}}function lc(e,t,r,n,a="",o=ep(e),i=Promise.resolve({Component:()=>null})){return(o[a]||[]).map(l=>{let u=t[l.id];_n(u,"No `routeModule` available to create server routes");let c={...tp(l,u,n),caseSensitive:l.caseSensitive,id:l.id,index:l.index,path:l.path,handle:u.handle,lazy:n?()=>i:void 0,loader:l.hasLoader||l.hasClientLoader?()=>null:void 0},d=lc(e,t,r,n,l.id,o,i);return d.length>0&&(c.children=d),c})}function rp(e){if(e.default==null)return;if(!(typeof e.default=="object"&&Object.keys(e.default).length===0))return e.default}function np(e,t,r,n){return n&&e!=="root"||t!=null&&(t.hydrate===!0||r!==!0)}var ap=7680;function op(e,t){return e.mode==="lazy"&&t===!0}function sp({sri:e,...t},r){let n=new Set(r.state.matches.map(l=>l.route.id)),a=r.state.location.pathname.split("/").filter(Boolean),o=["/"];for(a.pop();a.length>0;)o.push(`/${a.join("/")}`),a.pop();o.forEach(l=>{let u=gn(r.routes,l,r.basename||"/",!1,r.branches);u&&u.forEach(c=>n.add(c.route.id))});let i=[...n].reduce((l,u)=>Object.assign(l,{[u]:t.routes[u]}),{});return{...t,routes:i,sri:e?!0:void 0}}function ip(e,t){let r=e||"/__manifest";return t==null?r:et([t,r])}function ro(){let e=b.useContext(qt);return _n(e,"You must render this element inside a <DataRouterContext.Provider> element"),e}function no(){let e=b.useContext(cr);return _n(e,"You must render this element inside a <DataRouterStateContext.Provider> element"),e}var In=b.createContext(void 0);In.displayName="FrameworkContext";function fr(){let e=b.useContext(In);return _n(e,"You must render this element inside a <HydratedRouter> element"),e}function lp(e,t){let r=b.useContext(In),[n,a]=b.useState(!1),[o,i]=b.useState(!1),{onFocus:l,onBlur:u,onMouseEnter:c,onMouseLeave:d,onTouchStart:p}=t,y=b.useRef(null);b.useEffect(()=>{if(e==="render"&&i(!0),e==="viewport"){let S=E=>{E.forEach(I=>{i(I.isIntersecting)})},x=new IntersectionObserver(S,{threshold:.5});return y.current&&x.observe(y.current),()=>{x.disconnect()}}},[e]),b.useEffect(()=>{if(n){let S=setTimeout(()=>{i(!0)},100);return()=>{clearTimeout(S)}}},[n]);let w=()=>{a(!0)},m=()=>{a(!1),i(!1)};return r?e!=="intent"?[o,y,{}]:[o,y,{onFocus:sn(l,w),onBlur:sn(u,m),onMouseEnter:sn(c,w),onMouseLeave:sn(d,m),onTouchStart:sn(p,w)}]:[!1,y,{}]}function sn(e,t){return r=>{e&&e(r),r.defaultPrevented||t(r)}}function Ys(e,t,r){if(r&&!Ba)return[e[0]];if(t){let n=e.findIndex(a=>t[a.route.id]!==void 0);return e.slice(0,n+1)}return e}var Ji="data-react-router-critical-css";function up({nonce:e,crossOrigin:t}){let{isSpaMode:r,manifest:n,routeModules:a,criticalCss:o}=fr(),{errors:i,matches:l}=no(),u=Ys(l,i,r),c=b.useMemo(()=>Gh(u,a,n),[u,a,n]);return b.createElement(b.Fragment,null,typeof o=="string"?b.createElement("style",{[Ji]:"",nonce:e,dangerouslySetInnerHTML:{__html:o}}):null,typeof o=="object"?b.createElement("link",{[Ji]:"",rel:"stylesheet",href:o.href,nonce:e,crossOrigin:t}):null,c.map(({key:d,link:p})=>sc(p)?b.createElement(uc,{key:d,nonce:e,...p,crossOrigin:p.crossOrigin??t}):b.createElement("link",{key:d,nonce:e,...p,crossOrigin:p.crossOrigin??t})))}function uc({page:e,...t}){let r=Du(),{router:n}=ro(),a=b.useMemo(()=>pu(n.routes,e,n.basename),[n.routes,e,n.basename]);return a?r?b.createElement(dp,{page:e,matches:a,...t}):b.createElement(fp,{page:e,matches:a,...t}):null}function cp(e){let{manifest:t,routeModules:r}=fr(),[n,a]=b.useState([]);return b.useEffect(()=>{let o=!1;return Jh(e,t,r).then(i=>{o||a(i)}),()=>{o=!0}},[e,t,r]),n}function dp({page:e,matches:t,...r}){let n=Ae(),{future:a}=fr(),{basename:o}=ro(),i=b.useMemo(()=>{if(e===n.pathname+n.search+n.hash)return[];let l=oc(e,o,a.v8_trailingSlashAwareDataRequests,"rsc"),u=!1,c=[];for(let d of t)typeof d.route.shouldRevalidate=="function"?u=!0:c.push(d.route.id);return u&&c.length>0&&l.searchParams.set("_routes",c.join(",")),[l.pathname+l.search]},[o,a.v8_trailingSlashAwareDataRequests,e,n,t]);return b.createElement(b.Fragment,null,i.map(l=>b.createElement("link",{key:l,rel:"prefetch",as:"fetch",href:l,...r})))}function fp({page:e,matches:t,...r}){let n=Ae(),{future:a,manifest:o,routeModules:i}=fr(),{basename:l}=ro(),{loaderData:u,matches:c}=no(),d=b.useMemo(()=>Xi(e,t,c,o,n,"data"),[e,t,c,o,n]),p=b.useMemo(()=>Xi(e,t,c,o,n,"assets"),[e,t,c,o,n]),y=b.useMemo(()=>{if(e===n.pathname+n.search+n.hash)return[];let S=new Set,x=!1;if(t.forEach(I=>{var P;let k=o.routes[I.route.id];!k||!k.hasLoader||(!d.some(N=>N.route.id===I.route.id)&&I.route.id in u&&((P=i[I.route.id])!=null&&P.shouldRevalidate)||k.hasClientLoader?x=!0:S.add(I.route.id))}),S.size===0)return[];let E=oc(e,l,a.v8_trailingSlashAwareDataRequests,"data");return x&&S.size>0&&E.searchParams.set("_routes",t.filter(I=>S.has(I.route.id)).map(I=>I.route.id).join(",")),[E.pathname+E.search]},[l,a.v8_trailingSlashAwareDataRequests,u,n,o,d,t,e,i]),w=b.useMemo(()=>Ws(p,o),[p,o]),m=cp(p);return b.createElement(b.Fragment,null,y.map(S=>b.createElement("link",{key:S,rel:"prefetch",as:"fetch",href:S,...r})),w.map(S=>b.createElement("link",{key:S,rel:"modulepreload",href:S,...r})),m.map(({key:S,link:x})=>b.createElement("link",{key:S,nonce:r.nonce,...x,crossOrigin:x.crossOrigin??r.crossOrigin})))}function hp(){let{isSpaMode:e,routeModules:t}=fr(),{errors:r,matches:n,loaderData:a}=no(),o=Ae(),i=Ys(n,r,e),l=null;r&&(l=r[i[i.length-1].route.id]);let u=[],c=null,d=[];for(let p=0;p<i.length;p++){let y=i[p],w=y.route.id,m=a[w],S=y.params,x=t[w],E=[],I={id:w,data:m,loaderData:m,meta:[],params:y.params,pathname:y.pathname,handle:y.route.handle,error:l};if(d[p]=I,x!=null&&x.meta?E=typeof x.meta=="function"?x.meta({data:m,loaderData:m,params:S,location:o,matches:d,error:l}):Array.isArray(x.meta)?[...x.meta]:x.meta:c&&(E=[...c]),E=E||[],!Array.isArray(E))throw new Error("The route at "+y.route.path+` returns an invalid value. All route meta functions must return an array of meta objects.
-
-To reference the meta function API, see https://reactrouter.com/start/framework/route-module#meta`);I.meta=E,d[p]=I,u=[...E],c=u}return b.createElement(b.Fragment,null,u.flat().map(p=>{if(!p)return null;if("tagName"in p){let{tagName:y,...w}=p;if(!pp(y))return console.warn(`A meta object uses an invalid tagName: ${y}. Expected either 'link' or 'meta'`),null;let m=y;return b.createElement(m,{key:JSON.stringify(w),...w})}if("title"in p)return b.createElement("title",{key:"title"},String(p.title));if("charset"in p&&(p.charSet??(p.charSet=p.charset),delete p.charset),"charSet"in p&&p.charSet!=null)return typeof p.charSet=="string"?b.createElement("meta",{key:"charSet",charSet:p.charSet}):null;if("script:ld+json"in p)try{let y=JSON.stringify(p["script:ld+json"]);return b.createElement("script",{key:`script:ld+json:${y}`,type:"application/ld+json",dangerouslySetInnerHTML:{__html:Lr(y)}})}catch{return null}return b.createElement("meta",{key:JSON.stringify(p),...p})}))}function pp(e){return typeof e=="string"&&/^(meta|link)$/.test(e)}var Ba=!1;function mp(){Ba=!0}function cc(e){let{manifest:t,serverHandoffString:r,isSpaMode:n,renderMeta:a,routeDiscovery:o,ssr:i}=fr(),{router:l,static:u,staticContext:c}=ro(),{matches:d}=no(),p=Du(),y=op(o,i);a&&(a.didRenderScripts=!0);let w=Ys(d,null,n);b.useEffect(()=>{mp()},[]);let m=b.useMemo(()=>{var P;if(p)return null;let I=c?`window.__reactRouterContext = ${r};window.__reactRouterContext.stream = new ReadableStream({start(controller){window.__reactRouterContext.streamController = controller;}}).pipeThrough(new TextEncoderStream());`:" ",k=u?`${(P=t.hmr)!=null&&P.runtime?`import ${JSON.stringify(t.hmr.runtime)};`:""}${y?"":`import ${JSON.stringify(t.url)}`};
-${w.map((N,A)=>{let T=`route${A}`,$=t.routes[N.route.id];_n($,`Route ${N.route.id} not found in manifest`);let{clientActionModule:V,clientLoaderModule:X,clientMiddlewareModule:q,hydrateFallbackModule:G,module:J}=$,Z=[...V?[{module:V,varName:`${T}_clientAction`}]:[],...X?[{module:X,varName:`${T}_clientLoader`}]:[],...q?[{module:q,varName:`${T}_clientMiddleware`}]:[],...G?[{module:G,varName:`${T}_HydrateFallback`}]:[],{module:J,varName:`${T}_main`}];if(Z.length===1)return`import * as ${T} from ${JSON.stringify(J)};`;let B=Z.map(ae=>`import * as ${ae.varName} from "${ae.module}";`).join(`
-`),Q=`const ${T} = {${Z.map(ae=>`...${ae.varName}`).join(",")}};`;return[B,Q].join(`
-`)}).join(`
-`)}
-  ${y?`window.__reactRouterManifest = ${JSON.stringify(sp(t,l),null,2)};`:""}
-  window.__reactRouterRouteModules = {${w.map((N,A)=>`${JSON.stringify(N.route.id)}:route${A}`).join(",")}};
-
-import(${JSON.stringify(t.entry.module)});`:" ";return b.createElement(b.Fragment,null,b.createElement("script",{...e,suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:I},type:void 0}),b.createElement("script",{...e,suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:k},type:"module",async:!0}))},[]),S=Ba||p?[]:[...new Set(t.entry.imports.concat(Ws(w,t,{includeHydrateFallback:!0})))],x=typeof t.sri=="object"?t.sri:{};return Us(!p,"The <Scripts /> element is a no-op when using RSC and can be safely removed."),Ba||p?null:b.createElement(b.Fragment,null,typeof t.sri=="object"?b.createElement("script",{...e,"rr-importmap":"",type:"importmap",suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:JSON.stringify({integrity:x})}}):null,y?null:b.createElement("link",{rel:"modulepreload",href:t.url,crossOrigin:e.crossOrigin,integrity:x[t.url],nonce:e.nonce,suppressHydrationWarning:!0}),b.createElement("link",{rel:"modulepreload",href:t.entry.module,crossOrigin:e.crossOrigin,integrity:x[t.entry.module],nonce:e.nonce,suppressHydrationWarning:!0}),S.map(E=>b.createElement("link",{key:E,rel:"modulepreload",href:E,crossOrigin:e.crossOrigin,integrity:x[E],nonce:e.nonce,suppressHydrationWarning:!0})),m)}function yp(...e){return t=>{e.forEach(r=>{typeof r=="function"?r(t):r!=null&&(r.current=t)})}}var gp=class extends b.Component{constructor(e){super(e),this.state={error:e.error||null,location:e.location}}static getDerivedStateFromError(e){return{error:e}}static getDerivedStateFromProps(e,t){return t.location!==e.location?{error:e.error||null,location:e.location}:{error:e.error||t.error,location:t.location}}render(){return this.state.error?b.createElement(dc,{error:this.state.error,isOutsideRemixApp:!0}):this.props.children}};function dc({error:e,isOutsideRemixApp:t}){console.error(e);let r=b.createElement("script",{dangerouslySetInnerHTML:{__html:`
-        console.log(
-          "💿 Hey developer 👋. You can provide a way better UX than this when your app throws errors. Check out https://reactrouter.com/how-to/error-boundary for more information."
-        );
-      `}});if(Oe(e))return b.createElement(ys,{title:"Unhandled Thrown Response!"},b.createElement("h1",{style:{fontSize:"24px"}},e.status," ",e.statusText),r);let n;if(e instanceof Error)n=e;else{let a=e==null?"Unknown Error":typeof e=="object"&&"toString"in e?e.toString():JSON.stringify(e);n=new Error(a)}return b.createElement(ys,{title:"Application Error!",isOutsideRemixApp:t},b.createElement("h1",{style:{fontSize:"24px"}},"Application Error"),b.createElement("pre",{style:{padding:"2rem",background:"hsla(10, 50%, 50%, 0.1)",color:"red",overflow:"auto"}},n.stack),r)}function ys({title:e,renderScripts:t,isOutsideRemixApp:r,children:n}){var o;let{routeModules:a}=fr();return(o=a.root)!=null&&o.Layout&&!r?n:b.createElement("html",{lang:"en"},b.createElement("head",null,b.createElement("meta",{charSet:"utf-8"}),b.createElement("meta",{name:"viewport",content:"width=device-width,initial-scale=1,viewport-fit=cover"}),b.createElement("title",null,e)),b.createElement("body",null,b.createElement("main",{style:{fontFamily:"system-ui, sans-serif",padding:"2rem"}},n,t?b.createElement(cc,null):null)))}var vp=typeof window<"u"&&typeof window.document<"u"&&typeof window.document.createElement<"u";try{vp&&(window.__reactRouterVersion="7.17.0")}catch{}var fc=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,Ie=b.forwardRef(function({onClick:t,discover:r="render",prefetch:n="none",relative:a,reloadDocument:o,replace:i,mask:l,state:u,target:c,to:d,preventScrollReset:p,viewTransition:y,defaultShouldRevalidate:w,...m},S){let{basename:x,navigator:E,useTransitions:I}=b.useContext(Ge),k=typeof d=="string"&&fc.test(d),P=Su(d,x);d=P.to;let N=nh(d,{relative:a}),A=Ae(),T=null;if(l){let B=Ja(l,[],A.mask?A.mask.pathname:"/",!0);x!=="/"&&(B.pathname=B.pathname==="/"?x:et([x,B.pathname])),T=E.createHref(B)}let[$,V,X]=lp(n,m),q=xp(d,{replace:i,mask:l,state:u,target:c,preventScrollReset:p,relative:a,viewTransition:y,defaultShouldRevalidate:w,useTransitions:I});function G(B){t&&t(B),B.defaultPrevented||q(B)}let J=!(P.isExternal||o),Z=b.createElement("a",{...m,...X,href:(J?T:void 0)||P.absoluteURL||N,onClick:J?G:t,ref:yp(S,V),target:c,"data-discover":!k&&r==="render"?"true":void 0});return $&&!k?b.createElement(b.Fragment,null,Z,b.createElement(uc,{page:N})):Z});Ie.displayName="Link";var at=b.forwardRef(function({"aria-current":t="page",caseSensitive:r=!1,className:n="",end:a=!1,style:o,to:i,viewTransition:l,children:u,...c},d){let p=En(i,{relative:c.relative}),y=Ae(),w=b.useContext(cr),{navigator:m,basename:S}=b.useContext(Ge),x=w!=null&&Rp(p)&&l===!0,E=m.encodeLocation?m.encodeLocation(p).pathname:p.pathname,I=y.pathname,k=w&&w.navigation&&w.navigation.location?w.navigation.location.pathname:null;r||(I=I.toLowerCase(),k=k?k.toLowerCase():null,E=E.toLowerCase()),k&&S&&(k=We(k,S)||k);const P=E!=="/"&&E.endsWith("/")?E.length-1:E.length;let N=I===E||!a&&I.startsWith(E)&&I.charAt(P)==="/",A=k!=null&&(k===E||!a&&k.startsWith(E)&&k.charAt(E.length)==="/"),T={isActive:N,isPending:A,isTransitioning:x},$=N?t:void 0,V;typeof n=="function"?V=n(T):V=[n,N?"active":null,A?"pending":null,x?"transitioning":null].filter(Boolean).join(" ");let X=typeof o=="function"?o(T):o;return b.createElement(Ie,{...c,"aria-current":$,className:V,ref:d,style:X,to:i,viewTransition:l},typeof u=="function"?u(T):u)});at.displayName="NavLink";var Ot=b.forwardRef(({discover:e="render",fetcherKey:t,navigate:r,reloadDocument:n,replace:a,state:o,method:i=ka,action:l,onSubmit:u,relative:c,preventScrollReset:d,viewTransition:p,defaultShouldRevalidate:y,...w},m)=>{let{useTransitions:S}=b.useContext(Ge),x=mc(),E=Cp(l,{relative:c}),I=i.toLowerCase()==="get"?"get":"post",k=typeof l=="string"&&fc.test(l),P=N=>{if(u&&u(N),N.defaultPrevented)return;N.preventDefault();let A=N.nativeEvent.submitter,T=(A==null?void 0:A.getAttribute("formmethod"))||i,$=()=>x(A||N.currentTarget,{fetcherKey:t,method:T,navigate:r,replace:a,state:o,relative:c,preventScrollReset:d,viewTransition:p,defaultShouldRevalidate:y});S&&r!==!1?b.startTransition(()=>$()):$()};return b.createElement("form",{ref:m,method:I,action:E,onSubmit:n?u:P,...w,"data-discover":!k&&e==="render"?"true":void 0})});Ot.displayName="Form";function hc({getKey:e,storageKey:t,...r}){let n=b.useContext(In),{basename:a}=b.useContext(Ge),o=Ae(),i=Fs();Ep({getKey:e,storageKey:t});let l=b.useMemo(()=>{if(!n||!e)return null;let c=vs(o,i,a,e);return c!==o.key?c:null},[]);if(!n||n.isSpaMode)return null;let u=((c,d)=>{if(!window.history.state||!window.history.state.key){let p=Math.random().toString(32).slice(2);window.history.replaceState({key:p},"")}try{let y=JSON.parse(sessionStorage.getItem(c)||"{}")[d||window.history.state.key];typeof y=="number"&&window.scrollTo(0,y)}catch(p){console.error(p),sessionStorage.removeItem(c)}}).toString();return b.createElement("script",{...r,suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:`(${u})(${Lr(JSON.stringify(t||gs))}, ${Lr(JSON.stringify(l))})`}})}hc.displayName="ScrollRestoration";function pc(e){return`${e} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`}function ao(e){let t=b.useContext(qt);return me(t,pc(e)),t}function Gs(e){let t=b.useContext(cr);return me(t,pc(e)),t}function xp(e,{target:t,replace:r,mask:n,state:a,preventScrollReset:o,relative:i,viewTransition:l,defaultShouldRevalidate:u,useTransitions:c}={}){let d=jn(),p=Ae(),y=En(e,{relative:i});return b.useCallback(w=>{if(Rh(w,t)){w.preventDefault();let m=r!==void 0?r:Pr(p)===Pr(y),S=()=>d(e,{replace:m,mask:n,state:a,preventScrollReset:o,relative:i,viewTransition:l,defaultShouldRevalidate:u});c?b.startTransition(()=>S()):S()}},[p,d,y,r,n,a,t,e,o,i,l,u,c])}function wp(e){Ne(typeof URLSearchParams<"u","You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.");let t=b.useRef(ds(e)),r=b.useRef(!1),n=Ae(),a=b.useMemo(()=>_h(n.search,r.current?null:t.current),[n.search]),o=jn(),i=b.useCallback((l,u)=>{const c=ds(typeof l=="function"?l(new URLSearchParams(a)):l);r.current=!0,o("?"+c,u)},[o,a]);return[a,i]}var bp=0,Sp=()=>`__${String(++bp)}__`;function mc(){let{router:e}=ao("useSubmit"),{basename:t}=b.useContext(Ge),r=hh(),n=e.fetch,a=e.navigate;return b.useCallback(async(o,i={})=>{let{action:l,method:u,encType:c,formData:d,body:p}=Nh(o,t);if(i.navigate===!1){let y=i.fetcherKey||Sp();await n(y,r,i.action||l,{defaultShouldRevalidate:i.defaultShouldRevalidate,preventScrollReset:i.preventScrollReset,formData:d,body:p,formMethod:i.method||u,formEncType:i.encType||c,flushSync:i.flushSync})}else await a(i.action||l,{defaultShouldRevalidate:i.defaultShouldRevalidate,preventScrollReset:i.preventScrollReset,formData:d,body:p,formMethod:i.method||u,formEncType:i.encType||c,replace:i.replace,state:i.state,fromRouteId:r,flushSync:i.flushSync,viewTransition:i.viewTransition})},[n,a,t,r])}function Cp(e,{relative:t}={}){let{basename:r}=b.useContext(Ge),n=b.useContext(st);me(n,"useFormAction must be used inside a RouteContext");let[a]=n.matches.slice(-1),o={...En(e||".",{relative:t})},i=Ae();if(e==null){o.search=i.search;let l=new URLSearchParams(o.search),u=l.getAll("index");if(u.some(d=>d==="")){l.delete("index"),u.filter(p=>p).forEach(p=>l.append("index",p));let d=l.toString();o.search=d?`?${d}`:""}}return(!e||e===".")&&a.route.index&&(o.search=o.search?o.search.replace(/^\?/,"?index&"):"?index"),r!=="/"&&(o.pathname=o.pathname==="/"?r:et([r,o.pathname])),Pr(o)}function tt({key:e}={}){var N;let{router:t}=ao("useFetcher"),r=Gs("useFetcher"),n=b.useContext(Os),a=b.useContext(st),o=(N=a.matches[a.matches.length-1])==null?void 0:N.route.id;me(n,"useFetcher must be used inside a FetchersContext"),me(a,"useFetcher must be used inside a RouteContext"),me(o!=null,'useFetcher can only be used on routes that contain a unique "id"');let i=b.useId(),[l,u]=b.useState(e||i);e&&e!==l&&u(e);let{deleteFetcher:c,getFetcher:d,resetFetcher:p,fetch:y}=t;b.useEffect(()=>(d(l),()=>c(l)),[c,d,l]);let w=b.useCallback(async(A,T)=>{me(o,"No routeId available for fetcher.load()"),await y(l,o,A,T)},[l,o,y]),m=mc(),S=b.useCallback(async(A,T)=>{await m(A,{...T,navigate:!1,fetcherKey:l})},[l,m]),x=b.useCallback(A=>p(l,A),[p,l]),E=b.useMemo(()=>{let A=b.forwardRef((T,$)=>b.createElement(Ot,{...T,navigate:!1,fetcherKey:l,ref:$}));return A.displayName="fetcher.Form",A},[l]),I=r.fetchers.get(l)||_u,k=n.get(l);return b.useMemo(()=>({Form:E,submit:S,load:w,reset:x,...I,data:k}),[E,S,w,x,I,k])}function jp(){let e=Gs("useFetchers");return b.useMemo(()=>Array.from(e.fetchers.entries()).map(([t,r])=>({...r,key:t})),[e.fetchers])}var gs="react-router-scroll-positions",va={};function vs(e,t,r,n){let a=null;return n&&(r!=="/"?a=n({...e,pathname:We(e.pathname,r)||e.pathname},t):a=n(e,t)),a==null&&(a=e.key),a}function Ep({getKey:e,storageKey:t}={}){let{router:r}=ao("useScrollRestoration"),{restoreScrollPosition:n,preventScrollReset:a}=Gs("useScrollRestoration"),{basename:o}=b.useContext(Ge),i=Ae(),l=Fs(),u=Ka();b.useEffect(()=>(window.history.scrollRestoration="manual",()=>{window.history.scrollRestoration="auto"}),[]),kp(b.useCallback(()=>{if(u.state==="idle"){let c=vs(i,l,o,e);va[c]=window.scrollY}try{sessionStorage.setItem(t||gs,JSON.stringify(va))}catch(c){Ne(!1,`Failed to save scroll positions in sessionStorage, <ScrollRestoration /> will not work properly (${c}).`)}window.history.scrollRestoration="auto"},[u.state,e,o,i,l,t])),typeof document<"u"&&(b.useLayoutEffect(()=>{try{let c=sessionStorage.getItem(t||gs);c&&(va=JSON.parse(c))}catch{}},[t]),b.useLayoutEffect(()=>{let c=r==null?void 0:r.enableScrollRestoration(va,()=>window.scrollY,e?(d,p)=>vs(d,p,o,e):void 0);return()=>c&&c()},[r,o,e]),b.useLayoutEffect(()=>{if(n!==!1){if(typeof n=="number"){window.scrollTo(0,n);return}try{if(i.hash){let c=document.getElementById(decodeURIComponent(i.hash.slice(1)));if(c){c.scrollIntoView();return}}}catch{Ne(!1,`"${i.hash.slice(1)}" is not a decodable element ID. The view will not scroll to it.`)}a!==!0&&window.scrollTo(0,0)}},[i,n,a]))}function kp(e,t){let{capture:r}={};b.useEffect(()=>{let n=r!=null?{capture:r}:void 0;return window.addEventListener("pagehide",e,n),()=>{window.removeEventListener("pagehide",e,n)}},[e,r])}function Rp(e,{relative:t}={}){let r=b.useContext(Ps);me(r!=null,"`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?");let{basename:n}=ao("useViewTransitionState"),a=En(e,{relative:t});if(!r.isTransitioning)return!1;let o=We(r.currentLocation.pathname,n)||r.currentLocation.pathname,i=We(r.nextLocation.pathname,n)||r.nextLocation.pathname;return Pa(a.pathname,i)!=null||Pa(a.pathname,o)!=null}function _p({context:e,router:t,hydrate:r=!0,nonce:n}){me(t&&e,"You must provide `router` and `context` to <StaticRouterProvider>");let a={router:t,navigator:Ap(),static:!0,staticContext:e,basename:e.basename||"/"},o=new Map,i="";if(r!==!1){let u={loaderData:e.loaderData,actionData:e.actionData,errors:Ip(e.errors)};i=`window.__staticRouterHydrationData = JSON.parse(${Lr(JSON.stringify(JSON.stringify(u)))});`}let{state:l}=a.router;return b.createElement(b.Fragment,null,b.createElement(qt.Provider,{value:a},b.createElement(cr.Provider,{value:l},b.createElement(Os.Provider,{value:o},b.createElement(Ps.Provider,{value:{isTransitioning:!1}},b.createElement(gh,{basename:a.basename,location:l.location,navigationType:l.historyAction,navigator:a.navigator,static:a.static,useTransitions:!1},b.createElement(Gu,{manifest:t.manifest,routes:t.routes,future:t.future,state:l,isStatic:!0})))))),i?b.createElement("script",{suppressHydrationWarning:!0,nonce:n,dangerouslySetInnerHTML:{__html:i}}):null)}function Ip(e){if(!e)return null;let t=Object.entries(e),r={};for(let[n,a]of t)Oe(a)?r[n]={...a,__type:"RouteErrorResponse"}:a instanceof Error?r[n]={message:a.message,__type:"Error",...a.name!=="Error"?{__subType:a.name}:{}}:r[n]=a;return r}function Ap(){return{createHref:yc,encodeLocation:gc,push(e){throw new Error(`You cannot use navigator.push() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${JSON.stringify(e)})\` somewhere in your app.`)},replace(e){throw new Error(`You cannot use navigator.replace() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${JSON.stringify(e)}, { replace: true })\` somewhere in your app.`)},go(e){throw new Error(`You cannot use navigator.go() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${e})\` somewhere in your app.`)},back(){throw new Error("You cannot use navigator.back() on the server because it is a stateless environment.")},forward(){throw new Error("You cannot use navigator.forward() on the server because it is a stateless environment.")}}}function Np(e,t,r={}){let n={},a=Ns(e,yh,void 0,n),o=t.matches.map(l=>{let u=n[l.route.id]||l.route;return{...l,route:u}}),i=l=>`You cannot use router.${l}() on the server because it is a stateless environment`;return{get basename(){return t.basename},get future(){return{v8_middleware:!1,v8_passThroughRequests:!1,v8_trailingSlashAwareDataRequests:!1,...r==null?void 0:r.future}},get state(){return{historyAction:"POP",location:t.location,matches:o,loaderData:t.loaderData,actionData:t.actionData,errors:t.errors,initialized:!0,renderFallback:!1,navigation:Lf,restoreScrollPosition:null,preventScrollReset:!1,revalidation:"idle",fetchers:new Map,blockers:new Map}},get routes(){return a},get branches(){return r.branches},get manifest(){return n},get window(){},initialize(){throw i("initialize")},subscribe(){throw i("subscribe")},enableScrollRestoration(){throw i("enableScrollRestoration")},navigate(){throw i("navigate")},fetch(){throw i("fetch")},revalidate(){throw i("revalidate")},createHref:yc,encodeLocation:gc,getFetcher(){return _u},deleteFetcher(){throw i("deleteFetcher")},resetFetcher(){throw i("resetFetcher")},dispose(){throw i("dispose")},getBlocker(){return Df},deleteBlocker(){throw i("deleteBlocker")},patchRoutes(){throw i("patchRoutes")},_internalFetchControllers:new Map,_internalSetRoutes(){throw i("_internalSetRoutes")},_internalSetStateDoNotUseOrYouWillBreakYourApp(){throw i("_internalSetStateDoNotUseOrYouWillBreakYourApp")}}}function yc(e){return typeof e=="string"?e:Pr(e)}function gc(e){let t=typeof e=="string"?e:Pr(e);t=t.replace(/ $/,"%20");let r=Tp.test(t)?new URL(t):new URL(t,"http://localhost");return{pathname:r.pathname,search:r.search,hash:r.hash}}var Tp=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,ht={},Zi;function $p(){if(Zi)return ht;Zi=1,Object.defineProperty(ht,"__esModule",{value:!0}),ht.parseCookie=l,ht.parse=l,ht.stringifyCookie=u,ht.stringifySetCookie=c,ht.serialize=c,ht.parseSetCookie=d,ht.stringifySetCookie=c,ht.serialize=c;const e=/^[\u0021-\u003A\u003C\u003E-\u007E]+$/,t=/^[\u0021-\u003A\u003C-\u007E]*$/,r=/^([.]?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)([.][a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i,n=/^[\u0020-\u003A\u003D-\u007E]*$/,a=/^-?\d+$/,o=Object.prototype.toString,i=(()=>{const x=function(){};return x.prototype=Object.create(null),x})();function l(x,E){const I=new i,k=x.length;if(k<2)return I;const P=(E==null?void 0:E.decode)||m;let N=0;do{const A=y(x,N,k);if(A===-1)break;const T=p(x,N,k);if(A>T){N=x.lastIndexOf(";",A-1)+1;continue}const $=w(x,N,A);I[$]===void 0&&(I[$]=P(w(x,A+1,T))),N=T+1}while(N<k);return I}function u(x,E){const I=(E==null?void 0:E.encode)||encodeURIComponent,k=[];for(const P of Object.keys(x)){const N=x[P];if(N===void 0)continue;if(!e.test(P))throw new TypeError(`cookie name is invalid: ${P}`);const A=I(N);if(!t.test(A))throw new TypeError(`cookie val is invalid: ${N}`);k.push(`${P}=${A}`)}return k.join("; ")}function c(x,E,I){const k=typeof x=="object"?x:{...I,name:x,value:String(E)},P=typeof E=="object"?E:I,N=(P==null?void 0:P.encode)||encodeURIComponent;if(!e.test(k.name))throw new TypeError(`argument name is invalid: ${k.name}`);const A=k.value?N(k.value):"";if(!t.test(A))throw new TypeError(`argument val is invalid: ${k.value}`);let T=k.name+"="+A;if(k.maxAge!==void 0){if(!Number.isInteger(k.maxAge))throw new TypeError(`option maxAge is invalid: ${k.maxAge}`);T+="; Max-Age="+k.maxAge}if(k.domain){if(!r.test(k.domain))throw new TypeError(`option domain is invalid: ${k.domain}`);T+="; Domain="+k.domain}if(k.path){if(!n.test(k.path))throw new TypeError(`option path is invalid: ${k.path}`);T+="; Path="+k.path}if(k.expires){if(!S(k.expires)||!Number.isFinite(k.expires.valueOf()))throw new TypeError(`option expires is invalid: ${k.expires}`);T+="; Expires="+k.expires.toUTCString()}if(k.httpOnly&&(T+="; HttpOnly"),k.secure&&(T+="; Secure"),k.partitioned&&(T+="; Partitioned"),k.priority)switch(typeof k.priority=="string"?k.priority.toLowerCase():void 0){case"low":T+="; Priority=Low";break;case"medium":T+="; Priority=Medium";break;case"high":T+="; Priority=High";break;default:throw new TypeError(`option priority is invalid: ${k.priority}`)}if(k.sameSite)switch(typeof k.sameSite=="string"?k.sameSite.toLowerCase():k.sameSite){case!0:case"strict":T+="; SameSite=Strict";break;case"lax":T+="; SameSite=Lax";break;case"none":T+="; SameSite=None";break;default:throw new TypeError(`option sameSite is invalid: ${k.sameSite}`)}return T}function d(x,E){const I=(E==null?void 0:E.decode)||m,k=x.length,P=p(x,0,k),N=y(x,0,P),A=N===-1?{name:"",value:I(w(x,0,P))}:{name:w(x,0,N),value:I(w(x,N+1,P))};let T=P+1;for(;T<k;){const $=p(x,T,k),V=y(x,T,$),X=V===-1?w(x,T,$):w(x,T,V),q=V===-1?void 0:w(x,V+1,$);switch(X.toLowerCase()){case"httponly":A.httpOnly=!0;break;case"secure":A.secure=!0;break;case"partitioned":A.partitioned=!0;break;case"domain":A.domain=q;break;case"path":A.path=q;break;case"max-age":q&&a.test(q)&&(A.maxAge=Number(q));break;case"expires":if(!q)break;const G=new Date(q);Number.isFinite(G.valueOf())&&(A.expires=G);break;case"priority":if(!q)break;const J=q.toLowerCase();(J==="low"||J==="medium"||J==="high")&&(A.priority=J);break;case"samesite":if(!q)break;const Z=q.toLowerCase();(Z==="lax"||Z==="strict"||Z==="none")&&(A.sameSite=Z);break}T=$+1}return A}function p(x,E,I){const k=x.indexOf(";",E);return k===-1?I:k}function y(x,E,I){const k=x.indexOf("=",E);return k<I?k:-1}function w(x,E,I){let k=E,P=I;do{const N=x.charCodeAt(k);if(N!==32&&N!==9)break}while(++k<P);for(;P>k;){const N=x.charCodeAt(P-1);if(N!==32&&N!==9)break;P--}return x.slice(k,P)}function m(x){if(x.indexOf("%")===-1)return x;try{return decodeURIComponent(x)}catch{return x}}function S(x){return o.call(x)==="[object Date]"}return ht}var Qi=$p(),Er={exports:{}},Ki;function Pp(){if(Ki)return Er.exports;Ki=1;var e={decodeValues:!0,map:!1,silent:!1};function t(u){return typeof u!="string"||u in{}}function r(){return Object.create(null)}function n(u){return typeof u=="string"&&!!u.trim()}function a(u,c){var d=u.split(";").filter(n),p=d.shift(),y=o(p),w=y.name,m=y.value;if(c=c?Object.assign({},e,c):e,t(w))return null;try{m=c.decodeValues?decodeURIComponent(m):m}catch(x){console.error("set-cookie-parser: failed to decode cookie value. Set options.decodeValues=false to disable decoding.",x)}var S=r();return S.name=w,S.value=m,d.forEach(function(x){var E=x.split("="),I=E.shift().trimLeft().toLowerCase();if(!t(I)){var k=E.join("=");if(I==="expires")S.expires=new Date(k);else if(I==="max-age"){var P=parseInt(k,10);Number.isNaN(P)||(S.maxAge=P)}else I==="secure"?S.secure=!0:I==="httponly"?S.httpOnly=!0:I==="samesite"?S.sameSite=k:I==="partitioned"?S.partitioned=!0:I&&(S[I]=k)}}),S}function o(u){var c="",d="",p=u.split("=");return p.length>1?(c=p.shift(),d=p.join("=")):d=u,{name:c,value:d}}function i(u,c){if(c=c?Object.assign({},e,c):e,!u)return c.map?r():[];if(u.headers)if(typeof u.headers.getSetCookie=="function")u=u.headers.getSetCookie();else if(u.headers["set-cookie"])u=u.headers["set-cookie"];else{var d=u.headers[Object.keys(u.headers).find(function(y){return y.toLowerCase()==="set-cookie"})];!d&&u.headers.cookie&&!c.silent&&console.warn("Warning: set-cookie-parser appears to have been called on a request object. It is designed to parse Set-Cookie headers from responses, not Cookie headers from requests. Set the option {silent: true} to suppress this warning."),u=d}if(Array.isArray(u)||(u=[u]),c.map){var p=r();return u.filter(n).reduce(function(y,w){var m=a(w,c);return m&&!t(m.name)&&(y[m.name]=m),y},p)}else return u.filter(n).map(function(y){return a(y,c)}).filter(Boolean)}function l(u){if(Array.isArray(u))return u;if(typeof u!="string")return[];var c=[],d=0,p,y,w,m,S;function x(){for(;d<u.length&&/\s/.test(u.charAt(d));)d+=1;return d<u.length}function E(){return y=u.charAt(d),y!=="="&&y!==";"&&y!==","}for(;d<u.length;){for(p=d,S=!1;x();)if(y=u.charAt(d),y===","){for(w=d,d+=1,x(),m=d;d<u.length&&E();)d+=1;d<u.length&&u.charAt(d)==="="?(S=!0,d=m,c.push(u.substring(p,w)),p=d):d=w+1}else d+=1;(!S||d>=u.length)&&c.push(u.substring(p,u.length))}return c}return Er.exports=i,Er.exports.parse=i,Er.exports.parseString=a,Er.exports.splitCookiesString=l,Er.exports}var Op=Pp(),el={};function Lp({context:e,url:t,nonce:r}){typeof t=="string"&&(t=new URL(t));let{manifest:n,routeModules:a,criticalCss:o,serverHandoffString:i}=e,l=lc(n.routes,a,e.future,e.isSpaMode);e.staticHandlerContext.loaderData={...e.staticHandlerContext.loaderData};for(let c of e.staticHandlerContext.matches){let d=c.route.id,p=a[d],y=e.manifest.routes[d];p&&y&&np(d,p.clientLoader,y.hasLoader,e.isSpaMode)&&(p.HydrateFallback||!y.hasLoader)&&delete e.staticHandlerContext.loaderData[d]}let u=Np(l,e.staticHandlerContext,{branches:e.branches});return b.createElement(b.Fragment,null,b.createElement(In.Provider,{value:{manifest:n,routeModules:a,criticalCss:o,serverHandoffString:i,future:e.future,ssr:e.ssr,isSpaMode:e.isSpaMode,routeDiscovery:e.routeDiscovery,serializeError:e.serializeError,renderMeta:e.renderMeta}},b.createElement(gp,{location:u.state.location},b.createElement(_p,{router:u,context:e.staticHandlerContext,hydrate:!1}))),e.serverHandoffStream?b.createElement(b.Suspense,null,b.createElement(ac,{context:e,identifier:0,reader:e.serverHandoffStream.getReader(),textDecoder:new TextDecoder,nonce:r})):null)}var Xs=new TextEncoder,Dp=async(e,t)=>{let r=Xs.encode(e),n=await vc(t,["sign"]),a=await crypto.subtle.sign("HMAC",n,r),o=btoa(String.fromCharCode(...new Uint8Array(a))).replace(/=+$/,"");return e+"."+o},Mp=async(e,t)=>{let r=e.lastIndexOf("."),n=e.slice(0,r),a=e.slice(r+1),o=Xs.encode(n),i=await vc(t,["verify"]);try{let l=Fp(atob(a));return await crypto.subtle.verify("HMAC",i,l,o)?n:!1}catch{return!1}},vc=async(e,t)=>crypto.subtle.importKey("raw",Xs.encode(e),{name:"HMAC",hash:"SHA-256"},!1,t);function Fp(e){let t=new Uint8Array(e.length);for(let r=0;r<e.length;r++)t[r]=e.charCodeAt(r);return t}var Up=(e,t={})=>{let{secrets:r=[],...n}={path:"/",sameSite:"lax",...t};return Yp(e,n.expires),{get name(){return e},get isSigned(){return r.length>0},get expires(){return typeof n.maxAge<"u"?new Date(Date.now()+n.maxAge*1e3):n.expires},async parse(a,o){if(!a)return null;let i=Qi.parse(a,{...n,...o});if(e in i){let l=i[e];return typeof l=="string"&&l!==""?await qp(l,r):""}else return null},async serialize(a,o){return Qi.serialize(e,a===""?"":await zp(a,r),{...n,...o})}}},Bp=e=>e!=null&&typeof e.name=="string"&&typeof e.isSigned=="boolean"&&typeof e.parse=="function"&&typeof e.serialize=="function";async function zp(e,t){let r=Hp(e);return t.length>0&&(r=await Dp(r,t[0])),r}async function qp(e,t){if(t.length>0){for(let r of t){let n=await Mp(e,r);if(n!==!1)return tl(n)}return null}return tl(e)}function Hp(e){return btoa(Wp(encodeURIComponent(JSON.stringify(e))))}function tl(e){try{return JSON.parse(decodeURIComponent(Vp(atob(e))))}catch{return{}}}function Vp(e){let t=e.toString(),r="",n=0,a,o;for(;n<t.length;)a=t.charAt(n++),/[\w*+\-./@]/.exec(a)?r+=a:(o=a.charCodeAt(0),o<256?r+="%"+rl(o,2):r+="%u"+rl(o,4).toUpperCase());return r}function rl(e,t){let r=e.toString(16);for(;r.length<t;)r="0"+r;return r}function Wp(e){let t=e.toString(),r="",n=0,a,o;for(;n<t.length;){if(a=t.charAt(n++),a==="%"){if(t.charAt(n)==="u"){if(o=t.slice(n+1,n+5),/^[\da-f]{4}$/i.exec(o)){r+=String.fromCharCode(parseInt(o,16)),n+=5;continue}}else if(o=t.slice(n,n+2),/^[\da-f]{2}$/i.exec(o)){r+=String.fromCharCode(parseInt(o,16)),n+=2;continue}}r+=a}return r}function Yp(e,t){Us(!t,`The "${e}" cookie has an "expires" property set. This will cause the expires value to not be updated when the session is committed. Instead, you should set the expires value when serializing the cookie. You can use \`commitSession(session, { expires })\` if using a session storage object, or \`cookie.serialize("value", { expires })\` if you're using the cookie directly.`)}function Gp(e){return Object.keys(e).reduce((t,r)=>{let n=e[r];return n&&(t[r]=n.module),t},{})}function Xp(e){return e==="development"||e==="production"||e==="test"}function oo(e,t){if(e instanceof Error&&t!=="development"){let r=new Error("Unexpected Server Error");return r.stack=void 0,r}return e}function za(e,t){return Object.entries(e).reduce((r,[n,a])=>Object.assign(r,{[n]:oo(a,t)}),{})}function xc(e,t){let r=oo(e,t);return{message:r.message,stack:r.stack}}function nl(e,t){if(!e)return null;let r=Object.entries(e),n={};for(let[a,o]of r)if(Oe(o))n[a]={...o,__type:"RouteErrorResponse"};else if(o instanceof Error){let i=oo(o,t);n[a]={message:i.message,stack:i.stack,__type:"Error",...i.name!=="Error"?{__subType:i.name}:{}}}else n[a]=o;return n}function mn(e,t){if(e===!1||e===null||typeof e>"u")throw console.error("The following error is a bug in React Router; please open an issue! https://github.com/remix-run/react-router/issues/new/choose"),new Error(t)}function wc(e,t,r,n,a){let o=gn(t,n,a??"/",!1,r);return o?o.map(i=>{let l=e[i.route.id];return mn(l,`Route with id "${i.route.id}" not found in manifest.`),{params:i.params,pathname:i.pathname,route:l}}):null}async function al(e,t,r){let n=await e({request:r.v8_passThroughRequests?t.request:Zp(Jp(t.request)),url:t.url,params:t.params,context:t.context,pattern:t.pattern});if(sr(n)&&n.init&&n.init.status&&Za(n.init.status))throw new Response(null,n.init);return n}function Jp(e){let t=new URL(e.url),r=t.searchParams.getAll("index");t.searchParams.delete("index");let n=[];for(let o of r)o&&n.push(o);for(let o of n)t.searchParams.append("index",o);let a={method:e.method,body:e.body,headers:e.headers,signal:e.signal};return a.body&&(a.duplex="half"),new Request(t.href,a)}function Zp(e){let t=new URL(e.url);t.searchParams.delete("_routes");let r={method:e.method,body:e.body,headers:e.headers,signal:e.signal};return r.body&&(r.duplex="half"),new Request(t.href,r)}function bc(e,t){if(typeof process<"u")try{if(el.hasOwnProperty("IS_RR_BUILD_REQUEST")&&el.IS_RR_BUILD_REQUEST==="yes")return e.headers.get(t)}catch{}return null}function Qp(e){let t={};return Object.values(e).forEach(r=>{if(r){let n=r.parentId||"";t[n]||(t[n]=[]),t[n].push(r)}}),t}function Sc(e,t,r="",n=Qp(e)){return(n[r]||[]).map(a=>{let o={hasErrorBoundary:a.id==="root"||a.module.ErrorBoundary!=null,id:a.id,path:a.path,middleware:a.module.middleware,loader:a.module.loader?async i=>{let l=bc(i.request,"X-React-Router-Prerender-Data");if(l!=null){let c=l&&decodeURI(l);mn(c,"Missing prerendered data for route");let d=new TextEncoder().encode(c),p=new ReadableStream({start(m){m.enqueue(d),m.close()}}),w=(await Wh(p,global)).value;if(w&&Dr in w){let m=w[Dr],S={status:m.status};throw m.reload?Rf(m.redirect,S):m.replace?_f(m.redirect,S):Et(m.redirect,S)}else{mn(w&&a.id in w,"Unable to decode prerendered data");let m=w[a.id];return mn("data"in m,"Unable to process prerendered data"),m.data}}return await al(a.module.loader,i,t)}:void 0,action:a.module.action?i=>al(a.module.action,i,t):void 0,handle:a.module.handle};return a.index?{index:!0,...o}:{caseSensitive:a.caseSensitive,children:Sc(e,t,a.id,n),...o}})}function ol(e){return Lr(JSON.stringify(e))}function Js(e,t){return Kp(e,r=>{let n=t.routes[r.route.id];return mn(n,`Route with id "${r.route.id}" not found in build`),n.module.headers})}function Kp(e,t,r){let n=e.errors?e.matches.findIndex(l=>e.errors[l.route.id]):-1,a=n>=0?e.matches.slice(0,n+1):e.matches,o;if(n>=0){let{actionHeaders:l,actionData:u,loaderHeaders:c,loaderData:d}=e;e.matches.slice(n).some(p=>{let y=p.route.id;return l[y]&&(!u||!u.hasOwnProperty(y))?o=l[y]:c[y]&&!d.hasOwnProperty(y)&&(o=c[y]),o!=null})}const i=new Headers(r);return a.reduce((l,u,c)=>{let{id:d}=u.route,p=e.loaderHeaders[d]||new Headers,y=e.actionHeaders[d]||new Headers,w=o!=null&&c===a.length-1,m=w&&o!==p&&o!==y,S=t(u);if(S==null){let E=new Headers(l);return m&&er(o,E),er(y,E),er(p,E),E}let x=new Headers(typeof S=="function"?S({loaderHeaders:p,parentHeaders:l,actionHeaders:y,errorHeaders:w?o:void 0}):S);return m&&er(o,x),er(y,x),er(p,x),er(l,x),x},new Headers(i))}function er(e,t){let r=e.get("Set-Cookie");if(r){let n=Op.splitCookiesString(r),a=new Set(t.getSetCookie());n.forEach(o=>{a.has(o)||t.append("Set-Cookie",o)})}}function Cc(e,t){let r=e.get("origin"),n=null;try{n=typeof r=="string"&&r!=="null"?new URL(r).host:r}catch{throw new Error("`origin` header is not a valid URL. Aborting the action.")}let a=rm(e);if(n&&(!a||n!==a.value)&&!tm(n,t))throw a?new Error(`${a.type} header does not match \`origin\` header from a forwarded action request. Aborting the action.`):new Error("`x-forwarded-host` or `host` headers are not provided. One of these is needed to compare the `origin` header from a forwarded action request. Aborting the action.")}function em(e,t){const r=e.split("."),n=t.split(".");if(n.length<1||r.length<n.length)return!1;for(;n.length;){const a=n.pop(),o=r.pop();switch(a){case"":return!1;case"*":{if(o)continue;return!1}case"**":return n.length>0?!1:o!==void 0;case void 0:default:if(o!==a)return!1}}return r.length===0}function tm(e,t=[]){return t.some(r=>r&&(r===e||em(e,r)))}function rm(e){var a;let t=e.get("x-forwarded-host"),r=(a=t==null?void 0:t.split(",")[0])==null?void 0:a.trim(),n=e.get("host");return r?{type:"x-forwarded-host",value:r}:n?{type:"host",value:n}:void 0}function An(e,t,r){t=t||"/";let n=new URL(e.url),a=n.pathname;r!=null&&r.v8_trailingSlashAwareDataRequests?a.endsWith("/_.data")?a=a.replace(/_\.data$/,""):a=a.replace(/\.data$/,""):(We(a,t)==="/_root.data"?a=t:a.endsWith(".data")&&(a=a.replace(/\.data$/,"")),We(a,t)!=="/"&&a.endsWith("/")&&(a=a.slice(0,-1)));let o=new URLSearchParams(n.search);o.delete("_routes");let i=o.toString();return i&&(i=`?${i}`),{pathname:a,search:i,hash:""}}var jc=new Set([...Vh,304]);async function nm(e,t,r,n,a,o,i){try{try{Cc(n.headers,Array.isArray(e.allowedActionOrigins)?e.allowedActionOrigins:[])}catch{return u(new Error("Bad Request"),400)}let d=e.future.v8_passThroughRequests?n:new Request(a,{method:n.method,body:n.body,headers:n.headers,signal:n.signal,...n.body?{duplex:"half"}:void 0}),p=await r.query(d,{requestContext:o,skipLoaderErrorBubbling:!0,skipRevalidation:!0,generateMiddlewareResponse:e.future.v8_middleware?async y=>{try{let w=await y(d);return l(w)}catch(w){return u(w)}}:void 0,normalizePath:y=>An(y,e.basename,e.future)});return l(p)}catch(d){return u(d)}function l(d){return _e(d)?d:c(d)}function u(d,p=500){return i(d),vn(n,e,t,{result:{error:d},headers:new Headers,status:p})}function c(d){let p=Js(d,e);if(Za(d.statusCode)&&p.has("Location"))return new Response(null,{status:d.statusCode,headers:p});d.errors&&(Object.values(d.errors).forEach(w=>{(!Oe(w)||w.error)&&i(w)}),d.errors=za(d.errors,t));let y;return d.errors?y={error:Object.values(d.errors)[0]}:y={data:Object.values(d.actionData||{})[0]},vn(n,e,t,{result:y,headers:p,status:d.statusCode})}}async function am(e,t,r,n,a,o,i){let l=new URL(n.url).searchParams.get("_routes"),u=l?new Set(l.split(",")):null;try{let y=e.future.v8_passThroughRequests?n:new Request(a,{headers:n.headers,signal:n.signal}),w=await r.query(y,{requestContext:o,filterMatchesToLoad:m=>!u||u.has(m.route.id),skipLoaderErrorBubbling:!0,generateMiddlewareResponse:e.future.v8_middleware?async m=>{try{let S=await m(y);return c(S)}catch(S){return d(S)}}:void 0,normalizePath:m=>An(m,e.basename,e.future)});return c(w)}catch(y){return d(y)}function c(y){return _e(y)?y:p(y)}function d(y){return i(y),vn(n,e,t,{result:{error:y},headers:new Headers,status:500})}function p(y){let w=Js(y,e);if(Za(y.statusCode)&&w.has("Location"))return new Response(null,{status:y.statusCode,headers:w});y.errors&&(Object.values(y.errors).forEach(x=>{(!Oe(x)||x.error)&&i(x)}),y.errors=za(y.errors,t));let m={},S=new Set(y.matches.filter(x=>u?u.has(x.route.id):x.route.loader!=null).map(x=>x.route.id));if(y.errors)for(let[x,E]of Object.entries(y.errors))m[x]={error:E};for(let[x,E]of Object.entries(y.loaderData))!(x in m)&&S.has(x)&&(m[x]={data:E});return vn(n,e,t,{result:m,headers:w,status:y.statusCode})}}function vn(e,t,r,{result:n,headers:a,status:o}){let i=new Headers(a);return i.set("X-Remix-Response","yes"),jc.has(o)?new Response(null,{status:o,headers:i}):(i.set("Content-Type","text/x-script"),i.delete("Content-Length"),new Response(xs(n,e.signal,t.entry.module.streamTimeout,r),{status:o||200,headers:i}))}function sl(e,t,r,n){let a=om(e.status,e.headers,r.basename),o=new Headers(e.headers);return o.delete("Location"),o.set("Content-Type","text/x-script"),vn(t,r,n,{result:t.method==="GET"?{[Dr]:a}:a,headers:o,status:Hh})}function om(e,t,r){let n=t.get("Location");return r&&(n=We(n,r)||n),{redirect:n,status:e,revalidate:t.has("X-Remix-Revalidate")||t.has("Set-Cookie"),reload:t.has("X-Remix-Reload-Document"),replace:t.has("X-Remix-Replace")}}function xs(e,t,r,n){let a=new AbortController,o=setTimeout(()=>{a.abort(new Error("Server Timeout")),l()},typeof r=="number"?r:4950),i=()=>{a.abort(t.reason),l()};t.addEventListener("abort",i);let l=()=>{clearTimeout(o),t.removeEventListener("abort",i)};return Bh(e,{signal:a.signal,onComplete:l,plugins:[u=>{if(u instanceof Error){let{name:c,message:d,stack:p}=oo(u,n);return["SanitizedError",c,d,p]}if(u instanceof kt){let{data:c,status:d,statusText:p}=u;return["ErrorResponse",c,d,p]}if(u&&typeof u=="object"&&Dr in u)return["SingleFetchRedirect",u[Dr]]}],postPlugins:[u=>{if(u&&typeof u=="object")return["SingleFetchClassInstance",Object.fromEntries(Object.entries(u))]},()=>["SingleFetchFallback"]]})}function il(e,t){let r=Sc(e.routes,e.future),n=Xp(t)?t:"production",a=Uf(r,{basename:e.basename,instrumentations:e.entry.module.instrumentations,future:e.future}),o=e.entry.module.handleError||((l,{request:u})=>{u.signal.aborted||console.error(Oe(l)&&l.error?l.error:l)}),i=async(l,u)=>{let c={},d,p=I=>{o(I,{context:d,params:c,request:l})};if(e.future.v8_middleware){if(u&&!(u instanceof ar)){let I=new Error("Invalid `context` value provided to `handleRequest`. When middleware is enabled you must return an instance of `RouterContextProvider` from your `getLoadContext` function.");return p(I),qa()}d=u||new ar}else d=u||{};let y=new URL(l.url),w=An(l,e.basename,e.future).pathname,m=bc(l,"X-React-Router-SPA-Mode")==="yes";if(!e.ssr){let I=decodeURI(w);if(e.basename&&e.basename!=="/"){let k=We(I,e.basename);if(k==null)return o(new kt(404,"Not Found",`Refusing to prerender the \`${I}\` path because it does not start with the basename \`${e.basename}\``),{context:d,params:c,request:l}),new Response("Not Found",{status:404,statusText:"Not Found"});I=k}if(e.prerender.length===0)m=!0;else if(!e.prerender.includes(I)&&!e.prerender.includes(I+"/")){if(y.pathname.endsWith(".data"))return o(new kt(404,"Not Found",`Refusing to SSR the path \`${I}\` because \`ssr:false\` is set and the path is not included in the \`prerender\` config, so in production the path will be a 404.`),{context:d,params:c,request:l}),new Response("Not Found",{status:404,statusText:"Not Found"});m=!0}}let S=ip(e.routeDiscovery.manifestPath,e.basename);if(e.routeDiscovery.mode==="lazy"&&y.pathname===S)try{return await im(e,a.dataRoutes,a._internalRouteBranches,y)}catch(I){return p(I),new Response("Unknown Server Error",{status:500})}let x=wc(e.routes,a.dataRoutes,a._internalRouteBranches,w,e.basename);x&&x.length>0&&Object.assign(c,x[0].params);let E;if(y.pathname.endsWith(".data"))E=await lm(n,e,a,l,w,d,p),Da(E)&&(E=sl(E,l,e,n)),e.entry.module.handleDataRequest&&(E=await e.entry.module.handleDataRequest(E,{context:d,params:x?x[0].params:{},request:l}),Da(E)&&(E=sl(E,l,e,n)));else if(!m&&x&&x[x.length-1].route.module.default==null&&x[x.length-1].route.module.ErrorBoundary==null)E=await cm(n,e,a,x.slice(-1)[0].route.id,l,d,p);else{let{pathname:I}=y,k;e.unstable_getCriticalCss&&(k=await e.unstable_getCriticalCss({pathname:I})),E=await um(n,e,a,l,d,p,m,k)}return l.method==="HEAD"?new Response(null,{headers:E.headers,status:E.status,statusText:E.statusText}):E};return e.entry.module.instrumentations&&(i=Af(i,e.entry.module.instrumentations.map(l=>l.handler).filter(Boolean))),{serverMode:n,staticHandler:a,errorHandler:o,requestHandler:i}}var sm=(e,t)=>{let r,n,a,o,i;return async function(u,c){if(r=typeof e=="function"?await e():e,typeof e=="function"){let d=il(r,t);n=d.serverMode,a=d.staticHandler,o=d.errorHandler,i=d.requestHandler}else if(!n||!a||!o||!i){let d=il(r,t);n=d.serverMode,a=d.staticHandler,o=d.errorHandler,i=d.requestHandler}return i(u,c)}};async function im(e,t,r,n){if(e.assets.version!==n.searchParams.get("version"))return new Response(null,{status:204,headers:{"X-Remix-Reload-Document":"true"}});if(n.toString().length>ap)return new Response(null,{statusText:"Bad Request",status:400});let a={};if(n.searchParams.has("paths")){let o=new Set;(n.searchParams.get("paths")||"").split(",").filter(Boolean).forEach(u=>{u.startsWith("/")||(u=`/${u}`);let c=u.split("/").slice(1);c.forEach((d,p)=>{let y=c.slice(0,p+1).join("/");o.add(`/${y}`)})});for(let u of o){let c=wc(e.routes,t,r,u,e.basename);if(c)for(let d of c){let p=d.route.id,y=e.assets.routes[p];y&&(a[p]=y)}}return Response.json(a,{headers:{"Cache-Control":"public, max-age=31536000, immutable"}})}return new Response("Invalid Request",{status:400})}async function lm(e,t,r,n,a,o,i){let l=new URL(n.url);return l.pathname=a,lr(n.method)?await nm(t,e,r,n,l,o,i):await am(t,e,r,n,l,o,i)}async function um(e,t,r,n,a,o,i,l){try{if(lr(n.method))try{Cc(n.headers,Array.isArray(t.allowedActionOrigins)?t.allowedActionOrigins:[])}catch(d){return o(d),new Response("Bad Request",{status:400})}let c=await r.query(n,{requestContext:a,generateMiddlewareResponse:t.future.v8_middleware?async d=>{try{let p=await d(n);return _e(p)||(p=await u(p,i)),p}catch(p){return o(p),new Response(null,{status:500})}}:void 0,normalizePath:d=>An(d,t.basename,t.future)});return _e(c)||(c=await u(c,i)),c}catch(c){return o(c),new Response(null,{status:500})}async function u(c,d){let p=Js(c,t);if(jc.has(c.statusCode))return new Response(null,{status:c.statusCode,headers:p});c.errors&&(Object.values(c.errors).forEach(x=>{(!Oe(x)||x.error)&&o(x)}),c.errors=za(c.errors,e));let y={loaderData:c.loaderData,actionData:c.actionData,errors:nl(c.errors,e)},w={basename:t.basename,future:t.future,routeDiscovery:t.routeDiscovery,ssr:t.ssr,isSpaMode:d},m={manifest:t.assets,branches:r._internalRouteBranches,routeModules:Gp(t.routes),staticHandlerContext:c,criticalCss:l,serverHandoffString:ol({...w,criticalCss:l}),serverHandoffStream:xs(y,n.signal,t.entry.module.streamTimeout,e),renderMeta:{},future:t.future,ssr:t.ssr,routeDiscovery:t.routeDiscovery,isSpaMode:d,serializeError:x=>xc(x,e)},S=t.entry.module.default;try{return await S(n,c.statusCode,p,m,a)}catch(x){o(x);let E=x;if(_e(x))try{let k=await fm(x);E=new kt(x.status,x.statusText,k)}catch{}c=Iu(r.dataRoutes,c,E),c.errors&&(c.errors=za(c.errors,e));let I={loaderData:c.loaderData,actionData:c.actionData,errors:nl(c.errors,e)};m={...m,staticHandlerContext:c,serverHandoffString:ol(w),serverHandoffStream:xs(I,n.signal,t.entry.module.streamTimeout,e),renderMeta:{}};try{return await S(n,c.statusCode,p,m,a)}catch(k){return o(k),qa()}}}}async function cm(e,t,r,n,a,o,i){try{let c=await r.queryRoute(a,{routeId:n,requestContext:o,generateMiddlewareResponse:t.future.v8_middleware?async d=>{try{let p=await d(a);return l(p)}catch(p){return u(p)}}:void 0,normalizePath:d=>An(d,t.basename,t.future)});return l(c)}catch(c){return u(c)}function l(c){return _e(c)?c:typeof c=="string"?new Response(c):Response.json(c)}function u(c){if(_e(c))return c;if(Oe(c))return i(c),dm(c,e);if(c instanceof Error&&c.message==="Expected a response from queryRoute"){let d=new Error("Expected a Response to be returned from resource route handler");return i(d),qa()}return i(c),qa()}}function dm(e,t){return Response.json(xc(e.error||new Error("Unexpected Server Error"),t),{status:e.status,statusText:e.statusText})}function qa(e,t){let r="Unexpected Server Error";return new Response(r,{status:500,headers:{"Content-Type":"text/plain"}})}function fm(e){let t=e.headers.get("Content-Type");return t&&/\bapplication\/json\b/.test(t)?e.body==null?null:e.json():e.text()}function Bo(e){return`__flash_${e}__`}var hm=(e={},t="")=>{let r=new Map(Object.entries(e));return{get id(){return t},get data(){return Object.fromEntries(r)},has(n){return r.has(n)||r.has(Bo(n))},get(n){if(r.has(n))return r.get(n);let a=Bo(n);if(r.has(a)){let o=r.get(a);return r.delete(a),o}},set(n,a){r.set(n,a)},flash(n,a){r.set(Bo(n),a)},unset(n){r.delete(n)}}};function pm(e){Us(e.isSigned,`The "${e.name}" cookie is not signed, but session cookies should be signed to prevent tampering on the client before they are sent back to the server. See https://reactrouter.com/explanation/sessions-and-cookies#signing-cookies for more information.`)}function mm({cookie:e}={}){let t=Bp(e)?e:Up((e==null?void 0:e.name)||"__session",e);return pm(t),{async getSession(r,n){return hm(r&&await t.parse(r,n)||{})},async commitSession(r,n){let a=await t.serialize(r.data,n);if(a.length>4096)throw new Error("Cookie length will exceed browser maximum. Length: "+a.length);return a},async destroySession(r,n){return t.serialize("",{...n,maxAge:void 0,expires:new Date(0)})}}}new TextEncoder;(class extends Ve.Component{constructor(e){super(e),this.state={error:null,location:e.location}}static getDerivedStateFromError(e){return{error:e}}static getDerivedStateFromProps(e,t){return t.location!==e.location?{error:null,location:e.location}:{error:t.error,location:t.location}}render(){return this.state.error?Ve.createElement(ym,{error:this.state.error,renderAppShell:!0}):this.props.children}});function ll({renderAppShell:e,title:t,children:r}){return e?Ve.createElement("html",{lang:"en"},Ve.createElement("head",null,Ve.createElement("meta",{charSet:"utf-8"}),Ve.createElement("meta",{name:"viewport",content:"width=device-width,initial-scale=1,viewport-fit=cover"}),Ve.createElement("title",null,t)),Ve.createElement("body",null,Ve.createElement("main",{style:{fontFamily:"system-ui, sans-serif",padding:"2rem"}},r))):r}function ym({error:e,renderAppShell:t}){console.error(e);let r=Ve.createElement("script",{dangerouslySetInnerHTML:{__html:`
-        console.log(
-          "💿 Hey developer 👋. You can provide a way better UX than this when your app throws errors. Check out https://reactrouter.com/how-to/error-boundary for more information."
-        );
-      `}});if(Oe(e))return Ve.createElement(ll,{renderAppShell:t,title:"Unhandled Thrown Response!"},Ve.createElement("h1",{style:{fontSize:"24px"}},e.status," ",e.statusText),r);let n;if(e instanceof Error)n=e;else{let a=e==null?"Unknown Error":typeof e=="object"&&"toString"in e?e.toString():JSON.stringify(e);n=new Error(a)}return Ve.createElement(ll,{renderAppShell:t,title:"Application Error!"},Ve.createElement("h1",{style:{fontSize:"24px"}},"Application Error"),Ve.createElement("pre",{style:{padding:"2rem",background:"hsla(10, 50%, 50%, 0.1)",color:"red",overflow:"auto"}},n.stack),r)}var gm=" daum[ /]| deusu/|(?:^|[^g])news(?!sapphire)|(?<! (?:channel/|google/))google(?!(app|/google| pixel))|(?<! cu)bots?(?:\\b|_)|(?<!(?:lib))http|(?<!cam)scan|24x7|;\\s\\w+;$|@[a-z][\\w-]+\\.|\\(\\)|\\.com\\b|\\b\\w+\\.ai|\\bbw/|\\bdlc\\b|\\bort/|\\bperl\\b|\\btime/|\\||^[\\w \\.\\-\\(?:\\):%]+(?:/v?\\d+(?:\\.\\d+)?(?:\\.\\d{1,10})*?)?(?:,|$)|^[\\w\\-]+/[\\w]+$|^[^ ]{50,}$|^\\d+\\b|^\\W|^\\w*search\\b|^\\w+/[\\w\\(\\)]*$|^\\w+/\\d\\.\\d\\s\\([\\w@]+\\)$|^active|^ad muncher|^amaya|^apache/|^avsdevicesdk/|^azure|^biglotron|^blackbox exporter|^bot|^clamav[ /]|^claude-code/|^client/|^cobweb/|^custom|^ddg[_-]android|^discourse|^dispatch/\\d|^downcast/|^duckduckgo|^email|^exodusmovement|^facebook|^getright/|^gozilla/|^hobbit|^hotzonu|^hwcdn/|^igetter/|^jeode/|^jetty/|^jigsaw|^microsoft bits|^movabletype|^mozilla/\\d\\.\\d\\s[\\w\\.-]+$|^mozilla/\\d\\.\\d\\s\\((?:compatible;)?(?:\\s?[\\w\\d-.]+\\/\\d+\\.\\d+)?\\)$|^navermailapp|^netsurf|^offline|^openai/|^owler|^php|^postman|^ps_daily/|^python|^rank|^read|^reed|^remove\\.bg/|^rest|^rss|^snapchat|^sora |^space bison|^stape/|^svn|^swcd |^taringa|^thumbor/|^track|^w3c|^webbandit/|^webcopier|^wget|^whatsapp|^wordpress|^xenu link sleuth|^yahoo|^yandex|^zdm/\\d|^zoom marketplace/|abuse|advisor|agent\\b|analyzer|archive|ask jeeves/teoma|attracta|audit|bluecoat drtr|browsex|burpcollaborator|capture|catch|check\\b|checker|chrome-lighthouse|chromeframe|classifier|cloudflare|collapsify\\b|convertify|cookiehubverify/|crawl|cursor/|cypress/|dareboost|datanyze|dejaclick|detect|dmbrowser|download|exaleadcloudview|feed|fetcher|firephp|foregenix|functionize|grab|hardenize\\b|headless|hotjar|httrack|hubspot marketing grader|ibisbrowser|infrawatch|insight|inspect|iplabel|java(?!;)|library|linkcheck|linktiger|mail\\.ru/|manager|manus-user/|marketgoo/|measure|monitor\\b|neustar wpm|node\\b|nutch|offbyone|openvas|optimize|pageburst|pagespeed|parser|phantomjs|pingdom|playwright|powermarks|preview|proxy|ptst[ /]\\d|readable/|retriever|rexx;|rigor|rss\\b|scrape|securityheaders|selenium|server|silktide|sindup/|sogou|sparkler/|speedcurve|spider|splash|statuscake|supercleaner|synapse|synthetic|testlocally|tools|torrent|transcoder|upday/|url|validator|virtuoso|wappalyzer|watchtowr|webglance|webkit2png|whatcms/|xtate/",vm=/bot|crawl|http|lighthouse|scan|search|spider/i,ln;function xm(){if(ln instanceof RegExp)return ln;try{ln=new RegExp(gm,"i")}catch{ln=vm}return ln}var wm=e=>typeof e=="string"&&e!=="";function bm(e){return wm(e)&&xm().test(e)}var Ut={},tr={};/**
- * @license React
- * react-dom-server-legacy.browser.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var ul;function Sm(){if(ul)return tr;ul=1;var e=Xa();function t(f){for(var v="https://reactjs.org/docs/error-decoder.html?invariant="+f,j=1;j<arguments.length;j++)v+="&args[]="+encodeURIComponent(arguments[j]);return"Minified React error #"+f+"; visit "+v+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var r=Object.prototype.hasOwnProperty,n=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,a={},o={};function i(f){return r.call(o,f)?!0:r.call(a,f)?!1:n.test(f)?o[f]=!0:(a[f]=!0,!1)}function l(f,v,j,_,F,L,U){this.acceptsBooleans=v===2||v===3||v===4,this.attributeName=_,this.attributeNamespace=F,this.mustUseProperty=j,this.propertyName=f,this.type=v,this.sanitizeURL=L,this.removeEmptyString=U}var u={};"children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style".split(" ").forEach(function(f){u[f]=new l(f,0,!1,f,null,!1,!1)}),[["acceptCharset","accept-charset"],["className","class"],["htmlFor","for"],["httpEquiv","http-equiv"]].forEach(function(f){var v=f[0];u[v]=new l(v,1,!1,f[1],null,!1,!1)}),["contentEditable","draggable","spellCheck","value"].forEach(function(f){u[f]=new l(f,2,!1,f.toLowerCase(),null,!1,!1)}),["autoReverse","externalResourcesRequired","focusable","preserveAlpha"].forEach(function(f){u[f]=new l(f,2,!1,f,null,!1,!1)}),"allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope".split(" ").forEach(function(f){u[f]=new l(f,3,!1,f.toLowerCase(),null,!1,!1)}),["checked","multiple","muted","selected"].forEach(function(f){u[f]=new l(f,3,!0,f,null,!1,!1)}),["capture","download"].forEach(function(f){u[f]=new l(f,4,!1,f,null,!1,!1)}),["cols","rows","size","span"].forEach(function(f){u[f]=new l(f,6,!1,f,null,!1,!1)}),["rowSpan","start"].forEach(function(f){u[f]=new l(f,5,!1,f.toLowerCase(),null,!1,!1)});var c=/[\-:]([a-z])/g;function d(f){return f[1].toUpperCase()}"accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height".split(" ").forEach(function(f){var v=f.replace(c,d);u[v]=new l(v,1,!1,f,null,!1,!1)}),"xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type".split(" ").forEach(function(f){var v=f.replace(c,d);u[v]=new l(v,1,!1,f,"http://www.w3.org/1999/xlink",!1,!1)}),["xml:base","xml:lang","xml:space"].forEach(function(f){var v=f.replace(c,d);u[v]=new l(v,1,!1,f,"http://www.w3.org/XML/1998/namespace",!1,!1)}),["tabIndex","crossOrigin"].forEach(function(f){u[f]=new l(f,1,!1,f.toLowerCase(),null,!1,!1)}),u.xlinkHref=new l("xlinkHref",1,!1,"xlink:href","http://www.w3.org/1999/xlink",!0,!1),["src","href","action","formAction"].forEach(function(f){u[f]=new l(f,1,!1,f.toLowerCase(),null,!0,!0)});var p={animationIterationCount:!0,aspectRatio:!0,borderImageOutset:!0,borderImageSlice:!0,borderImageWidth:!0,boxFlex:!0,boxFlexGroup:!0,boxOrdinalGroup:!0,columnCount:!0,columns:!0,flex:!0,flexGrow:!0,flexPositive:!0,flexShrink:!0,flexNegative:!0,flexOrder:!0,gridArea:!0,gridRow:!0,gridRowEnd:!0,gridRowSpan:!0,gridRowStart:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnSpan:!0,gridColumnStart:!0,fontWeight:!0,lineClamp:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,tabSize:!0,widows:!0,zIndex:!0,zoom:!0,fillOpacity:!0,floodOpacity:!0,stopOpacity:!0,strokeDasharray:!0,strokeDashoffset:!0,strokeMiterlimit:!0,strokeOpacity:!0,strokeWidth:!0},y=["Webkit","ms","Moz","O"];Object.keys(p).forEach(function(f){y.forEach(function(v){v=v+f.charAt(0).toUpperCase()+f.substring(1),p[v]=p[f]})});var w=/["'&<>]/;function m(f){if(typeof f=="boolean"||typeof f=="number")return""+f;f=""+f;var v=w.exec(f);if(v){var j="",_,F=0;for(_=v.index;_<f.length;_++){switch(f.charCodeAt(_)){case 34:v="&quot;";break;case 38:v="&amp;";break;case 39:v="&#x27;";break;case 60:v="&lt;";break;case 62:v="&gt;";break;default:continue}F!==_&&(j+=f.substring(F,_)),F=_+1,j+=v}f=F!==_?j+f.substring(F,_):j}return f}var S=/([A-Z])/g,x=/^ms-/,E=Array.isArray;function I(f,v){return{insertionMode:f,selectedValue:v}}function k(f,v,j){switch(v){case"select":return I(1,j.value!=null?j.value:j.defaultValue);case"svg":return I(2,null);case"math":return I(3,null);case"foreignObject":return I(1,null);case"table":return I(4,null);case"thead":case"tbody":case"tfoot":return I(5,null);case"colgroup":return I(7,null);case"tr":return I(6,null)}return 4<=f.insertionMode||f.insertionMode===0?I(1,null):f}var P=new Map;function N(f,v,j){if(typeof j!="object")throw Error(t(62));v=!0;for(var _ in j)if(r.call(j,_)){var F=j[_];if(F!=null&&typeof F!="boolean"&&F!==""){if(_.indexOf("--")===0){var L=m(_);F=m((""+F).trim())}else{L=_;var U=P.get(L);U!==void 0||(U=m(L.replace(S,"-$1").toLowerCase().replace(x,"-ms-")),P.set(L,U)),L=U,F=typeof F=="number"?F===0||r.call(p,_)?""+F:F+"px":m((""+F).trim())}v?(v=!1,f.push(' style="',L,":",F)):f.push(";",L,":",F)}}v||f.push('"')}function A(f,v,j,_){switch(j){case"style":N(f,v,_);return;case"defaultValue":case"defaultChecked":case"innerHTML":case"suppressContentEditableWarning":case"suppressHydrationWarning":return}if(!(2<j.length)||j[0]!=="o"&&j[0]!=="O"||j[1]!=="n"&&j[1]!=="N"){if(v=u.hasOwnProperty(j)?u[j]:null,v!==null){switch(typeof _){case"function":case"symbol":return;case"boolean":if(!v.acceptsBooleans)return}switch(j=v.attributeName,v.type){case 3:_&&f.push(" ",j,'=""');break;case 4:_===!0?f.push(" ",j,'=""'):_!==!1&&f.push(" ",j,'="',m(_),'"');break;case 5:isNaN(_)||f.push(" ",j,'="',m(_),'"');break;case 6:!isNaN(_)&&1<=_&&f.push(" ",j,'="',m(_),'"');break;default:v.sanitizeURL&&(_=""+_),f.push(" ",j,'="',m(_),'"')}}else if(i(j)){switch(typeof _){case"function":case"symbol":return;case"boolean":if(v=j.toLowerCase().slice(0,5),v!=="data-"&&v!=="aria-")return}f.push(" ",j,'="',m(_),'"')}}}function T(f,v,j){if(v!=null){if(j!=null)throw Error(t(60));if(typeof v!="object"||!("__html"in v))throw Error(t(61));v=v.__html,v!=null&&f.push(""+v)}}function $(f){var v="";return e.Children.forEach(f,function(j){j!=null&&(v+=j)}),v}function V(f,v,j,_){f.push(G(j));var F=j=null,L;for(L in v)if(r.call(v,L)){var U=v[L];if(U!=null)switch(L){case"children":j=U;break;case"dangerouslySetInnerHTML":F=U;break;default:A(f,_,L,U)}}return f.push(">"),T(f,F,j),typeof j=="string"?(f.push(m(j)),null):j}var X=/^[a-zA-Z][a-zA-Z:_\.\-\d]*$/,q=new Map;function G(f){var v=q.get(f);if(v===void 0){if(!X.test(f))throw Error(t(65,f));v="<"+f,q.set(f,v)}return v}function J(f,v,j,_,F){switch(v){case"select":f.push(G("select"));var L=null,U=null;for(ie in j)if(r.call(j,ie)){var Y=j[ie];if(Y!=null)switch(ie){case"children":L=Y;break;case"dangerouslySetInnerHTML":U=Y;break;case"defaultValue":case"value":break;default:A(f,_,ie,Y)}}return f.push(">"),T(f,U,L),L;case"option":U=F.selectedValue,f.push(G("option"));var ee=Y=null,oe=null,ie=null;for(L in j)if(r.call(j,L)){var je=j[L];if(je!=null)switch(L){case"children":Y=je;break;case"selected":oe=je;break;case"dangerouslySetInnerHTML":ie=je;break;case"value":ee=je;default:A(f,_,L,je)}}if(U!=null)if(j=ee!==null?""+ee:$(Y),E(U)){for(_=0;_<U.length;_++)if(""+U[_]===j){f.push(' selected=""');break}}else""+U===j&&f.push(' selected=""');else oe&&f.push(' selected=""');return f.push(">"),T(f,ie,Y),Y;case"textarea":f.push(G("textarea")),ie=U=L=null;for(Y in j)if(r.call(j,Y)&&(ee=j[Y],ee!=null))switch(Y){case"children":ie=ee;break;case"value":L=ee;break;case"defaultValue":U=ee;break;case"dangerouslySetInnerHTML":throw Error(t(91));default:A(f,_,Y,ee)}if(L===null&&U!==null&&(L=U),f.push(">"),ie!=null){if(L!=null)throw Error(t(92));if(E(ie)&&1<ie.length)throw Error(t(93));L=""+ie}return typeof L=="string"&&L[0]===`
-`&&f.push(`
-`),L!==null&&f.push(m(""+L)),null;case"input":f.push(G("input")),ee=ie=Y=L=null;for(U in j)if(r.call(j,U)&&(oe=j[U],oe!=null))switch(U){case"children":case"dangerouslySetInnerHTML":throw Error(t(399,"input"));case"defaultChecked":ee=oe;break;case"defaultValue":Y=oe;break;case"checked":ie=oe;break;case"value":L=oe;break;default:A(f,_,U,oe)}return ie!==null?A(f,_,"checked",ie):ee!==null&&A(f,_,"checked",ee),L!==null?A(f,_,"value",L):Y!==null&&A(f,_,"value",Y),f.push("/>"),null;case"menuitem":f.push(G("menuitem"));for(var ut in j)if(r.call(j,ut)&&(L=j[ut],L!=null))switch(ut){case"children":case"dangerouslySetInnerHTML":throw Error(t(400));default:A(f,_,ut,L)}return f.push(">"),null;case"title":f.push(G("title")),L=null;for(je in j)if(r.call(j,je)&&(U=j[je],U!=null))switch(je){case"children":L=U;break;case"dangerouslySetInnerHTML":throw Error(t(434));default:A(f,_,je,U)}return f.push(">"),L;case"listing":case"pre":f.push(G(v)),U=L=null;for(ee in j)if(r.call(j,ee)&&(Y=j[ee],Y!=null))switch(ee){case"children":L=Y;break;case"dangerouslySetInnerHTML":U=Y;break;default:A(f,_,ee,Y)}if(f.push(">"),U!=null){if(L!=null)throw Error(t(60));if(typeof U!="object"||!("__html"in U))throw Error(t(61));j=U.__html,j!=null&&(typeof j=="string"&&0<j.length&&j[0]===`
-`?f.push(`
-`,j):f.push(""+j))}return typeof L=="string"&&L[0]===`
-`&&f.push(`
-`),L;case"area":case"base":case"br":case"col":case"embed":case"hr":case"img":case"keygen":case"link":case"meta":case"param":case"source":case"track":case"wbr":f.push(G(v));for(var ct in j)if(r.call(j,ct)&&(L=j[ct],L!=null))switch(ct){case"children":case"dangerouslySetInnerHTML":throw Error(t(399,v));default:A(f,_,ct,L)}return f.push("/>"),null;case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return V(f,j,v,_);case"html":return F.insertionMode===0&&f.push("<!DOCTYPE html>"),V(f,j,v,_);default:if(v.indexOf("-")===-1&&typeof j.is!="string")return V(f,j,v,_);f.push(G(v)),U=L=null;for(oe in j)if(r.call(j,oe)&&(Y=j[oe],Y!=null))switch(oe){case"children":L=Y;break;case"dangerouslySetInnerHTML":U=Y;break;case"style":N(f,_,Y);break;case"suppressContentEditableWarning":case"suppressHydrationWarning":break;default:i(oe)&&typeof Y!="function"&&typeof Y!="symbol"&&f.push(" ",oe,'="',m(Y),'"')}return f.push(">"),T(f,U,L),L}}function Z(f,v,j){if(f.push('<!--$?--><template id="'),j===null)throw Error(t(395));return f.push(j),f.push('"></template>')}function B(f,v,j,_){switch(j.insertionMode){case 0:case 1:return f.push('<div hidden id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 2:return f.push('<svg aria-hidden="true" style="display:none" id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 3:return f.push('<math aria-hidden="true" style="display:none" id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 4:return f.push('<table hidden id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 5:return f.push('<table hidden><tbody id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 6:return f.push('<table hidden><tr id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');case 7:return f.push('<table hidden><colgroup id="'),f.push(v.segmentPrefix),v=_.toString(16),f.push(v),f.push('">');default:throw Error(t(397))}}function Q(f,v){switch(v.insertionMode){case 0:case 1:return f.push("</div>");case 2:return f.push("</svg>");case 3:return f.push("</math>");case 4:return f.push("</table>");case 5:return f.push("</tbody></table>");case 6:return f.push("</tr></table>");case 7:return f.push("</colgroup></table>");default:throw Error(t(397))}}var ae=/[<\u2028\u2029]/g;function fe(f){return JSON.stringify(f).replace(ae,function(v){switch(v){case"<":return"\\u003c";case"\u2028":return"\\u2028";case"\u2029":return"\\u2029";default:throw Error("escapeJSStringsForInstructionScripts encountered a match it does not know how to replace. this means the match regex and the replacement characters are no longer in sync. This is a bug in React")}})}function ge(f,v){return v=v===void 0?"":v,{bootstrapChunks:[],startInlineScript:"<script>",placeholderPrefix:v+"P:",segmentPrefix:v+"S:",boundaryPrefix:v+"B:",idPrefix:v,nextSuspenseID:0,sentCompleteSegmentFunction:!1,sentCompleteBoundaryFunction:!1,sentClientRenderFunction:!1,generateStaticMarkup:f}}function Se(f,v,j,_){return j.generateStaticMarkup?(f.push(m(v)),!1):(v===""?f=_:(_&&f.push("<!-- -->"),f.push(m(v)),f=!0),f)}var O=Object.assign,H=Symbol.for("react.element"),K=Symbol.for("react.portal"),ue=Symbol.for("react.fragment"),ne=Symbol.for("react.strict_mode"),ye=Symbol.for("react.profiler"),se=Symbol.for("react.provider"),he=Symbol.for("react.context"),ce=Symbol.for("react.forward_ref"),we=Symbol.for("react.suspense"),Fe=Symbol.for("react.suspense_list"),lt=Symbol.for("react.memo"),Re=Symbol.for("react.lazy"),ve=Symbol.for("react.scope"),Pe=Symbol.for("react.debug_trace_mode"),rt=Symbol.for("react.legacy_hidden"),co=Symbol.for("react.default_value"),hr=Symbol.iterator;function Ht(f){if(f==null)return null;if(typeof f=="function")return f.displayName||f.name||null;if(typeof f=="string")return f;switch(f){case ue:return"Fragment";case K:return"Portal";case ye:return"Profiler";case ne:return"StrictMode";case we:return"Suspense";case Fe:return"SuspenseList"}if(typeof f=="object")switch(f.$$typeof){case he:return(f.displayName||"Context")+".Consumer";case se:return(f._context.displayName||"Context")+".Provider";case ce:var v=f.render;return f=f.displayName,f||(f=v.displayName||v.name||"",f=f!==""?"ForwardRef("+f+")":"ForwardRef"),f;case lt:return v=f.displayName||null,v!==null?v:Ht(f.type)||"Memo";case Re:v=f._payload,f=f._init;try{return Ht(f(v))}catch{}}return null}var pr={};function Ln(f,v){if(f=f.contextTypes,!f)return pr;var j={},_;for(_ in f)j[_]=v[_];return j}var vt=null;function qe(f,v){if(f!==v){f.context._currentValue2=f.parentValue,f=f.parent;var j=v.parent;if(f===null){if(j!==null)throw Error(t(401))}else{if(j===null)throw Error(t(401));qe(f,j)}v.context._currentValue2=v.value}}function Dn(f){f.context._currentValue2=f.parentValue,f=f.parent,f!==null&&Dn(f)}function Mn(f){var v=f.parent;v!==null&&Mn(v),f.context._currentValue2=f.value}function Fn(f,v){if(f.context._currentValue2=f.parentValue,f=f.parent,f===null)throw Error(t(402));f.depth===v.depth?qe(f,v):Fn(f,v)}function Un(f,v){var j=v.parent;if(j===null)throw Error(t(402));f.depth===j.depth?qe(f,j):Un(f,j),v.context._currentValue2=v.value}function mr(f){var v=vt;v!==f&&(v===null?Mn(f):f===null?Dn(v):v.depth===f.depth?qe(v,f):v.depth>f.depth?Fn(v,f):Un(v,f),vt=f)}var Bn={isMounted:function(){return!1},enqueueSetState:function(f,v){f=f._reactInternals,f.queue!==null&&f.queue.push(v)},enqueueReplaceState:function(f,v){f=f._reactInternals,f.replace=!0,f.queue=[v]},enqueueForceUpdate:function(){}};function zn(f,v,j,_){var F=f.state!==void 0?f.state:null;f.updater=Bn,f.props=j,f.state=F;var L={queue:[],replace:!1};f._reactInternals=L;var U=v.contextType;if(f.context=typeof U=="object"&&U!==null?U._currentValue2:_,U=v.getDerivedStateFromProps,typeof U=="function"&&(U=U(j,F),F=U==null?F:O({},F,U),f.state=F),typeof v.getDerivedStateFromProps!="function"&&typeof f.getSnapshotBeforeUpdate!="function"&&(typeof f.UNSAFE_componentWillMount=="function"||typeof f.componentWillMount=="function"))if(v=f.state,typeof f.componentWillMount=="function"&&f.componentWillMount(),typeof f.UNSAFE_componentWillMount=="function"&&f.UNSAFE_componentWillMount(),v!==f.state&&Bn.enqueueReplaceState(f,f.state,null),L.queue!==null&&0<L.queue.length)if(v=L.queue,U=L.replace,L.queue=null,L.replace=!1,U&&v.length===1)f.state=v[0];else{for(L=U?v[0]:f.state,F=!0,U=U?1:0;U<v.length;U++){var Y=v[U];Y=typeof Y=="function"?Y.call(f,L,j,_):Y,Y!=null&&(F?(F=!1,L=O({},L,Y)):O(L,Y))}f.state=L}else L.queue=null}var fo={id:1,overflow:""};function Ur(f,v,j){var _=f.id;f=f.overflow;var F=32-yr(_)-1;_&=~(1<<F),j+=1;var L=32-yr(v)+F;if(30<L){var U=F-F%5;return L=(_&(1<<U)-1).toString(32),_>>=U,F-=U,{id:1<<32-yr(v)+F|j<<F|_,overflow:L+f}}return{id:1<<L|j<<F|_,overflow:f}}var yr=Math.clz32?Math.clz32:mo,ho=Math.log,po=Math.LN2;function mo(f){return f>>>=0,f===0?32:31-(ho(f)/po|0)|0}function yo(f,v){return f===v&&(f!==0||1/f===1/v)||f!==f&&v!==v}var go=typeof Object.is=="function"?Object.is:yo,nt=null,Br=null,gr=null,xe=null,Vt=!1,vr=!1,Wt=0,xt=null,xr=0;function Rt(){if(nt===null)throw Error(t(321));return nt}function qn(){if(0<xr)throw Error(t(312));return{memoizedState:null,queue:null,next:null}}function zr(){return xe===null?gr===null?(Vt=!1,gr=xe=qn()):(Vt=!0,xe=gr):xe.next===null?(Vt=!1,xe=xe.next=qn()):(Vt=!0,xe=xe.next),xe}function qr(){Br=nt=null,vr=!1,gr=null,xr=0,xe=xt=null}function Hn(f,v){return typeof v=="function"?v(f):v}function Vn(f,v,j){if(nt=Rt(),xe=zr(),Vt){var _=xe.queue;if(v=_.dispatch,xt!==null&&(j=xt.get(_),j!==void 0)){xt.delete(_),_=xe.memoizedState;do _=f(_,j.action),j=j.next;while(j!==null);return xe.memoizedState=_,[_,v]}return[xe.memoizedState,v]}return f=f===Hn?typeof v=="function"?v():v:j!==void 0?j(v):v,xe.memoizedState=f,f=xe.queue={last:null,dispatch:null},f=f.dispatch=vo.bind(null,nt,f),[xe.memoizedState,f]}function Wn(f,v){if(nt=Rt(),xe=zr(),v=v===void 0?null:v,xe!==null){var j=xe.memoizedState;if(j!==null&&v!==null){var _=j[1];e:if(_===null)_=!1;else{for(var F=0;F<_.length&&F<v.length;F++)if(!go(v[F],_[F])){_=!1;break e}_=!0}if(_)return j[0]}}return f=f(),xe.memoizedState=[f,v],f}function vo(f,v,j){if(25<=xr)throw Error(t(301));if(f===nt)if(vr=!0,f={action:j,next:null},xt===null&&(xt=new Map),j=xt.get(v),j===void 0)xt.set(v,f);else{for(v=j;v.next!==null;)v=v.next;v.next=f}}function xo(){throw Error(t(394))}function wr(){}var Yn={readContext:function(f){return f._currentValue2},useContext:function(f){return Rt(),f._currentValue2},useMemo:Wn,useReducer:Vn,useRef:function(f){nt=Rt(),xe=zr();var v=xe.memoizedState;return v===null?(f={current:f},xe.memoizedState=f):v},useState:function(f){return Vn(Hn,f)},useInsertionEffect:wr,useLayoutEffect:function(){},useCallback:function(f,v){return Wn(function(){return f},v)},useImperativeHandle:wr,useEffect:wr,useDebugValue:wr,useDeferredValue:function(f){return Rt(),f},useTransition:function(){return Rt(),[!1,xo]},useId:function(){var f=Br.treeContext,v=f.overflow;f=f.id,f=(f&~(1<<32-yr(f)-1)).toString(32)+v;var j=br;if(j===null)throw Error(t(404));return v=Wt++,f=":"+j.idPrefix+"R"+f,0<v&&(f+="H"+v.toString(32)),f+":"},useMutableSource:function(f,v){return Rt(),v(f._source)},useSyncExternalStore:function(f,v,j){if(j===void 0)throw Error(t(407));return j()}},br=null,Hr=e.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher;function wo(f){return console.error(f),null}function Yt(){}function bo(f,v,j,_,F,L,U,Y,ee){var oe=[],ie=new Set;return v={destination:null,responseState:v,progressiveChunkSize:_===void 0?12800:_,status:0,fatalError:null,nextSegmentId:0,allPendingTasks:0,pendingRootTasks:0,completedRootSegment:null,abortableTasks:ie,pingedTasks:oe,clientRenderedBoundaries:[],completedBoundaries:[],partialBoundaries:[],onError:F===void 0?wo:F,onAllReady:Yt,onShellReady:U===void 0?Yt:U,onShellError:Yt,onFatalError:Yt},j=Sr(v,0,null,j,!1,!1),j.parentFlushed=!0,f=Vr(v,f,null,j,ie,pr,null,fo),oe.push(f),v}function Vr(f,v,j,_,F,L,U,Y){f.allPendingTasks++,j===null?f.pendingRootTasks++:j.pendingTasks++;var ee={node:v,ping:function(){var oe=f.pingedTasks;oe.push(ee),oe.length===1&&Kn(f)},blockedBoundary:j,blockedSegment:_,abortSet:F,legacyContext:L,context:U,treeContext:Y};return F.add(ee),ee}function Sr(f,v,j,_,F,L){return{status:0,id:-1,index:v,parentFlushed:!1,chunks:[],children:[],formatContext:_,boundary:j,lastPushedText:F,textEmbedded:L}}function Gt(f,v){if(f=f.onError(v),f!=null&&typeof f!="string")throw Error('onError returned something with a type other than "string". onError should return a string and may return null or undefined but must not return anything else. It received something of type "'+typeof f+'" instead');return f}function Cr(f,v){var j=f.onShellError;j(v),j=f.onFatalError,j(v),f.destination!==null?(f.status=2,f.destination.destroy(v)):(f.status=1,f.fatalError=v)}function Gn(f,v,j,_,F){for(nt={},Br=v,Wt=0,f=j(_,F);vr;)vr=!1,Wt=0,xr+=1,xe=null,f=j(_,F);return qr(),f}function Xn(f,v,j,_){var F=j.render(),L=_.childContextTypes;if(L!=null){var U=v.legacyContext;if(typeof j.getChildContext!="function")_=U;else{j=j.getChildContext();for(var Y in j)if(!(Y in L))throw Error(t(108,Ht(_)||"Unknown",Y));_=O({},U,j)}v.legacyContext=_,He(f,v,F),v.legacyContext=U}else He(f,v,F)}function Jn(f,v){if(f&&f.defaultProps){v=O({},v),f=f.defaultProps;for(var j in f)v[j]===void 0&&(v[j]=f[j]);return v}return v}function Wr(f,v,j,_,F){if(typeof j=="function")if(j.prototype&&j.prototype.isReactComponent){F=Ln(j,v.legacyContext);var L=j.contextType;L=new j(_,typeof L=="object"&&L!==null?L._currentValue2:F),zn(L,j,_,F),Xn(f,v,L,j)}else{L=Ln(j,v.legacyContext),F=Gn(f,v,j,_,L);var U=Wt!==0;if(typeof F=="object"&&F!==null&&typeof F.render=="function"&&F.$$typeof===void 0)zn(F,j,_,L),Xn(f,v,F,j);else if(U){_=v.treeContext,v.treeContext=Ur(_,1,0);try{He(f,v,F)}finally{v.treeContext=_}}else He(f,v,F)}else if(typeof j=="string"){switch(F=v.blockedSegment,L=J(F.chunks,j,_,f.responseState,F.formatContext),F.lastPushedText=!1,U=F.formatContext,F.formatContext=k(U,j,_),Yr(f,v,L),F.formatContext=U,j){case"area":case"base":case"br":case"col":case"embed":case"hr":case"img":case"input":case"keygen":case"link":case"meta":case"param":case"source":case"track":case"wbr":break;default:F.chunks.push("</",j,">")}F.lastPushedText=!1}else{switch(j){case rt:case Pe:case ne:case ye:case ue:He(f,v,_.children);return;case Fe:He(f,v,_.children);return;case ve:throw Error(t(343));case we:e:{j=v.blockedBoundary,F=v.blockedSegment,L=_.fallback,_=_.children,U=new Set;var Y={id:null,rootSegmentID:-1,parentFlushed:!1,pendingTasks:0,forceClientRender:!1,completedSegments:[],byteSize:0,fallbackAbortableTasks:U,errorDigest:null},ee=Sr(f,F.chunks.length,Y,F.formatContext,!1,!1);F.children.push(ee),F.lastPushedText=!1;var oe=Sr(f,0,null,F.formatContext,!1,!1);oe.parentFlushed=!0,v.blockedBoundary=Y,v.blockedSegment=oe;try{if(Yr(f,v,_),f.responseState.generateStaticMarkup||oe.lastPushedText&&oe.textEmbedded&&oe.chunks.push("<!-- -->"),oe.status=1,Lt(Y,oe),Y.pendingTasks===0)break e}catch(ie){oe.status=4,Y.forceClientRender=!0,Y.errorDigest=Gt(f,ie)}finally{v.blockedBoundary=j,v.blockedSegment=F}v=Vr(f,L,j,ee,U,v.legacyContext,v.context,v.treeContext),f.pingedTasks.push(v)}return}if(typeof j=="object"&&j!==null)switch(j.$$typeof){case ce:if(_=Gn(f,v,j.render,_,F),Wt!==0){j=v.treeContext,v.treeContext=Ur(j,1,0);try{He(f,v,_)}finally{v.treeContext=j}}else He(f,v,_);return;case lt:j=j.type,_=Jn(j,_),Wr(f,v,j,_,F);return;case se:if(F=_.children,j=j._context,_=_.value,L=j._currentValue2,j._currentValue2=_,U=vt,vt=_={parent:U,depth:U===null?0:U.depth+1,context:j,parentValue:L,value:_},v.context=_,He(f,v,F),f=vt,f===null)throw Error(t(403));_=f.parentValue,f.context._currentValue2=_===co?f.context._defaultValue:_,f=vt=f.parent,v.context=f;return;case he:_=_.children,_=_(j._currentValue2),He(f,v,_);return;case Re:F=j._init,j=F(j._payload),_=Jn(j,_),Wr(f,v,j,_,void 0);return}throw Error(t(130,j==null?j:typeof j,""))}}function He(f,v,j){if(v.node=j,typeof j=="object"&&j!==null){switch(j.$$typeof){case H:Wr(f,v,j.type,j.props,j.ref);return;case K:throw Error(t(257));case Re:var _=j._init;j=_(j._payload),He(f,v,j);return}if(E(j)){Zn(f,v,j);return}if(j===null||typeof j!="object"?_=null:(_=hr&&j[hr]||j["@@iterator"],_=typeof _=="function"?_:null),_&&(_=_.call(j))){if(j=_.next(),!j.done){var F=[];do F.push(j.value),j=_.next();while(!j.done);Zn(f,v,F)}return}throw f=Object.prototype.toString.call(j),Error(t(31,f==="[object Object]"?"object with keys {"+Object.keys(j).join(", ")+"}":f))}typeof j=="string"?(_=v.blockedSegment,_.lastPushedText=Se(v.blockedSegment.chunks,j,f.responseState,_.lastPushedText)):typeof j=="number"&&(_=v.blockedSegment,_.lastPushedText=Se(v.blockedSegment.chunks,""+j,f.responseState,_.lastPushedText))}function Zn(f,v,j){for(var _=j.length,F=0;F<_;F++){var L=v.treeContext;v.treeContext=Ur(L,_,F);try{Yr(f,v,j[F])}finally{v.treeContext=L}}}function Yr(f,v,j){var _=v.blockedSegment.formatContext,F=v.legacyContext,L=v.context;try{return He(f,v,j)}catch(ee){if(qr(),typeof ee=="object"&&ee!==null&&typeof ee.then=="function"){j=ee;var U=v.blockedSegment,Y=Sr(f,U.chunks.length,null,U.formatContext,U.lastPushedText,!0);U.children.push(Y),U.lastPushedText=!1,f=Vr(f,v.node,v.blockedBoundary,Y,v.abortSet,v.legacyContext,v.context,v.treeContext).ping,j.then(f,f),v.blockedSegment.formatContext=_,v.legacyContext=F,v.context=L,mr(L)}else throw v.blockedSegment.formatContext=_,v.legacyContext=F,v.context=L,mr(L),ee}}function Gr(f){var v=f.blockedBoundary;f=f.blockedSegment,f.status=3,Dt(this,v,f)}function Qn(f,v,j){var _=f.blockedBoundary;f.blockedSegment.status=3,_===null?(v.allPendingTasks--,v.status!==2&&(v.status=2,v.destination!==null&&v.destination.push(null))):(_.pendingTasks--,_.forceClientRender||(_.forceClientRender=!0,f=j===void 0?Error(t(432)):j,_.errorDigest=v.onError(f),_.parentFlushed&&v.clientRenderedBoundaries.push(_)),_.fallbackAbortableTasks.forEach(function(F){return Qn(F,v,j)}),_.fallbackAbortableTasks.clear(),v.allPendingTasks--,v.allPendingTasks===0&&(_=v.onAllReady,_()))}function Lt(f,v){if(v.chunks.length===0&&v.children.length===1&&v.children[0].boundary===null){var j=v.children[0];j.id=v.id,j.parentFlushed=!0,j.status===1&&Lt(f,j)}else f.completedSegments.push(v)}function Dt(f,v,j){if(v===null){if(j.parentFlushed){if(f.completedRootSegment!==null)throw Error(t(389));f.completedRootSegment=j}f.pendingRootTasks--,f.pendingRootTasks===0&&(f.onShellError=Yt,v=f.onShellReady,v())}else v.pendingTasks--,v.forceClientRender||(v.pendingTasks===0?(j.parentFlushed&&j.status===1&&Lt(v,j),v.parentFlushed&&f.completedBoundaries.push(v),v.fallbackAbortableTasks.forEach(Gr,f),v.fallbackAbortableTasks.clear()):j.parentFlushed&&j.status===1&&(Lt(v,j),v.completedSegments.length===1&&v.parentFlushed&&f.partialBoundaries.push(v)));f.allPendingTasks--,f.allPendingTasks===0&&(f=f.onAllReady,f())}function Kn(f){if(f.status!==2){var v=vt,j=Hr.current;Hr.current=Yn;var _=br;br=f.responseState;try{var F=f.pingedTasks,L;for(L=0;L<F.length;L++){var U=F[L],Y=f,ee=U.blockedSegment;if(ee.status===0){mr(U.context);try{He(Y,U,U.node),Y.responseState.generateStaticMarkup||ee.lastPushedText&&ee.textEmbedded&&ee.chunks.push("<!-- -->"),U.abortSet.delete(U),ee.status=1,Dt(Y,U.blockedBoundary,ee)}catch(Xe){if(qr(),typeof Xe=="object"&&Xe!==null&&typeof Xe.then=="function"){var oe=U.ping;Xe.then(oe,oe)}else{U.abortSet.delete(U),ee.status=4;var ie=U.blockedBoundary,je=Xe,ut=Gt(Y,je);if(ie===null?Cr(Y,je):(ie.pendingTasks--,ie.forceClientRender||(ie.forceClientRender=!0,ie.errorDigest=ut,ie.parentFlushed&&Y.clientRenderedBoundaries.push(ie))),Y.allPendingTasks--,Y.allPendingTasks===0){var ct=Y.onAllReady;ct()}}}finally{}}}F.splice(0,L),f.destination!==null&&jr(f,f.destination)}catch(Xe){Gt(f,Xe),Cr(f,Xe)}finally{br=_,Hr.current=j,j===Yn&&mr(v)}}}function Xt(f,v,j){switch(j.parentFlushed=!0,j.status){case 0:var _=j.id=f.nextSegmentId++;return j.lastPushedText=!1,j.textEmbedded=!1,f=f.responseState,v.push('<template id="'),v.push(f.placeholderPrefix),f=_.toString(16),v.push(f),v.push('"></template>');case 1:j.status=2;var F=!0;_=j.chunks;var L=0;j=j.children;for(var U=0;U<j.length;U++){for(F=j[U];L<F.index;L++)v.push(_[L]);F=Jt(f,v,F)}for(;L<_.length-1;L++)v.push(_[L]);return L<_.length&&(F=v.push(_[L])),F;default:throw Error(t(390))}}function Jt(f,v,j){var _=j.boundary;if(_===null)return Xt(f,v,j);if(_.parentFlushed=!0,_.forceClientRender)return f.responseState.generateStaticMarkup||(_=_.errorDigest,v.push("<!--$!-->"),v.push("<template"),_&&(v.push(' data-dgst="'),_=m(_),v.push(_),v.push('"')),v.push("></template>")),Xt(f,v,j),f=f.responseState.generateStaticMarkup?!0:v.push("<!--/$-->"),f;if(0<_.pendingTasks){_.rootSegmentID=f.nextSegmentId++,0<_.completedSegments.length&&f.partialBoundaries.push(_);var F=f.responseState,L=F.nextSuspenseID++;return F=F.boundaryPrefix+L.toString(16),_=_.id=F,Z(v,f.responseState,_),Xt(f,v,j),v.push("<!--/$-->")}if(_.byteSize>f.progressiveChunkSize)return _.rootSegmentID=f.nextSegmentId++,f.completedBoundaries.push(_),Z(v,f.responseState,_.id),Xt(f,v,j),v.push("<!--/$-->");if(f.responseState.generateStaticMarkup||v.push("<!--$-->"),j=_.completedSegments,j.length!==1)throw Error(t(391));return Jt(f,v,j[0]),f=f.responseState.generateStaticMarkup?!0:v.push("<!--/$-->"),f}function Xr(f,v,j){return B(v,f.responseState,j.formatContext,j.id),Jt(f,v,j),Q(v,j.formatContext)}function Jr(f,v,j){for(var _=j.completedSegments,F=0;F<_.length;F++)Zr(f,v,j,_[F]);if(_.length=0,f=f.responseState,_=j.id,j=j.rootSegmentID,v.push(f.startInlineScript),f.sentCompleteBoundaryFunction?v.push('$RC("'):(f.sentCompleteBoundaryFunction=!0,v.push('function $RC(a,b){a=document.getElementById(a);b=document.getElementById(b);b.parentNode.removeChild(b);if(a){a=a.previousSibling;var f=a.parentNode,c=a.nextSibling,e=0;do{if(c&&8===c.nodeType){var d=c.data;if("/$"===d)if(0===e)break;else e--;else"$"!==d&&"$?"!==d&&"$!"!==d||e++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;b.firstChild;)f.insertBefore(b.firstChild,c);a.data="$";a._reactRetry&&a._reactRetry()}};$RC("')),_===null)throw Error(t(395));return j=j.toString(16),v.push(_),v.push('","'),v.push(f.segmentPrefix),v.push(j),v.push('")<\/script>')}function Zr(f,v,j,_){if(_.status===2)return!0;var F=_.id;if(F===-1){if((_.id=j.rootSegmentID)===-1)throw Error(t(392));return Xr(f,v,_)}return Xr(f,v,_),f=f.responseState,v.push(f.startInlineScript),f.sentCompleteSegmentFunction?v.push('$RS("'):(f.sentCompleteSegmentFunction=!0,v.push('function $RS(a,b){a=document.getElementById(a);b=document.getElementById(b);for(a.parentNode.removeChild(a);a.firstChild;)b.parentNode.insertBefore(a.firstChild,b);b.parentNode.removeChild(b)};$RS("')),v.push(f.segmentPrefix),F=F.toString(16),v.push(F),v.push('","'),v.push(f.placeholderPrefix),v.push(F),v.push('")<\/script>')}function jr(f,v){try{var j=f.completedRootSegment;if(j!==null&&f.pendingRootTasks===0){Jt(f,v,j),f.completedRootSegment=null;var _=f.responseState.bootstrapChunks;for(j=0;j<_.length-1;j++)v.push(_[j]);j<_.length&&v.push(_[j])}var F=f.clientRenderedBoundaries,L;for(L=0;L<F.length;L++){var U=F[L];_=v;var Y=f.responseState,ee=U.id,oe=U.errorDigest,ie=U.errorMessage,je=U.errorComponentStack;if(_.push(Y.startInlineScript),Y.sentClientRenderFunction?_.push('$RX("'):(Y.sentClientRenderFunction=!0,_.push('function $RX(b,c,d,e){var a=document.getElementById(b);a&&(b=a.previousSibling,b.data="$!",a=a.dataset,c&&(a.dgst=c),d&&(a.msg=d),e&&(a.stck=e),b._reactRetry&&b._reactRetry())};$RX("')),ee===null)throw Error(t(395));if(_.push(ee),_.push('"'),oe||ie||je){_.push(",");var ut=fe(oe||"");_.push(ut)}if(ie||je){_.push(",");var ct=fe(ie||"");_.push(ct)}if(je){_.push(",");var Xe=fe(je);_.push(Xe)}if(!_.push(")<\/script>")){f.destination=null,L++,F.splice(0,L);return}}F.splice(0,L);var Zt=f.completedBoundaries;for(L=0;L<Zt.length;L++)if(!Jr(f,v,Zt[L])){f.destination=null,L++,Zt.splice(0,L);return}Zt.splice(0,L);var _t=f.partialBoundaries;for(L=0;L<_t.length;L++){var Kr=_t[L];e:{F=f,U=v;var Qt=Kr.completedSegments;for(Y=0;Y<Qt.length;Y++)if(!Zr(F,U,Kr,Qt[Y])){Y++,Qt.splice(0,Y);var ra=!1;break e}Qt.splice(0,Y),ra=!0}if(!ra){f.destination=null,L++,_t.splice(0,L);return}}_t.splice(0,L);var Mt=f.completedBoundaries;for(L=0;L<Mt.length;L++)if(!Jr(f,v,Mt[L])){f.destination=null,L++,Mt.splice(0,L);return}Mt.splice(0,L)}finally{f.allPendingTasks===0&&f.pingedTasks.length===0&&f.clientRenderedBoundaries.length===0&&f.completedBoundaries.length===0&&v.push(null)}}function ea(f,v){try{var j=f.abortableTasks;j.forEach(function(_){return Qn(_,f,v)}),j.clear(),f.destination!==null&&jr(f,f.destination)}catch(_){Gt(f,_),Cr(f,_)}}function ta(){}function Qr(f,v,j,_){var F=!1,L=null,U="",Y={push:function(oe){return oe!==null&&(U+=oe),!0},destroy:function(oe){F=!0,L=oe}},ee=!1;if(f=bo(f,ge(j,v?v.identifierPrefix:void 0),{insertionMode:1,selectedValue:null},1/0,ta,void 0,function(){ee=!0}),Kn(f),ea(f,_),f.status===1)f.status=2,Y.destroy(f.fatalError);else if(f.status!==2&&f.destination===null){f.destination=Y;try{jr(f,Y)}catch(oe){Gt(f,oe),Cr(f,oe)}}if(F)throw L;if(!ee)throw Error(t(426));return U}return tr.renderToNodeStream=function(){throw Error(t(207))},tr.renderToStaticMarkup=function(f,v){return Qr(f,v,!0,'The server used "renderToStaticMarkup" which does not support Suspense. If you intended to have the server wait for the suspended component please switch to "renderToReadableStream" which supports Suspense on the server')},tr.renderToStaticNodeStream=function(){throw Error(t(208))},tr.renderToString=function(f,v){return Qr(f,v,!1,'The server used "renderToString" which does not support Suspense. If you intended for this Suspense boundary to render the fallback content on the server consider throwing an Error somewhere within the Suspense boundary. If you intended to have the server wait for the suspended component please switch to "renderToReadableStream" which supports Suspense on the server')},tr.version="18.3.1",tr}var xa={};/**
- * @license React
- * react-dom-server.browser.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var cl;function Cm(){if(cl)return xa;cl=1;var e=Xa();function t(h){for(var g="https://reactjs.org/docs/error-decoder.html?invariant="+h,C=1;C<arguments.length;C++)g+="&args[]="+encodeURIComponent(arguments[C]);return"Minified React error #"+h+"; visit "+g+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var r=null,n=0;function a(h,g){if(g.length!==0)if(512<g.length)0<n&&(h.enqueue(new Uint8Array(r.buffer,0,n)),r=new Uint8Array(512),n=0),h.enqueue(g);else{var C=r.length-n;C<g.length&&(C===0?h.enqueue(r):(r.set(g.subarray(0,C),n),h.enqueue(r),g=g.subarray(C)),r=new Uint8Array(512),n=0),r.set(g,n),n+=g.length}}function o(h,g){return a(h,g),!0}function i(h){r&&0<n&&(h.enqueue(new Uint8Array(r.buffer,0,n)),r=null,n=0)}var l=new TextEncoder;function u(h){return l.encode(h)}function c(h){return l.encode(h)}function d(h,g){typeof h.error=="function"?h.error(g):h.close()}var p=Object.prototype.hasOwnProperty,y=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,w={},m={};function S(h){return p.call(m,h)?!0:p.call(w,h)?!1:y.test(h)?m[h]=!0:(w[h]=!0,!1)}function x(h,g,C,R,M,D,z){this.acceptsBooleans=g===2||g===3||g===4,this.attributeName=R,this.attributeNamespace=M,this.mustUseProperty=C,this.propertyName=h,this.type=g,this.sanitizeURL=D,this.removeEmptyString=z}var E={};"children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style".split(" ").forEach(function(h){E[h]=new x(h,0,!1,h,null,!1,!1)}),[["acceptCharset","accept-charset"],["className","class"],["htmlFor","for"],["httpEquiv","http-equiv"]].forEach(function(h){var g=h[0];E[g]=new x(g,1,!1,h[1],null,!1,!1)}),["contentEditable","draggable","spellCheck","value"].forEach(function(h){E[h]=new x(h,2,!1,h.toLowerCase(),null,!1,!1)}),["autoReverse","externalResourcesRequired","focusable","preserveAlpha"].forEach(function(h){E[h]=new x(h,2,!1,h,null,!1,!1)}),"allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope".split(" ").forEach(function(h){E[h]=new x(h,3,!1,h.toLowerCase(),null,!1,!1)}),["checked","multiple","muted","selected"].forEach(function(h){E[h]=new x(h,3,!0,h,null,!1,!1)}),["capture","download"].forEach(function(h){E[h]=new x(h,4,!1,h,null,!1,!1)}),["cols","rows","size","span"].forEach(function(h){E[h]=new x(h,6,!1,h,null,!1,!1)}),["rowSpan","start"].forEach(function(h){E[h]=new x(h,5,!1,h.toLowerCase(),null,!1,!1)});var I=/[\-:]([a-z])/g;function k(h){return h[1].toUpperCase()}"accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height".split(" ").forEach(function(h){var g=h.replace(I,k);E[g]=new x(g,1,!1,h,null,!1,!1)}),"xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type".split(" ").forEach(function(h){var g=h.replace(I,k);E[g]=new x(g,1,!1,h,"http://www.w3.org/1999/xlink",!1,!1)}),["xml:base","xml:lang","xml:space"].forEach(function(h){var g=h.replace(I,k);E[g]=new x(g,1,!1,h,"http://www.w3.org/XML/1998/namespace",!1,!1)}),["tabIndex","crossOrigin"].forEach(function(h){E[h]=new x(h,1,!1,h.toLowerCase(),null,!1,!1)}),E.xlinkHref=new x("xlinkHref",1,!1,"xlink:href","http://www.w3.org/1999/xlink",!0,!1),["src","href","action","formAction"].forEach(function(h){E[h]=new x(h,1,!1,h.toLowerCase(),null,!0,!0)});var P={animationIterationCount:!0,aspectRatio:!0,borderImageOutset:!0,borderImageSlice:!0,borderImageWidth:!0,boxFlex:!0,boxFlexGroup:!0,boxOrdinalGroup:!0,columnCount:!0,columns:!0,flex:!0,flexGrow:!0,flexPositive:!0,flexShrink:!0,flexNegative:!0,flexOrder:!0,gridArea:!0,gridRow:!0,gridRowEnd:!0,gridRowSpan:!0,gridRowStart:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnSpan:!0,gridColumnStart:!0,fontWeight:!0,lineClamp:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,tabSize:!0,widows:!0,zIndex:!0,zoom:!0,fillOpacity:!0,floodOpacity:!0,stopOpacity:!0,strokeDasharray:!0,strokeDashoffset:!0,strokeMiterlimit:!0,strokeOpacity:!0,strokeWidth:!0},N=["Webkit","ms","Moz","O"];Object.keys(P).forEach(function(h){N.forEach(function(g){g=g+h.charAt(0).toUpperCase()+h.substring(1),P[g]=P[h]})});var A=/["'&<>]/;function T(h){if(typeof h=="boolean"||typeof h=="number")return""+h;h=""+h;var g=A.exec(h);if(g){var C="",R,M=0;for(R=g.index;R<h.length;R++){switch(h.charCodeAt(R)){case 34:g="&quot;";break;case 38:g="&amp;";break;case 39:g="&#x27;";break;case 60:g="&lt;";break;case 62:g="&gt;";break;default:continue}M!==R&&(C+=h.substring(M,R)),M=R+1,C+=g}h=M!==R?C+h.substring(M,R):C}return h}var $=/([A-Z])/g,V=/^ms-/,X=Array.isArray,q=c("<script>"),G=c("<\/script>"),J=c('<script src="'),Z=c('<script type="module" src="'),B=c('" async=""><\/script>'),Q=/(<\/|<)(s)(cript)/gi;function ae(h,g,C,R){return""+g+(C==="s"?"\\u0073":"\\u0053")+R}function fe(h,g,C,R,M){h=h===void 0?"":h,g=g===void 0?q:c('<script nonce="'+T(g)+'">');var D=[];if(C!==void 0&&D.push(g,u((""+C).replace(Q,ae)),G),R!==void 0)for(C=0;C<R.length;C++)D.push(J,u(T(R[C])),B);if(M!==void 0)for(R=0;R<M.length;R++)D.push(Z,u(T(M[R])),B);return{bootstrapChunks:D,startInlineScript:g,placeholderPrefix:c(h+"P:"),segmentPrefix:c(h+"S:"),boundaryPrefix:h+"B:",idPrefix:h,nextSuspenseID:0,sentCompleteSegmentFunction:!1,sentCompleteBoundaryFunction:!1,sentClientRenderFunction:!1}}function ge(h,g){return{insertionMode:h,selectedValue:g}}function Se(h){return ge(h==="http://www.w3.org/2000/svg"?2:h==="http://www.w3.org/1998/Math/MathML"?3:0,null)}function O(h,g,C){switch(g){case"select":return ge(1,C.value!=null?C.value:C.defaultValue);case"svg":return ge(2,null);case"math":return ge(3,null);case"foreignObject":return ge(1,null);case"table":return ge(4,null);case"thead":case"tbody":case"tfoot":return ge(5,null);case"colgroup":return ge(7,null);case"tr":return ge(6,null)}return 4<=h.insertionMode||h.insertionMode===0?ge(1,null):h}var H=c("<!-- -->");function K(h,g,C,R){return g===""?R:(R&&h.push(H),h.push(u(T(g))),!0)}var ue=new Map,ne=c(' style="'),ye=c(":"),se=c(";");function he(h,g,C){if(typeof C!="object")throw Error(t(62));g=!0;for(var R in C)if(p.call(C,R)){var M=C[R];if(M!=null&&typeof M!="boolean"&&M!==""){if(R.indexOf("--")===0){var D=u(T(R));M=u(T((""+M).trim()))}else{D=R;var z=ue.get(D);z!==void 0||(z=c(T(D.replace($,"-$1").toLowerCase().replace(V,"-ms-"))),ue.set(D,z)),D=z,M=typeof M=="number"?M===0||p.call(P,R)?u(""+M):u(M+"px"):u(T((""+M).trim()))}g?(g=!1,h.push(ne,D,ye,M)):h.push(se,D,ye,M)}}g||h.push(Fe)}var ce=c(" "),we=c('="'),Fe=c('"'),lt=c('=""');function Re(h,g,C,R){switch(C){case"style":he(h,g,R);return;case"defaultValue":case"defaultChecked":case"innerHTML":case"suppressContentEditableWarning":case"suppressHydrationWarning":return}if(!(2<C.length)||C[0]!=="o"&&C[0]!=="O"||C[1]!=="n"&&C[1]!=="N"){if(g=E.hasOwnProperty(C)?E[C]:null,g!==null){switch(typeof R){case"function":case"symbol":return;case"boolean":if(!g.acceptsBooleans)return}switch(C=u(g.attributeName),g.type){case 3:R&&h.push(ce,C,lt);break;case 4:R===!0?h.push(ce,C,lt):R!==!1&&h.push(ce,C,we,u(T(R)),Fe);break;case 5:isNaN(R)||h.push(ce,C,we,u(T(R)),Fe);break;case 6:!isNaN(R)&&1<=R&&h.push(ce,C,we,u(T(R)),Fe);break;default:g.sanitizeURL&&(R=""+R),h.push(ce,C,we,u(T(R)),Fe)}}else if(S(C)){switch(typeof R){case"function":case"symbol":return;case"boolean":if(g=C.toLowerCase().slice(0,5),g!=="data-"&&g!=="aria-")return}h.push(ce,u(C),we,u(T(R)),Fe)}}}var ve=c(">"),Pe=c("/>");function rt(h,g,C){if(g!=null){if(C!=null)throw Error(t(60));if(typeof g!="object"||!("__html"in g))throw Error(t(61));g=g.__html,g!=null&&h.push(u(""+g))}}function co(h){var g="";return e.Children.forEach(h,function(C){C!=null&&(g+=C)}),g}var hr=c(' selected=""');function Ht(h,g,C,R){h.push(qe(C));var M=C=null,D;for(D in g)if(p.call(g,D)){var z=g[D];if(z!=null)switch(D){case"children":C=z;break;case"dangerouslySetInnerHTML":M=z;break;default:Re(h,R,D,z)}}return h.push(ve),rt(h,M,C),typeof C=="string"?(h.push(u(T(C))),null):C}var pr=c(`
-`),Ln=/^[a-zA-Z][a-zA-Z:_\.\-\d]*$/,vt=new Map;function qe(h){var g=vt.get(h);if(g===void 0){if(!Ln.test(h))throw Error(t(65,h));g=c("<"+h),vt.set(h,g)}return g}var Dn=c("<!DOCTYPE html>");function Mn(h,g,C,R,M){switch(g){case"select":h.push(qe("select"));var D=null,z=null;for(le in C)if(p.call(C,le)){var W=C[le];if(W!=null)switch(le){case"children":D=W;break;case"dangerouslySetInnerHTML":z=W;break;case"defaultValue":case"value":break;default:Re(h,R,le,W)}}return h.push(ve),rt(h,z,D),D;case"option":z=M.selectedValue,h.push(qe("option"));var te=W=null,de=null,le=null;for(D in C)if(p.call(C,D)){var Ce=C[D];if(Ce!=null)switch(D){case"children":W=Ce;break;case"selected":de=Ce;break;case"dangerouslySetInnerHTML":le=Ce;break;case"value":te=Ce;default:Re(h,R,D,Ce)}}if(z!=null)if(C=te!==null?""+te:co(W),X(z)){for(R=0;R<z.length;R++)if(""+z[R]===C){h.push(hr);break}}else""+z===C&&h.push(hr);else de&&h.push(hr);return h.push(ve),rt(h,le,W),W;case"textarea":h.push(qe("textarea")),le=z=D=null;for(W in C)if(p.call(C,W)&&(te=C[W],te!=null))switch(W){case"children":le=te;break;case"value":D=te;break;case"defaultValue":z=te;break;case"dangerouslySetInnerHTML":throw Error(t(91));default:Re(h,R,W,te)}if(D===null&&z!==null&&(D=z),h.push(ve),le!=null){if(D!=null)throw Error(t(92));if(X(le)&&1<le.length)throw Error(t(93));D=""+le}return typeof D=="string"&&D[0]===`
-`&&h.push(pr),D!==null&&h.push(u(T(""+D))),null;case"input":h.push(qe("input")),te=le=W=D=null;for(z in C)if(p.call(C,z)&&(de=C[z],de!=null))switch(z){case"children":case"dangerouslySetInnerHTML":throw Error(t(399,"input"));case"defaultChecked":te=de;break;case"defaultValue":W=de;break;case"checked":le=de;break;case"value":D=de;break;default:Re(h,R,z,de)}return le!==null?Re(h,R,"checked",le):te!==null&&Re(h,R,"checked",te),D!==null?Re(h,R,"value",D):W!==null&&Re(h,R,"value",W),h.push(Pe),null;case"menuitem":h.push(qe("menuitem"));for(var Ze in C)if(p.call(C,Ze)&&(D=C[Ze],D!=null))switch(Ze){case"children":case"dangerouslySetInnerHTML":throw Error(t(400));default:Re(h,R,Ze,D)}return h.push(ve),null;case"title":h.push(qe("title")),D=null;for(Ce in C)if(p.call(C,Ce)&&(z=C[Ce],z!=null))switch(Ce){case"children":D=z;break;case"dangerouslySetInnerHTML":throw Error(t(434));default:Re(h,R,Ce,z)}return h.push(ve),D;case"listing":case"pre":h.push(qe(g)),z=D=null;for(te in C)if(p.call(C,te)&&(W=C[te],W!=null))switch(te){case"children":D=W;break;case"dangerouslySetInnerHTML":z=W;break;default:Re(h,R,te,W)}if(h.push(ve),z!=null){if(D!=null)throw Error(t(60));if(typeof z!="object"||!("__html"in z))throw Error(t(61));C=z.__html,C!=null&&(typeof C=="string"&&0<C.length&&C[0]===`
-`?h.push(pr,u(C)):h.push(u(""+C)))}return typeof D=="string"&&D[0]===`
-`&&h.push(pr),D;case"area":case"base":case"br":case"col":case"embed":case"hr":case"img":case"keygen":case"link":case"meta":case"param":case"source":case"track":case"wbr":h.push(qe(g));for(var dt in C)if(p.call(C,dt)&&(D=C[dt],D!=null))switch(dt){case"children":case"dangerouslySetInnerHTML":throw Error(t(399,g));default:Re(h,R,dt,D)}return h.push(Pe),null;case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return Ht(h,C,g,R);case"html":return M.insertionMode===0&&h.push(Dn),Ht(h,C,g,R);default:if(g.indexOf("-")===-1&&typeof C.is!="string")return Ht(h,C,g,R);h.push(qe(g)),z=D=null;for(de in C)if(p.call(C,de)&&(W=C[de],W!=null))switch(de){case"children":D=W;break;case"dangerouslySetInnerHTML":z=W;break;case"style":he(h,R,W);break;case"suppressContentEditableWarning":case"suppressHydrationWarning":break;default:S(de)&&typeof W!="function"&&typeof W!="symbol"&&h.push(ce,u(de),we,u(T(W)),Fe)}return h.push(ve),rt(h,z,D),D}}var Fn=c("</"),Un=c(">"),mr=c('<template id="'),Bn=c('"></template>'),zn=c("<!--$-->"),fo=c('<!--$?--><template id="'),Ur=c('"></template>'),yr=c("<!--$!-->"),ho=c("<!--/$-->"),po=c("<template"),mo=c('"'),yo=c(' data-dgst="');c(' data-msg="'),c(' data-stck="');var go=c("></template>");function nt(h,g,C){if(a(h,fo),C===null)throw Error(t(395));return a(h,C),o(h,Ur)}var Br=c('<div hidden id="'),gr=c('">'),xe=c("</div>"),Vt=c('<svg aria-hidden="true" style="display:none" id="'),vr=c('">'),Wt=c("</svg>"),xt=c('<math aria-hidden="true" style="display:none" id="'),xr=c('">'),Rt=c("</math>"),qn=c('<table hidden id="'),zr=c('">'),qr=c("</table>"),Hn=c('<table hidden><tbody id="'),Vn=c('">'),Wn=c("</tbody></table>"),vo=c('<table hidden><tr id="'),xo=c('">'),wr=c("</tr></table>"),Yn=c('<table hidden><colgroup id="'),br=c('">'),Hr=c("</colgroup></table>");function wo(h,g,C,R){switch(C.insertionMode){case 0:case 1:return a(h,Br),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,gr);case 2:return a(h,Vt),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,vr);case 3:return a(h,xt),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,xr);case 4:return a(h,qn),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,zr);case 5:return a(h,Hn),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,Vn);case 6:return a(h,vo),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,xo);case 7:return a(h,Yn),a(h,g.segmentPrefix),a(h,u(R.toString(16))),o(h,br);default:throw Error(t(397))}}function Yt(h,g){switch(g.insertionMode){case 0:case 1:return o(h,xe);case 2:return o(h,Wt);case 3:return o(h,Rt);case 4:return o(h,qr);case 5:return o(h,Wn);case 6:return o(h,wr);case 7:return o(h,Hr);default:throw Error(t(397))}}var bo=c('function $RS(a,b){a=document.getElementById(a);b=document.getElementById(b);for(a.parentNode.removeChild(a);a.firstChild;)b.parentNode.insertBefore(a.firstChild,b);b.parentNode.removeChild(b)};$RS("'),Vr=c('$RS("'),Sr=c('","'),Gt=c('")<\/script>'),Cr=c('function $RC(a,b){a=document.getElementById(a);b=document.getElementById(b);b.parentNode.removeChild(b);if(a){a=a.previousSibling;var f=a.parentNode,c=a.nextSibling,e=0;do{if(c&&8===c.nodeType){var d=c.data;if("/$"===d)if(0===e)break;else e--;else"$"!==d&&"$?"!==d&&"$!"!==d||e++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;b.firstChild;)f.insertBefore(b.firstChild,c);a.data="$";a._reactRetry&&a._reactRetry()}};$RC("'),Gn=c('$RC("'),Xn=c('","'),Jn=c('")<\/script>'),Wr=c('function $RX(b,c,d,e){var a=document.getElementById(b);a&&(b=a.previousSibling,b.data="$!",a=a.dataset,c&&(a.dgst=c),d&&(a.msg=d),e&&(a.stck=e),b._reactRetry&&b._reactRetry())};$RX("'),He=c('$RX("'),Zn=c('"'),Yr=c(")<\/script>"),Gr=c(","),Qn=/[<\u2028\u2029]/g;function Lt(h){return JSON.stringify(h).replace(Qn,function(g){switch(g){case"<":return"\\u003c";case"\u2028":return"\\u2028";case"\u2029":return"\\u2029";default:throw Error("escapeJSStringsForInstructionScripts encountered a match it does not know how to replace. this means the match regex and the replacement characters are no longer in sync. This is a bug in React")}})}var Dt=Object.assign,Kn=Symbol.for("react.element"),Xt=Symbol.for("react.portal"),Jt=Symbol.for("react.fragment"),Xr=Symbol.for("react.strict_mode"),Jr=Symbol.for("react.profiler"),Zr=Symbol.for("react.provider"),jr=Symbol.for("react.context"),ea=Symbol.for("react.forward_ref"),ta=Symbol.for("react.suspense"),Qr=Symbol.for("react.suspense_list"),f=Symbol.for("react.memo"),v=Symbol.for("react.lazy"),j=Symbol.for("react.scope"),_=Symbol.for("react.debug_trace_mode"),F=Symbol.for("react.legacy_hidden"),L=Symbol.for("react.default_value"),U=Symbol.iterator;function Y(h){if(h==null)return null;if(typeof h=="function")return h.displayName||h.name||null;if(typeof h=="string")return h;switch(h){case Jt:return"Fragment";case Xt:return"Portal";case Jr:return"Profiler";case Xr:return"StrictMode";case ta:return"Suspense";case Qr:return"SuspenseList"}if(typeof h=="object")switch(h.$$typeof){case jr:return(h.displayName||"Context")+".Consumer";case Zr:return(h._context.displayName||"Context")+".Provider";case ea:var g=h.render;return h=h.displayName,h||(h=g.displayName||g.name||"",h=h!==""?"ForwardRef("+h+")":"ForwardRef"),h;case f:return g=h.displayName||null,g!==null?g:Y(h.type)||"Memo";case v:g=h._payload,h=h._init;try{return Y(h(g))}catch{}}return null}var ee={};function oe(h,g){if(h=h.contextTypes,!h)return ee;var C={},R;for(R in h)C[R]=g[R];return C}var ie=null;function je(h,g){if(h!==g){h.context._currentValue=h.parentValue,h=h.parent;var C=g.parent;if(h===null){if(C!==null)throw Error(t(401))}else{if(C===null)throw Error(t(401));je(h,C)}g.context._currentValue=g.value}}function ut(h){h.context._currentValue=h.parentValue,h=h.parent,h!==null&&ut(h)}function ct(h){var g=h.parent;g!==null&&ct(g),h.context._currentValue=h.value}function Xe(h,g){if(h.context._currentValue=h.parentValue,h=h.parent,h===null)throw Error(t(402));h.depth===g.depth?je(h,g):Xe(h,g)}function Zt(h,g){var C=g.parent;if(C===null)throw Error(t(402));h.depth===C.depth?je(h,C):Zt(h,C),g.context._currentValue=g.value}function _t(h){var g=ie;g!==h&&(g===null?ct(h):h===null?ut(g):g.depth===h.depth?je(g,h):g.depth>h.depth?Xe(g,h):Zt(g,h),ie=h)}var Kr={isMounted:function(){return!1},enqueueSetState:function(h,g){h=h._reactInternals,h.queue!==null&&h.queue.push(g)},enqueueReplaceState:function(h,g){h=h._reactInternals,h.replace=!0,h.queue=[g]},enqueueForceUpdate:function(){}};function Qt(h,g,C,R){var M=h.state!==void 0?h.state:null;h.updater=Kr,h.props=C,h.state=M;var D={queue:[],replace:!1};h._reactInternals=D;var z=g.contextType;if(h.context=typeof z=="object"&&z!==null?z._currentValue:R,z=g.getDerivedStateFromProps,typeof z=="function"&&(z=z(C,M),M=z==null?M:Dt({},M,z),h.state=M),typeof g.getDerivedStateFromProps!="function"&&typeof h.getSnapshotBeforeUpdate!="function"&&(typeof h.UNSAFE_componentWillMount=="function"||typeof h.componentWillMount=="function"))if(g=h.state,typeof h.componentWillMount=="function"&&h.componentWillMount(),typeof h.UNSAFE_componentWillMount=="function"&&h.UNSAFE_componentWillMount(),g!==h.state&&Kr.enqueueReplaceState(h,h.state,null),D.queue!==null&&0<D.queue.length)if(g=D.queue,z=D.replace,D.queue=null,D.replace=!1,z&&g.length===1)h.state=g[0];else{for(D=z?g[0]:h.state,M=!0,z=z?1:0;z<g.length;z++){var W=g[z];W=typeof W=="function"?W.call(h,D,C,R):W,W!=null&&(M?(M=!1,D=Dt({},D,W)):Dt(D,W))}h.state=D}else D.queue=null}var ra={id:1,overflow:""};function Mt(h,g,C){var R=h.id;h=h.overflow;var M=32-na(R)-1;R&=~(1<<M),C+=1;var D=32-na(g)+M;if(30<D){var z=M-M%5;return D=(R&(1<<z)-1).toString(32),R>>=z,M-=z,{id:1<<32-na(g)+M|C<<M|R,overflow:D+h}}return{id:1<<D|C<<M|R,overflow:h}}var na=Math.clz32?Math.clz32:Md,Ld=Math.log,Dd=Math.LN2;function Md(h){return h>>>=0,h===0?32:31-(Ld(h)/Dd|0)|0}function Fd(h,g){return h===g&&(h!==0||1/h===1/g)||h!==h&&g!==g}var Ud=typeof Object.is=="function"?Object.is:Fd,It=null,So=null,aa=null,be=null,en=!1,oa=!1,tn=0,Ft=null,sa=0;function Kt(){if(It===null)throw Error(t(321));return It}function ii(){if(0<sa)throw Error(t(312));return{memoizedState:null,queue:null,next:null}}function Co(){return be===null?aa===null?(en=!1,aa=be=ii()):(en=!0,be=aa):be.next===null?(en=!1,be=be.next=ii()):(en=!0,be=be.next),be}function jo(){So=It=null,oa=!1,aa=null,sa=0,be=Ft=null}function li(h,g){return typeof g=="function"?g(h):g}function ui(h,g,C){if(It=Kt(),be=Co(),en){var R=be.queue;if(g=R.dispatch,Ft!==null&&(C=Ft.get(R),C!==void 0)){Ft.delete(R),R=be.memoizedState;do R=h(R,C.action),C=C.next;while(C!==null);return be.memoizedState=R,[R,g]}return[be.memoizedState,g]}return h=h===li?typeof g=="function"?g():g:C!==void 0?C(g):g,be.memoizedState=h,h=be.queue={last:null,dispatch:null},h=h.dispatch=Bd.bind(null,It,h),[be.memoizedState,h]}function ci(h,g){if(It=Kt(),be=Co(),g=g===void 0?null:g,be!==null){var C=be.memoizedState;if(C!==null&&g!==null){var R=C[1];e:if(R===null)R=!1;else{for(var M=0;M<R.length&&M<g.length;M++)if(!Ud(g[M],R[M])){R=!1;break e}R=!0}if(R)return C[0]}}return h=h(),be.memoizedState=[h,g],h}function Bd(h,g,C){if(25<=sa)throw Error(t(301));if(h===It)if(oa=!0,h={action:C,next:null},Ft===null&&(Ft=new Map),C=Ft.get(g),C===void 0)Ft.set(g,h);else{for(g=C;g.next!==null;)g=g.next;g.next=h}}function zd(){throw Error(t(394))}function ia(){}var di={readContext:function(h){return h._currentValue},useContext:function(h){return Kt(),h._currentValue},useMemo:ci,useReducer:ui,useRef:function(h){It=Kt(),be=Co();var g=be.memoizedState;return g===null?(h={current:h},be.memoizedState=h):g},useState:function(h){return ui(li,h)},useInsertionEffect:ia,useLayoutEffect:function(){},useCallback:function(h,g){return ci(function(){return h},g)},useImperativeHandle:ia,useEffect:ia,useDebugValue:ia,useDeferredValue:function(h){return Kt(),h},useTransition:function(){return Kt(),[!1,zd]},useId:function(){var h=So.treeContext,g=h.overflow;h=h.id,h=(h&~(1<<32-na(h)-1)).toString(32)+g;var C=la;if(C===null)throw Error(t(404));return g=tn++,h=":"+C.idPrefix+"R"+h,0<g&&(h+="H"+g.toString(32)),h+":"},useMutableSource:function(h,g){return Kt(),g(h._source)},useSyncExternalStore:function(h,g,C){if(C===void 0)throw Error(t(407));return C()}},la=null,Eo=e.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher;function qd(h){return console.error(h),null}function rn(){}function Hd(h,g,C,R,M,D,z,W,te){var de=[],le=new Set;return g={destination:null,responseState:g,progressiveChunkSize:R===void 0?12800:R,status:0,fatalError:null,nextSegmentId:0,allPendingTasks:0,pendingRootTasks:0,completedRootSegment:null,abortableTasks:le,pingedTasks:de,clientRenderedBoundaries:[],completedBoundaries:[],partialBoundaries:[],onError:M===void 0?qd:M,onAllReady:D===void 0?rn:D,onShellReady:z===void 0?rn:z,onShellError:W===void 0?rn:W,onFatalError:te===void 0?rn:te},C=ua(g,0,null,C,!1,!1),C.parentFlushed=!0,h=ko(g,h,null,C,le,ee,null,ra),de.push(h),g}function ko(h,g,C,R,M,D,z,W){h.allPendingTasks++,C===null?h.pendingRootTasks++:C.pendingTasks++;var te={node:g,ping:function(){var de=h.pingedTasks;de.push(te),de.length===1&&vi(h)},blockedBoundary:C,blockedSegment:R,abortSet:M,legacyContext:D,context:z,treeContext:W};return M.add(te),te}function ua(h,g,C,R,M,D){return{status:0,id:-1,index:g,parentFlushed:!1,chunks:[],children:[],formatContext:R,boundary:C,lastPushedText:M,textEmbedded:D}}function nn(h,g){if(h=h.onError(g),h!=null&&typeof h!="string")throw Error('onError returned something with a type other than "string". onError should return a string and may return null or undefined but must not return anything else. It received something of type "'+typeof h+'" instead');return h}function ca(h,g){var C=h.onShellError;C(g),C=h.onFatalError,C(g),h.destination!==null?(h.status=2,d(h.destination,g)):(h.status=1,h.fatalError=g)}function fi(h,g,C,R,M){for(It={},So=g,tn=0,h=C(R,M);oa;)oa=!1,tn=0,sa+=1,be=null,h=C(R,M);return jo(),h}function hi(h,g,C,R){var M=C.render(),D=R.childContextTypes;if(D!=null){var z=g.legacyContext;if(typeof C.getChildContext!="function")R=z;else{C=C.getChildContext();for(var W in C)if(!(W in D))throw Error(t(108,Y(R)||"Unknown",W));R=Dt({},z,C)}g.legacyContext=R,Je(h,g,M),g.legacyContext=z}else Je(h,g,M)}function pi(h,g){if(h&&h.defaultProps){g=Dt({},g),h=h.defaultProps;for(var C in h)g[C]===void 0&&(g[C]=h[C]);return g}return g}function Ro(h,g,C,R,M){if(typeof C=="function")if(C.prototype&&C.prototype.isReactComponent){M=oe(C,g.legacyContext);var D=C.contextType;D=new C(R,typeof D=="object"&&D!==null?D._currentValue:M),Qt(D,C,R,M),hi(h,g,D,C)}else{D=oe(C,g.legacyContext),M=fi(h,g,C,R,D);var z=tn!==0;if(typeof M=="object"&&M!==null&&typeof M.render=="function"&&M.$$typeof===void 0)Qt(M,C,R,D),hi(h,g,M,C);else if(z){R=g.treeContext,g.treeContext=Mt(R,1,0);try{Je(h,g,M)}finally{g.treeContext=R}}else Je(h,g,M)}else if(typeof C=="string"){switch(M=g.blockedSegment,D=Mn(M.chunks,C,R,h.responseState,M.formatContext),M.lastPushedText=!1,z=M.formatContext,M.formatContext=O(z,C,R),_o(h,g,D),M.formatContext=z,C){case"area":case"base":case"br":case"col":case"embed":case"hr":case"img":case"input":case"keygen":case"link":case"meta":case"param":case"source":case"track":case"wbr":break;default:M.chunks.push(Fn,u(C),Un)}M.lastPushedText=!1}else{switch(C){case F:case _:case Xr:case Jr:case Jt:Je(h,g,R.children);return;case Qr:Je(h,g,R.children);return;case j:throw Error(t(343));case ta:e:{C=g.blockedBoundary,M=g.blockedSegment,D=R.fallback,R=R.children,z=new Set;var W={id:null,rootSegmentID:-1,parentFlushed:!1,pendingTasks:0,forceClientRender:!1,completedSegments:[],byteSize:0,fallbackAbortableTasks:z,errorDigest:null},te=ua(h,M.chunks.length,W,M.formatContext,!1,!1);M.children.push(te),M.lastPushedText=!1;var de=ua(h,0,null,M.formatContext,!1,!1);de.parentFlushed=!0,g.blockedBoundary=W,g.blockedSegment=de;try{if(_o(h,g,R),de.lastPushedText&&de.textEmbedded&&de.chunks.push(H),de.status=1,da(W,de),W.pendingTasks===0)break e}catch(le){de.status=4,W.forceClientRender=!0,W.errorDigest=nn(h,le)}finally{g.blockedBoundary=C,g.blockedSegment=M}g=ko(h,D,C,te,z,g.legacyContext,g.context,g.treeContext),h.pingedTasks.push(g)}return}if(typeof C=="object"&&C!==null)switch(C.$$typeof){case ea:if(R=fi(h,g,C.render,R,M),tn!==0){C=g.treeContext,g.treeContext=Mt(C,1,0);try{Je(h,g,R)}finally{g.treeContext=C}}else Je(h,g,R);return;case f:C=C.type,R=pi(C,R),Ro(h,g,C,R,M);return;case Zr:if(M=R.children,C=C._context,R=R.value,D=C._currentValue,C._currentValue=R,z=ie,ie=R={parent:z,depth:z===null?0:z.depth+1,context:C,parentValue:D,value:R},g.context=R,Je(h,g,M),h=ie,h===null)throw Error(t(403));R=h.parentValue,h.context._currentValue=R===L?h.context._defaultValue:R,h=ie=h.parent,g.context=h;return;case jr:R=R.children,R=R(C._currentValue),Je(h,g,R);return;case v:M=C._init,C=M(C._payload),R=pi(C,R),Ro(h,g,C,R,void 0);return}throw Error(t(130,C==null?C:typeof C,""))}}function Je(h,g,C){if(g.node=C,typeof C=="object"&&C!==null){switch(C.$$typeof){case Kn:Ro(h,g,C.type,C.props,C.ref);return;case Xt:throw Error(t(257));case v:var R=C._init;C=R(C._payload),Je(h,g,C);return}if(X(C)){mi(h,g,C);return}if(C===null||typeof C!="object"?R=null:(R=U&&C[U]||C["@@iterator"],R=typeof R=="function"?R:null),R&&(R=R.call(C))){if(C=R.next(),!C.done){var M=[];do M.push(C.value),C=R.next();while(!C.done);mi(h,g,M)}return}throw h=Object.prototype.toString.call(C),Error(t(31,h==="[object Object]"?"object with keys {"+Object.keys(C).join(", ")+"}":h))}typeof C=="string"?(R=g.blockedSegment,R.lastPushedText=K(g.blockedSegment.chunks,C,h.responseState,R.lastPushedText)):typeof C=="number"&&(R=g.blockedSegment,R.lastPushedText=K(g.blockedSegment.chunks,""+C,h.responseState,R.lastPushedText))}function mi(h,g,C){for(var R=C.length,M=0;M<R;M++){var D=g.treeContext;g.treeContext=Mt(D,R,M);try{_o(h,g,C[M])}finally{g.treeContext=D}}}function _o(h,g,C){var R=g.blockedSegment.formatContext,M=g.legacyContext,D=g.context;try{return Je(h,g,C)}catch(te){if(jo(),typeof te=="object"&&te!==null&&typeof te.then=="function"){C=te;var z=g.blockedSegment,W=ua(h,z.chunks.length,null,z.formatContext,z.lastPushedText,!0);z.children.push(W),z.lastPushedText=!1,h=ko(h,g.node,g.blockedBoundary,W,g.abortSet,g.legacyContext,g.context,g.treeContext).ping,C.then(h,h),g.blockedSegment.formatContext=R,g.legacyContext=M,g.context=D,_t(D)}else throw g.blockedSegment.formatContext=R,g.legacyContext=M,g.context=D,_t(D),te}}function Vd(h){var g=h.blockedBoundary;h=h.blockedSegment,h.status=3,gi(this,g,h)}function yi(h,g,C){var R=h.blockedBoundary;h.blockedSegment.status=3,R===null?(g.allPendingTasks--,g.status!==2&&(g.status=2,g.destination!==null&&g.destination.close())):(R.pendingTasks--,R.forceClientRender||(R.forceClientRender=!0,h=C===void 0?Error(t(432)):C,R.errorDigest=g.onError(h),R.parentFlushed&&g.clientRenderedBoundaries.push(R)),R.fallbackAbortableTasks.forEach(function(M){return yi(M,g,C)}),R.fallbackAbortableTasks.clear(),g.allPendingTasks--,g.allPendingTasks===0&&(R=g.onAllReady,R()))}function da(h,g){if(g.chunks.length===0&&g.children.length===1&&g.children[0].boundary===null){var C=g.children[0];C.id=g.id,C.parentFlushed=!0,C.status===1&&da(h,C)}else h.completedSegments.push(g)}function gi(h,g,C){if(g===null){if(C.parentFlushed){if(h.completedRootSegment!==null)throw Error(t(389));h.completedRootSegment=C}h.pendingRootTasks--,h.pendingRootTasks===0&&(h.onShellError=rn,g=h.onShellReady,g())}else g.pendingTasks--,g.forceClientRender||(g.pendingTasks===0?(C.parentFlushed&&C.status===1&&da(g,C),g.parentFlushed&&h.completedBoundaries.push(g),g.fallbackAbortableTasks.forEach(Vd,h),g.fallbackAbortableTasks.clear()):C.parentFlushed&&C.status===1&&(da(g,C),g.completedSegments.length===1&&g.parentFlushed&&h.partialBoundaries.push(g)));h.allPendingTasks--,h.allPendingTasks===0&&(h=h.onAllReady,h())}function vi(h){if(h.status!==2){var g=ie,C=Eo.current;Eo.current=di;var R=la;la=h.responseState;try{var M=h.pingedTasks,D;for(D=0;D<M.length;D++){var z=M[D],W=h,te=z.blockedSegment;if(te.status===0){_t(z.context);try{Je(W,z,z.node),te.lastPushedText&&te.textEmbedded&&te.chunks.push(H),z.abortSet.delete(z),te.status=1,gi(W,z.blockedBoundary,te)}catch(ft){if(jo(),typeof ft=="object"&&ft!==null&&typeof ft.then=="function"){var de=z.ping;ft.then(de,de)}else{z.abortSet.delete(z),te.status=4;var le=z.blockedBoundary,Ce=ft,Ze=nn(W,Ce);if(le===null?ca(W,Ce):(le.pendingTasks--,le.forceClientRender||(le.forceClientRender=!0,le.errorDigest=Ze,le.parentFlushed&&W.clientRenderedBoundaries.push(le))),W.allPendingTasks--,W.allPendingTasks===0){var dt=W.onAllReady;dt()}}}finally{}}}M.splice(0,D),h.destination!==null&&Io(h,h.destination)}catch(ft){nn(h,ft),ca(h,ft)}finally{la=R,Eo.current=C,C===di&&_t(g)}}}function fa(h,g,C){switch(C.parentFlushed=!0,C.status){case 0:var R=C.id=h.nextSegmentId++;return C.lastPushedText=!1,C.textEmbedded=!1,h=h.responseState,a(g,mr),a(g,h.placeholderPrefix),h=u(R.toString(16)),a(g,h),o(g,Bn);case 1:C.status=2;var M=!0;R=C.chunks;var D=0;C=C.children;for(var z=0;z<C.length;z++){for(M=C[z];D<M.index;D++)a(g,R[D]);M=ha(h,g,M)}for(;D<R.length-1;D++)a(g,R[D]);return D<R.length&&(M=o(g,R[D])),M;default:throw Error(t(390))}}function ha(h,g,C){var R=C.boundary;if(R===null)return fa(h,g,C);if(R.parentFlushed=!0,R.forceClientRender)R=R.errorDigest,o(g,yr),a(g,po),R&&(a(g,yo),a(g,u(T(R))),a(g,mo)),o(g,go),fa(h,g,C);else if(0<R.pendingTasks){R.rootSegmentID=h.nextSegmentId++,0<R.completedSegments.length&&h.partialBoundaries.push(R);var M=h.responseState,D=M.nextSuspenseID++;M=c(M.boundaryPrefix+D.toString(16)),R=R.id=M,nt(g,h.responseState,R),fa(h,g,C)}else if(R.byteSize>h.progressiveChunkSize)R.rootSegmentID=h.nextSegmentId++,h.completedBoundaries.push(R),nt(g,h.responseState,R.id),fa(h,g,C);else{if(o(g,zn),C=R.completedSegments,C.length!==1)throw Error(t(391));ha(h,g,C[0])}return o(g,ho)}function xi(h,g,C){return wo(g,h.responseState,C.formatContext,C.id),ha(h,g,C),Yt(g,C.formatContext)}function wi(h,g,C){for(var R=C.completedSegments,M=0;M<R.length;M++)bi(h,g,C,R[M]);if(R.length=0,h=h.responseState,R=C.id,C=C.rootSegmentID,a(g,h.startInlineScript),h.sentCompleteBoundaryFunction?a(g,Gn):(h.sentCompleteBoundaryFunction=!0,a(g,Cr)),R===null)throw Error(t(395));return C=u(C.toString(16)),a(g,R),a(g,Xn),a(g,h.segmentPrefix),a(g,C),o(g,Jn)}function bi(h,g,C,R){if(R.status===2)return!0;var M=R.id;if(M===-1){if((R.id=C.rootSegmentID)===-1)throw Error(t(392));return xi(h,g,R)}return xi(h,g,R),h=h.responseState,a(g,h.startInlineScript),h.sentCompleteSegmentFunction?a(g,Vr):(h.sentCompleteSegmentFunction=!0,a(g,bo)),a(g,h.segmentPrefix),M=u(M.toString(16)),a(g,M),a(g,Sr),a(g,h.placeholderPrefix),a(g,M),o(g,Gt)}function Io(h,g){r=new Uint8Array(512),n=0;try{var C=h.completedRootSegment;if(C!==null&&h.pendingRootTasks===0){ha(h,g,C),h.completedRootSegment=null;var R=h.responseState.bootstrapChunks;for(C=0;C<R.length-1;C++)a(g,R[C]);C<R.length&&o(g,R[C])}var M=h.clientRenderedBoundaries,D;for(D=0;D<M.length;D++){var z=M[D];R=g;var W=h.responseState,te=z.id,de=z.errorDigest,le=z.errorMessage,Ce=z.errorComponentStack;if(a(R,W.startInlineScript),W.sentClientRenderFunction?a(R,He):(W.sentClientRenderFunction=!0,a(R,Wr)),te===null)throw Error(t(395));a(R,te),a(R,Zn),(de||le||Ce)&&(a(R,Gr),a(R,u(Lt(de||"")))),(le||Ce)&&(a(R,Gr),a(R,u(Lt(le||"")))),Ce&&(a(R,Gr),a(R,u(Lt(Ce)))),o(R,Yr)}M.splice(0,D);var Ze=h.completedBoundaries;for(D=0;D<Ze.length;D++)wi(h,g,Ze[D]);Ze.splice(0,D),i(g),r=new Uint8Array(512),n=0;var dt=h.partialBoundaries;for(D=0;D<dt.length;D++){var ft=dt[D];e:{M=h,z=g;var pa=ft.completedSegments;for(W=0;W<pa.length;W++)if(!bi(M,z,ft,pa[W])){W++,pa.splice(0,W);var Ci=!1;break e}pa.splice(0,W),Ci=!0}if(!Ci){h.destination=null,D++,dt.splice(0,D);return}}dt.splice(0,D);var Ao=h.completedBoundaries;for(D=0;D<Ao.length;D++)wi(h,g,Ao[D]);Ao.splice(0,D)}finally{i(g),h.allPendingTasks===0&&h.pingedTasks.length===0&&h.clientRenderedBoundaries.length===0&&h.completedBoundaries.length===0&&g.close()}}function Si(h,g){try{var C=h.abortableTasks;C.forEach(function(R){return yi(R,h,g)}),C.clear(),h.destination!==null&&Io(h,h.destination)}catch(R){nn(h,R),ca(h,R)}}return xa.renderToReadableStream=function(h,g){return new Promise(function(C,R){var M,D,z=new Promise(function(le,Ce){D=le,M=Ce}),W=Hd(h,fe(g?g.identifierPrefix:void 0,g?g.nonce:void 0,g?g.bootstrapScriptContent:void 0,g?g.bootstrapScripts:void 0,g?g.bootstrapModules:void 0),Se(g?g.namespaceURI:void 0),g?g.progressiveChunkSize:void 0,g?g.onError:void 0,D,function(){var le=new ReadableStream({type:"bytes",pull:function(Ce){if(W.status===1)W.status=2,d(Ce,W.fatalError);else if(W.status!==2&&W.destination===null){W.destination=Ce;try{Io(W,Ce)}catch(Ze){nn(W,Ze),ca(W,Ze)}}},cancel:function(){Si(W)}},{highWaterMark:0});le.allReady=z,C(le)},function(le){z.catch(function(){}),R(le)},M);if(g&&g.signal){var te=g.signal,de=function(){Si(W,te.reason),te.removeEventListener("abort",de)};te.addEventListener("abort",de)}vi(W)})},xa.version="18.3.1",xa}var dl;function jm(){if(dl)return Ut;dl=1;var e,t;return e=Sm(),t=Cm(),Ut.version=e.version,Ut.renderToString=e.renderToString,Ut.renderToStaticMarkup=e.renderToStaticMarkup,Ut.renderToNodeStream=e.renderToNodeStream,Ut.renderToStaticNodeStream=e.renderToStaticNodeStream,Ut.renderToReadableStream=t.renderToReadableStream,Ut}var Em=jm();function Ar(e){if(!e){const t=`flattenConnection(): needs a 'connection' to flatten, but received '${e??""}' instead.`;return console.error(t+" Returning an empty array"),[]}return"nodes"in e?e.nodes:"edges"in e&&Array.isArray(e.edges)?e.edges.map(t=>{if(!(t!=null&&t.node))throw new Error("flattenConnection(): Connection edges must contain nodes");return t.node}):[]}var ws="2026-04",km="mock.shop",fl=e=>e.includes(km);function Rm({storeDomain:e,privateStorefrontToken:t,publicStorefrontToken:r,storefrontApiVersion:n=ws,contentType:a}){if(!e)throw new Error(zo+"`storeDomain` is required when creating a new Storefront client in production.");n!=="2026-04"&&Im(`The Storefront API version that you're using is different than the version this build of Hydrogen React is targeting.
-You may run into unexpected errors if these versions don't match. Received version: "${n}"; expected version "${ws}"`);const o=i=>{const l=(i==null?void 0:i.storeDomain)??e;return l.includes("://")?l:`https://${l}`};return{getShopifyDomain:o,getStorefrontApiUrl(i){const l=o(i);return`${l+(l.endsWith("/")?"api":"/api")}/${(i==null?void 0:i.storefrontApiVersion)??n}/graphql.json`},getPrivateTokenHeaders(i){if(!t&&!(i!=null&&i.privateStorefrontToken)&&!fl(e))throw new Error(zo+"You did not pass in a `privateStorefrontToken` while using `createStorefrontClient()` or `getPrivateTokenHeaders()`");return{"content-type":((i==null?void 0:i.contentType)??a)==="graphql"?"application/graphql":"application/json","X-SDK-Variant":"hydrogen-react","X-SDK-Variant-Source":"react","X-SDK-Version":n,"Shopify-Storefront-Private-Token":(i==null?void 0:i.privateStorefrontToken)??t??"",...i!=null&&i.buyerIp?{"Shopify-Storefront-Buyer-IP":i.buyerIp}:{}}},getPublicTokenHeaders(i){if(!r&&!(i!=null&&i.publicStorefrontToken)&&!fl(e))throw new Error(zo+"You did not pass in a `publicStorefrontToken` while using `createStorefrontClient()` or `getPublicTokenHeaders()`");return _m((i==null?void 0:i.contentType)??a??"json",n,(i==null?void 0:i.publicStorefrontToken)??r??"")}}}function _m(e,t,r){return{"content-type":e==="graphql"?"application/graphql":"application/json","X-SDK-Variant":"hydrogen-react","X-SDK-Variant-Source":"react","X-SDK-Version":t,"X-Shopify-Storefront-Access-Token":r}}var hl=new Set,zo="[h2:error:createStorefrontClient] ",Im=(e,t="warn")=>{hl.has(e)||(console[t](`[h2:${t}:createStorefrontClient] `+e),hl.add(e))},Am={storeDomain:"test",storefrontToken:"abc123",storefrontApiVersion:ws,countryIsoCode:"US",languageIsoCode:"EN",getStorefrontApiUrl(){return""},getPublicTokenHeaders(){return{}},getShopifyDomain(){return""}},Nm=b.createContext(Am);function Tm(){const e=b.useContext(Nm);if(!e)throw new Error("'useShop()' must be a descendent of <ShopifyProvider/>");return e}var qo="Shopify-Storefront-Id",$m="Shopify-Storefront-Y",Pm="Shopify-Storefront-S",pl="_shopify_y",ml="_shopify_s",bs="X-Shopify-VisitToken",Ss="X-Shopify-UniqueToken",Ho={current:null};function ir(){var t,r,n;let e;if(typeof window<"u"&&typeof window.performance<"u")try{const a=/^https?:\/\/([^/]+)(\/api\/(?:unstable|2\d{3}-\d{2})\/graphql\.json(?=$|\?))?/,o=performance.getEntriesByType("resource");let i;for(let l=o.length-1;l>=0;l--){const u=o[l];if(u.initiatorType!=="fetch")continue;const c=window.location.host,d=u.name.match(a);if(!d)continue;const[,p,y]=d;if(p===c||y&&(p!=null&&p.endsWith(`.${c}`))){const w=yl(u);if(w){i=w;break}}}if(i&&(e=i),e?Ho.current=e:Ho.current&&(e=Ho.current),!e){const l=performance.getEntriesByType("navigation")[0];e=yl(l,!1)}}catch{}if(!e){const a=typeof arguments[0]=="string"?arguments[0]:typeof document<"u"?document.cookie:"";e={uniqueToken:((t=a.match(/\b_shopify_y=([^;]+)/))==null?void 0:t[1])||"",visitToken:((r=a.match(/\b_shopify_s=([^;]+)/))==null?void 0:r[1])||"",consent:((n=a.match(/\b_tracking_consent=([^;]+)/))==null?void 0:n[1])||""}}return e}function yl(e,t=!0){let r="",n="",a="";const o=e.serverTiming;if(o&&o.length>=3)for(let i=o.length-1;i>=0;i--){const{name:l,description:u}=o[i];if(!(!l||!u)&&(l==="_y"?r=u:l==="_s"?n=u:l==="_cmp"&&(a=u),r&&n&&a))break}return r&&n&&(!t||a)?{uniqueToken:r,visitToken:n,consent:a}:void 0}var mt={PAGE_VIEW:"PAGE_VIEW",ADD_TO_CART:"ADD_TO_CART",PAGE_VIEW_2:"PAGE_VIEW_2",COLLECTION_VIEW:"COLLECTION_VIEW",PRODUCT_VIEW:"PRODUCT_VIEW",SEARCH_VIEW:"SEARCH_VIEW"},Nr={collection:"collection",product:"product",search:"search"},Om={headless:"headless"},gl={hydrogen:"6167201",headless:"12875497473"};function jt(e,t){return{schema_id:e,payload:t,metadata:{event_created_at_ms:Date.now()}}}function ot(e){const t={id:"",resource:null,resourceId:null,search:"",searchParams:new URLSearchParams,hash:""};if(typeof e!="string")return t;try{const{search:r,searchParams:n,pathname:a,hash:o}=new URL(e),i=a.split("/"),l=i[i.length-1],u=i[i.length-2];return!l||!u?t:{id:`${l}${r}${o}`||"",resource:u??null,resourceId:l||null,search:r,searchParams:n,hash:o}}catch{return t}}function yt(e,t){return typeof e!="object"?{}:(Object.entries(e).forEach(([r,n])=>{n&&(t[r]=n)}),t)}function Lm(e){return typeof document>"u"?(console.error(`${e} should only be used within the useEffect callback or event handlers`),!0):!1}var vl="xxxx-4xxx-xxxx-xxxxxxxxxxxx";function Ha(){let e="";try{const t=window.crypto,r=new Uint16Array(31);t.getRandomValues(r);let n=0;e=vl.replace(/[x]/g,a=>{const o=r[n]%16,i=a==="x"?o:o&3|8;return n++,i.toString(16)}).toUpperCase()}catch{e=vl.replace(/[x]/g,r=>{const n=Math.random()*16|0;return(r==="x"?n:n&3|8).toString(16)}).toUpperCase()}return`${Dm()}-${e}`}function Dm(){let e=0,t=0;e=new Date().getTime()>>>0;try{t=performance.now()>>>0}catch{t=0}return Math.abs(e+t).toString(16).toLowerCase().padStart(8,"0")}var Mm="trekkie_storefront_page_view/1.4",Fm="myshopify.dev";function xl(e){const t=e,{id:r,resource:n}=ot(t.resourceId),a=n?n.toLowerCase():void 0;return[jt(Mm,yt({pageType:t.pageType,customerId:parseInt(ot(t.customerId).id||"0"),resourceType:a,resourceId:parseInt(r)},Um(t)))]}function Um(e){return{appClientId:e.shopifySalesChannel?gl[e.shopifySalesChannel]:gl.headless,isMerchantRequest:Bm(e.url),hydrogenSubchannelId:e.storefrontId||e.hydrogenSubchannelId||"0",isPersistentCookie:e.hasUserConsent,uniqToken:e.uniqueToken,visitToken:e.visitToken,microSessionId:Ha(),microSessionCount:1,url:e.url,path:e.path,search:e.search,referrer:e.referrer,title:e.title,shopId:parseInt(ot(e.shopId).id),currency:e.currency,contentLanguage:e.acceptedLanguage||"en"}}function Bm(e){if(typeof e!="string")return!1;const t=new URL(e).hostname;return t.indexOf(Fm)!==-1||t==="localhost"}var Tt="custom_storefront_customer_tracking/1.2",Ec="page_rendered",kc="collection_page_rendered",Rc="product_page_rendered",zm="product_added_to_cart",_c="search_submitted";function Nn(e){return{canonical_url:e.canonicalUrl||e.url,customer_id:parseInt(ot(e.customerId).id||"0")}}function qm(e){const t=e,r=Nn(t),n=t.pageType,a=[];switch(a.push(jt(Tt,yt({event_name:Ec,...r},$t(t)))),n){case Nr.collection:a.push(jt(Tt,yt({event_name:kc,...r,collection_name:t.collectionHandle,collection_id:parseInt(ot(t.collectionId).id)},$t(t))));break;case Nr.product:a.push(jt(Tt,yt({event_name:Rc,...r,products:Zs(t.products),total_value:t.totalValue},$t(t))));break;case Nr.search:a.push(jt(Tt,yt({event_name:_c,...r,search_string:t.searchString},$t(t))));break}return a}function Hm(e){const t=e;return[jt(Tt,yt({event_name:Ec,...Nn(t)},$t(t)))]}function Vm(e){const t=e;return[jt(Tt,yt({event_name:kc,...Nn(t),collection_name:t.collectionHandle,collection_id:parseInt(ot(t.collectionId).id)},$t(t)))]}function Wm(e){const t=e;return[jt(Tt,yt({event_name:Rc,...Nn(t),products:Zs(t.products),total_value:t.totalValue},$t(t)))]}function Ym(e){const t=e;return[jt(Tt,yt({event_name:_c,...Nn(t),search_string:t.searchString},$t(t)))]}function Gm(e){const t=e,r=ot(t.cartId);return[jt(Tt,yt({event_name:zm,customerId:t.customerId,cart_token:r!=null&&r.id?`${r.id}`:null,total_value:t.totalValue,products:Zs(t.products),customer_id:parseInt(ot(t.customerId).id||"0")},$t(t)))]}function $t(e){const t=e;return{source:e.shopifySalesChannel||Om.headless,asset_version_id:e.assetVersionId||"2026.4.3",hydrogenSubchannelId:e.storefrontId||e.hydrogenSubchannelId||"0",is_persistent_cookie:e.hasUserConsent,deprecated_visit_token:e.visitToken,unique_token:e.uniqueToken,event_time:Date.now(),event_id:Ha(),event_source_url:e.url,referrer:e.referrer,user_agent:e.userAgent,navigation_type:e.navigationType,navigation_api:e.navigationApi,shop_id:parseInt(ot(e.shopId).id),currency:e.currency,ccpa_enforced:t.ccpaEnforced||!1,gdpr_enforced:t.gdprEnforced||!1,gdpr_enforced_as_string:t.gdprEnforced?"true":"false",analytics_allowed:e.analyticsAllowed||!1,marketing_allowed:e.marketingAllowed||!1,sale_of_data_allowed:e.saleOfDataAllowed||!1}}function Zs(e){return e?e.map(t=>{const r=yt({variant_gid:t.variantGid,category:t.category,sku:t.sku,product_id:parseInt(ot(t.productGid).id),variant_id:parseInt(ot(t.variantGid).id)},{product_gid:t.productGid,name:t.name,variant:t.variantName||"",brand:t.brand,price:parseFloat(t.price),quantity:Number(t.quantity||0)});return JSON.stringify(r)}):[]}function Tn(e,t){const{eventName:r,payload:n}=e;if(!n.hasUserConsent)return Promise.resolve();let a=[];const o=n;return r===mt.PAGE_VIEW?a=a.concat(xl(o),qm(o)):r===mt.ADD_TO_CART?a=a.concat(Gm(n)):r===mt.PAGE_VIEW_2?a=a.concat(xl(o),Hm(o)):r===mt.COLLECTION_VIEW?a=a.concat(Vm(o)):r===mt.PRODUCT_VIEW?a=a.concat(Wm(o)):r===mt.SEARCH_VIEW&&(a=a.concat(Ym(o))),a.length?Jm(a,t):Promise.resolve()}function Xm(){return typeof window>"u"||!window.navigator?!1:/Chrome-Lighthouse/.test(window.navigator.userAgent)}var wl="sendShopifyAnalytics request is unsuccessful";function Jm(e,t){if(Xm())return Promise.resolve();const r={events:e,metadata:{event_sent_at_ms:Date.now()}};try{return fetch(t?`https://${t}/.well-known/shopify/monorail/unstable/produce_batch`:"https://monorail-edge.shopifysvc.com/unstable/produce_batch",{method:"post",headers:{"content-type":"text/plain"},body:JSON.stringify(r)}).then(n=>{if(!n.ok)throw new Error("Response failed");return n.text()}).then(n=>{n&&JSON.parse(n).result.forEach(a=>{a.status!==200&&console.error(wl,`
-
-`,a.message)})}).catch(n=>{console.error(wl,n)})}catch{return Promise.resolve()}}function Zm(){if(Lm("getClientBrowserParameters"))return{uniqueToken:"",visitToken:"",url:"",path:"",search:"",referrer:"",title:"",userAgent:"",navigationType:"",navigationApi:""};const[e,t]=ey(),r=ir();return{uniqueToken:r.uniqueToken,visitToken:r.visitToken,url:location.href,path:location.pathname,search:location.search,referrer:document.referrer,title:document.title,userAgent:navigator.userAgent,navigationType:e,navigationApi:t}}function Qm(){try{const e=(performance==null?void 0:performance.getEntriesByType)&&(performance==null?void 0:performance.getEntriesByType("navigation"));if(e&&e[0]){const t=window.performance.getEntriesByType("navigation")[0].type;return t&&t.toString()}}catch{}}function Km(){var e,t;try{if(PerformanceNavigation&&((e=performance==null?void 0:performance.navigation)==null?void 0:e.type)!==null&&((t=performance==null?void 0:performance.navigation)==null?void 0:t.type)!==void 0){const r=performance.navigation.type;switch(r){case PerformanceNavigation.TYPE_NAVIGATE:return"navigate";case PerformanceNavigation.TYPE_RELOAD:return"reload";case PerformanceNavigation.TYPE_BACK_FORWARD:return"back_forward";default:return`unknown: ${r}`}}}catch{}}function ey(){try{let e="PerformanceNavigationTiming",t=Qm();return t||(t=Km(),e="performance.navigation"),t?[t,e]:["unknown","unknown"]}catch{}return["error","error"]}function ty(e){const{countryIsoCode:t,languageIsoCode:r}=Tm(),n=r.includes("_")?r.replace("_","-"):`${r}-${t}`;if(!n)throw new Error("useMoney(): Unable to get 'locale' from 'useShop()', which means that 'locale' was not passed to '<ShopifyProvider/>'. 'locale' is required for 'useMoney()' to work");const a=parseFloat(e.amount);let o=!0;try{new Intl.NumberFormat(n,{style:"currency",currency:e.currencyCode})}catch(m){m instanceof RangeError&&m.message.includes("currency")&&(o=!1)}const{defaultFormatter:i,nameFormatter:l,narrowSymbolFormatter:u,withoutTrailingZerosFormatter:c,withoutCurrencyFormatter:d,withoutTrailingZerosOrCurrencyFormatter:p}=b.useMemo(()=>{const m=o?{style:"currency",currency:e.currencyCode}:{style:"decimal",minimumFractionDigits:2,maximumFractionDigits:2};return{defaultFormatter:kr(n,m),nameFormatter:kr(n,{...m,currencyDisplay:"name"}),narrowSymbolFormatter:kr(n,{...m,currencyDisplay:"narrowSymbol"}),withoutTrailingZerosFormatter:kr(n,{...m,minimumFractionDigits:0,maximumFractionDigits:0}),withoutCurrencyFormatter:kr(n,{minimumFractionDigits:2,maximumFractionDigits:2}),withoutTrailingZerosOrCurrencyFormatter:kr(n,{minimumFractionDigits:0,maximumFractionDigits:0})}},[e.currencyCode,n,o]),y=m=>m.type==="currency",w=b.useMemo(()=>({original:()=>e,currencyCode:()=>e.currencyCode,localizedString:()=>{const m=i().format(a);return o?m:`${m} ${e.currencyCode}`},parts:()=>{const m=i().formatToParts(a);return o||m.push({type:"literal",value:" "},{type:"currency",value:e.currencyCode}),m},withoutTrailingZeros:()=>{const m=a%1===0?c().format(a):i().format(a);return o?m:`${m} ${e.currencyCode}`},withoutTrailingZerosAndCurrency:()=>a%1===0?p().format(a):d().format(a),currencyName:()=>{var m;return((m=l().formatToParts(a).find(y))==null?void 0:m.value)??e.currencyCode},currencySymbol:()=>{var m;return((m=i().formatToParts(a).find(y))==null?void 0:m.value)??e.currencyCode},currencyNarrowSymbol:()=>{var m;return((m=u().formatToParts(a).find(y))==null?void 0:m.value)??""},amount:()=>i().formatToParts(a).filter(m=>["decimal","fraction","group","integer","literal"].includes(m.type)).map(m=>m.value).join("")}),[e,a,o,l,i,u,d,c,p]);return b.useMemo(()=>new Proxy(w,{get:(m,S)=>{var x;return(x=Reflect.get(m,S))==null?void 0:x.call(null)}}),[w])}var bl=new Map;function kr(e,t){const r=JSON.stringify([e,t]);return function(){let n=bl.get(r);if(!n){try{n=new Intl.NumberFormat(e,t)}catch(a){if(a instanceof RangeError&&a.message.includes("currency")){const o={...t};delete o.currency,delete o.currencyDisplay,delete o.currencySign,n=new Intl.NumberFormat(e,o)}else throw a}bl.set(r,n)}return n}}function Ee({data:e,as:t,withoutCurrency:r,withoutTrailingZeros:n,measurement:a,measurementSeparator:o="/",...i}){if(!ry(e))throw new Error("<Money/> needs a valid 'data' prop that has 'amount' and 'currencyCode'");const l=ty(e),u=t??"div";let c=l.localizedString;return(r||n)&&(r&&!n?c=l.amount:!r&&n?c=l.withoutTrailingZeros:c=l.withoutTrailingZerosAndCurrency),s.jsxs(u,{...i,children:[c,a&&a.referenceUnit&&s.jsxs(s.Fragment,{children:[o,a.referenceUnit]})]})}function ry(e){return typeof e.amount=="string"&&!!e.amount&&typeof e.currencyCode=="string"&&!!e.currencyCode}var gt=b.forwardRef(({alt:e,aspectRatio:t,crop:r="center",data:n,decoding:a="async",height:o="auto",loader:i=so,loading:l="lazy",sizes:u,src:c,srcSetOptions:d={intervals:15,startingWidth:200,incrementSize:200,placeholderWidth:100},width:p="100%",...y},w)=>{const m=b.useMemo(()=>{const N=n!=null&&n.width&&(n!=null&&n.height)?n==null?void 0:n.width:void 0,A=n!=null&&n.width&&(n!=null&&n.height)?n==null?void 0:n.height:void 0;return{width:N,height:A,unitsMatch:!!Ic(N,A)}},[n]),S=b.useMemo(()=>{const N=xn((p||"100%").toString()),A=`${N.number}${N.unit}`,T=o==null,$=T?null:xn(o.toString()),V=$?`${$.number}${$.unit}`:"";return{width:A,height:T?"auto":V,src:c||(n==null?void 0:n.url),alt:n!=null&&n.altText&&!e?n==null?void 0:n.altText:e||"",aspectRatio:t||(m.unitsMatch?[wn(m.width),wn(m.height)].join("/"):void 0)}},[p,o,c,n,e,t,m,y==null?void 0:y.key]),{intervals:x,startingWidth:E,incrementSize:I,placeholderWidth:k}=d,P=b.useMemo(()=>oy(p,x,E,I),[p,x,E,I]);return Ac(S.width)?s.jsx(ny,{aspectRatio:t,crop:r,decoding:a,height:o,imageWidths:P,loader:i,loading:l,normalizedProps:S,passthroughProps:y,ref:w,width:p,data:n}):s.jsx(ay,{aspectRatio:t,crop:r,decoding:a,imageWidths:P,loader:i,loading:l,normalizedProps:S,passthroughProps:y,placeholderWidth:k,ref:w,sizes:u,data:n})}),ny=b.forwardRef(({aspectRatio:e,crop:t,decoding:r,height:n,imageWidths:a,loader:o=so,loading:i,normalizedProps:l,passthroughProps:u,width:c,data:d},p)=>{const y=b.useMemo(()=>{const w=wn(c),m=wn(n),S=e||(Ic(l.width,l.height)?[w,m].join("/"):l.aspectRatio?l.aspectRatio:void 0),x=a===void 0?void 0:Tc(a,S,t,{width:(d==null?void 0:d.width)??void 0,height:(d==null?void 0:d.height)??void 0}),E=m||(S&&w?w*(Qs(S)??1):void 0);return{width:w,aspectRatio:S,height:E,srcSet:Nc(l.src,x,o,"density"),src:o({src:l.src,width:w,height:E,crop:l.height==="auto"?void 0:t})}},[e,t,d,n,a,o,l,c]);return s.jsx("img",{ref:p,alt:l.alt,decoding:r,height:y.height,loading:i,src:y.src,srcSet:y.srcSet,width:y.width,style:{aspectRatio:y.aspectRatio,...u.style},...u})}),ay=b.forwardRef(({crop:e,decoding:t,imageWidths:r,loader:n=so,loading:a,normalizedProps:o,passthroughProps:i,placeholderWidth:l,sizes:u,data:c},d)=>{const p=b.useMemo(()=>{const y=r===void 0?void 0:Tc(r,o.aspectRatio,e,{width:(c==null?void 0:c.width)??void 0,height:(c==null?void 0:c.height)??void 0}),w=o.aspectRatio&&l?l*(Qs(o.aspectRatio)??1):void 0;return{placeholderHeight:w,srcSet:Nc(o.src,y,n),src:n({src:o.src,width:l,height:w,crop:e})}},[e,c,r,n,o,l]);return s.jsx("img",{ref:d,alt:o.alt,decoding:t,height:p.placeholderHeight,loading:a,sizes:u,src:p.src,srcSet:p.srcSet,width:l,...i,style:{width:o.width,aspectRatio:o.aspectRatio,...i.style}})}),Sl="https://placeholder.shopify.com";function so({src:e,width:t,height:r,crop:n}){if(!e)return"";const a=new URL(e,Sl);return t&&a.searchParams.append("width",Math.round(t).toString()),r&&a.searchParams.append("height",Math.round(r).toString()),n&&a.searchParams.append("crop",n),a.href.replace(Sl,"")}function Ic(e="100%",t="auto"){return xn(e.toString()).unit===xn(t.toString()).unit}function xn(e){const t=e.replace(/[0-9.]/g,""),r=parseFloat(e.replace(t,""));return{unit:t===""?r===void 0?"auto":"px":t,number:r}}function wn(e){if(e===void 0)return;const{unit:t,number:r}=xn(e.toString());switch(t){case"em":return r*16;case"rem":return r*16;case"px":return r;case"":return r;default:return}}function Ac(e){return typeof e=="number"||/\d(px|em|rem)$/.test(e)}function Nc(e,t,r=so,n="width"){return e?(t==null?void 0:t.length)===0||!t?e:t.map((a,o)=>`${r({src:e,width:a.width,height:a.height,crop:a.crop})} ${n==="density"?`${o+1}x`:`${a.width??0}w`}`).join(", "):""}function oy(e="100%",t,r,n){const a=Array.from({length:t},(i,l)=>l*n+r),o=Array.from({length:3},(i,l)=>(l+1)*(wn(e)??0));return Ac(e)?o:a}function Qs(e){if(!e)return;const[t,r]=e.split("/");return 1/(Number(t)/Number(r))}function Tc(e,t,r="center",n){if(e)return e.map(a=>({width:a,height:t?a*(Qs(t)??1):void 0,crop:r})).filter(({width:a,height:o})=>!(n!=null&&n.width&&a>n.width||n!=null&&n.height&&o&&o>n.height))}var Cl={};function sy(e,t){const r=Cl[e];if(r)return r;const n=new Promise((a,o)=>{const i=document.createElement("script");t!=null&&t.module?i.type="module":i.type="text/javascript",i.src=e,i.onload=()=>{a(!0)},i.onerror=()=>{o(!1)},(t==null?void 0:t.in)==="head"?document.head.appendChild(i):document.body.appendChild(i);const l=t==null?void 0:t.attributes;l&&Object.keys(l).forEach(u=>{i.setAttribute(u,l[u])})});return Cl[e]=n,n}function Ks(e,t){const[r,n]=b.useState("loading");return b.useEffect(()=>{sy(e,t).then(()=>n("done")).catch(()=>n("error"))},[e]),r}var iy=new Set(["domain","path","max-age","expires","samesite","secure","httponly"]);function ly(e){let t={},r,n,a=0,o=e.split(/;\s*/g),i,l;for(;a<o.length;a++)if(n=o[a],r=n.indexOf("="),~r){if(i=n.substring(0,r++).trim(),l=n.substring(r).trim(),l[0]==='"'&&(l=l.substring(1,l.length-1)),~l.indexOf("%"))try{l=decodeURIComponent(l)}catch{}iy.has(n=i.toLowerCase())?n==="expires"?t.expires=new Date(l):n==="max-age"?t.maxage=+l:t[n]=l:t[i]=l}else(i=n.trim().toLowerCase())&&(i==="httponly"||i==="secure")&&(t[i]=!0);return t}function $c(e,t,r={}){let n=e+"="+encodeURIComponent(t);return r.expires&&(n+="; Expires="+new Date(r.expires).toUTCString()),r.maxage!=null&&r.maxage>=0&&(n+="; Max-Age="+(r.maxage|0)),r.domain&&(n+="; Domain="+r.domain),r.path&&(n+="; Path="+r.path),r.samesite&&(n+="; SameSite="+r.samesite),(r.secure||r.samesite==="None")&&(n+="; Secure"),r.httponly&&(n+="; HttpOnly"),n}var uy=3600*24*360*1,cy=1800;function Pc(e){const{hasUserConsent:t,domain:r="",checkoutDomain:n="",storefrontAccessToken:a,fetchTrackingValues:o,ignoreDeprecatedCookies:i=!1}=e||{},l=dy({storefrontAccessToken:a,fetchTrackingValues:o,checkoutDomain:n});return b.useEffect(()=>{if(i||!l)return;let u=r||window.location.host;if(n){const d=n.split(".").reverse(),p=u.split(".").reverse(),y=[];d.forEach((w,m)=>{w===p[m]&&y.push(w)}),u=y.reverse().join(".")}/^localhost/.test(u)&&(u="");const c=u?/^\./.test(u)?u:`.${u}`:"";if(t){const d=ir();if((d.uniqueToken||d.visitToken||"").startsWith("00000000-"))return;wa(pl,d.uniqueToken||Ha(),uy,c),wa(ml,d.visitToken||Ha(),cy,c)}else wa(pl,"",0,c),wa(ml,"",0,c)},[l,t,r,n,i]),l}function wa(e,t,r,n){document.cookie=$c(e,t,{maxage:r,domain:n,samesite:"Lax",path:"/"})}async function jl(e,t=""){const{uniqueToken:r,visitToken:n}=ir(),a=await fetch(`${t.replace(/\/+$/,"")}/api/unstable/graphql.json`,{method:"POST",headers:{"Content-Type":"application/json",...e&&{"X-Shopify-Storefront-Access-Token":e},...n||r?{[bs]:n,[Ss]:r}:void 0},body:JSON.stringify({query:"query ensureCookies { consentManagement { cookies(visitorConsent:{}) { cookieDomain } } }"})});if(!a.ok)throw new Error(`Failed to fetch consent from browser: ${a.status} ${a.statusText}`);await a.json(),ir()}function dy({checkoutDomain:e,storefrontAccessToken:t,fetchTrackingValues:r=!1}){const[n,a]=b.useState(!r),o=b.useRef(!1);return b.useEffect(()=>{if(!r){a(!0);return}o.current||(o.current=!0,jl(t).catch(i=>e?jl(t,e):Promise.reject(i)).catch(i=>{console.warn("[h2:warn:useShopifyCookies] Failed to fetch tracking values from browser: "+(i instanceof Error?i.message:String(i)))}).finally(()=>{a(!0)}))},[e,r,t]),n}const io="GraphQL Client",El=0,kl=3,Oc="An error occurred while fetching from the API. Review 'graphQLErrors' for details.",Lc="Response returned unexpected Content-Type:",Dc="An unknown error has occurred. The API did not return a data object or any errors in its response.",Cs={json:"application/json",multipart:"multipart/mixed"},Rl="X-SDK-Variant",_l="X-SDK-Version",fy="shopify-graphql-client",hy="1.4.1",Mc=1e3,py=[429,503],Fc=/@(defer)\b/i,Il=`\r
-`,my=/boundary="?([^=";]+)"?/i,Al=Il+Il;function Bt(e,t=io){return e.startsWith(`${t}`)?e:`${t}: ${e}`}function Fr(e){return e instanceof Error?e.message:JSON.stringify(e)}function Uc(e){return e instanceof Error&&e.cause?e.cause:void 0}function Bc(e){return e.flatMap(({errors:t})=>t??[])}function zc({client:e,retries:t}){if(t!==void 0&&(typeof t!="number"||t<El||t>kl))throw new Error(`${e}: The provided "retries" value (${t}) is invalid - it cannot be less than ${El} or greater than ${kl}`)}function Ye(e,t){return t&&(typeof t!="object"||Array.isArray(t)||typeof t=="object"&&Object.keys(t).length>0)?{[e]:t}:{}}function qc(e,t){if(e.length===0)return t;const n={[e.pop()]:t};return e.length===0?n:qc(e,n)}function Hc(e,t){return Object.keys(t||{}).reduce((r,n)=>(typeof t[n]=="object"||Array.isArray(t[n]))&&e[n]?(r[n]=Hc(e[n],t[n]),r):(r[n]=t[n],r),Array.isArray(e)?[...e]:{...e})}function Vc([e,...t]){return t.reduce(Hc,{...e})}function yy({clientLogger:e,customFetchApi:t=fetch,client:r=io,defaultRetryWaitTime:n=Mc,retriableCodes:a=py}){const o=async(i,l,u)=>{const c=l+1,d=u+1;let p;try{if(p=await t(...i),e({type:"HTTP-Response",content:{requestParams:i,response:p}}),!p.ok&&a.includes(p.status)&&c<=d)throw new Error;const y=(p==null?void 0:p.headers.get("X-Shopify-API-Deprecated-Reason"))||"";return y&&e({type:"HTTP-Response-GraphQL-Deprecation-Notice",content:{requestParams:i,deprecationNotice:y}}),p}catch(y){if(c<=d){const w=p==null?void 0:p.headers.get("Retry-After");return await gy(w?parseInt(w,10):n),e({type:"HTTP-Retry",content:{requestParams:i,lastResponse:p,retryAttempt:l,maxRetries:u}}),o(i,c,u)}throw new Error(Bt(`${u>0?`Attempted maximum number of ${u} network retries. Last message - `:""}${Fr(y)}`,r))}};return o}async function gy(e){return new Promise(t=>setTimeout(t,e))}function vy({headers:e,url:t,customFetchApi:r=fetch,retries:n=0,logger:a}){zc({client:io,retries:n});const o={headers:e,url:t,retries:n},i=xy(a),l=yy({customFetchApi:r,clientLogger:i,defaultRetryWaitTime:Mc}),u=wy(l,o),c=by(u),d=_y(u);return{config:o,fetch:u,request:c,requestStream:d}}function xy(e){return t=>{e&&e(t)}}async function Wc(e){const{errors:t,data:r,extensions:n}=await e.json();return{...Ye("data",r),...Ye("extensions",n),headers:e.headers,...t||!r?{errors:{networkStatusCode:e.status,message:Bt(t?Oc:Dc),...Ye("graphQLErrors",t),response:e}}:{}}}function wy(e,{url:t,headers:r,retries:n}){return async(a,o={})=>{const{variables:i,headers:l,url:u,retries:c,keepalive:d,signal:p}=o,y=JSON.stringify({query:a,variables:i});zc({client:io,retries:c});const w=Object.entries({...r,...l}).reduce((S,[x,E])=>(S[x]=Array.isArray(E)?E.join(", "):E.toString(),S),{});return!w[Rl]&&!w[_l]&&(w[Rl]=fy,w[_l]=hy),e([u??t,{method:"POST",headers:w,body:y,signal:p,keepalive:d}],1,c??n)}}function by(e){return async(...t)=>{if(Fc.test(t[0]))throw new Error(Bt("This operation will result in a streamable response - use requestStream() instead."));let r=null;try{r=await e(...t);const{status:n,statusText:a}=r,o=r.headers.get("content-type")||"";return r.ok?o.includes(Cs.json)?await Wc(r):{errors:{networkStatusCode:n,message:Bt(`${Lc} ${o}`),response:r}}:{errors:{networkStatusCode:n,message:Bt(a),response:r}}}catch(n){return{errors:{message:Fr(n),...r==null?{}:{networkStatusCode:r.status,response:r}}}}}}async function*Sy(e){const t=new TextDecoder;if(e.body[Symbol.asyncIterator])for await(const r of e.body)yield t.decode(r);else{const r=e.body.getReader();let n;try{for(;!(n=await r.read()).done;)yield t.decode(n.value)}finally{r.cancel()}}}function Cy(e,t){return{async*[Symbol.asyncIterator](){try{let r="";for await(const n of e)if(r+=n,r.indexOf(t)>-1){const a=r.lastIndexOf(t),i=r.slice(0,a).split(t).filter(l=>l.trim().length>0).map(l=>l.slice(l.indexOf(Al)+Al.length).trim());i.length>0&&(yield i),r=r.slice(a+t.length),r.trim()==="--"&&(r="")}}catch(r){throw new Error(`Error occured while processing stream payload - ${Fr(r)}`)}}}}function jy(e){return{async*[Symbol.asyncIterator](){yield{...await Wc(e),hasNext:!1}}}}function Ey(e){return e.map(t=>{try{return JSON.parse(t)}catch(r){throw new Error(`Error in parsing multipart response - ${Fr(r)}`)}}).map(t=>{const{data:r,incremental:n,hasNext:a,extensions:o,errors:i}=t;if(!n)return{data:r||{},...Ye("errors",i),...Ye("extensions",o),hasNext:a};const l=n.map(({data:u,path:c,errors:d})=>({data:u&&c?qc(c,u):{},...Ye("errors",d)}));return{data:l.length===1?l[0].data:Vc([...l.map(({data:u})=>u)]),...Ye("errors",Bc(l)),hasNext:a}})}function ky(e,t){if(e.length>0)throw new Error(Oc,{cause:{graphQLErrors:e}});if(Object.keys(t).length===0)throw new Error(Dc)}function Ry(e,t){var l,u;const r=(t??"").match(my),n=`--${r?r[1]:"-"}`;if(!((l=e.body)!=null&&l.getReader)&&!((u=e.body)!=null&&u[Symbol.asyncIterator]))throw new Error("API multipart response did not return an iterable body",{cause:e});const a=Sy(e);let o={},i;return{async*[Symbol.asyncIterator](){var c;try{let d=!0;for await(const p of Cy(a,n)){const y=Ey(p);i=((c=y.find(m=>m.extensions))==null?void 0:c.extensions)??i;const w=Bc(y);o=Vc([o,...y.map(({data:m})=>m)]),d=y.slice(-1)[0].hasNext,ky(w,o),yield{...Ye("data",o),...Ye("extensions",i),hasNext:d}}if(d)throw new Error("Response stream terminated unexpectedly")}catch(d){const p=Uc(d);yield{...Ye("data",o),...Ye("extensions",i),errors:{message:Bt(Fr(d)),networkStatusCode:e.status,...Ye("graphQLErrors",p==null?void 0:p.graphQLErrors),response:e},hasNext:!1}}}}}function _y(e){return async(...t)=>{if(!Fc.test(t[0]))throw new Error(Bt("This operation does not result in a streamable response - use request() instead."));try{const r=await e(...t),{statusText:n}=r;if(!r.ok)throw new Error(n,{cause:r});const a=r.headers.get("content-type")||"";switch(!0){case a.includes(Cs.json):return jy(r);case a.includes(Cs.multipart):return Ry(r,a);default:throw new Error(`${Lc} ${a}`,{cause:r})}}catch(r){return{async*[Symbol.asyncIterator](){const n=Uc(r);yield{errors:{message:Bt(Fr(r)),...Ye("networkStatusCode",n==null?void 0:n.status),...Ye("response",n)},hasNext:!1}}}}}}function Iy({directives:e}){const t=[],r=e instanceof Map?e.entries():Object.entries(e),n=new Set;for(const[a,o]of r){const i=a.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase();if(n.has(i))throw new Error(`${a} is specified more than once`);if(n.add(i),o===!0){t.push(i);continue}if(o===!1)continue;const l=typeof o=="string"?o:o.join(" ");t.push(l?`${i} ${l}`:i)}return t.join("; ")}function Ay(e){let{type:t,data:r={},customData:n}=e,a=Ae(),{publish:o,cart:i,prevCart:l,shop:u,customData:c}=Pn(),d=a.pathname+a.search,p={...r,customData:{...c,...n},cart:i,prevCart:l,shop:u};return b.useEffect(()=>{u!=null&&u.shopId&&(p={...p,url:window.location.href},o(t,p))},[o,d,u==null?void 0:u.shopId]),null}function Ny(e){return s.jsx(Ay,{...e,type:"page_viewed"})}var St={PAGE_VIEWED:"page_viewed",PRODUCT_VIEWED:"product_viewed",COLLECTION_VIEWED:"collection_viewed",CART_VIEWED:"cart_viewed",SEARCH_VIEWED:"search_viewed",PRODUCT_ADD_TO_CART:"product_added_to_cart"},ba="Custom-Storefront-Request-Group-ID",Sa="X-Shopify-Storefront-Access-Token",Nl="X-SDK-Variant",Tl="X-SDK-Variant-Source",$l="X-SDK-Version",Vo="X-Shopify-Client-IP",_a="X-Shopify-Client-IP-Sig",Yc="_sfapi_proxy",Gc="_server_tracking";function Ty(e){return Object.entries(e).map(([t,r])=>r?`${t};desc=${r}`:void 0).filter(Boolean).join(", ")}function js(e,t){let r=typeof t=="string"?t:Ty(t);r&&e.headers.append("Server-Timing",r)}var $y=["_y","_s","_cmp"];function Py(e){let t={};if(!e)return t;let r=new RegExp(`\\b(${$y.join("|")});desc="?([^",]+)"?`,"g"),n;for(;(n=r.exec(e))!==null;)t[n[1]]=n[2];return t}function Xc(e){var t,r;if(typeof window>"u")return!1;try{return!!((r=(t=window.performance.getEntriesByType("navigation")[0])==null?void 0:t.serverTiming)!=null&&r.some(n=>n.name===e))}catch{return!1}}function Oy(){return Xc(Yc)}function Ly(){return Xc(Gc)}var Dy="https://cdn.shopify.com/shopifycloud/consent-tracking-api/v0.2/consent-tracking-api.js",My="https://cdn.shopify.com/shopifycloud/privacy-banner/storefront-banner.js";function Wo(e){console.error(`[h2:error:useCustomerPrivacy] Unable to setup Customer Privacy API: Missing consent.${e} configuration.`)}function Fy(e){let{withPrivacyBanner:t=!1,onVisitorConsentCollected:r,onReady:n,checkoutDomain:a,storefrontAccessToken:o,country:i,locale:l,sameDomainForStorefrontApi:u}=e,c=b.useMemo(()=>u??Oy(),[u]),d=b.useMemo(()=>c&&!Ly(),[c]),p=Pc({fetchTrackingValues:d,storefrontAccessToken:o,ignoreDeprecatedCookies:!0}),y=b.useMemo(ir,[p]),{revalidate:w}=Vu();Ks(t?My:Dy,{attributes:{id:"customer-privacy-api"}});let{observing:m,setLoaded:S,apisLoaded:x}=By({withPrivacyBanner:t}),E=b.useMemo(()=>{a||Wo("checkoutDomain"),o||Wo("storefrontAccessToken"),(o.startsWith("shpat_")||o.length!==32)&&console.error("[h2:error:useCustomerPrivacy] It looks like you passed a private access token, make sure to use the public token");let k=zy(a);return{checkoutRootDomain:c&&typeof window<"u"?window.location.host:a,storefrontRootDomain:k?"."+k:void 0,storefrontAccessToken:o,country:i,locale:l}},[Wo,a,o,i,l]);b.useEffect(()=>{let k=P=>{let N=ir();if((y.visitToken!==N.visitToken||y.uniqueToken!==N.uniqueToken)&&w().catch(()=>{console.warn("[h2:warn:useCustomerPrivacy] Revalidation failed after consent change.")}),r){let A=Tr();if(A!=null&&A.shouldShowBanner()){let T=A.currentVisitorConsent();if(T&&T.marketing===""&&T.analytics===""&&T.preferences==="")return}r(P.detail)}};return document.addEventListener("visitorConsentCollected",k),()=>{document.removeEventListener("visitorConsentCollected",k)}},[r]),b.useEffect(()=>{if(!t||m.current.privacyBanner)return;m.current.privacyBanner=!0;let k=window.privacyBanner||void 0;Object.defineProperty(window,"privacyBanner",{configurable:!0,get(){return k},set(P){typeof P=="object"&&P!==null&&"showPreferences"in P&&"loadBanner"in P&&(k=Ll({privacyBanner:P,config:E}),S.privacyBanner())}})},[t,E,Ll,S.privacyBanner]),b.useEffect(()=>{if(m.current.customerPrivacy)return;m.current.customerPrivacy=!0;let k=null,P=null,N=window.Shopify||void 0;Object.defineProperty(window,"Shopify",{configurable:!0,get(){return N},set(A){typeof A=="object"&&A!==null&&Object.keys(A).length===0&&(N=A,k={backendConsentEnabled:!0},Object.defineProperty(window.Shopify,"customerPrivacy",{configurable:!0,get(){return P??k},set(T){if(typeof T=="object"&&T!==null&&"setTrackingConsent"in T){let $=T;P={...$,setTrackingConsent:Ol({customerPrivacy:$,config:E})},N={...N,customerPrivacy:P},S.customerPrivacy()}}}))}})},[E,Ol,S.customerPrivacy]),b.useEffect(()=>{if(!x||!p)return;let k=Tr();if(k&&!k.cachedConsent){let P=ir();P.consent&&(k.cachedConsent=P.consent)}if(t){let P=Va();P&&P.loadBanner(E)}Uy(),n==null||n()},[x,p]);let I={customerPrivacy:Tr()};return t&&(I.privacyBanner=Va()),I}var Pl=!1;function Uy(){if(Pl)return;Pl=!0;let e=new CustomEvent("shopifyCustomerPrivacyApiLoaded");document.dispatchEvent(e)}function By({withPrivacyBanner:e}){let t=b.useRef({customerPrivacy:!1,privacyBanner:!1}),[r,n]=b.useState(e?[!1,!1]:[!1]),a=r.every(Boolean);return{observing:t,setLoaded:{customerPrivacy:()=>{n(e?o=>[!0,o[1]]:()=>[!0])},privacyBanner:()=>{e&&n(o=>[o[0],!0])}},apisLoaded:a}}function zy(e){if(typeof window>"u")return;let t=window.location.host,r=e.split(".").reverse(),n=t.split(".").reverse(),a=[];return r.forEach((o,i)=>{o===n[i]&&a.push(o)}),a.reverse().join(".")||void 0}function Ol({customerPrivacy:e,config:t}){let r=e.setTrackingConsent,{locale:n,country:a,...o}=t;function i(l,u){r({...o,headlessStorefront:!0,...l},u)}return i}function Ll({privacyBanner:e,config:t}){let r=e.loadBanner,n=e.showPreferences;function a(i){if(typeof i=="object"){r({...t,...i});return}r(t)}function o(i){if(typeof i=="object"){n({...t,...i});return}n(t)}return{loadBanner:a,showPreferences:o}}function Tr(){var e;try{let t=(e=window.Shopify)==null?void 0:e.customerPrivacy;return t&&"setTrackingConsent"in t?t:null}catch{return null}}function Va(){try{return window&&(window!=null&&window.privacyBanner)?window.privacyBanner:null}catch{return null}}var qy="2026.4.3";function Hy(){let e=Tr();if(!e)throw new Error("Shopify Customer Privacy API not available. Must be used within a useEffect. Make sure to load the Shopify Customer Privacy API with useCustomerPrivacy() or <AnalyticsProvider>.");return e}function Vy({consent:e,onReady:t,domain:r}){let{subscribe:n,register:a,canTrack:o}=Pn(),[i,l]=b.useState(!1),[u,c]=b.useState(!1),[d,p]=b.useState(""),y=b.useRef(!1),{checkoutDomain:w,storefrontAccessToken:m,language:S}=e,{ready:x}=a("Internal_Shopify_Analytics");Fy({...e,locale:S,checkoutDomain:w||"mock.shop",storefrontAccessToken:m||"abcdefghijklmnopqrstuvwxyz123456",onReady:()=>!e.withPrivacyBanner&&c(!0),onVisitorConsentCollected:I=>{try{p(JSON.stringify(I))}catch{}c(!0)}});let E=b.useMemo(()=>u?o():!0,[u,o,d]);return Pc({hasUserConsent:E,domain:r,checkoutDomain:w,fetchTrackingValues:!1,ignoreDeprecatedCookies:!u}),b.useEffect(()=>{y.current||(y.current=!0,n(St.PAGE_VIEWED,Yy),n(St.PRODUCT_VIEWED,Gy),n(St.COLLECTION_VIEWED,Xy),n(St.SEARCH_VIEWED,Jy),n(St.PRODUCT_ADD_TO_CART,Zy),l(!0))},[n]),b.useEffect(()=>{i&&u&&(x(),t())},[i,u,t]),null}function Ca(e){console.error(`[h2:error:ShopifyAnalytics] Unable to send Shopify analytics: Missing shop.${e} configuration.`)}function $n(e){var n,a,o,i;let t=Hy(),r=t.analyticsProcessingAllowed();if(!((n=e==null?void 0:e.shop)!=null&&n.shopId)){Ca("shopId");return}if(!((a=e==null?void 0:e.shop)!=null&&a.acceptedLanguage)){Ca("acceptedLanguage");return}if(!((o=e==null?void 0:e.shop)!=null&&o.currency)){Ca("currency");return}if(!((i=e==null?void 0:e.shop)!=null&&i.hydrogenSubchannelId)){Ca("hydrogenSubchannelId");return}return{shopifySalesChannel:"hydrogen",assetVersionId:qy,...e.shop,hasUserConsent:r,...Zm(),analyticsAllowed:t.analyticsProcessingAllowed(),marketingAllowed:t.marketingAllowed(),saleOfDataAllowed:t.saleOfDataAllowed(),ccpaEnforced:!t.saleOfDataAllowed(),gdprEnforced:!(t.marketingAllowed()&&t.analyticsProcessingAllowed())}}function Wy(e,t){if(t===null)return;let r=$n(e);return r?{...r,cartId:t.id}:void 0}var zt={};function Yy(e){let t=$n(e);t&&(Tn({eventName:mt.PAGE_VIEW_2,payload:{...t,...zt}}),zt={})}function Gy(e){let t=$n(e);if(t&&Jc({type:"product",products:e.products})){let r=Es(e.products);zt={pageType:Nr.product,resourceId:r[0].productGid},t={...t,...zt,products:Es(e.products)},Tn({eventName:mt.PRODUCT_VIEW,payload:t})}}function Xy(e){let t=$n(e);t&&(zt={pageType:Nr.collection,resourceId:e.collection.id},t={...t,...zt,collectionHandle:e.collection.handle,collectionId:e.collection.id},Tn({eventName:mt.COLLECTION_VIEW,payload:t}))}function Jy(e){let t=$n(e);t&&(zt={pageType:Nr.search},t={...t,...zt,searchString:e.searchTerm},Tn({eventName:mt.SEARCH_VIEW,payload:t}))}function Zy(e){let{cart:t,currentLine:r}=e,n=Wy(e,t);!n||!(r!=null&&r.id)||Qy({matchedLine:r,eventPayload:n})}function Qy({matchedLine:e,eventPayload:t}){let r={id:e.merchandise.product.id,variantId:e.merchandise.id,title:e.merchandise.product.title,variantTitle:e.merchandise.title,vendor:e.merchandise.product.vendor,price:e.merchandise.price.amount,quantity:e.quantity,productType:e.merchandise.product.productType,sku:e.merchandise.sku};Jc({type:"cart",products:[r]})&&Tn({eventName:mt.ADD_TO_CART,payload:{...t,products:Es([r])}})}function rr(e,t,r,n){if(e==="cart"){let a=`${r?"merchandise":"merchandise.product"}.${t}`;console.error(`[h2:error:ShopifyAnalytics] Can't set up cart analytics events because the \`cart.lines[].${a}\` value is missing from your GraphQL cart query. In your project, search for where \`fragment CartLine on CartLine\` is defined and make sure \`${a}\` is part of your cart query. Check the Hydrogen Skeleton template for reference: https://github.com/Shopify/hydrogen/blob/main/templates/skeleton/app/lib/fragments.ts#L25-L56.`)}else{let a=`${n||t}`;console.error(`[h2:error:ShopifyAnalytics] Can't set up product view analytics events because the \`${a}\` is missing from your \`<Analytics.ProductView>\`. Make sure \`${a}\` is part of your products data prop. Check the Hydrogen Skeleton template for reference: https://github.com/Shopify/hydrogen/blob/main/templates/skeleton/app/routes/products.%24handle.tsx#L159-L165.`)}}function Jc({type:e,products:t}){return!t||t.length===0?(rr(e,"",!1,"data.products"),!1):(t.forEach(r=>{if(!r.id)return rr(e,"id",!1),!1;if(!r.title)return rr(e,"title",!1),!1;if(!r.price)return rr(e,"price.amount",!0,"price"),!1;if(!r.vendor)return rr(e,"vendor",!1),!1;if(!r.variantId)return rr(e,"id",!0,"variantId"),!1;if(!r.variantTitle)return rr(e,"title",!0,"variantTitle"),!1}),!0)}function Es(e){return e.map(t=>{let r={productGid:t.id,variantGid:t.variantId,name:t.title,variantName:t.variantTitle,brand:t.vendor,price:t.price,quantity:t.quantity||1,category:t.productType};return t.sku&&(r.sku=t.sku),t.productType&&(r.category=t.productType),r})}function Dl(e){console.error(`[h2:error:CartAnalytics] Can't set up cart analytics events because the \`cart.${e}\` value is missing from your GraphQL cart query. In your project, search for where \`fragment CartApiQuery on Cart\` is defined and make sure \`${e}\` is part of your cart query. Check the Hydrogen Skeleton template for reference: https://github.com/Shopify/hydrogen/blob/main/templates/skeleton/app/lib/fragments.ts#L59.`)}function Ky({cart:e,setCarts:t}){let{publish:r,shop:n,customData:a,canTrack:o,cart:i,prevCart:l}=Pn(),u=b.useRef(null);return b.useEffect(()=>{if(e)return Promise.resolve(e).then(c=>{if(c&&c.lines){if(!c.id){Dl("id");return}if(!c.updatedAt){Dl("updatedAt");return}}t(({cart:d,prevCart:p})=>(c==null?void 0:c.updatedAt)!==(d==null?void 0:d.updatedAt)?{cart:c,prevCart:d}:{cart:d,prevCart:p})}),()=>{}},[t,e]),b.useEffect(()=>{if(!i||!(i!=null&&i.updatedAt)||(i==null?void 0:i.updatedAt)===(l==null?void 0:l.updatedAt))return;let c;try{c=JSON.parse(localStorage.getItem("cartLastUpdatedAt")||"")}catch{c=null}if(i.id===(c==null?void 0:c.id)&&i.updatedAt===(c==null?void 0:c.updatedAt))return;let d={eventTimestamp:Date.now(),cart:i,prevCart:l,shop:n,customData:a};if(i.updatedAt===u.current)return;u.current=i.updatedAt,r("cart_updated",d),localStorage.setItem("cartLastUpdatedAt",JSON.stringify({id:i.id,updatedAt:i.updatedAt}));let p=l!=null&&l.lines?Ar(l==null?void 0:l.lines):[],y=i.lines?Ar(i.lines):[];p==null||p.forEach(w=>{let m=y.filter(S=>w.id===S.id);if((m==null?void 0:m.length)===1){let S=m[0];w.quantity<S.quantity?r("product_added_to_cart",{...d,prevLine:w,currentLine:S}):w.quantity>S.quantity&&r("product_removed_from_cart",{...d,prevLine:w,currentLine:S})}else r("product_removed_from_cart",{...d,prevLine:w})}),y==null||y.forEach(w=>{let m=p.filter(S=>w.id===S.id);(!m||m.length===0)&&r("product_added_to_cart",{...d,currentLine:w})})},[i,l,r,n,a,o]),null}var eg="https://cdn.shopify.com/shopifycloud/perf-kit/shopify-perf-kit-spa.min.js";function tg({shop:e}){let t=b.useRef(!1),{subscribe:r,register:n}=Pn(),{ready:a}=n("Internal_Shopify_Perf_Kit"),o=Ks(eg,{attributes:{id:"perfkit","data-application":"hydrogen","data-shop-id":ot(e.shopId).id.toString(),"data-storefront-id":e.hydrogenSubchannelId,"data-monorail-region":"global","data-spa-mode":"true","data-resource-timing-sampling-rate":"100"}});return b.useEffect(()=>{o!=="done"||t.current||(t.current=!0,r(St.PAGE_VIEWED,()=>{var i;(i=window.PerfKit)==null||i.navigate()}),r(St.PRODUCT_VIEWED,()=>{var i;(i=window.PerfKit)==null||i.setPageType("product")}),r(St.COLLECTION_VIEWED,()=>{var i;(i=window.PerfKit)==null||i.setPageType("collection")}),r(St.SEARCH_VIEWED,()=>{var i;(i=window.PerfKit)==null||i.setPageType("search")}),r(St.CART_VIEWED,()=>{var i;(i=window.PerfKit)==null||i.setPageType("cart")}),a())},[r,a,o]),null}var Ml=new Set,bn=e=>{Ml.has(e)||(console.warn(e),Ml.add(e))},Fl=new Set,Ul=e=>{Fl.has(e)||(console.error(new Error(e)),Fl.add(e))},rg={canTrack:()=>!1,cart:null,customData:{},prevCart:null,publish:()=>{},shop:null,subscribe:()=>{},register:()=>({ready:()=>{}}),customerPrivacy:null,privacyBanner:null},Zc=b.createContext(rg),Ia=new Map,yn={};function Qc(){return Object.values(yn).every(Boolean)}function Bl(e,t){var r;Ia.has(e)||Ia.set(e,new Map),(r=Ia.get(e))==null||r.set(t.toString(),t)}var Aa=new Map;function zl(e,t){if(!Qc()){Aa.set(e,t);return}Kc(e,t)}function Kc(e,t){(Ia.get(e)??new Map).forEach((r,n)=>{try{r(t)}catch(a){typeof a=="object"&&a instanceof Error?console.error("Analytics publish error",a.message,n,a.stack):console.error("Analytics publish error",a,n)}})}function ql(e){return yn.hasOwnProperty(e)||(yn[e]=!1),{ready:()=>{yn[e]=!0,Qc()&&Aa.size>0&&(Aa.forEach((t,r)=>{Kc(r,t)}),Aa.clear())}}}function Hl(){var e,t;try{return((t=(e=window.Shopify.customerPrivacy)==null?void 0:e.analyticsProcessingAllowed)==null?void 0:t.call(e))??!1}catch{}return!1}function Vl(e,t){return`[h2:error:Analytics.Provider] - ${e} is required. Make sure ${t} is defined in your environment variables. See https://h2o.fyi/analytics/consent to learn how to setup environment variables in the Shopify admin.`}function ng({canTrack:e,cart:t,children:r,consent:n,customData:a={},shop:o=null,cookieDomain:i}){var E;let{shop:l}=ag(o),[u,c]=b.useState(!!e),[d,p]=b.useState(!1),[y,w]=b.useState({cart:null,prevCart:null}),[m,S]=b.useState(e?()=>e:()=>Hl);if(l)if(/\/68817551382$/.test(l.shopId))bn("[h2:error:Analytics.Provider] - Mock shop is used. Analytics will not work properly.");else{if(!n.checkoutDomain){let I=Vl("consent.checkoutDomain","PUBLIC_CHECKOUT_DOMAIN");Ul(I)}if(!n.storefrontAccessToken){let I=Vl("consent.storefrontAccessToken","PUBLIC_STOREFRONT_API_TOKEN");Ul(I)}n!=null&&n.country||(n.country="US"),n!=null&&n.language||(n.language="EN"),n.withPrivacyBanner===void 0&&(n.withPrivacyBanner=!1)}let x=b.useMemo(()=>({canTrack:m,...y,customData:a,publish:m()?zl:()=>{},shop:l,subscribe:Bl,register:ql,customerPrivacy:Tr(),privacyBanner:Va()}),[u,m,y,(E=y.cart)==null?void 0:E.updatedAt,y.prevCart,zl,Bl,a,l,ql,JSON.stringify(yn),Tr,Va]);return s.jsxs(Zc.Provider,{value:x,children:[r,!!l&&s.jsx(Ny,{}),!!l&&!!t&&s.jsx(Ky,{cart:t,setCarts:w}),!!l&&s.jsx(Vy,{consent:n,onReady:()=>{c(!0),S(e?()=>e:()=>Hl),p(!0)},domain:i}),!!l&&d&&s.jsx(tg,{shop:l})]})}function Pn(){let e=b.useContext(Zc);if(!e)throw new Error("[h2:error:useAnalytics] 'useAnalytics()' must be a descendent of <AnalyticsProvider/>");return e}function ag(e){let[t,r]=b.useState(null);return b.useEffect(()=>(Promise.resolve(e).then(r),()=>{}),[r,e]),{shop:t}}async function og({storefront:e,publicStorefrontId:t="0"}){return e.query(sg,{cache:e.CacheLong()}).then(({shop:r,localization:n})=>({shopId:r.id,acceptedLanguage:n.language.isoCode,currency:n.country.currency.isoCode,hydrogenSubchannelId:t}))}var sg=`#graphql
-  query ShopData(
-    $country: CountryCode
-    $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
-    shop {
-      id
-    }
-    localization {
-      country {
-        currency {
-          isoCode
+const ABORT_DELAY = 5e3;
+async function handleRequest(request, responseStatusCode, responseHeaders, reactRouterContext, context) {
+  const devTunnel = context.env.DEV_TUNNEL_DOMAIN;
+  const { nonce, header, NonceProvider } = createContentSecurityPolicy({
+    shop: {
+      checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
+      storeDomain: context.env.PUBLIC_STORE_DOMAIN
+    },
+    ...devTunnel ? { connectSrc: [`wss://${devTunnel}:*`] } : {}
+  });
+  return new Promise((resolve, reject) => {
+    let shellRendered = false;
+    const userAgent = request.headers.get("user-agent");
+    const readyOption = userAgent && isbot(userAgent) ? "onAllReady" : "onShellReady";
+    const { pipe, abort } = renderToPipeableStream(
+      /* @__PURE__ */ jsx(NonceProvider, { children: /* @__PURE__ */ jsx(
+        ServerRouter,
+        {
+          context: reactRouterContext,
+          url: request.url,
+          nonce
         }
-      }
-      language {
-        isoCode
-      }
-    }
-  }
-`,ig={Provider:ng};function At(e,t){return ed(e.headers,t)}function ed(e,t){var n;let r=((n=e==null?void 0:e.get)==null?void 0:n.call(e,t))??(e==null?void 0:e[t]);return typeof r=="string"?r:null}function Wl(e){return{requestId:e?At(e,"request-id"):void 0,purpose:e?At(e,"purpose"):void 0}}function lg(e){return{requestGroupId:At(e,"request-id"),buyerIp:At(e,"oxygen-buyer-ip"),buyerIpSig:At(e,_a),cookie:At(e,"cookie"),purpose:At(e,"sec-purpose")||At(e,"purpose")}}var Yl=/^\/api\/(unstable|2\d{3}-\d{2})\/graphql\.json$/,ug=/^\/api\/mcp$/,Yo=e=>{try{return new URL(e,"http://e.c").pathname}catch{return"/"}};function ja(e,t){return t.reduce((r,n)=>{let a=e(n);return a&&r.push([n,a]),r},[])}function Wa(e,t={}){let r=new Error,n=(a,o="Error")=>{let i=(r.stack??"").split(`
-`).slice(3+(t.stackOffset??0)).join(`
-`).replace(/ at loader(\d+) \(/,(l,u)=>l.replace(u,""));return`${o}: ${a}
-`+i};return e.then(a=>{if(a!=null&&a.errors&&Array.isArray(a.errors)){let o=typeof t.logErrors=="function"?t.logErrors:()=>t.logErrors??!1;a.errors.forEach(i=>{i&&(i.stack=n(i.message,i.name),o(i)&&console.error(i))})}return a}).catch(a=>{throw a&&(a.stack=n(a.message,a.name)),a})}var Nt=void 0,lo="public",cg="private",td="no-store",Gl={maxAge:"max-age",staleWhileRevalidate:"stale-while-revalidate",sMaxAge:"s-maxage",staleIfError:"stale-if-error"};function rd(e){let t=[];return Object.keys(e).forEach(r=>{r==="mode"?t.push(e[r]):Gl[r]&&t.push(`${Gl[r]}=${e[r]}`)}),t.join(", ")}function dg(){return{mode:td}}function ei(e){if(e!=null&&e.mode&&(e==null?void 0:e.mode)!==lo&&(e==null?void 0:e.mode)!==cg)throw Error("'mode' must be either 'public' or 'private'")}function ti(e){return ei(e),{mode:lo,maxAge:1,staleWhileRevalidate:9,...e}}function fg(e){return ei(e),{mode:lo,maxAge:3600,staleWhileRevalidate:82800,...e}}function ri(e){return ei(e),{mode:lo,maxAge:1,staleWhileRevalidate:86399,...e}}function hg(e){return e}function Sn(e){return String(e).includes("__proto__")?JSON.parse(e,pg):JSON.parse(e)}function pg(e,t){if(e!=="__proto__")return t}function Na(e,t){return e&&t?{...e,...t}:e||ri()}function ks(e){return rd(Na(e))}async function mg(e,t){if(!e)return;let r=await e.match(t);if(r)return r}async function yg(e,t,r,n){if(!e)return;let a=Na(n),o=ks(Na(a,{maxAge:(a.maxAge||0)+(a.staleWhileRevalidate||0)})),i=ks(Na(a));r.headers.set("cache-control",o),r.headers.set("real-cache-control",i),r.headers.set("cache-put-date",String(Date.now())),await e.put(t,r)}async function gg(e,t){e&&await e.delete(t)}function vg(e,t){let r=e.headers.get("real-cache-control"),n=0;if(r){let a=r.match(/max-age=(\d*)/);a&&a.length>1&&(n=parseFloat(a[1]))}return[(Date.now()-Number(t))/1e3,n]}function xg(e,t){let r=t.headers.get("cache-put-date");if(!r)return!1;let[n,a]=vg(t,r);return n>a}var ni={get:mg,set:yg,delete:gg,generateDefaultCacheControlHeader:ks,isStale:xg};function ai(e){return`https://shopify.dev/?${e}`}function wg(e){return e||ri()}async function bg(e,t){if(!e)return;let r=ai(t),n=new Request(r),a=await ni.get(e,n);if(!a)return;let o=await a.text();try{return[Sn(o),a]}catch{return[o,a]}}async function Sg(e,t,r,n){if(!e)return;let a=ai(t),o=new Request(a),i=new Response(JSON.stringify(r));await ni.set(e,o,i,wg(n))}function Cg(e,t){return ni.isStale(new Request(ai(e)),t)}function jg(e){let t=Array.isArray(e)?e:[e],r="";for(let n of t)n!=null&&(typeof n=="object"?r+=JSON.stringify(n):r+=n.toString());return encodeURIComponent(r)}var Go=new Set;async function Eg(e,t,{strategy:r=ti(),cacheInstance:n,shouldCacheResult:a=()=>!0,waitUntil:o,debugInfo:i}){let l=jg([...typeof e=="string"?[e]:e]),u=w=>{var m,S,x,E;w.displayName,(m=w.response)==null||m.url,(S=w.response)!=null&&S.status,(x=w.response)!=null&&x.statusText,Array.from(((E=w.response)==null?void 0:E.headers.entries())||[])},c;if(!n||!r||r.mode===td)return await t({addDebugData:u});let d=w=>Sg(n,l,{value:w,debugInfo:void 0},r),p=await bg(n,l);if(p&&typeof p[0]!="string"){let[{value:w,debugInfo:m},S]=p,x=Cg(l,S)?"STALE":"HIT";if(!Go.has(l)&&x==="STALE"){Go.add(l);let E=Promise.resolve().then(async()=>{let I=Date.now();try{let k=await t({addDebugData:u});a(k)&&(await d(k),c==null||c({result:k,cacheStatus:"PUT",overrideStartTime:I}))}catch(k){k.message&&(k.message="SWR in sub-request failed: "+k.message),console.error(k)}finally{Go.delete(l)}});o==null||o(E)}return w}let y=await t({addDebugData:u});if(a(y)){let w=Promise.resolve().then(async()=>{await d(y)});o==null||o(w)}return y}var kg=["set-cookie","server-timing"];function Xl(e,t){return[e,{status:t.status,statusText:t.statusText,headers:[...t.headers].filter(([r])=>!kg.includes(r.toLowerCase()))}]}function Jl([e,t]){return[e,new Response(e,t)]}async function Rg(e,t,{cacheInstance:r,cache:n,cacheKey:a=[e,t],shouldCacheResponse:o,waitUntil:i,debugInfo:l,streamConfig:u,onRawHeaders:c}){return!n&&(!t.method||t.method==="GET")&&(n=ti()),Eg(a,async()=>{if(u){let y=null,w=await vy({url:e,customFetchApi:async(x,E)=>(y=await fetch(x,E),c==null||c(y.headers),y),headers:t.headers}).requestStream(u.query,{variables:u.variables}),m,S;for await(let x of w){let{data:E,errors:I}=x;m=E,S=(I==null?void 0:I.graphQLErrors)??I}return y!=null&&y.ok?Xl({data:m,errors:S},y):y}let d=await fetch(e,t);if(c==null||c(d.headers),!d.ok)return d;let p=await d.text().catch(()=>"");try{p&&(p=Sn(p))}catch{}return Xl(p,d)},{cacheInstance:r,waitUntil:i,strategy:n??null,debugInfo:l,shouldCacheResult:d=>"ok"in d?!1:o(...Jl(d))}).then(d=>"ok"in d?[null,d]:Jl(d))}var nd="cartFormInput";function re({children:e,action:t,inputs:r,route:n,fetcherKey:a}){let o=tt({key:a});return s.jsxs(o.Form,{action:n||"",method:"post",children:[(t||r)&&s.jsx("input",{type:"hidden",name:nd,value:JSON.stringify({action:t,inputs:r})}),typeof e=="function"?e(o):e]})}re.INPUT_NAME=nd;re.ACTIONS={AttributesUpdateInput:"AttributesUpdateInput",BuyerIdentityUpdate:"BuyerIdentityUpdate",Create:"Create",DiscountCodesUpdate:"DiscountCodesUpdate",GiftCardCodesUpdate:"GiftCardCodesUpdate",GiftCardCodesAdd:"GiftCardCodesAdd",GiftCardCodesRemove:"GiftCardCodesRemove",LinesAdd:"LinesAdd",LinesRemove:"LinesRemove",LinesUpdate:"LinesUpdate",NoteUpdate:"NoteUpdate",SelectedDeliveryOptionsUpdate:"SelectedDeliveryOptionsUpdate",MetafieldsSet:"MetafieldsSet",MetafieldDelete:"MetafieldDelete",DeliveryAddressesAdd:"DeliveryAddressesAdd",DeliveryAddressesUpdate:"DeliveryAddressesUpdate",DeliveryAddressesRemove:"DeliveryAddressesRemove",DeliveryAddressesReplace:"DeliveryAddressesReplace"};function _g(e){let t={};for(let i of e.entries()){let l=i[0],u=e.getAll(l);t[l]=u.length>1?u:i[1],t[l]==="on"?t[l]=!0:t[l]==="off"&&(t[l]=!1)}let{cartFormInput:r,...n}=t,{action:a,inputs:o}=r?JSON.parse(String(r)):{};return{action:a,inputs:{...o,...n}}}re.getFormInput=_g;var Ig=e=>{let t=ly(ed(e,"Cookie")||"");return()=>t.cart?`gid://shopify/Cart/${t.cart}`:void 0},Ag=e=>t=>{let r=new Headers;return r.append("Set-Cookie",$c("cart",t.split("/").pop()||"",{path:"/",...e})),r};function Xo(){return typeof crypto<"u"&&crypto.randomUUID?crypto.randomUUID():`weak-${Math.random().toString(16).substring(2)}`}var ad="2026.4.3";function Ya(e){return e.replace(/\s*#.*$/gm,"").replace(/\s+/gm," ").trim()}var Ng=/(^|}\s)query[\s({]/im,Tg=/(^|}\s)mutation[\s({]/im;function od(e,t){if(!Ng.test(e))throw new Error(`[h2:error:${t}] Can only execute queries`)}function sd(e,t){if(!Tg.test(e))throw new Error(`[h2:error:${t}] Can only execute mutations`)}var oi=class extends Error{constructor(t,r={}){let n=(r.clientOperation?`[h2:error:${r.clientOperation}] `:"")+t+(r.requestId?` - Request ID: ${r.requestId}`:"");super(n);an(this,"locations");an(this,"path");an(this,"extensions");this.name="GraphQLError",this.extensions=r.extensions,this.locations=r.locations,this.path=r.path,this.stack=r.stack||void 0;try{this.cause=JSON.stringify({...typeof r.cause=="object"?r.cause:{},requestId:r.requestId})}catch{r.cause&&(this.cause=r.cause)}}get[Symbol.toStringTag](){return this.name}toString(){let t=`${this.name}: ${this.message}`;if(this.path)try{t+=` | path: ${JSON.stringify(this.path)}`}catch{}if(this.extensions)try{t+=` | extensions: ${JSON.stringify(this.extensions)}`}catch{}return t+=`
-`,this.stack&&(t+=`${this.stack.slice(this.stack.indexOf(`
-`)+1)}
-`),t}toJSON(){return{name:"Error",message:""}}};function Rs({url:e,response:t,errors:r,type:n,query:a,queryVariables:o,ErrorConstructor:i=Error,client:l="storefront"}){var d;let u=(typeof r=="string"?r:(d=r==null?void 0:r.map)==null?void 0:d.call(r,p=>p.message).join(`
-`))||`URL: ${e}
-API response error: ${t.status}`,c=new oi(u,{query:a,queryVariables:o,cause:{errors:r},clientOperation:`${l}.${n}`,requestId:t.headers.get("x-request-id")});throw new i(c.message,{cause:c.cause})}var $g={language:"EN",country:"US"};function Pg(e){var k,P;let{storefrontHeaders:t,cache:r,waitUntil:n,i18n:a,storefrontId:o,logErrors:i=!0,...l}=e,{getPublicTokenHeaders:u,getPrivateTokenHeaders:c,getStorefrontApiUrl:d,getShopifyDomain:p}=Rm(l),y=(l.privateStorefrontToken?c:u)({contentType:"json",buyerIp:(t==null?void 0:t.buyerIp)||""});t!=null&&t.buyerIp&&(y[Vo]=t.buyerIp),t!=null&&t.buyerIpSig&&(y[_a]=t.buyerIpSig),y[ba]=(t==null?void 0:t.requestGroupId)||Xo(),o&&(y[qo]=o),y["user-agent"]=`Hydrogen ${ad}`;let w=(t==null?void 0:t.cookie)??"";w&&(y.cookie=w);let m,S;if(!/\b_shopify_(analytics|marketing)=/.test(w)){let N=(k=w.match(/\b_shopify_y=([^;]+)/))==null?void 0:k[1],A=(P=w.match(/\b_shopify_s=([^;]+)/))==null?void 0:P[1];N&&(y[$m]=N),A&&(y[Pm]=A),m=N??Xo(),S=A??Xo(),y[Ss]=m,y[bs]=S}let x,E=JSON.stringify({"content-type":y["content-type"],"user-agent":y["user-agent"],[Nl]:y[Nl],[Tl]:y[Tl],[$l]:y[$l],[Sa]:y[Sa]});async function I({query:N,mutation:A,variables:T,cache:$,headers:V=[],storefrontApiVersion:X,displayName:q,stackInfo:G}){let J=V instanceof Headers?Object.fromEntries(V.entries()):Array.isArray(V)?Object.fromEntries(V):V,Z=N??A,B={...T};a&&(!(T!=null&&T.country)&&/\$country/.test(Z)&&(B.country=a.country),!(T!=null&&T.language)&&/\$language/.test(Z)&&(B.language=a.language));let Q=d({storefrontApiVersion:X}),ae=JSON.stringify({query:Z,variables:B}),fe={method:"POST",headers:{...y,...J},body:ae},ge=[Q,fe.method,E,fe.body],Se=Z.includes("@defer")?{query:Z,variables:B}:void 0,[O,H]=await Rg(Q,fe,{cacheInstance:A?void 0:r,cache:$||ri(),cacheKey:ge,waitUntil:n,shouldCacheResponse:se=>!(se!=null&&se.errors),debugInfo:{requestId:fe.headers[ba],displayName:q,url:Q,stackInfo:G,graphql:ae,purpose:t==null?void 0:t.purpose},streamConfig:Se,onRawHeaders:se=>{x??(x={setCookie:se.getSetCookie(),serverTiming:se.get("server-timing")??""})}}),K={url:Q,response:H,type:A?"mutation":"query",query:Z,queryVariables:B,errors:void 0};if(!H.ok){let se,he=O;try{he??(he=await H.text()),se=Sn(he)}catch{se=[{message:he??"Could not parse Storefront API response"}]}Rs({...K,errors:se})}let{data:ue,errors:ne}=O;ne=ne?Array.isArray(ne)?ne:[ne]:void 0;let ye=ne==null?void 0:ne.map(({message:se,...he})=>new oi(se,{...he,clientOperation:`storefront.${K.type}`,requestId:H.headers.get("x-request-id"),queryVariables:B,query:Z}));return $e(ue,ye)}return{storefront:{query(N,A){N=Ya(N),od(N,"storefront.query");let T=Rr==null?void 0:Rr(N);return Wa(I({...A,query:N,stackInfo:Nt==null?void 0:Nt(T)}),{stackOffset:T,logErrors:i})},mutate(N,A){N=Ya(N),sd(N,"storefront.mutate");let T=Rr==null?void 0:Rr(N);return Wa(I({...A,mutation:N,stackInfo:Nt==null?void 0:Nt(T)}),{stackOffset:T,logErrors:i})},cache:r,CacheNone:dg,CacheLong:fg,CacheShort:ti,CacheCustom:hg,generateCacheControlHeader:rd,getPublicTokenHeaders:u,getPrivateTokenHeaders:c,getHeaders:()=>({...y}),getShopifyDomain:p,getApiUrl:d,i18n:a??$g,isStorefrontApiUrl(N){return Yl.test(Yo(N.url??""))},async forward(N,A){var X;let T=new Headers([...ja(q=>N.headers.get(q),["accept","accept-encoding","accept-language","access-control-request-headers","access-control-request-method","content-type","content-length","cookie","origin","referer","user-agent",Sa,Ss,bs]),...ja(q=>y[q],[Vo,_a,qo,ba])]);t!=null&&t.buyerIp&&T.set("x-forwarded-for",t.buyerIp);let $=(A==null?void 0:A.storefrontApiVersion)??((X=Yo(N.url).match(Yl))==null?void 0:X[1]),V=await fetch(d({storefrontApiVersion:$}),{method:N.method,body:N.body,headers:T});return new Response(V.body,V)},isMcpUrl(N){return ug.test(Yo(N.url??""))},async forwardMcp(N){let A=new Headers([...ja($=>N.headers.get($),["accept","accept-encoding","accept-language","content-type","cookie","origin","referer","user-agent"]),...ja($=>y[$],[Vo,_a,Sa,ba,qo])]);t!=null&&t.buyerIp&&A.set("x-forwarded-for",t.buyerIp);let T=`${p()}/api/mcp`;try{let $=await fetch(T,{method:N.method,body:N.body,headers:A});return new Response($.body,$)}catch($){let V=$ instanceof Error?$.message:"Internal proxy error";return new Response(JSON.stringify({jsonrpc:"2.0",error:{code:-32603,message:V},id:null}),{status:502,headers:{"content-type":"application/json"}})}},setCollectedSubrequestHeaders:N=>{var $;if(x)for(let V of x.setCookie)N.headers.append("Set-Cookie",V);let A=Py(x==null?void 0:x.serverTiming),T=($=N.headers.get("content-type"))==null?void 0:$.startsWith("text/html");js(N,{...T?{_y:m,_s:S}:void 0,...A}),T&&x&&x.setCookie.length>1&&(A!=null&&A._y)&&(A!=null&&A._s)&&(A!=null&&A._cmp)&&js(N,{[Gc]:"1"})}}}}var Rr=void 0;function $e(e,t){return{...e,...t&&{errors:t}}}function Le(e){return(e==null?void 0:e.visitorConsent)!==void 0}function De(e=!1){let t=`$country: CountryCode = ZZ
-    $language: LanguageCode`;return e?`${t}
-    $visitorConsent: VisitorConsent`:t}function Me(e=!1){return e?"@inContext(country: $country, language: $language, visitorConsent: $visitorConsent)":"@inContext(country: $country, language: $language)"}function Og({storefront:e,customerAccount:t,getCartId:r,cartFragment:n}){return async a=>{let o=(a==null?void 0:a.cartId)??r();if(!o)return null;let i=Le(a),[l,{cart:u,errors:c}]=await Promise.all([t?t.isLoggedIn():!1,e.query(Lg(n,{includeVisitorConsent:i}),{variables:{cartId:o,...a},cache:e.CacheNone()})]);if(l&&u&&typeof u=="object"&&"checkoutUrl"in u&&typeof u.checkoutUrl=="string"){let d=new URL(u.checkoutUrl);d.searchParams.set("logged_in","true"),Object.assign(u,{checkoutUrl:d.toString()})}return u||c?$e(u,c):null}}var Lg=(e=Dg,t={})=>`#graphql
-  query CartQuery(
-    $cartId: ID!
-    $numCartLines: Int = 100
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cart(id: $cartId) {
-      ...CartApiQuery
-    }
-  }
-
-  ${e}
-`,Dg=`#graphql
-  fragment CartApiQuery on Cart {
-    updatedAt
-    id
-    checkoutUrl
-    totalQuantity
-    buyerIdentity {
-      countryCode
-      customer {
-        id
-        email
-        firstName
-        lastName
-        displayName
-      }
-      email
-      phone
-    }
-    lines(first: $numCartLines) {
-      edges {
-        node {
-          id
-          quantity
-          attributes {
-            key
-            value
-          }
-          cost {
-            totalAmount {
-              amount
-              currencyCode
-            }
-            amountPerQuantity {
-              amount
-              currencyCode
-            }
-            compareAtAmountPerQuantity {
-              amount
-              currencyCode
-            }
-          }
-          merchandise {
-            ... on ProductVariant {
-              id
-              availableForSale
-              compareAtPrice {
-                ...CartApiMoney
-              }
-              price {
-                ...CartApiMoney
-              }
-              requiresShipping
-              title
-              image {
-                ...CartApiImage
-              }
-              product {
-                handle
-                title
-                id
-                vendor
-              }
-              selectedOptions {
-                name
-                value
-              }
-            }
+      ) }),
+      {
+        nonce,
+        [readyOption]() {
+          shellRendered = true;
+          const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
+          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set("Content-Security-Policy", header);
+          resolve(
+            new Response(stream, {
+              headers: responseHeaders,
+              status: responseStatusCode
+            })
+          );
+          pipe(body);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          responseStatusCode = 500;
+          if (shellRendered) {
+            console.error(error);
           }
         }
       }
-    }
-    cost {
-      subtotalAmount {
-        ...CartApiMoney
-      }
-      totalAmount {
-        ...CartApiMoney
-      }
-      totalDutyAmount {
-        ...CartApiMoney
-      }
-      totalTaxAmount {
-        ...CartApiMoney
-      }
-    }
-    note
-    attributes {
-      key
-      value
-    }
-    discountCodes {
-      applicable
-      code
-    }
-    appliedGiftCards {
-      id
-      lastCharacters
-      amountUsed {
-        ...CartApiMoney
-      }
-    }
-  }
-
-  fragment CartApiMoney on MoneyV2 {
-    currencyCode
-    amount
-  }
-
-  fragment CartApiImage on Image {
-    id
-    url
-    altText
-    width
-    height
-  }
-`,Ue=`#graphql
-  fragment CartApiError on CartUserError {
-    message
-    field
-    code
-  }
-`,Be=`#graphql
-  fragment CartApiMutation on Cart {
-    id
-    totalQuantity
-    checkoutUrl
-  }
-`,ze=`#graphql
-  fragment CartApiWarning on CartWarning {
-    code
-    message
-    target
-  }
-`;function Mg(e){return async(t,r)=>{let n=e.customerAccount?await e.customerAccount.getBuyer():void 0,{cartId:a,...o}=r||{},{buyerIdentity:i,...l}=t,u=Le(r),{cartCreate:c,errors:d}=await e.storefront.mutate(Fg(e.cartFragment,{includeVisitorConsent:u}),{variables:{input:{...l,buyerIdentity:{...n,...i}},...o}});return $e(c,d)}}var Fg=(e=Be,t={})=>`#graphql
-  mutation cartCreate(
-    $input: CartInput!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartCreate(input: $input) {
-      cart {
-        ...CartApiMutation
-        checkoutUrl
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Ug(e){return async(t,r)=>{let n=Le(r),{cartLinesAdd:a,errors:o}=await e.storefront.mutate(Bg(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),lines:t,...r}});return $e(a,o)}}var Bg=(e=Be,t={})=>`#graphql
-  mutation cartLinesAdd(
-    $cartId: ID!
-    $lines: [CartLineInput!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartLinesAdd(cartId: $cartId, lines: $lines) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`,id="__h_pending_";function zg(e){return id+e}function _s(e){return e.startsWith(id)}function ld(e,t){if(t.some(r=>_s(typeof r=="string"?r:r.id)))throw new Error(`Tried to perform an action on an optimistic line. Make sure to disable your "${e}" CartForm action when the line is optimistic.`)}function qg(e){return async(t,r)=>{ld("updateLines",t);let n=Le(r),{cartLinesUpdate:a,errors:o}=await e.storefront.mutate(Hg(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),lines:t,...r}});return $e(a,o)}}var Hg=(e=Be,t={})=>`#graphql
-  mutation cartLinesUpdate(
-    $cartId: ID!
-    $lines: [CartLineUpdateInput!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartLinesUpdate(cartId: $cartId, lines: $lines) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Vg(e){return async(t,r)=>{ld("removeLines",t);let n=Le(r),{cartLinesRemove:a,errors:o}=await e.storefront.mutate(Wg(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),lineIds:t,...r}});return $e(a,o)}}var Wg=(e=Be,t={})=>`#graphql
-  mutation cartLinesRemove(
-    $cartId: ID!
-    $lineIds: [ID!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Yg(e){return async(t,r)=>{let n=t.filter((l,u,c)=>c.indexOf(l)===u),a=Le(r),{cartDiscountCodesUpdate:o,errors:i}=await e.storefront.mutate(Gg(e.cartFragment,{includeVisitorConsent:a}),{variables:{cartId:e.getCartId(),discountCodes:n,...r}});return $e(o,i)}}var Gg=(e=Be,t={})=>`#graphql
-  mutation cartDiscountCodesUpdate(
-    $cartId: ID!
-    $discountCodes: [String!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
-      ... @defer {
-        cart {
-          ...CartApiMutation
-        }
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Xg(e){return async(t,r)=>{t.companyLocationId&&e.customerAccount&&e.customerAccount.setBuyer({companyLocationId:t.companyLocationId});let n=e.customerAccount?await e.customerAccount.getBuyer():void 0,a=Le(r),{cartBuyerIdentityUpdate:o,errors:i}=await e.storefront.mutate(Jg(e.cartFragment,{includeVisitorConsent:a}),{variables:{cartId:e.getCartId(),buyerIdentity:{...n,...t},...r}});return $e(o,i)}}var Jg=(e=Be,t={})=>`#graphql
-  mutation cartBuyerIdentityUpdate(
-    $cartId: ID!
-    $buyerIdentity: CartBuyerIdentityInput!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Zg(e){return async(t,r)=>{let n=Le(r),{cartNoteUpdate:a,errors:o}=await e.storefront.mutate(Qg(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),note:t,...r}});return $e(a,o)}}var Qg=(e=Be,t={})=>`#graphql
-  mutation cartNoteUpdate(
-    $cartId: ID!
-    $note: String!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartNoteUpdate(cartId: $cartId, note: $note) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function Kg(e){return async(t,r)=>{let n=Le(r),{cartSelectedDeliveryOptionsUpdate:a,errors:o}=await e.storefront.mutate(ev(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),selectedDeliveryOptions:t,...r}});return $e(a,o)}}var ev=(e=Be,t={})=>`#graphql
-  mutation cartSelectedDeliveryOptionsUpdate(
-    $cartId: ID!
-    $selectedDeliveryOptions: [CartSelectedDeliveryOptionInput!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartSelectedDeliveryOptionsUpdate(cartId: $cartId, selectedDeliveryOptions: $selectedDeliveryOptions) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function tv(e){return async(t,r)=>{let n=Le(r),{cartAttributesUpdate:a,errors:o}=await e.storefront.mutate(rv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:(r==null?void 0:r.cartId)||e.getCartId(),attributes:t,...r}});return $e(a,o)}}var rv=(e=Be,t={})=>`#graphql
-  mutation cartAttributesUpdate(
-    $cartId: ID!
-    $attributes: [AttributeInput!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function nv(e){return async(t,r)=>{let n=(r==null?void 0:r.cartId)||e.getCartId(),a=t.map(u=>({...u,ownerId:n})),o=Le(r),{cartMetafieldsSet:i,errors:l}=await e.storefront.mutate(av({includeVisitorConsent:o}),{variables:{metafields:a,...r}});return $e({cart:{id:n},...i},l)}}var av=(e={})=>`#graphql
-  mutation cartMetafieldsSet(
-    $metafields: [CartMetafieldsSetInput!]!
-    ${De(e.includeVisitorConsent)}
-  ) ${Me(e.includeVisitorConsent)} {
-    cartMetafieldsSet(metafields: $metafields) {
-      userErrors {
-        code
-        elementIndex
-        field
-        message
-      }
-    }
-  }
-`;function ov(e){return async(t,r)=>{let n=(r==null?void 0:r.cartId)||e.getCartId(),a=Le(r),{cartMetafieldDelete:o,errors:i}=await e.storefront.mutate(sv({includeVisitorConsent:a}),{variables:{input:{ownerId:n,key:t},...r}});return $e({cart:{id:n},...o},i)}}var sv=(e={})=>`#graphql
-  mutation cartMetafieldDelete(
-    $input: CartMetafieldDeleteInput!
-    ${De(e.includeVisitorConsent)}
-  ) ${Me(e.includeVisitorConsent)} {
-    cartMetafieldDelete(input: $input) {
-      userErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;function iv(e){return async(t,r)=>{let n=Le(r),{cartGiftCardCodesUpdate:a,errors:o}=await e.storefront.mutate(lv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),giftCardCodes:t,...r}});return $e(a,o)}}var lv=(e=Be,t={})=>`#graphql
-  mutation cartGiftCardCodesUpdate(
-    $cartId: ID!
-    $giftCardCodes: [String!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartGiftCardCodesUpdate(cartId: $cartId, giftCardCodes: $giftCardCodes) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function uv(e){return async(t,r)=>{let{cartGiftCardCodesAdd:n,errors:a}=await e.storefront.mutate(cv(e.cartFragment),{variables:{cartId:e.getCartId(),giftCardCodes:t,...r}});return $e(n,a)}}var cv=(e=Be)=>`#graphql
-  mutation cartGiftCardCodesAdd(
-    $cartId: ID!
-    $giftCardCodes: [String!]!
-    $language: LanguageCode
-    $country: CountryCode
-  ) @inContext(country: $country, language: $language) {
-    cartGiftCardCodesAdd(cartId: $cartId, giftCardCodes: $giftCardCodes) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function dv(e){return async(t,r)=>{let n=Le(r),{cartGiftCardCodesRemove:a,errors:o}=await e.storefront.mutate(fv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),appliedGiftCardIds:t,...r}});return $e(a,o)}}var fv=(e=Be,t={})=>`#graphql
-  mutation cartGiftCardCodesRemove(
-    $cartId: ID!
-    $appliedGiftCardIds: [ID!]!
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartGiftCardCodesRemove(cartId: $cartId, appliedGiftCardIds: $appliedGiftCardIds) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function hv(e){return async(t,r)=>{let n=Le(r),{cartDeliveryAddressesAdd:a,errors:o}=await e.storefront.mutate(pv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),addresses:t,...r}});return $e(a,o)}}var pv=(e=Be,t={})=>`#graphql
-  mutation cartDeliveryAddressesAdd(
-    $cartId: ID!
-    $addresses: [CartSelectableAddressInput!]!,
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartDeliveryAddressesAdd(addresses: $addresses, cartId: $cartId) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function mv(e){return async(t,r)=>{let n=Le(r),{cartDeliveryAddressesRemove:a,errors:o}=await e.storefront.mutate(yv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),addressIds:t,...r}});return $e(a,o)}}var yv=(e=Be,t={})=>`#graphql
-  mutation cartDeliveryAddressesRemove(
-    $cartId: ID!
-    $addressIds: [ID!]!,
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartDeliveryAddressesRemove(addressIds: $addressIds, cartId: $cartId) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function gv(e){return async(t,r)=>{let n=Le(r),{cartDeliveryAddressesUpdate:a,errors:o}=await e.storefront.mutate(vv(e.cartFragment,{includeVisitorConsent:n}),{variables:{cartId:e.getCartId(),addresses:t,...r}});return $e(a,o)}}var vv=(e=Be,t={})=>`#graphql
-  mutation cartDeliveryAddressesUpdate(
-    $cartId: ID!
-    $addresses: [CartSelectableAddressUpdateInput!]!,
-    ${De(t.includeVisitorConsent)}
-  ) ${Me(t.includeVisitorConsent)} {
-    cartDeliveryAddressesUpdate(addresses: $addresses, cartId: $cartId) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function xv(e){return async(t,r)=>{let{cartDeliveryAddressesReplace:n,errors:a}=await e.storefront.mutate(wv(e.cartFragment),{variables:{cartId:e.getCartId(),addresses:t,...r}});return $e(n,a)}}var wv=(e=Be)=>`#graphql
-  mutation cartDeliveryAddressesReplace(
-    $cartId: ID!
-    $addresses: [CartSelectableAddressInput!]!,
-    $country: CountryCode = ZZ
-    $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
-    cartDeliveryAddressesReplace(addresses: $addresses, cartId: $cartId) {
-      cart {
-        ...CartApiMutation
-      }
-      userErrors {
-        ...CartApiError
-      }
-      warnings {
-        ...CartApiWarning
-      }
-    }
-  }
-  ${e}
-  ${Ue}
-  ${ze}
-`;function bv(e){let{getCartId:t,setCartId:r,storefront:n,customerAccount:a,cartQueryFragment:o,cartMutateFragment:i,buyerIdentity:l}=e,u=t(),c=()=>u||t(),d={storefront:n,getCartId:c,cartFragment:i,customerAccount:a},p=Mg(d),y=async function(...m){m[0].buyerIdentity={...l,...m[0].buyerIdentity};let S=await p(...m);if(S!=null&&S.cart&&(typeof S.cart!="object"||!("id"in S.cart)||typeof S.cart.id!="string"))throw new Error("[h2:error:createCartHandler] Cart created but response is missing a valid `id` field. Ensure your cart query fragment includes the `id` field.");return u=S!=null&&S.cart&&typeof S.cart=="object"&&"id"in S.cart&&typeof S.cart.id=="string"?S.cart.id:void 0,S},w={get:Og({storefront:n,customerAccount:a,getCartId:c,cartFragment:o}),getCartId:c,setCartId:r,create:y,addLines:async(m,S)=>{let x=m.map(E=>({attributes:E.attributes,quantity:E.quantity,merchandiseId:E.merchandiseId,sellingPlanId:E.sellingPlanId,parent:E.parent}));return u||S!=null&&S.cartId?await Ug(d)(x,S):await y({lines:x,buyerIdentity:l},S)},updateLines:qg(d),removeLines:Vg(d),updateDiscountCodes:async(m,S)=>u||S!=null&&S.cartId?await Yg(d)(m,S):await y({discountCodes:m},S),updateGiftCardCodes:async(m,S)=>u||S!=null&&S.cartId?await iv(d)(m,S):await y({giftCardCodes:m},S),addGiftCardCodes:uv(d),removeGiftCardCodes:dv(d),updateBuyerIdentity:async(m,S)=>u||S!=null&&S.cartId?await Xg(d)(m,S):await y({buyerIdentity:m},S),updateNote:async(m,S)=>u||S!=null&&S.cartId?await Zg(d)(m,S):await y({note:m},S),updateSelectedDeliveryOption:Kg(d),updateAttributes:async(m,S)=>u||S!=null&&S.cartId?await tv(d)(m,S):await y({attributes:m},S),setMetafields:async(m,S)=>u||S!=null&&S.cartId?await nv(d)(m,S):await y({metafields:m},S),deleteMetafield:ov(d),addDeliveryAddresses:hv(d),removeDeliveryAddresses:mv(d),updateDeliveryAddresses:gv(d),replaceDeliveryAddresses:xv(d)};return"customMethods"in e?{...w,...e.customMethods??{}}:w}function ud(e){let t=jp();if(!t||!t.length)return e;let r=e!=null&&e.lines?structuredClone(e):{lines:{nodes:[]}},n=r.lines.nodes,a=!1;for(let{formData:o}of t){if(!o)continue;let i=re.getFormInput(o);if(i.action===re.ACTIONS.LinesAdd)for(let l of i.inputs.lines){if(!l.selectedVariant){console.error("[h2:error:useOptimisticCart] No selected variant was passed in the cart action. Make sure to pass the selected variant if you want to use an optimistic cart");continue}let u=n.find(c=>{var d;return c.merchandise.id===((d=l.selectedVariant)==null?void 0:d.id)});a=!0,u?(u.quantity=(u.quantity||1)+(l.quantity||1),u.isOptimistic=!0):n.unshift({id:zg(l.selectedVariant.id),merchandise:l.selectedVariant,isOptimistic:!0,quantity:l.quantity||1})}else if(i.action===re.ACTIONS.LinesRemove)for(let l of i.inputs.lineIds){let u=n.findIndex(c=>c.id===l);if(u!==-1){if(_s(n[u].id)){console.error("[h2:error:useOptimisticCart] Tried to remove an optimistic line that has not been added to the cart yet");continue}n.splice(u,1),a=!0}else console.warn(`[h2:warn:useOptimisticCart] Tried to remove line '${l}' but it doesn't exist in the cart`)}else if(i.action===re.ACTIONS.LinesUpdate)for(let l of i.inputs.lines){let u=n.findIndex(c=>l.id===c.id);if(u>-1){if(_s(n[u].id)){console.error("[h2:error:useOptimisticCart] Tried to update an optimistic line that has not been added to the cart yet");continue}n[u].quantity=l.quantity,n[u].quantity===0&&n.splice(u,1),a=!0}else console.warn(`[h2:warn:useOptimisticCart] Tried to update line '${l.id}' but it doesn't exist in the cart`)}}return a&&(r.isOptimistic=a),r.totalQuantity=n.reduce((o,i)=>o+i.quantity,0),r}var cd=Mr(),Sv=Mr(),Cv=Mr(),jv=Mr(),Ev=Mr(),kv=Mr(),Jo="2026-04",Ga=`Shopify Hydrogen ${ad}`,Rv="30243aa5-17c1-465a-8493-944bcc4e88aa",Qe="customerAccount",Ta="buyer",Pt=class extends Response{constructor(e,t,r){super(`Bad request: ${e}`,{status:400,headers:r})}};function $a(e,t={}){let r=t.headers?new Headers(t.headers):new Headers({});return r.set("location",e),new Response(null,{status:t.status||302,headers:r})}async function _v({session:e,customerAccountId:t,customerAccountTokenExchangeUrl:r,httpsOrigin:n,debugInfo:a}){let o=new URLSearchParams,i=e.get(Qe),l=i==null?void 0:i.refreshToken,u=i==null?void 0:i.idToken;if(!l)throw new Pt("Unauthorized","No refreshToken found in the session. Make sure your session is configured correctly and passed to `createCustomerAccountClient`.");o.append("grant_type","refresh_token"),o.append("refresh_token",l),o.append("client_id",t);let c={"content-type":"application/x-www-form-urlencoded","User-Agent":Ga,Origin:n};new Date().getTime();let d=r,p=await fetch(d,{method:"POST",headers:c,body:o});if(!p.ok){let S=await p.text();throw new Response(S,{status:p.status,headers:{"Content-Type":"text/html; charset=utf-8"}})}let{access_token:y,expires_in:w,refresh_token:m}=await p.json();if(!y||y.length===0)throw new Pt("Unauthorized","Invalid access token received.");e.set(Qe,{accessToken:y,expiresAt:new Date(new Date().getTime()+(w-120)*1e3).getTime()+"",refreshToken:m,idToken:u})}function pn(e){e.unset(Qe),e.unset(Ta)}async function Iv({locks:e,expiresAt:t,session:r,customerAccountId:n,customerAccountTokenExchangeUrl:a,httpsOrigin:o,debugInfo:i}){if(parseInt(t,10)-1e3<new Date().getTime())try{e.refresh||(e.refresh=_v({session:r,customerAccountId:n,customerAccountTokenExchangeUrl:a,httpsOrigin:o,debugInfo:i})),await e.refresh,delete e.refresh}catch(l){throw pn(r),l&&l.status!==401?l:new Pt("Unauthorized","Login before querying the Customer Account API.")}}function Av(){let e=Tv();return dd(e)}async function Nv(e){let t=await crypto.subtle.digest({name:"SHA-256"},new TextEncoder().encode(e)),r=$v(t);return dd(r)}function Tv(){let e=new Uint8Array(32);return crypto.getRandomValues(e),String.fromCharCode.apply(null,Array.from(e))}function dd(e){return btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=/g,"")}function $v(e){let t=new Uint8Array(e),r=Array.from(t);return String.fromCharCode(...r)}function Pv(){let e=Date.now().toString(),t=Math.random().toString(36).substring(2);return e+t}async function Ov(e,t,r,n,a){let o=t;if(!e)throw new Pt("Unauthorized","oAuth access token was not provided during token exchange.");let i=new URLSearchParams;i.append("grant_type","urn:ietf:params:oauth:grant-type:token-exchange"),i.append("client_id",o),i.append("audience",Rv),i.append("subject_token",e),i.append("subject_token_type","urn:ietf:params:oauth:token-type:access_token"),i.append("scopes","https://api.customers.com/auth/customer.graphql");let l={"content-type":"application/x-www-form-urlencoded","User-Agent":Ga,Origin:n};new Date().getTime();let d=await(await fetch(r,{method:"POST",headers:l,body:i})).json();if(d.error)throw new Pt(d.error_description);return d.access_token}function Lv(e){return Dv(e).payload.nonce}function Dv(e){let[t,r,n]=e.split("."),a=JSON.parse(atob(t)),o=JSON.parse(atob(r));return{header:a,payload:o,signature:n}}function fd(){return Fv(Mv())}function Mv(){try{return crypto.getRandomValues(new Uint8Array(16))}catch{return new Uint8Array(16).map(()=>Math.random()*255|0)}}function Fv(e){return Array.from(e,function(t){return("0"+(t&255).toString(16)).slice(-2)}).join("")}function hd(e){if(!e)return;let{pathname:t,search:r}=new URL(e),n=t+r,a=new URLSearchParams(r),o=a.get("return_to")||a.get("redirect");if(o){if(pd(e,o))return o;console.warn(`Cross-domain redirects are not supported. Tried to redirect from ${n} to ${o}`)}}function pd(e,t){try{return new URL(e).origin===new URL(t,e).origin}catch{return!1}}function Zl({requestUrl:e,defaultUrl:t,redirectUrl:r}){let n=e,a=Ql(e,t),o=r?Ql(e,r):a;return pd(e,o.toString())?o.toString():(console.warn(`Cross-domain redirects are not supported. Tried to redirect from ${n} to ${o}. Default url ${a} is used instead.`),a.toString())}function Ql(e,t){return Uv(t)?new URL(t):new URL(t,new URL(e).origin)}function Uv(e){try{return new URL(e),!0}catch{return!1}}function Bv(e,t){let r=`https://shopify.com/${t}`,n=`https://shopify.com/authentication/${t}`;return function(a){switch(a){case"CA_BASE_URL":return r;case"CA_BASE_AUTH_URL":return n;case"GRAPHQL":return`${r}/account/customer/api/${e}/graphql`;case"AUTH":return`${n}/oauth/authorize`;case"LOGIN_SCOPE":return t?"openid email customer-account-api:full":"openid email https://api.customers.com/auth/customer.graphql";case"TOKEN_EXCHANGE":return`${n}/oauth/token`;case"LOGOUT":return`${n}/logout`}}}function zv(e,t){if(!e.url)return t;let{pathname:r}=new URL(e.url),n=r.replace(/\.data$/,"").replace(/\/_root$/,"/").replace(/(.+)\/$/,"$1"),a=t+`?${new URLSearchParams({return_to:n}).toString()}`;return $a(a)}function qv({session:e,customerAccountId:t,shopId:r,customerApiVersion:n=Jo,request:a,waitUntil:o,authUrl:i,customAuthStatusHandler:l,logErrors:u=!0,loginPath:c="/account/login",authorizePath:d="/account/authorize",defaultRedirectPath:p="/account",language:y,useCustomAuthDomain:w}){if(n!==Jo&&console.warn(`[h2:warn:createCustomerAccountClient] You are using Customer Account API version ${n} when this version of Hydrogen was built for ${Jo}.`),e||console.warn("[h2:warn:createCustomerAccountClient] session is required to use Customer Account API. Ensure the session object passed in exist."),!(a!=null&&a.url))throw new Error("[h2:error:createCustomerAccountClient] The request object does not contain a URL.");let m=new URL(a.url),S=m.protocol==="http:"?m.origin.replace("http","https"):m.origin,x=Zl({requestUrl:S,defaultUrl:d,redirectUrl:i}),E=B=>{},I=l||(()=>(E(m.hostname),zv(a,c))),k=Bv(n,r),P=Hv(k,t),N=k("GRAPHQL"),A={};async function T({query:B,type:Q,variables:ae={}}){let fe=await X();if(!fe)throw I();new Date().getTime();let ge=await fetch(N,{method:"POST",headers:{"Content-Type":"application/json","User-Agent":Ga,Origin:S,Authorization:fe},body:JSON.stringify({query:B,variables:ae})}),Se=await ge.text(),O={url:N,response:ge,type:Q,query:B,queryVariables:ae,errors:void 0,client:"customer"};if(!ge.ok){if(ge.status===401)throw pn(e),I();let H;try{H=Sn(Se)}catch{H=[{message:Se}]}Rs({...O,errors:H})}try{let H=Sn(Se),{errors:K}=H,ue=K==null?void 0:K.map(({message:ne,...ye})=>new oi(ne,{...ye,clientOperation:`customerAccount.${O.type}`,requestId:ge.headers.get("x-request-id"),queryVariables:ae,query:B}));return{...H,...K&&{errors:ue}}}catch{Rs({...O,errors:[{message:Se}]})}}async function $(){if(!r)return!1;let B=e.get(Qe),Q=B==null?void 0:B.accessToken,ae=B==null?void 0:B.expiresAt;if(!Q||!ae)return!1;let fe=Nt==null?void 0:Nt();try{await Iv({locks:A,expiresAt:ae,session:e,customerAccountId:t,customerAccountTokenExchangeUrl:k("TOKEN_EXCHANGE"),httpsOrigin:S,debugInfo:{waitUntil:o,stackInfo:fe,...Wl(a)}})}catch{return!1}return!0}async function V(){if(!await $())throw I()}async function X(){var B;if(await $())return(B=e.get(Qe))==null?void 0:B.accessToken}async function q(B,Q){return E(m.hostname),P(),B=Ya(B),sd(B,"customer.mutate"),Wa(T({query:B,type:"mutation",...Q}),{logErrors:u})}async function G(B,Q){return E(m.hostname),P(),B=Ya(B),od(B,"customer.query"),Wa(T({query:B,type:"query",...Q}),{logErrors:u})}function J(B){e.set(Ta,{...e.get(Ta),...B})}async function Z(){let B=await X();if(B)return{...e.get(Ta),customerAccessToken:B}}return{i18n:{language:y??"EN"},login:async B=>{E(m.hostname),P();let Q=new URL(k("AUTH")),ae=Pv(),fe=fd();Q.searchParams.set("client_id",t),Q.searchParams.set("scope","openid email"),Q.searchParams.append("response_type","code"),Q.searchParams.append("redirect_uri",x),Q.searchParams.set("scope",k("LOGIN_SCOPE")),Q.searchParams.append("state",ae),Q.searchParams.append("nonce",fe);let ge=Vv({contextLanguage:y??null,localeOverride:(B==null?void 0:B.locale)??null,uiLocalesOverride:(B==null?void 0:B.uiLocales)??null});ge!=null&&Q.searchParams.append("locale",ge),B!=null&&B.countryCode&&Q.searchParams.append("region_country",B.countryCode),B!=null&&B.acrValues&&Q.searchParams.append("acr_values",B.acrValues),B!=null&&B.loginHint&&(Q.searchParams.append("login_hint",B.loginHint),B!=null&&B.loginHintMode&&Q.searchParams.append("login_hint_mode",B.loginHintMode));let Se=Av(),O=await Nv(Se);return e.set(Qe,{...e.get(Qe),codeVerifier:Se,state:ae,nonce:fe,redirectPath:hd(a.url)||At(a,"Referer")||p}),Q.searchParams.append("code_challenge",O),Q.searchParams.append("code_challenge_method","S256"),$a(Q.toString())},logout:async B=>{var Se;E(m.hostname),P();let Q=(Se=e.get(Qe))==null?void 0:Se.idToken,ae=Zl({requestUrl:S,defaultUrl:S,redirectUrl:B==null?void 0:B.postLogoutRedirectUri}),fe=Q?new URL(`${k("LOGOUT")}?${new URLSearchParams([["id_token_hint",Q],["post_logout_redirect_uri",ae]]).toString()}`).toString():ae;pn(e);let ge=(B==null?void 0:B.headers)instanceof Headers?B==null?void 0:B.headers:new Headers(B==null?void 0:B.headers);return B!=null&&B.keepSession||(e.destroy?ge.set("Set-Cookie",await e.destroy()):console.warn("[h2:warn:customerAccount] session.destroy is not available on your session implementation. All session data might not be cleared on logout."),e.isPending=!1),$a(fe,{headers:ge})},isLoggedIn:$,handleAuthStatus:V,getAccessToken:X,getApiUrl:()=>N,mutate:q,query:G,authorize:async()=>{var Fe,lt,Re,ve;E(m.hostname),P();let B=m.searchParams.get("code"),Q=m.searchParams.get("state");if(!B||!Q)throw pn(e),new Pt("Unauthorized","No code or state parameter found in the redirect URL.");if(((Fe=e.get(Qe))==null?void 0:Fe.state)!==Q)throw pn(e),new Pt("Unauthorized","The session state does not match the state parameter. Make sure that the session is configured correctly and passed to `createCustomerAccountClient`.");let ae=t,fe=new URLSearchParams;fe.append("grant_type","authorization_code"),fe.append("client_id",ae),fe.append("redirect_uri",x),fe.append("code",B);let ge=(lt=e.get(Qe))==null?void 0:lt.codeVerifier;if(!ge)throw new Pt("Unauthorized","No code verifier found in the session. Make sure that the session is configured correctly and passed to `createCustomerAccountClient`.");fe.append("code_verifier",ge);let Se={"content-type":"application/x-www-form-urlencoded","User-Agent":Ga,Origin:S};new Date().getTime();let O=k("TOKEN_EXCHANGE"),H=await fetch(O,{method:"POST",headers:Se,body:fe});if(!H.ok)throw new Response(await H.text(),{status:H.status,headers:{"Content-Type":"text/html; charset=utf-8"}});let{access_token:K,expires_in:ue,id_token:ne,refresh_token:ye}=await H.json(),se=(Re=e.get(Qe))==null?void 0:Re.nonce,he=await Lv(ne);if(se!==he)throw new Pt("Unauthorized",`Returned nonce does not match: ${se} !== ${he}`);let ce=K;r||(ce=await Ov(K,t,k("TOKEN_EXCHANGE"),S,{...Wl(a)}));let we=(ve=e.get(Qe))==null?void 0:ve.redirectPath;return e.set(Qe,{accessToken:ce,expiresAt:new Date(new Date().getTime()+(ue-120)*1e3).getTime()+"",refreshToken:ye,idToken:ne}),$a(we||p)},setBuyer:J,getBuyer:Z,UNSTABLE_setBuyer:B=>{bn("[h2:warn:customerAccount] `customerAccount.UNSTABLE_setBuyer` is deprecated. Please use `customerAccount.setBuyer`."),J(B)},UNSTABLE_getBuyer:()=>(bn("[h2:warn:customerAccount] `customerAccount.UNSTABLE_getBuyer` is deprecated. Please use `customerAccount.getBuyer`."),Z())}}function Hv(e,t){return function(){try{if(!t)throw Error();new URL(e("CA_BASE_URL")),new URL(e("CA_BASE_AUTH_URL"))}catch{console.error(new Error("[h2:error:customerAccount] You do not have the valid credential to use Customer Account API.\nRun `h2 env pull` to link your store credentials."));let r="Internal Server Error";throw new Response(r,{status:500})}}}function Vv(e){return e.localeOverride!=null?Zo(e.localeOverride):e.uiLocalesOverride!=null?Zo(e.uiLocalesOverride):e.contextLanguage!=null?Zo(e.contextLanguage):null}function Zo(e){let t=e.toLowerCase().replaceAll("_","-").split("-"),r=t[0],n=t[1];return n?`${r}-${n.toUpperCase()}`:r}function Wv(e,t){let{env:r,request:n,cache:a,waitUntil:o,i18n:i,session:l,logErrors:u,storefront:c={},customerAccount:d,cart:p={},buyerIdentity:y}=e;l||console.warn("[h2:warn:createHydrogenContext] A session object is required to create hydrogen context."),d!=null&&d.unstableB2b&&bn("[h2:warn:createHydrogenContext] `customerAccount.unstableB2b` is now stable. Please remove the `unstableB2b` option.");let{storefront:w}=Pg({cache:a,waitUntil:o,i18n:i,logErrors:u,storefrontHeaders:c.headers||lg(n),storefrontApiVersion:c.apiVersion,storefrontId:r.PUBLIC_STOREFRONT_ID,storeDomain:r.PUBLIC_STORE_DOMAIN,privateStorefrontToken:r.PRIVATE_STOREFRONT_API_TOKEN,publicStorefrontToken:r.PUBLIC_STOREFRONT_API_TOKEN}),m=qv({session:l,request:n,waitUntil:o,logErrors:u,customerApiVersion:d==null?void 0:d.apiVersion,authUrl:d==null?void 0:d.authUrl,customAuthStatusHandler:d==null?void 0:d.customAuthStatusHandler,useCustomAuthDomain:d==null?void 0:d.useCustomAuthDomain,language:i==null?void 0:i.language,customerAccountId:r.PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID,shopId:r.SHOP_ID}),S=bv({getCartId:p.getId||Ig(n.headers),setCartId:p.setId||Ag(),cartQueryFragment:p.queryFragment,cartMutateFragment:p.mutateFragment,...p.customMethods&&{customMethods:p.customMethods},buyerIdentity:y,storefront:w,customerAccount:m}),x=new ar;x.set(cd,w),x.set(Sv,S),x.set(Cv,m),x.set(jv,r),x.set(Ev,l),o&&x.set(kv,o);let E={storefront:w,cart:S,customerAccount:m,env:r,session:l,waitUntil:o,...t||{}};return new Proxy(x,{get(I,k,P){if(k in I){let N=I[k];return typeof N=="function"?N.bind(I):N}return k in E?E[k]:Reflect.get(I,k,P)},has(I,k){return k in I||k in E},ownKeys(I){return[...Reflect.ownKeys(I),...Object.keys(E)]},getOwnPropertyDescriptor(I,k){if(k in I)return Reflect.getOwnPropertyDescriptor(I,k);if(k in E)return{enumerable:!0,configurable:!0,writable:!1,value:E[k]}}})}function Yv({build:e,mode:t,poweredByHeader:r=!0,getLoadContext:n,collectTrackingInformation:a=!0}){let o=sm(e,t),i=r?l=>l.headers.append("powered-by","Shopify, Hydrogen"):void 0;return async l=>{var m,S;let u=l.method;if((u==="GET"||u==="HEAD")&&l.body)return new Response(`${u} requests cannot have a body`,{status:400});let c=new URL(l.url);if(c.pathname.includes("//"))return new Response(null,{status:301,headers:{location:c.pathname.replace(/\/+/g,"/")}});let d=await(n==null?void 0:n(l)),p=(d==null?void 0:d.storefront)||((m=d==null?void 0:d.get)==null?void 0:m.call(d,cd));if(!p)throw new Error("[h2:createRequestHandler] Storefront instance is required in the load context. Make sure to use createHydrogenContext() or provide a storefront instance via getLoadContext.");if(p.isStorefrontApiUrl(l)){let x=await p.forward(l);return i==null||i(x),x}if(p.isMcpUrl(l)){let x=await p.forwardMcp(l);return i==null||i(x),x}let y=await o(l,d);a&&p.setCollectedSubrequestHeaders(y);let w=l.headers.get("sec-fetch-dest");return(w&&w==="document"||(S=l.headers.get("accept"))!=null&&S.includes("text/html"))&&js(y,{[Yc]:"1"}),i==null||i(y),y}}var md=b.createContext(void 0),Gv=md.Provider,yd=()=>b.useContext(md);function Xv(e){let t=fd(),r=Jv(t,e);return{nonce:t,header:r,NonceProvider:({children:n})=>b.createElement(Gv,{value:t},n)}}function Jv(e,t){let{shop:r,...n}=t??{},a=`'nonce-${e}'`,o=["'self'","'unsafe-inline'","https://cdn.shopify.com"],i=["'self'","https://cdn.shopify.com/","https://monorail-edge.shopifysvc.com"];r&&r.checkoutDomain&&i.push(`https://${r.checkoutDomain}`),r&&r.storeDomain&&i.push(`https://${r.storeDomain}`);let l={baseUri:["'self'"],defaultSrc:["'self'",a,"https://cdn.shopify.com","https://shopify.com"],frameAncestors:["'none'"],styleSrc:o,connectSrc:i},u=Object.assign({},l,n);for(let c in l){let d=n[c];c&&d&&(u[c]=Zv(d,l[c]))}return u.scriptSrc instanceof Array?u.scriptSrc=[...u.scriptSrc.filter(c=>!c.startsWith("'nonce")),a]:u.defaultSrc instanceof Array&&(u.defaultSrc=[...u.defaultSrc.filter(c=>!c.startsWith("'nonce")),a]),Iy({directives:u})}function Zv(e,t){let r=typeof t=="string"?[t]:t,n=Array.isArray(e)?e:[String(e)];return Array.isArray(r)?r.every(a=>a==="'none'")?n:[...n,...r]:r}b.forwardRef((e,t)=>{let{waitForHydration:r,src:n,...a}=e,o=yd();return r?s.jsx(Qv,{src:n,options:a}):s.jsx("script",{suppressHydrationWarning:!0,...a,src:n,nonce:o,ref:t})});function Qv({src:e,options:t}){if(!e)throw new Error("`waitForHydration` with the Script component requires a `src` prop");return Ks(e,{attributes:t}),null}function Kv({connection:e,children:t=()=>(console.warn("<Pagination> requires children to work properly"),null),namespace:r=""}){let[n,a]=b.useState(!1),o=Ka(),i=Ae();jn(),b.useEffect(()=>{o.state==="idle"&&a(!1)},[o.state]);let{endCursor:l,hasNextPage:u,hasPreviousPage:c,nextPageUrl:d,nodes:p,previousPageUrl:y,startCursor:w}=ex(e,r),m=b.useMemo(()=>{var E;return{...i.state,pagination:{...((E=i.state)==null?void 0:E.pagination)||{},[r]:{pageInfo:{endCursor:l,hasPreviousPage:c,hasNextPage:u,startCursor:w},nodes:p}}}},[l,u,c,w,p,r,i.state]),S=b.useMemo(()=>b.forwardRef(function(E,I){return u?b.createElement(Ie,{preventScrollReset:!0,...E,to:d,state:m,replace:!0,ref:I,onClick:()=>a(!0)}):null}),[u,d,m]),x=b.useMemo(()=>b.forwardRef(function(E,I){return c?b.createElement(Ie,{preventScrollReset:!0,...E,to:y,state:m,replace:!0,ref:I,onClick:()=>a(!0)}):null}),[c,y,m]);return t({state:m,hasNextPage:u,hasPreviousPage:c,isLoading:n,nextPageUrl:d,nodes:p,previousPageUrl:y,NextLink:S,PreviousLink:x})}function Ea(e,t){let r=new URLSearchParams(e);return Object.keys((t==null?void 0:t.pagination)||{}).forEach(n=>{let a=n===""?"":`${n}_`,o=`${a}cursor`,i=`${a}direction`;r.delete(o),r.delete(i)}),r.toString()}function un(e){throw new Error(`The Pagination component requires ${"`"+e+"`"} to be a part of your query. See the guide on how to setup your query to include ${"`"+e+"`"}: https://shopify.dev/docs/custom-storefronts/hydrogen/data-fetching/pagination#setup-the-paginated-query`)}function ex(e,t=""){e.pageInfo||un("pageInfo"),typeof e.pageInfo.startCursor>"u"&&un("pageInfo.startCursor"),typeof e.pageInfo.endCursor>"u"&&un("pageInfo.endCursor"),typeof e.pageInfo.hasNextPage>"u"&&un("pageInfo.hasNextPage"),typeof e.pageInfo.hasPreviousPage>"u"&&un("pageInfo.hasPreviousPage");let r=Ka(),n=jn(),{state:a,search:o,pathname:i}=Ae(),l=t?`${t}_cursor`:"cursor",u=t?`${t}_direction`:"direction",c=new URLSearchParams(o).get(u)==="previous",d=b.useMemo(()=>{var S,x,E;return!((S=globalThis==null?void 0:globalThis.window)!=null&&S.__hydrogenHydrated)||!((E=(x=a==null?void 0:a.pagination)==null?void 0:x[t])!=null&&E.nodes)?Ar(e):c?[...Ar(e),...a.pagination[t].nodes||[]]:[...a.pagination[t].nodes||[],...Ar(e)]},[a,e,t]),p=b.useMemo(()=>{var N,A,T,$,V;let S=(N=globalThis==null?void 0:globalThis.window)==null?void 0:N.__hydrogenHydrated,x=(T=(A=a==null?void 0:a.pagination)==null?void 0:A[t])==null?void 0:T.pageInfo,E=!S||(x==null?void 0:x.startCursor)===void 0?e.pageInfo.startCursor:x.startCursor,I=!S||(x==null?void 0:x.endCursor)===void 0?e.pageInfo.endCursor:x.endCursor,k=!S||(x==null?void 0:x.hasPreviousPage)===void 0?e.pageInfo.hasPreviousPage:x.hasPreviousPage,P=!S||(x==null?void 0:x.hasNextPage)===void 0?e.pageInfo.hasNextPage:x.hasNextPage;return(V=($=a==null?void 0:a.pagination)==null?void 0:$[t])!=null&&V.nodes&&(c?(E=e.pageInfo.startCursor,k=e.pageInfo.hasPreviousPage):(I=e.pageInfo.endCursor,P=e.pageInfo.hasNextPage)),{startCursor:E,endCursor:I,hasPreviousPage:k,hasNextPage:P}},[c,a,t,e.pageInfo.hasNextPage,e.pageInfo.hasPreviousPage,e.pageInfo.startCursor,e.pageInfo.endCursor]),y=b.useRef({params:Ea(o,a),pathname:i});b.useEffect(()=>{window.__hydrogenHydrated=!0},[]),b.useEffect(()=>{let S=Ea(o,a),x=y.current.params;(i!==y.current.pathname||S!==x)&&!(r.state==="idle"&&!r.location)&&(y.current={pathname:i,params:Ea(o,a)},n(`${i}?${Ea(o,a)}`,{replace:!0,preventScrollReset:!0,state:{nodes:void 0,pageInfo:void 0}}))},[i,o,a]);let w=b.useMemo(()=>{let S=new URLSearchParams(o);return S.set(u,"previous"),p.startCursor&&S.set(l,p.startCursor),`?${S.toString()}`},[o,p.startCursor]),m=b.useMemo(()=>{let S=new URLSearchParams(o);return S.set(u,"next"),p.endCursor&&S.set(l,p.endCursor),`?${S.toString()}`},[o,p.endCursor]);return{...p,previousPageUrl:w,nextPageUrl:m,nodes:d}}function si(e,t={pageBy:20}){if(typeof(e==null?void 0:e.url)>"u")throw new Error("getPaginationVariables must be called with the Request object passed to your loader function");let{pageBy:r,namespace:n=""}=t,a=new URLSearchParams(new URL(e.url).search),o=n?`${n}_cursor`:"cursor",i=n?`${n}_direction`:"direction",l=a.get(o)??void 0;return(a.get(i)==="previous"?"previous":"next")=="previous"?{last:r,startCursor:l??null}:{first:r,endCursor:l??null}}function tx({handle:e,options:t=[],variants:r=[],productPath:n="products",waitForNavigation:a=!1,selectedVariant:o,children:i}){var m,S;let l=t;(m=l[0])!=null&&m.values&&(bn("[h2:warn:VariantSelector] product.options.values is deprecated. Use product.options.optionValues instead."),l[0]&&!l[0].optionValues&&(l=t.map(x=>{var E;return{...x,optionValues:((E=x.values)==null?void 0:E.map(I=>({name:I})))||[]}})));let u=r instanceof Array?r:Ar(r),{searchParams:c,path:d,alreadyOnProductPage:p}=nx(e,n,a),y=l.filter(x=>{var E;return((E=x==null?void 0:x.optionValues)==null?void 0:E.length)===1}),w=o?(S=o==null?void 0:o.selectedOptions)==null?void 0:S.reduce((x,E)=>(x[E.name]=E.value,x),{}):{};return b.createElement(b.Fragment,null,...b.useMemo(()=>l.map(x=>{let E,I=[];for(let k of x.optionValues){let P=new URLSearchParams(p?c:void 0);P.set(x.name,k.name),y.forEach(V=>{V.optionValues[0].name&&P.set(V.name,V.optionValues[0].name)});let N=u.find(V=>{var X;return(X=V==null?void 0:V.selectedOptions)==null?void 0:X.every(q=>(P.get(q==null?void 0:q.name)||(w==null?void 0:w[q==null?void 0:q.name]))===(q==null?void 0:q.value))}),A=c.get(x.name);!A&&o&&(A=(w==null?void 0:w[x.name])||null);let T=A?A===k.name:!1;T&&(E=k.name);let $="?"+P.toString();I.push({value:k.name,optionValue:k,isAvailable:N?N.availableForSale:!0,to:d+$,search:$,isActive:T,variant:N})}return i({option:{name:x.name,value:E,values:I}})}),[l,u,i]))}var rx=e=>{if(typeof(e==null?void 0:e.url)>"u")throw new TypeError(`Expected a Request instance, got ${typeof e}`);let t=new URL(e.url).searchParams,r=[];return t.forEach((n,a)=>{r.push({name:a,value:n})}),r};function nx(e,t,r){let{pathname:n,search:a}=Ae(),o=Ka();return b.useMemo(()=>{let i=/(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(n),l=i&&i.length>0;t=t.startsWith("/")?t.substring(1):t;let u=l?`${i[0]}${t}/${e}`:`/${t}/${e}`;return{searchParams:new URLSearchParams(r||o.state!=="loading"?a:o.location.search),alreadyOnProductPage:u===n,path:u}},[n,a,r,e,t,o])}var Kl=".data",Qo="_root.data",eu="_.data";async function ax(e){var p,y,w;let{storefront:t,request:r,noAdminRedirect:n,matchQueryParams:a,response:o=new Response("Not Found",{status:404})}=e,i=new URL(r.url),{searchParams:l}=i,{pathname:u,isSoftNavigation:c}=ox(i.pathname);l.delete("redirect"),l.delete("return_to"),l.delete("_routes");let d=(a?`${u}${i.search}`:u).toLowerCase();if(u==="/admin"&&!n)return es(`${t.getShopifyDomain()}/admin`,c,l,a);try{let{urlRedirects:m}=await t.query(sx,{variables:{query:"path:"+d.replace(/\/+$/,"")}}),S=(w=(y=(p=m==null?void 0:m.edges)==null?void 0:p[0])==null?void 0:y.node)==null?void 0:w.target;if(S)return es(S,c,l,a);let x=hd(r.url);if(x)return es(x,c,l,a)}catch(m){console.error(`Failed to fetch redirects from Storefront API for route ${d}`,m)}return o}var Ko="https://example.com";function es(e,t,r,n){let a=new URL(e,Ko);if(!n)for(let[o,i]of r)a.searchParams.append(o,i);return t?new Response(null,{status:204,headers:{"X-Remix-Redirect":a.toString().replace(Ko,""),"X-Remix-Status":"301"}}):new Response(null,{status:301,headers:{location:a.toString().replace(Ko,"")}})}function ox(e){return e.endsWith(Kl)?e.endsWith("/"+eu)?{pathname:e.slice(0,-eu.length),isSoftNavigation:!0}:e==="/"+Qo||e.endsWith("/"+Qo)?{pathname:e.slice(0,-Qo.length)||"/",isSoftNavigation:!0}:{pathname:e.slice(0,-Kl.length),isSoftNavigation:!0}:{pathname:e,isSoftNavigation:!1}}var sx=`#graphql
-  query redirects($query: String) {
-    urlRedirects(first: 1, query: $query) {
-      edges {
-        node {
-          target
-        }
-      }
-    }
-  }
-`;b.lazy(()=>Promise.resolve().then(()=>xC));var ix=`<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-`,lx=`
-</sitemapindex>`,tu=`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`,ru="</urlset>";async function ux(e){let{storefront:t,request:r,types:n=["products","pages","collections","metaObjects","articles","blogs"],customChildSitemaps:a=[]}=e;if(!r||!r.url)throw new Error("A request object is required to generate a sitemap index");if(!t||!t.query)throw new Error("A storefront client is required to generate a sitemap index");let o=await t.query(wx);if(!o)throw console.warn("[h2:sitemap:warning] Sitemap index is available in API version 2024-10 and later"),new Response("Sitemap index not found.",{status:404});let i=new URL(r.url).origin,l=ix+n.map(u=>{if(!o[u])throw new Error(`[h2:sitemap:error] No data found for type ${u}. Check types passed to \`getSitemapIndex\``);return dx(u,o[u].pagesCount.count,i)}).join(`
-`)+a.map(u=>"  <sitemap><loc>"+(i+(u.startsWith("/")?u:"/"+u))+"</loc></sitemap>").join(`
-`)+lx;return new Response(l,{headers:{"Content-Type":"application/xml","Cache-Control":`max-age=${3600*24}`}})}async function cx(e){var w,m,S;let{storefront:t,request:r,params:n,getLink:a,locales:o=[],getChangeFreq:i,noItemsFallback:l="/"}=e;if(!n)throw new Error("[h2:sitemap:error] Remix params object is required to generate a sitemap");if(!r||!r.url)throw new Error("A request object is required to generate a sitemap");if(!t||!t.query)throw new Error("A storefront client is required to generate a index");if(!a)throw new Error("A `getLink` function to generate each resource is required to build a sitemap");if(!n.type||!n.page)throw new Response("No data found",{status:404});let u=n.type,c=bx[u];if(!c)throw new Response("Not found",{status:404});let d=await t.query(c,{variables:{page:parseInt(n.page,10)}});if(!d)throw console.warn("[h2:sitemap:warning] Sitemap is available in API version 2024-10 and later"),new Response("Sitemap not found.",{status:404});let p=new URL(r.url).origin,y="";return(S=(m=(w=d==null?void 0:d.sitemap)==null?void 0:w.resources)==null?void 0:m.items)!=null&&S.length?y=tu+d.sitemap.resources.items.map(x=>fx({getChangeFreq:i,url:a({type:x.type??u,baseUrl:p,handle:x.handle}),type:u,getLink:a,updatedAt:x.updatedAt,handle:x.handle,metaobjectType:x.type,locales:o,baseUrl:p})).join(`
-`)+ru:y=tu+`
-  <url><loc>${p+l}</loc></url>
-`+ru,new Response(y,{headers:{"Content-Type":"application/xml","Cache-Control":`max-age=${3600*24}`}})}function dx(e,t,r){let n="";for(let a=1;a<=t;a++)n+=`  <sitemap><loc>${r}/sitemap/${e}/${a}.xml</loc></sitemap>
-`;return n}function fx({url:e,updatedAt:t,locales:r,type:n,getLink:a,baseUrl:o,handle:i,getChangeFreq:l,metaobjectType:u}){return`<url>
-  <loc>${e}</loc>
-  <lastmod>${t}</lastmod>
-  <changefreq>${l?l({type:u??n,handle:i}):"weekly"}</changefreq>
-${r.map(c=>hx(a({type:u??n,baseUrl:o,handle:i,locale:c}),c)).join(`
-`)}
-</url>
-  `.trim()}function hx(e,t){return`  <xhtml:link rel="alternate" hreflang="${t}" href="${e}" />`}var px=`#graphql
-    query SitemapProducts($page: Int!) {
-      sitemap(type: PRODUCT) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-          }
-        }
-      }
-    }
-`,mx=`#graphql
-    query SitemapCollections($page: Int!) {
-      sitemap(type: COLLECTION) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-          }
-        }
-      }
-    }
-`,yx=`#graphql
-    query SitemapArticles($page: Int!) {
-      sitemap(type: ARTICLE) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-          }
-        }
-      }
-    }
-`,gx=`#graphql
-    query SitemapPages($page: Int!) {
-      sitemap(type: PAGE) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-          }
-        }
-      }
-    }
-`,vx=`#graphql
-    query SitemapBlogs($page: Int!) {
-      sitemap(type: BLOG) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-          }
-        }
-      }
-    }
-`,xx=`#graphql
-    query SitemapMetaobjects($page: Int!) {
-      sitemap(type: METAOBJECT) {
-        resources(page: $page) {
-          items {
-            handle
-            updatedAt
-            ... on SitemapResourceMetaobject {
-              type
-            }
-          }
-        }
-      }
-    }
-`,wx=`#graphql
-query SitemapIndex {
-  products: sitemap(type: PRODUCT) {
-    pagesCount {
-      count
-    }
-  }
-  collections: sitemap(type: COLLECTION) {
-    pagesCount {
-      count
-    }
-  }
-  articles: sitemap(type: ARTICLE) {
-    pagesCount {
-      count
-    }
-  }
-  pages: sitemap(type: PAGE) {
-    pagesCount {
-      count
-    }
-  }
-  blogs: sitemap(type: BLOG) {
-    pagesCount {
-      count
-    }
-  }
-  metaObjects: sitemap(type: METAOBJECT) {
-    pagesCount {
-      count
-    }
+    );
+    setTimeout(abort, ABORT_DELAY);
+  });
+}
+function handleError(error, { request }) {
+  if (!request.signal.aborted) {
+    console.error("[handleError]", request.method, request.url, error);
   }
 }
-`,bx={products:px,articles:yx,collections:mx,pages:gx,blogs:vx,metaObjects:xx};//! @see https://shopify.dev/docs/api/storefront/latest/queries/cart
-async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,NonceProvider:u}=Xv({shop:{checkoutDomain:a.env.PUBLIC_CHECKOUT_DOMAIN,storeDomain:a.env.PUBLIC_STORE_DOMAIN},...o?{connectSrc:[`wss://${o}:*`]}:{}}),c=await Em.renderToReadableStream(s.jsx(u,{children:s.jsx(Lp,{context:n,url:e.url,nonce:i})}),{nonce:i,signal:e.signal,onError(d){console.error(d),t=500}});return bm(e.headers.get("user-agent"))&&await c.allReady,r.set("Content-Type","text/html"),r.set("Content-Security-Policy",l),new Response(c,{headers:r,status:t})}const Cx=Object.freeze(Object.defineProperty({__proto__:null,default:Sx},Symbol.toStringTag,{value:"Module"})),jx="/assets/favicon-DZkC1E9c.svg",Ex=`#graphql
-  fragment Money on MoneyV2 {
-    currencyCode
-    amount
-  }
-  fragment CartLine on CartLine {
-    id
-    quantity
-    attributes {
-      key
-      value
-    }
-    cost {
-      totalAmount {
-        ...Money
-      }
-      amountPerQuantity {
-        ...Money
-      }
-      compareAtAmountPerQuantity {
-        ...Money
-      }
-    }
-    merchandise {
-      ... on ProductVariant {
-        id
-        availableForSale
-        compareAtPrice {
-          ...Money
-        }
-        price {
-          ...Money
-        }
-        requiresShipping
-        title
-        image {
-          id
-          url
-          altText
-          width
-          height
 
-        }
-        product {
-          handle
-          title
-          id
-          vendor
-        }
-        selectedOptions {
-          name
-          value
-        }
-      }
-    }
-    parentRelationship {
-      parent {
-        id
-      }
-    }
-  }
-  fragment CartLineComponent on ComponentizableCartLine {
-    id
-    quantity
-    attributes {
-      key
-      value
-    }
-    cost {
-      totalAmount {
-        ...Money
-      }
-      amountPerQuantity {
-        ...Money
-      }
-      compareAtAmountPerQuantity {
-        ...Money
-      }
-    }
-    merchandise {
-      ... on ProductVariant {
-        id
-        availableForSale
-        compareAtPrice {
-          ...Money
-        }
-        price {
-          ...Money
-        }
-        requiresShipping
-        title
-        image {
-          id
-          url
-          altText
-          width
-          height
-        }
-        product {
-          handle
-          title
-          id
-          vendor
-        }
-        selectedOptions {
-          name
-          value
-        }
-      }
-    }
-    lineComponents {
-      ...CartLine
-    }
-  }
-  fragment CartApiQuery on Cart {
-    updatedAt
-    id
-    appliedGiftCards {
-      id
-      lastCharacters
-      amountUsed {
-        ...Money
-      }
-    }
-    checkoutUrl
-    totalQuantity
-    buyerIdentity {
-      countryCode
-      customer {
-        id
-        email
-        firstName
-        lastName
-        displayName
-      }
-      email
-      phone
-    }
-    lines(first: $numCartLines) {
-      nodes {
-        ...CartLine
-        ...CartLineComponent
-      }
-    }
-    cost {
-      subtotalAmount {
-        ...Money
-      }
-      totalAmount {
-        ...Money
-      }
-    }
-    note
-    attributes {
-      key
-      value
-    }
-    discountCodes {
-      code
-      applicable
-    }
-    deliveryGroups(first: 5) {
-      nodes {
-        id
-        deliveryOptions {
-          handle
-          title
-          code
-          estimatedCost {
-            amount
-            currencyCode
-          }
-        }
-        selectedDeliveryOption {
-          handle
-          title
-          estimatedCost {
-            amount
-            currencyCode
-          }
-        }
-      }
-    }
-  }
-`,gd=`#graphql
+const entryServer = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: handleRequest,
+  handleError
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const favicon = "/assets/favicon-DZkC1E9c.svg";
+
+const MENU_FRAGMENT = `#graphql
   fragment MenuItem on MenuItem {
     id
     resourceId
@@ -968,7 +100,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       ...ParentMenuItem
     }
   }
-`,kx=`#graphql
+`;
+const HEADER_QUERY = `#graphql
   fragment Shop on Shop {
     id
     name
@@ -994,8 +127,9 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       ...Menu
     }
   }
-  ${gd}
-`,Rx=`#graphql
+  ${MENU_FRAGMENT}
+`;
+const FOOTER_QUERY = `#graphql
   query Footer(
     $footerMenuHandle: String!
   ) {
@@ -1003,14 +137,1663 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       ...Menu
     }
   }
-  ${gd}
-`,_x=`#graphql
+  ${MENU_FRAGMENT}
+`;
+
+const CUSTOMER_NAME_QUERY = `#graphql
   query CustomerName {
     customer {
       firstName
     }
   }
-`,Ix="/assets/reset-VbMojypE.css",Ax="/assets/app-BI8MWlcB.css";function On({children:e,heading:t,type:r}){const{type:n,close:a}=it(),o=r===n;return b.useEffect(()=>{const i=new AbortController;return o&&document.addEventListener("keydown",function(u){u.key==="Escape"&&a()},{signal:i.signal}),()=>i.abort()},[a,o]),s.jsxs("div",{"aria-modal":!0,className:`overlay ${o?"expanded":""}`,role:"dialog",children:[s.jsx("button",{className:"close-outside",onClick:a}),s.jsxs("aside",{children:[s.jsxs("header",{children:[s.jsx("h3",{children:t}),s.jsx("button",{className:"close reset",onClick:a,"aria-label":"Close",children:"×"})]}),s.jsx("main",{children:e})]})]})}const vd=b.createContext(null);On.Provider=function({children:t}){const[r,n]=b.useState("closed");return s.jsx(vd.Provider,{value:{type:r,open:n,close:()=>n("closed")},children:t})};function it(){const e=b.useContext(vd);if(!e)throw new Error("useAside must be used within an AsideProvider");return e}function Nx({footer:e,header:t,publicStoreDomain:r,footerBanner:n}){return s.jsx(b.Suspense,{children:s.jsx(Or,{resolve:e,children:a=>{var o;return s.jsxs("footer",{className:"footer",children:[n&&s.jsx(b.Suspense,{children:s.jsx(Or,{resolve:n,children:i=>i?s.jsx("div",{className:"footer-banner bg-gray-900 text-white px-4 py-6 text-center",dangerouslySetInnerHTML:{__html:i}}):null})}),(a==null?void 0:a.menu)&&((o=t.shop.primaryDomain)==null?void 0:o.url)&&s.jsx($x,{menu:a.menu,primaryDomainUrl:t.shop.primaryDomain.url,publicStoreDomain:r}),s.jsx(Tx,{})]})}})})}function Tx(){return s.jsxs("div",{className:"footer-utilities flex justify-center gap-4 px-4 py-3 text-xs text-gray-400 border-t border-gray-800",children:[s.jsx(at,{to:"/policies/privacy-policy",prefetch:"intent",children:"Privacy Policy"}),s.jsx(at,{to:"/policies/terms-of-service",prefetch:"intent",children:"Terms of Service"}),s.jsx(at,{to:"/policies/refund-policy",prefetch:"intent",children:"Refund Policy"}),s.jsx(at,{to:"/policies/shipping-policy",prefetch:"intent",children:"Shipping Policy"})]})}function $x({menu:e,primaryDomainUrl:t,publicStoreDomain:r}){return s.jsx("nav",{className:"footer-menu",role:"navigation",children:(e||Px).items.map(n=>{if(!n.url)return null;const a=n.url.includes("myshopify.com")||n.url.includes(r)||n.url.includes(t)?new URL(n.url).pathname:n.url;return!a.startsWith("/")?s.jsx("a",{href:a,rel:"noopener noreferrer",target:"_blank",children:n.title},n.id):s.jsx(at,{end:!0,prefetch:"intent",style:Ox,to:a,children:n.title},n.id)})})}const Px={items:[{id:"gid://shopify/MenuItem/461633060920",resourceId:"gid://shopify/ShopPolicy/23358046264",tags:[],title:"Privacy Policy",type:"SHOP_POLICY",url:"/policies/privacy-policy",items:[]},{id:"gid://shopify/MenuItem/461633093688",resourceId:"gid://shopify/ShopPolicy/23358013496",tags:[],title:"Refund Policy",type:"SHOP_POLICY",url:"/policies/refund-policy",items:[]},{id:"gid://shopify/MenuItem/461633126456",resourceId:"gid://shopify/ShopPolicy/23358111800",tags:[],title:"Shipping Policy",type:"SHOP_POLICY",url:"/policies/shipping-policy",items:[]},{id:"gid://shopify/MenuItem/461633159224",resourceId:"gid://shopify/ShopPolicy/23358079032",tags:[],title:"Terms of Service",type:"SHOP_POLICY",url:"/policies/terms-of-service",items:[]}]};function Ox({isActive:e,isPending:t}){return{fontWeight:e?"bold":void 0,color:t?"grey":"white"}}const ts=[{country:"ZA",language:"EN",label:"South Africa (ZAR)",prefix:""},{country:"NZ",language:"EN",label:"New Zealand (NZD)",prefix:"/en-nz"},{country:"AU",language:"EN",label:"Australia (AUD)",prefix:"/en-au"},{country:"US",language:"EN",label:"United States (USD)",prefix:"/en-us"}];function Lx(){var c;const[e,t]=b.useState(!1),r=Ae(),n=b.useRef(null),a=tt(),o=b.useRef(null),i=`/${((c=r.pathname.split("/")[1])==null?void 0:c.toLowerCase())??""}`,l=ts.find(d=>d.prefix===i)??ts[0];b.useEffect(()=>{function d(p){n.current&&!n.current.contains(p.target)&&t(!1)}return document.addEventListener("mousedown",d),()=>document.removeEventListener("mousedown",d)},[]),b.useEffect(()=>{if(a.state==="idle"&&o.current){const d=o.current;o.current=null,window.location.href=d}},[a.state]);function u(d){t(!1);const p=r.pathname.replace(/^\/(en-nz|en-au|en-us|en-za)/,""),y=d.prefix+(p||"/");o.current=y;const w=new FormData;w.set(re.INPUT_NAME,JSON.stringify({action:re.ACTIONS.BuyerIdentityUpdate,inputs:{buyerIdentity:{countryCode:d.country}}})),a.submit(w,{method:"POST",action:"/cart"})}return s.jsxs("div",{ref:n,className:"relative",children:[s.jsxs("button",{className:"reset text-sm",onClick:()=>t(!e),"aria-expanded":e,"aria-label":"Select country",children:[s.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",style:{display:"inline-block",verticalAlign:"middle",marginRight:"4px"},children:[s.jsx("path",{d:"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"}),s.jsx("circle",{cx:"12",cy:"10",r:"3"})]}),l.country]}),e&&s.jsx("div",{className:"dropdown-panel absolute top-full right-0 mt-1 z-50 min-w-[180px]",children:ts.map(d=>s.jsx("button",{className:`block w-full text-left px-4 py-2 text-sm ${d.country===l.country?"font-bold":""}`,style:d.country===l.country?{background:"rgba(255, 255, 255, 0.15)"}:void 0,onClick:()=>u(d),children:d.label},d.country))})]})}function Dx({header:e,isLoggedIn:t,customerFirstName:r,cart:n,publicStoreDomain:a,isHomePage:o=!1}){const{shop:i,menu:l}=e;return s.jsxs("div",{className:"header-hero",children:[s.jsxs("header",{className:"header site-header",children:[s.jsx(at,{prefetch:"intent",to:"/",end:!0,className:"flex items-center gap-2",children:s.jsx("img",{src:"/images/260601-logo_rev-02.1.svg",alt:i.name,className:"h-auto",style:{width:"clamp(160px, 11.25vw, 300px)"}})}),s.jsx(xd,{menu:l,viewport:"desktop",primaryDomainUrl:e.shop.primaryDomain.url,publicStoreDomain:a}),s.jsx(Mx,{isLoggedIn:t,customerFirstName:r,cart:n})]}),o&&s.jsx("div",{className:"header-tagline",children:s.jsx("p",{children:"PROUDLY SERVING OUR CLIENTS FOR OVER 25 YEARS"})})]})}function xd({menu:e,primaryDomainUrl:t,viewport:r,publicStoreDomain:n}){const a=`header-menu-${r}`,{close:o}=it();return s.jsxs("nav",{className:a,role:"navigation",children:[r==="mobile"&&s.jsx(at,{end:!0,onClick:o,prefetch:"intent",style:nu(),to:"/",children:"Home"}),(e||qx).items.map(i=>{if(!i.url)return null;const l=i.url.includes("myshopify.com")||i.url.includes(n)||i.url.includes(t)?new URL(i.url).pathname:i.url;return s.jsx(at,{className:"header-menu-item",end:!0,onClick:o,prefetch:"intent",style:nu(),to:l,children:i.title},i.id)})]})}function rs(){return s.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",width:"20",height:"20",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[s.jsx("path",{d:"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"}),s.jsx("circle",{cx:"12",cy:"7",r:"4"})]})}function Mx({isLoggedIn:e,customerFirstName:t,cart:r}){return s.jsxs("nav",{className:"header-ctas",role:"navigation",children:[s.jsx(Fx,{}),s.jsx(Lx,{}),s.jsx(b.Suspense,{fallback:s.jsx(at,{prefetch:"intent",to:"/account/login","aria-label":"Sign in",children:s.jsx(rs,{})}),children:s.jsx(Or,{resolve:e,children:n=>n?s.jsxs(at,{prefetch:"intent",to:"/account","aria-label":"Account",className:"header-account-link",children:[s.jsx(rs,{}),t&&s.jsx(b.Suspense,{fallback:null,children:s.jsx(Or,{resolve:t,children:a=>a?s.jsx("span",{className:"header-customer-name",children:a}):null})})]}):s.jsx(at,{prefetch:"intent",to:"/account/login","aria-label":"Sign in",children:s.jsx(rs,{})})})}),s.jsx(Ux,{}),s.jsx(Bx,{cart:r})]})}function Fx(){const{open:e}=it();return s.jsx("button",{className:"header-menu-mobile-toggle reset",onClick:()=>e("mobile"),"aria-label":"Menu",children:s.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",width:"20",height:"20",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[s.jsx("line",{x1:"3",y1:"6",x2:"21",y2:"6"}),s.jsx("line",{x1:"3",y1:"12",x2:"21",y2:"12"}),s.jsx("line",{x1:"3",y1:"18",x2:"21",y2:"18"})]})})}function Ux(){const{open:e}=it();return s.jsx("button",{className:"reset",onClick:()=>e("search"),"aria-label":"Search",children:s.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",width:"20",height:"20",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[s.jsx("circle",{cx:"11",cy:"11",r:"8"}),s.jsx("line",{x1:"21",y1:"21",x2:"16.65",y2:"16.65"})]})})}function wd({count:e}){const{open:t}=it(),{publish:r,shop:n,cart:a,prevCart:o}=Pn();return s.jsxs("a",{href:"/cart",className:"cart-icon-wrapper","aria-label":`Cart${e?` (${e} items)`:""}`,onClick:i=>{i.preventDefault(),t("cart"),r("cart_viewed",{cart:a,prevCart:o,shop:n,url:window.location.href||""})},children:[s.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",width:"20",height:"20",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[s.jsx("path",{d:"M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"}),s.jsx("line",{x1:"3",y1:"6",x2:"21",y2:"6"}),s.jsx("path",{d:"M16 10a4 4 0 0 1-8 0"})]}),e!==null&&e>0&&s.jsx("span",{className:"cart-badge",children:e})]})}function Bx({cart:e}){return s.jsx(b.Suspense,{fallback:s.jsx(wd,{count:null}),children:s.jsx(Or,{resolve:e,children:s.jsx(zx,{})})})}function zx(){const e=Wu(),t=ud(e);return s.jsx(wd,{count:(t==null?void 0:t.totalQuantity)??0})}const qx={items:[{id:"gid://shopify/MenuItem/461609500728",resourceId:null,tags:[],title:"Collections",type:"HTTP",url:"/collections",items:[]},{id:"gid://shopify/MenuItem/461609533496",resourceId:null,tags:[],title:"Blog",type:"HTTP",url:"/blogs/journal",items:[]},{id:"gid://shopify/MenuItem/461609566264",resourceId:null,tags:[],title:"Policies",type:"HTTP",url:"/policies",items:[]},{id:"gid://shopify/MenuItem/461609599032",resourceId:"gid://shopify/Page/92591030328",tags:[],title:"About",type:"PAGE",url:"/pages/about",items:[]}]};function nu(e){return({isActive:t,isPending:r})=>({fontWeight:t?"bold":void 0,color:r?"rgba(255,255,255,0.6)":"white"})}function Hx(e,t){const{pathname:r}=Ae();return b.useMemo(()=>Vx({handle:e,pathname:r,searchParams:new URLSearchParams,selectedOptions:t}),[e,t,r])}function Vx({handle:e,pathname:t,searchParams:r,selectedOptions:n}){const a=/(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(t),i=a&&a.length>0?`${a[0]}products/${e}`:`/products/${e}`;n==null||n.forEach(u=>{r.set(u.name,u.value)});const l=r.toString();return i+(l?"?"+r.toString():"")}function bd({price:e,compareAtPrice:t}){return s.jsx("div",{className:"product-price",children:t?s.jsxs("div",{className:"product-price-on-sale",children:[e?s.jsx(Ee,{data:e}):null,s.jsx("s",{children:s.jsx(Ee,{data:t})})]}):e?s.jsx(Ee,{data:e}):s.jsx("span",{children:" "})})}function Sd({layout:e,line:t,childrenMap:r}){var w;const{id:n,merchandise:a}=t,{product:o,title:i,image:l,selectedOptions:u}=a,c=Hx(o.handle,u),{close:d}=it(),p=r[n],y=`cart-line-children-${n}`;return s.jsxs("li",{className:"cart-line",children:[s.jsxs("div",{className:"cart-line-inner",children:[l&&s.jsx(gt,{alt:i,aspectRatio:"1/1",data:l,height:100,loading:"lazy",width:100}),s.jsxs("div",{children:[s.jsx(Ie,{prefetch:"intent",to:c,onClick:()=>{e==="aside"&&d()},children:s.jsx("p",{children:s.jsx("strong",{children:o.title})})}),s.jsx(bd,{price:(w=t==null?void 0:t.cost)==null?void 0:w.totalAmount}),s.jsx("ul",{children:u.map(m=>s.jsx("li",{children:s.jsxs("small",{children:[m.name,": ",m.value]})},m.name))}),s.jsx(Wx,{line:t})]})]}),p?s.jsxs("div",{children:[s.jsxs("p",{id:y,className:"sr-only",children:["Line items with ",o.title]}),s.jsx("ul",{"aria-labelledby":y,className:"cart-line-children",children:p.map(m=>s.jsx(Sd,{childrenMap:r,line:m,layout:e},m.id))})]}):null]},n)}function Wx({line:e}){if(!e||typeof(e==null?void 0:e.quantity)>"u")return null;const{id:t,quantity:r,isOptimistic:n}=e,a=Number(Math.max(0,r-1).toFixed(0)),o=Number((r+1).toFixed(0)),i=b.useRef(null),l=tt({key:Cd([t])+"-input"});function u(c){if(c<1){i.current&&(i.current.value=String(r));return}if(c===r)return;const d=new FormData;d.append("cartFormInput",JSON.stringify({action:re.ACTIONS.LinesUpdate,inputs:{lines:[{id:t,quantity:c}]}})),l.submit(d,{method:"POST",action:"/cart"})}return s.jsxs("div",{className:"cart-line-quantity",children:[s.jsxs("div",{className:"cart-line-qty-controls",children:[s.jsx("label",{htmlFor:`qty-${t}`,className:"sr-only",children:"Qty"}),s.jsx(au,{lines:[{id:t,quantity:a}],children:s.jsx("button",{"aria-label":"Decrease quantity",disabled:r<=1||!!n,name:"decrease-quantity",value:a,children:s.jsx("span",{children:"−"})})}),s.jsx("input",{id:`qty-${t}`,ref:i,type:"number",className:"cart-line-qty-input",defaultValue:r,min:1,disabled:!!n,"aria-label":"Quantity",onBlur:c=>u(parseInt(c.target.value,10)),onKeyDown:c=>{c.key==="Enter"&&(c.preventDefault(),c.target.blur())}},r),s.jsx(au,{lines:[{id:t,quantity:o}],children:s.jsx("button",{"aria-label":"Increase quantity",name:"increase-quantity",value:o,disabled:!!n,children:s.jsx("span",{children:"+"})})})]}),s.jsx("div",{className:"cart-line-remove",children:s.jsx(Yx,{lineIds:[t],disabled:!!n})})]})}function Yx({lineIds:e,disabled:t}){return s.jsx(re,{fetcherKey:Gx(e),route:"/cart",action:re.ACTIONS.LinesRemove,inputs:{lineIds:e},children:s.jsx("button",{disabled:t,type:"submit",children:"Remove"})})}function au({children:e,lines:t}){const r=t.map(n=>n.id);return s.jsx(re,{fetcherKey:Cd(r),route:"/cart",action:re.ACTIONS.LinesUpdate,inputs:{lines:t},children:e})}function Cd(e){return[re.ACTIONS.LinesUpdate,...e].join("-")}function Gx(e){return[re.ACTIONS.LinesRemove,...e].join("-")}function Xx({cart:e,layout:t,isCartUpdating:r}){var a,o,i;const n=t==="page"?"cart-summary-page":"cart-summary-aside";return s.jsxs("div",{"aria-labelledby":"cart-summary",className:n,children:[s.jsx("h4",{children:"Totals"}),s.jsxs("dl",{className:"cart-subtotal",children:[s.jsx("dt",{children:"Subtotal"}),s.jsx("dd",{children:(o=(a=e==null?void 0:e.cost)==null?void 0:a.subtotalAmount)!=null&&o.amount?s.jsx(Ee,{data:(i=e==null?void 0:e.cost)==null?void 0:i.subtotalAmount}):"-"})]}),t==="page"&&s.jsx(Zx,{discountCodes:e==null?void 0:e.discountCodes}),t==="page"&&s.jsx(Qx,{giftCardCodes:e==null?void 0:e.appliedGiftCards}),s.jsx(Jx,{checkoutUrl:e==null?void 0:e.checkoutUrl,isCartUpdating:r})]})}function Jx({checkoutUrl:e,isCartUpdating:t}){if(!e)return null;const{close:r}=it(),a=Ae().pathname.match(/^\/(en-nz|en-au|en-us|en-za)/),o=a?a[0]:"";function i(l){if(t){l.preventDefault();return}r()}return s.jsxs("div",{className:"cart-checkout-actions",children:[s.jsx(Ie,{to:`${o}/checkout`,onClick:i,className:`checkout-primary-btn${t?" checkout-btn-disabled":""}`,"aria-disabled":t,style:t?{opacity:.5,cursor:"not-allowed",pointerEvents:"none"}:void 0,children:t?"Updating cart…":"Proceed to Checkout →"}),s.jsx("a",{href:e,target:"_self",onClick:i,className:`checkout-skip-btn${t?" checkout-btn-disabled":""}`,"aria-disabled":t,style:t?{opacity:.5,cursor:"not-allowed",pointerEvents:"none"}:void 0,children:"Skip to payment →"})]})}function Zx({discountCodes:e}){var r;const t=((r=e==null?void 0:e.filter(n=>n.applicable))==null?void 0:r.map(({code:n})=>n))||[];return s.jsxs("div",{children:[s.jsx("dl",{hidden:!t.length,children:s.jsxs("div",{children:[s.jsx("dt",{children:"Discount(s)"}),s.jsx(ou,{children:s.jsxs("div",{className:"cart-discount",children:[s.jsx("code",{children:t==null?void 0:t.join(", ")})," ",s.jsx("button",{type:"submit","aria-label":"Remove discount",children:"Remove"})]})})]})}),s.jsx(ou,{discountCodes:t,children:s.jsxs("div",{children:[s.jsx("label",{htmlFor:"discount-code-input",className:"sr-only",children:"Discount code"}),s.jsx("input",{id:"discount-code-input",type:"text",name:"discountCode",placeholder:"Discount code"})," ",s.jsx("button",{type:"submit","aria-label":"Apply discount code",children:"Apply"})]})})]})}function ou({discountCodes:e,children:t}){return s.jsx(re,{route:"/cart",action:re.ACTIONS.DiscountCodesUpdate,inputs:{discountCodes:e||[]},children:t})}function Qx({giftCardCodes:e}){const t=b.useRef(null),r=tt({key:"gift-card-add"});return b.useEffect(()=>{r.data&&(t.current.value="")},[r.data]),s.jsxs("div",{children:[e&&e.length>0&&s.jsxs("dl",{children:[s.jsx("dt",{children:"Applied Gift Card(s)"}),e.map(n=>s.jsx(ew,{giftCardId:n.id,children:s.jsxs("div",{className:"cart-discount",children:[s.jsxs("code",{children:["***",n.lastCharacters]})," ",s.jsx(Ee,{data:n.amountUsed})," ",s.jsx("button",{type:"submit",children:"Remove"})]})},n.id))]}),s.jsx(Kx,{fetcherKey:"gift-card-add",children:s.jsxs("div",{children:[s.jsx("input",{type:"text",name:"giftCardCode",placeholder:"Gift card code",ref:t})," ",s.jsx("button",{type:"submit",disabled:r.state!=="idle",children:"Apply"})]})})]})}function Kx({fetcherKey:e,children:t}){return s.jsx(re,{fetcherKey:e,route:"/cart",action:re.ACTIONS.GiftCardCodesAdd,children:t})}function ew({giftCardId:e,children:t}){return s.jsx(re,{route:"/cart",action:re.ACTIONS.GiftCardCodesRemove,inputs:{giftCardCodes:[e]},children:t})}function jd(e){var r;const t={};for(const n of e){if("parentRelationship"in n&&((r=n.parentRelationship)!=null&&r.parent)){const a=n.parentRelationship.parent.id;t[a]||(t[a]=[]),t[a].push(n)}if("lineComponents"in n){const a=jd(n.lineComponents);for(const[o,i]of Object.entries(a))a[o]||(a[o]=[]),a[o].push(...i)}}return t}function Ed({layout:e,cart:t}){var c,d,p,y,w,m;const r=ud(t),n=!!((d=(c=r==null?void 0:r.lines)==null?void 0:c.nodes)!=null&&d.length),o=`cart-main ${r&&!!((y=(p=r==null?void 0:r.discountCodes)==null?void 0:p.filter(S=>S.applicable))!=null&&y.length)?"with-discount":""}`,i=r!=null&&r.totalQuantity?r.totalQuantity>0:!1,l=!!(r!=null&&r.isOptimistic),u=jd(((w=r==null?void 0:r.lines)==null?void 0:w.nodes)??[]);return s.jsxs("div",{className:o,children:[s.jsx(rw,{hidden:n,layout:e}),s.jsxs("div",{className:"cart-details",children:[s.jsx("p",{id:"cart-lines",className:"sr-only",children:"Line items"}),s.jsx("div",{children:s.jsx("ul",{"aria-labelledby":"cart-lines",children:(((m=r==null?void 0:r.lines)==null?void 0:m.nodes)??[]).map(S=>{var x;return"parentRelationship"in S&&((x=S.parentRelationship)!=null&&x.parent)?null:s.jsx(Sd,{line:S,layout:e,childrenMap:u},S.id)})})}),i&&e==="aside"&&s.jsx(tw,{disabled:l}),i&&s.jsx(Xx,{cart:r,layout:e,isCartUpdating:l})]})]})}function tw({disabled:e}){const{close:t}=it();return s.jsx("div",{className:"continue-shopping",children:s.jsx("button",{type:"button",className:"continue-shopping-btn",onClick:t,disabled:e,"aria-disabled":e,children:"← Continue Shopping"})})}function rw({hidden:e=!1}){const{close:t}=it();return s.jsxs("div",{hidden:e,children:[s.jsx("br",{}),s.jsx("p",{children:"Looks like you haven’t added anything yet, let’s get you started!"}),s.jsx("br",{}),s.jsx(Ie,{to:"/collections",onClick:t,prefetch:"viewport",children:"Continue shopping →"})]})}const Is="/search";function kd({children:e,className:t="predictive-search-form",...r}){const n=tt({key:"search"}),a=b.useRef(null),o=jn(),i=it();function l(d){var p;d.preventDefault(),d.stopPropagation(),(p=a==null?void 0:a.current)!=null&&p.value&&a.current.blur()}function u(){var p;const d=(p=a==null?void 0:a.current)==null?void 0:p.value;o(Is+(d?`?q=${d}`:"")),i.close()}function c(d){n.submit({q:d.target.value||"",limit:5,predictive:!0},{method:"GET",action:Is})}return b.useEffect(()=>{var d;(d=a==null?void 0:a.current)==null||d.setAttribute("type","search")},[]),typeof e!="function"?null:s.jsx(n.Form,{...r,className:t,onSubmit:l,children:e({inputRef:a,fetcher:n,fetchResults:c,goToSearch:u})})}function nw(){return{total:0,items:{articles:[],collections:[],products:[],pages:[],queries:[]}}}function uo({baseUrl:e,trackingParams:t,params:r,term:n}){let a=new URLSearchParams({...r,q:encodeURIComponent(n)}).toString();return t&&(a=`${a}&${t}`),`${e}?${a}`}function Ke({children:e}){const t=it(),{term:r,inputRef:n,fetcher:a,total:o,items:i}=cw();function l(){n.current&&(n.current.blur(),n.current.value="")}function u(){l(),t.close()}return e({items:i,closeSearch:u,inputRef:n,state:a.state,term:r,total:o})}Ke.Articles=aw;Ke.Collections=ow;Ke.Pages=sw;Ke.Products=iw;Ke.Queries=lw;Ke.Empty=uw;function aw({term:e,articles:t,closeSearch:r}){return t.length?s.jsxs("div",{className:"predictive-search-result",children:[s.jsx("h5",{children:"Articles"}),s.jsx("ul",{children:t.map(n=>{var o;const a=uo({baseUrl:`/blogs/${n.blog.handle}/${n.handle}`,trackingParams:n.trackingParameters,term:e.current??""});return s.jsx("li",{className:"predictive-search-result-item",children:s.jsxs(Ie,{onClick:r,to:a,children:[((o=n.image)==null?void 0:o.url)&&s.jsx(gt,{alt:n.image.altText??"",src:n.image.url,width:50,height:50}),s.jsx("div",{children:s.jsx("span",{children:n.title})})]})},n.id)})})]},"articles"):null}function ow({term:e,collections:t,closeSearch:r}){return t.length?s.jsxs("div",{className:"predictive-search-result",children:[s.jsx("h5",{children:"Collections"}),s.jsx("ul",{children:t.map(n=>{var o;const a=uo({baseUrl:`/collections/${n.handle}`,trackingParams:n.trackingParameters,term:e.current});return s.jsx("li",{className:"predictive-search-result-item",children:s.jsxs(Ie,{onClick:r,to:a,children:[((o=n.image)==null?void 0:o.url)&&s.jsx(gt,{alt:n.image.altText??"",src:n.image.url,width:50,height:50}),s.jsx("div",{children:s.jsx("span",{children:n.title})})]})},n.id)})})]},"collections"):null}function sw({term:e,pages:t,closeSearch:r}){return t.length?s.jsxs("div",{className:"predictive-search-result",children:[s.jsx("h5",{children:"Pages"}),s.jsx("ul",{children:t.map(n=>{const a=uo({baseUrl:`/pages/${n.handle}`,trackingParams:n.trackingParameters,term:e.current});return s.jsx("li",{className:"predictive-search-result-item",children:s.jsx(Ie,{onClick:r,to:a,children:s.jsx("div",{children:s.jsx("span",{children:n.title})})})},n.id)})})]},"pages"):null}function iw({term:e,products:t,closeSearch:r}){return t.length?s.jsxs("div",{className:"predictive-search-result",children:[s.jsx("h5",{children:"Products"}),s.jsx("ul",{children:t.map(n=>{var l,u;const a=uo({baseUrl:`/products/${n.handle}`,trackingParams:n.trackingParameters,term:e.current}),o=(l=n==null?void 0:n.selectedOrFirstAvailableVariant)==null?void 0:l.price,i=(u=n==null?void 0:n.selectedOrFirstAvailableVariant)==null?void 0:u.image;return s.jsx("li",{className:"predictive-search-result-item",children:s.jsxs(Ie,{to:a,onClick:r,children:[i&&s.jsx(gt,{alt:i.altText??"",src:i.url,width:50,height:50}),s.jsxs("div",{children:[s.jsx("p",{children:n.title}),s.jsx("small",{children:o&&s.jsx(Ee,{data:o})})]})]})},n.id)})})]},"products"):null}function lw({queries:e,queriesDatalistId:t}){return e.length?s.jsx("datalist",{id:t,children:e.map(r=>r?s.jsx("option",{value:r.text},r.text):null)}):null}function uw({term:e}){return e.current?s.jsxs("p",{children:["No results found for ",s.jsx("q",{children:e.current})]}):null}function cw(){var o,i;const e=tt({key:"search"}),t=b.useRef(""),r=b.useRef(null);(e==null?void 0:e.state)==="loading"&&(t.current=String(((o=e.formData)==null?void 0:o.get("q"))||"")),b.useEffect(()=>{r.current||(r.current=document.querySelector('input[type="search"]'))},[]);const{items:n,total:a}=((i=e==null?void 0:e.data)==null?void 0:i.result)??nw();return{items:n,total:a,inputRef:r,term:t,fetcher:e}}function dw({cart:e,children:t=null,footer:r,footerBanner:n,header:a,isLoggedIn:o,customerFirstName:i,publicStoreDomain:l}){const u=Ae(),c=u.pathname==="/"||/^\/(en-nz|en-au|en-us|en-za)\/?$/.test(u.pathname),d=/^(\/(en-nz|en-au|en-us|en-za))?\/products\//.test(u.pathname),p=/^(\/(en-nz|en-au|en-us|en-za))?\/account/.test(u.pathname),y=/^(\/(en-nz|en-au|en-us|en-za|pages))?\/contact/.test(u.pathname),w=/^(\/(en-nz|en-au|en-us|en-za))?\/cart/.test(u.pathname),m=/^(\/(en-nz|en-au|en-us|en-za))?\/checkout/.test(u.pathname);return b.useEffect(()=>(c?document.body.classList.add("home-page"):document.body.classList.remove("home-page"),d?document.body.classList.add("product-page"):document.body.classList.remove("product-page"),p?document.body.classList.add("account-page"):document.body.classList.remove("account-page"),y?document.body.classList.add("contact-page"):document.body.classList.remove("contact-page"),w?document.body.classList.add("cart-page"):document.body.classList.remove("cart-page"),m?document.body.classList.add("checkout-page"):document.body.classList.remove("checkout-page"),()=>{document.body.classList.remove("home-page"),document.body.classList.remove("product-page"),document.body.classList.remove("account-page"),document.body.classList.remove("contact-page"),document.body.classList.remove("cart-page"),document.body.classList.remove("checkout-page")}),[c,d,p,y,w,m]),s.jsxs(On.Provider,{children:[s.jsx(fw,{cart:e}),s.jsx(hw,{}),s.jsx(pw,{header:a,publicStoreDomain:l}),a&&s.jsx(Dx,{header:a,cart:e,isLoggedIn:o,customerFirstName:i,publicStoreDomain:l,isHomePage:c}),s.jsx("main",{children:t}),s.jsx(Nx,{footer:r,footerBanner:n,header:a,publicStoreDomain:l})]})}function fw({cart:e}){return s.jsx(On,{type:"cart",heading:"CART",children:s.jsx(b.Suspense,{fallback:s.jsx("p",{children:"Loading cart ..."}),children:s.jsx(Or,{resolve:e,children:t=>s.jsx(Ed,{cart:t,layout:"aside"})})})})}function hw(){const e=b.useId();return s.jsx(On,{type:"search",heading:"SEARCH",children:s.jsxs("div",{className:"predictive-search",children:[s.jsx("br",{}),s.jsx(kd,{children:({fetchResults:t,goToSearch:r,inputRef:n})=>s.jsxs(s.Fragment,{children:[s.jsx("input",{name:"q",onChange:t,onFocus:t,placeholder:"Search",ref:n,type:"search",list:e})," ",s.jsx("button",{onClick:r,children:"Search"})]})}),s.jsx(Ke,{children:({items:t,total:r,term:n,state:a,closeSearch:o})=>{const{articles:i,collections:l,pages:u,products:c,queries:d}=t;return a==="loading"&&n.current?s.jsx("div",{children:"Loading..."}):r?s.jsxs(s.Fragment,{children:[s.jsx(Ke.Queries,{queries:d,queriesDatalistId:e}),s.jsx(Ke.Products,{products:c,closeSearch:o,term:n}),s.jsx(Ke.Collections,{collections:l,closeSearch:o,term:n}),s.jsx(Ke.Pages,{pages:u,closeSearch:o,term:n}),s.jsx(Ke.Articles,{articles:i,closeSearch:o,term:n}),n.current&&r?s.jsx(Ie,{onClick:o,to:`${Is}?q=${n.current}`,children:s.jsxs("p",{children:["View all results for ",s.jsx("q",{children:n.current}),"  →"]})}):null]}):s.jsx(Ke.Empty,{term:n})}})]})})}function pw({header:e,publicStoreDomain:t}){var r;return e.menu&&((r=e.shop.primaryDomain)==null?void 0:r.url)&&s.jsx(On,{type:"mobile",heading:"MENU",children:s.jsx(xd,{menu:e.menu,viewport:"mobile",primaryDomainUrl:e.shop.primaryDomain.url,publicStoreDomain:t})})}const mw=({formMethod:e,currentUrl:t,nextUrl:r})=>!!(e&&e!=="GET"||t.toString()===r.toString());function yw(){return[{rel:"preconnect",href:"https://cdn.shopify.com"},{rel:"preconnect",href:"https://shop.app"},{rel:"preconnect",href:"https://fonts.googleapis.com"},{rel:"preconnect",href:"https://fonts.gstatic.com",crossOrigin:"anonymous"},{rel:"stylesheet",href:"https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap"},{rel:"icon",type:"image/svg+xml",href:jx}]}async function gw(e){const t=xw(e),r=await vw(e),{storefront:n,env:a}=e.context;return{...t,...r,publicStoreDomain:a.PUBLIC_STORE_DOMAIN,shop:og({storefront:n,publicStorefrontId:a.PUBLIC_STOREFRONT_ID}),consent:{checkoutDomain:a.PUBLIC_CHECKOUT_DOMAIN,storefrontAccessToken:a.PUBLIC_STOREFRONT_API_TOKEN,withPrivacyBanner:!1,country:e.context.storefront.i18n.country,language:e.context.storefront.i18n.language}}}async function vw({context:e}){const{storefront:t}=e,[r]=await Promise.all([t.query(kx,{cache:t.CacheLong(),variables:{headerMenuHandle:"main-menu"}})]);return{header:r}}function xw({context:e}){const{storefront:t,customerAccount:r,cart:n}=e,a=t.i18n.country,o=n.get().then(async d=>{var y;if(!d)return d;const p=(y=d.buyerIdentity)==null?void 0:y.countryCode;return p&&p===a?d:(await n.updateBuyerIdentity({countryCode:a}),n.get())}).catch(d=>(console.error("[cart] buyerIdentity reconciliation error:",d),null)),i=r.isLoggedIn(),l=i.then(d=>d?r.query(_x).then(({data:p})=>{var y;return((y=p==null?void 0:p.customer)==null?void 0:y.firstName)??null}).catch(()=>null):null).catch(()=>null),u=t.query(Rx,{cache:t.CacheLong(),variables:{footerMenuHandle:"footer"}}).catch(d=>(console.error(d),null)),c=t.query(ww,{cache:t.CacheLong()}).then(d=>{var p,y;return((y=(p=d==null?void 0:d.metaobject)==null?void 0:p.field)==null?void 0:y.value)??null}).catch(()=>null);return{cart:o,isLoggedIn:i,customerFirstName:l,footer:u,footerBanner:c}}const ww=`#graphql
+`;
+
+const resetStyles = "/assets/reset-DEUlTc2F.css";
+
+const appStyles = "/assets/app--wSTb-cW.css";
+
+function Aside({
+  children,
+  heading,
+  type
+}) {
+  const { type: activeType, close } = useAside();
+  const expanded = type === activeType;
+  useEffect(() => {
+    const abortController = new AbortController();
+    if (expanded) {
+      document.addEventListener(
+        "keydown",
+        function handler(event) {
+          if (event.key === "Escape") {
+            close();
+          }
+        },
+        { signal: abortController.signal }
+      );
+    }
+    return () => abortController.abort();
+  }, [close, expanded]);
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      "aria-modal": true,
+      className: `overlay ${expanded ? "expanded" : ""}`,
+      role: "dialog",
+      children: [
+        /* @__PURE__ */ jsx("button", { className: "close-outside", onClick: close }),
+        /* @__PURE__ */ jsxs("aside", { children: [
+          /* @__PURE__ */ jsxs("header", { children: [
+            /* @__PURE__ */ jsx("h3", { children: heading }),
+            /* @__PURE__ */ jsx("button", { className: "close reset", onClick: close, "aria-label": "Close", children: "×" })
+          ] }),
+          /* @__PURE__ */ jsx("main", { children })
+        ] })
+      ]
+    }
+  );
+}
+const AsideContext = createContext(null);
+Aside.Provider = function AsideProvider({ children }) {
+  const [type, setType] = useState("closed");
+  return /* @__PURE__ */ jsx(
+    AsideContext.Provider,
+    {
+      value: {
+        type,
+        open: setType,
+        close: () => setType("closed")
+      },
+      children
+    }
+  );
+};
+function useAside() {
+  const aside = useContext(AsideContext);
+  if (!aside) {
+    throw new Error("useAside must be used within an AsideProvider");
+  }
+  return aside;
+}
+
+const VERSION = "2026.07.19\n";
+
+function Footer({
+  footer: footerPromise,
+  header,
+  publicStoreDomain,
+  footerBanner
+}) {
+  return /* @__PURE__ */ jsx(Suspense, { children: /* @__PURE__ */ jsx(Await, { resolve: footerPromise, children: (footer) => /* @__PURE__ */ jsxs("footer", { className: "footer", children: [
+    footerBanner && /* @__PURE__ */ jsx(Suspense, { children: /* @__PURE__ */ jsx(Await, { resolve: footerBanner, children: (bannerHtml) => bannerHtml ? /* @__PURE__ */ jsx(
+      "div",
+      {
+        className: "footer-banner bg-gray-900 text-white px-4 py-6 text-center",
+        dangerouslySetInnerHTML: { __html: bannerHtml }
+      }
+    ) : null }) }),
+    footer?.menu && header.shop.primaryDomain?.url && /* @__PURE__ */ jsx(
+      FooterMenu,
+      {
+        menu: footer.menu,
+        primaryDomainUrl: header.shop.primaryDomain.url,
+        publicStoreDomain
+      }
+    ),
+    /* @__PURE__ */ jsx(FooterUtilities, {}),
+    /* @__PURE__ */ jsx(FooterBrandBar, {})
+  ] }) }) });
+}
+function FooterBrandBar() {
+  return /* @__PURE__ */ jsxs("div", { className: "footer-brand", children: [
+    /* @__PURE__ */ jsxs("p", { className: "footer-copyright", children: [
+      "© ",
+      (/* @__PURE__ */ new Date()).getFullYear(),
+      " Hose World. All rights reserved."
+    ] }),
+    /* @__PURE__ */ jsxs("span", { className: "footer-version", children: [
+      "v",
+      VERSION.trim()
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "footer-powered-by", children: [
+      /* @__PURE__ */ jsx(
+        "img",
+        {
+          src: "/images/rn-logo_50-150dpi.png",
+          alt: "Rogue Nation",
+          className: "footer-powered-logo"
+        }
+      ),
+      /* @__PURE__ */ jsx("span", { children: "Powered by: Rogue Nation" })
+    ] })
+  ] });
+}
+function FooterUtilities() {
+  return /* @__PURE__ */ jsxs("div", { className: "footer-utilities flex justify-center gap-4 px-4 py-3 text-xs text-gray-400 border-t border-gray-800", children: [
+    /* @__PURE__ */ jsx(NavLink, { to: "/policies/privacy-policy", prefetch: "intent", children: "Privacy Policy" }),
+    /* @__PURE__ */ jsx(NavLink, { to: "/policies/terms-of-service", prefetch: "intent", children: "Terms of Service" }),
+    /* @__PURE__ */ jsx(NavLink, { to: "/policies/refund-policy", prefetch: "intent", children: "Refund Policy" }),
+    /* @__PURE__ */ jsx(NavLink, { to: "/policies/shipping-policy", prefetch: "intent", children: "Shipping Policy" })
+  ] });
+}
+function FooterMenu({
+  menu,
+  primaryDomainUrl,
+  publicStoreDomain
+}) {
+  return /* @__PURE__ */ jsx("nav", { className: "footer-menu", role: "navigation", children: (menu || FALLBACK_FOOTER_MENU).items.map((item) => {
+    if (!item.url) return null;
+    const url = item.url.includes("myshopify.com") || item.url.includes(publicStoreDomain) || item.url.includes(primaryDomainUrl) ? new URL(item.url).pathname : item.url;
+    const isExternal = !url.startsWith("/");
+    return isExternal ? /* @__PURE__ */ jsx("a", { href: url, rel: "noopener noreferrer", target: "_blank", children: item.title }, item.id) : /* @__PURE__ */ jsx(
+      NavLink,
+      {
+        end: true,
+        prefetch: "intent",
+        style: activeLinkStyle$1,
+        to: url,
+        children: item.title
+      },
+      item.id
+    );
+  }) });
+}
+const FALLBACK_FOOTER_MENU = {
+  items: [
+    {
+      id: "gid://shopify/MenuItem/461633060920",
+      resourceId: "gid://shopify/ShopPolicy/23358046264",
+      tags: [],
+      title: "Privacy Policy",
+      type: "SHOP_POLICY",
+      url: "/policies/privacy-policy",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461633093688",
+      resourceId: "gid://shopify/ShopPolicy/23358013496",
+      tags: [],
+      title: "Refund Policy",
+      type: "SHOP_POLICY",
+      url: "/policies/refund-policy",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461633126456",
+      resourceId: "gid://shopify/ShopPolicy/23358111800",
+      tags: [],
+      title: "Shipping Policy",
+      type: "SHOP_POLICY",
+      url: "/policies/shipping-policy",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461633159224",
+      resourceId: "gid://shopify/ShopPolicy/23358079032",
+      tags: [],
+      title: "Terms of Service",
+      type: "SHOP_POLICY",
+      url: "/policies/terms-of-service",
+      items: []
+    }
+  ]
+};
+function activeLinkStyle$1({
+  isActive,
+  isPending
+}) {
+  return {
+    fontWeight: isActive ? "bold" : void 0,
+    color: isPending ? "grey" : "white"
+  };
+}
+
+const LOCALES = [
+  { country: "ZA", language: "EN", label: "South Africa (ZAR)", prefix: "" },
+  { country: "NZ", language: "EN", label: "New Zealand (NZD)", prefix: "/en-nz" },
+  { country: "AU", language: "EN", label: "Australia (AUD)", prefix: "/en-au" },
+  { country: "US", language: "EN", label: "United States (USD)", prefix: "/en-us" }
+];
+function CountrySelector() {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const dropdownRef = useRef(null);
+  const fetcher = useFetcher();
+  const pendingNavRef = useRef(null);
+  const currentPrefix = `/${location.pathname.split("/")[1]?.toLowerCase() ?? ""}`;
+  const currentLocale = LOCALES.find((l) => l.prefix === currentPrefix) ?? LOCALES[0];
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  useEffect(() => {
+    if (fetcher.state === "idle" && pendingNavRef.current) {
+      const path = pendingNavRef.current;
+      pendingNavRef.current = null;
+      window.location.href = path;
+    }
+  }, [fetcher.state]);
+  function handleLocaleChange(locale) {
+    setIsOpen(false);
+    const pathWithoutPrefix = location.pathname.replace(
+      /^\/(en-nz|en-au|en-us|en-za)/,
+      ""
+    );
+    const newPath = locale.prefix + (pathWithoutPrefix || "/");
+    pendingNavRef.current = newPath;
+    const formData = new FormData();
+    formData.set(
+      CartForm.INPUT_NAME,
+      JSON.stringify({
+        action: CartForm.ACTIONS.BuyerIdentityUpdate,
+        inputs: { buyerIdentity: { countryCode: locale.country } }
+      })
+    );
+    fetcher.submit(formData, { method: "POST", action: "/cart" });
+  }
+  return /* @__PURE__ */ jsxs("div", { ref: dropdownRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        className: "reset text-sm",
+        onClick: () => setIsOpen(!isOpen),
+        "aria-expanded": isOpen,
+        "aria-label": "Select country",
+        children: [
+          /* @__PURE__ */ jsxs(
+            "svg",
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "16",
+              height: "16",
+              viewBox: "0 0 24 24",
+              fill: "none",
+              stroke: "currentColor",
+              strokeWidth: "2",
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              style: { display: "inline-block", verticalAlign: "middle", marginRight: "4px" },
+              children: [
+                /* @__PURE__ */ jsx("path", { d: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" }),
+                /* @__PURE__ */ jsx("circle", { cx: "12", cy: "10", r: "3" })
+              ]
+            }
+          ),
+          currentLocale.country
+        ]
+      }
+    ),
+    isOpen && /* @__PURE__ */ jsx("div", { className: "dropdown-panel absolute top-full right-0 mt-1 z-50 min-w-[180px]", children: LOCALES.map((locale) => /* @__PURE__ */ jsx(
+      "button",
+      {
+        className: `block w-full text-left px-4 py-2 text-sm ${locale.country === currentLocale.country ? "font-bold" : ""}`,
+        style: locale.country === currentLocale.country ? { background: "rgba(255, 255, 255, 0.15)" } : void 0,
+        onClick: () => handleLocaleChange(locale),
+        children: locale.label
+      },
+      locale.country
+    )) })
+  ] });
+}
+
+function Header({
+  header,
+  isLoggedIn,
+  customerFirstName,
+  cart,
+  publicStoreDomain,
+  isHomePage = false
+}) {
+  const { shop, menu } = header;
+  return /* @__PURE__ */ jsxs("div", { className: "header-hero", children: [
+    /* @__PURE__ */ jsxs("header", { className: "header site-header", children: [
+      /* @__PURE__ */ jsx(NavLink, { prefetch: "intent", to: "/", end: true, className: "flex items-center gap-2", children: /* @__PURE__ */ jsx(
+        "img",
+        {
+          src: "/images/260601-logo_rev-02.1.svg",
+          alt: shop.name,
+          className: "h-auto",
+          style: { width: "clamp(160px, 11.25vw, 300px)" }
+        }
+      ) }),
+      /* @__PURE__ */ jsx(
+        HeaderMenu,
+        {
+          menu,
+          viewport: "desktop",
+          primaryDomainUrl: header.shop.primaryDomain.url,
+          publicStoreDomain
+        }
+      ),
+      /* @__PURE__ */ jsx(HeaderCtas, { isLoggedIn, customerFirstName, cart })
+    ] }),
+    isHomePage && /* @__PURE__ */ jsx("div", { className: "header-tagline", children: /* @__PURE__ */ jsx("p", { children: "PROUDLY SERVING OUR CLIENTS FOR OVER 25 YEARS" }) })
+  ] });
+}
+function HeaderMenu({
+  menu,
+  primaryDomainUrl,
+  viewport,
+  publicStoreDomain
+}) {
+  const className = `header-menu-${viewport}`;
+  const { close } = useAside();
+  return /* @__PURE__ */ jsxs("nav", { className, role: "navigation", children: [
+    viewport === "mobile" && /* @__PURE__ */ jsx(
+      NavLink,
+      {
+        end: true,
+        onClick: close,
+        prefetch: "intent",
+        style: activeLinkStyle(),
+        to: "/",
+        children: "Home"
+      }
+    ),
+    (menu || FALLBACK_HEADER_MENU).items.map((item) => {
+      if (!item.url) return null;
+      const url = item.url.includes("myshopify.com") || item.url.includes(publicStoreDomain) || item.url.includes(primaryDomainUrl) ? new URL(item.url).pathname : item.url;
+      return /* @__PURE__ */ jsx(
+        NavLink,
+        {
+          className: "header-menu-item",
+          end: true,
+          onClick: close,
+          prefetch: "intent",
+          style: activeLinkStyle(),
+          to: url,
+          children: item.title
+        },
+        item.id
+      );
+    })
+  ] });
+}
+function AccountIcon() {
+  return /* @__PURE__ */ jsxs(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      children: [
+        /* @__PURE__ */ jsx("path", { d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" }),
+        /* @__PURE__ */ jsx("circle", { cx: "12", cy: "7", r: "4" })
+      ]
+    }
+  );
+}
+function HeaderCtas({
+  isLoggedIn,
+  customerFirstName,
+  cart
+}) {
+  return /* @__PURE__ */ jsxs("nav", { className: "header-ctas", role: "navigation", children: [
+    /* @__PURE__ */ jsx(HeaderMenuMobileToggle, {}),
+    /* @__PURE__ */ jsx(CountrySelector, {}),
+    /* @__PURE__ */ jsx(
+      Suspense,
+      {
+        fallback: /* @__PURE__ */ jsx(NavLink, { prefetch: "intent", to: "/account/login", "aria-label": "Sign in", children: /* @__PURE__ */ jsx(AccountIcon, {}) }),
+        children: /* @__PURE__ */ jsx(Await, { resolve: isLoggedIn, children: (loggedIn) => loggedIn ? /* @__PURE__ */ jsxs(
+          NavLink,
+          {
+            prefetch: "intent",
+            to: "/account",
+            "aria-label": "Account",
+            className: "header-account-link",
+            children: [
+              /* @__PURE__ */ jsx(AccountIcon, {}),
+              customerFirstName && /* @__PURE__ */ jsx(Suspense, { fallback: null, children: /* @__PURE__ */ jsx(Await, { resolve: customerFirstName, children: (name) => name ? /* @__PURE__ */ jsx("span", { className: "header-customer-name", children: name }) : null }) })
+            ]
+          }
+        ) : /* @__PURE__ */ jsx(NavLink, { prefetch: "intent", to: "/account/login", "aria-label": "Sign in", children: /* @__PURE__ */ jsx(AccountIcon, {}) }) })
+      }
+    ),
+    /* @__PURE__ */ jsx(WishlistToggle, {}),
+    /* @__PURE__ */ jsx(SearchToggle, {}),
+    /* @__PURE__ */ jsx(CartToggle, { cart })
+  ] });
+}
+function WishlistToggle() {
+  return /* @__PURE__ */ jsx(
+    NavLink,
+    {
+      prefetch: "intent",
+      to: "/account/wishlist",
+      "aria-label": "Wish List",
+      title: "Wish List",
+      children: /* @__PURE__ */ jsx(
+        "svg",
+        {
+          xmlns: "http://www.w3.org/2000/svg",
+          width: "20",
+          height: "20",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          children: /* @__PURE__ */ jsx("path", { d: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" })
+        }
+      )
+    }
+  );
+}
+function HeaderMenuMobileToggle() {
+  const { open } = useAside();
+  return /* @__PURE__ */ jsx(
+    "button",
+    {
+      className: "header-menu-mobile-toggle reset",
+      onClick: () => open("mobile"),
+      "aria-label": "Menu",
+      children: /* @__PURE__ */ jsxs(
+        "svg",
+        {
+          xmlns: "http://www.w3.org/2000/svg",
+          width: "20",
+          height: "20",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          children: [
+            /* @__PURE__ */ jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }),
+            /* @__PURE__ */ jsx("line", { x1: "3", y1: "12", x2: "21", y2: "12" }),
+            /* @__PURE__ */ jsx("line", { x1: "3", y1: "18", x2: "21", y2: "18" })
+          ]
+        }
+      )
+    }
+  );
+}
+function SearchToggle() {
+  const { open } = useAside();
+  return /* @__PURE__ */ jsx("button", { className: "reset", onClick: () => open("search"), "aria-label": "Search", children: /* @__PURE__ */ jsxs(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      children: [
+        /* @__PURE__ */ jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsx("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
+      ]
+    }
+  ) });
+}
+function CartBadge({ count }) {
+  const { open } = useAside();
+  const { publish, shop, cart, prevCart } = useAnalytics();
+  return /* @__PURE__ */ jsxs(
+    "a",
+    {
+      href: "/cart",
+      className: "cart-icon-wrapper",
+      "aria-label": `Cart${count ? ` (${count} items)` : ""}`,
+      onClick: (e) => {
+        e.preventDefault();
+        open("cart");
+        publish("cart_viewed", {
+          cart,
+          prevCart,
+          shop,
+          url: window.location.href || ""
+        });
+      },
+      children: [
+        /* @__PURE__ */ jsxs(
+          "svg",
+          {
+            xmlns: "http://www.w3.org/2000/svg",
+            width: "20",
+            height: "20",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            children: [
+              /* @__PURE__ */ jsx("path", { d: "M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" }),
+              /* @__PURE__ */ jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }),
+              /* @__PURE__ */ jsx("path", { d: "M16 10a4 4 0 0 1-8 0" })
+            ]
+          }
+        ),
+        count !== null && count > 0 && /* @__PURE__ */ jsx("span", { className: "cart-badge", children: count })
+      ]
+    }
+  );
+}
+function CartToggle({ cart }) {
+  return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(CartBadge, { count: null }), children: /* @__PURE__ */ jsx(Await, { resolve: cart, children: /* @__PURE__ */ jsx(CartBanner, {}) }) });
+}
+function CartBanner() {
+  const originalCart = useAsyncValue();
+  const cart = useOptimisticCart(originalCart);
+  return /* @__PURE__ */ jsx(CartBadge, { count: cart?.totalQuantity ?? 0 });
+}
+const FALLBACK_HEADER_MENU = {
+  items: [
+    {
+      id: "gid://shopify/MenuItem/461609500728",
+      resourceId: null,
+      tags: [],
+      title: "Collections",
+      type: "HTTP",
+      url: "/collections",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461609533496",
+      resourceId: null,
+      tags: [],
+      title: "Blog",
+      type: "HTTP",
+      url: "/blogs/journal",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461609566264",
+      resourceId: null,
+      tags: [],
+      title: "Policies",
+      type: "HTTP",
+      url: "/policies",
+      items: []
+    },
+    {
+      id: "gid://shopify/MenuItem/461609599032",
+      resourceId: "gid://shopify/Page/92591030328",
+      tags: [],
+      title: "About",
+      type: "PAGE",
+      url: "/pages/about",
+      items: []
+    }
+  ]
+};
+function activeLinkStyle(viewport) {
+  return ({
+    isActive,
+    isPending
+  }) => ({
+    fontWeight: isActive ? "bold" : void 0,
+    color: isPending ? "rgba(255,255,255,0.6)" : "white"
+  });
+}
+
+function useVariantUrl(handle, selectedOptions) {
+  const { pathname } = useLocation();
+  return useMemo(() => {
+    return getVariantUrl({
+      handle,
+      pathname,
+      searchParams: new URLSearchParams(),
+      selectedOptions
+    });
+  }, [handle, selectedOptions, pathname]);
+}
+function getVariantUrl({
+  handle,
+  pathname,
+  searchParams,
+  selectedOptions
+}) {
+  const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
+  const isLocalePathname = match && match.length > 0;
+  const path = isLocalePathname ? `${match[0]}products/${handle}` : `/products/${handle}`;
+  selectedOptions?.forEach((option) => {
+    searchParams.set(option.name, option.value);
+  });
+  const searchString = searchParams.toString();
+  return path + (searchString ? "?" + searchParams.toString() : "");
+}
+
+function ProductPrice({
+  price,
+  compareAtPrice
+}) {
+  return /* @__PURE__ */ jsx("div", { className: "product-price", children: compareAtPrice ? /* @__PURE__ */ jsxs("div", { className: "product-price-on-sale", children: [
+    price ? /* @__PURE__ */ jsx(Money, { data: price }) : null,
+    /* @__PURE__ */ jsx("s", { children: /* @__PURE__ */ jsx(Money, { data: compareAtPrice }) })
+  ] }) : price ? /* @__PURE__ */ jsx(Money, { data: price }) : /* @__PURE__ */ jsx("span", { children: " " }) });
+}
+
+const DISPLAY_VAT_RATE = 0.15;
+function withDisplayVat(money) {
+  return {
+    ...money,
+    amount: (parseFloat(money.amount) * (1 + DISPLAY_VAT_RATE)).toFixed(2)
+  };
+}
+function displayVatOnly(money) {
+  return {
+    ...money,
+    amount: (parseFloat(money.amount) * DISPLAY_VAT_RATE).toFixed(2)
+  };
+}
+
+function CartLineItem({
+  layout,
+  line,
+  childrenMap
+}) {
+  const { id, merchandise } = line;
+  const { product, title, image, selectedOptions } = merchandise;
+  const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
+  const { close } = useAside();
+  const lineItemChildren = childrenMap[id];
+  const childrenLabelId = `cart-line-children-${id}`;
+  return /* @__PURE__ */ jsxs("li", { className: "cart-line", children: [
+    /* @__PURE__ */ jsxs("div", { className: "cart-line-inner", children: [
+      image && /* @__PURE__ */ jsx(
+        Image,
+        {
+          alt: title,
+          aspectRatio: "1/1",
+          data: image,
+          height: 100,
+          loading: "lazy",
+          width: 100
+        }
+      ),
+      /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx(
+          Link,
+          {
+            prefetch: "intent",
+            to: lineItemUrl,
+            onClick: () => {
+              if (layout === "aside") {
+                close();
+              }
+            },
+            children: /* @__PURE__ */ jsx("p", { children: /* @__PURE__ */ jsx("strong", { children: product.title }) })
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          ProductPrice,
+          {
+            price: line?.cost?.totalAmount ? withDisplayVat(line.cost.totalAmount) : void 0
+          }
+        ),
+        /* @__PURE__ */ jsx("ul", { children: selectedOptions.map((option) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs("small", { children: [
+          option.name,
+          ": ",
+          option.value
+        ] }) }, option.name)) }),
+        /* @__PURE__ */ jsx(CartLineQuantity, { line })
+      ] })
+    ] }),
+    lineItemChildren ? /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs("p", { id: childrenLabelId, className: "sr-only", children: [
+        "Line items with ",
+        product.title
+      ] }),
+      /* @__PURE__ */ jsx("ul", { "aria-labelledby": childrenLabelId, className: "cart-line-children", children: lineItemChildren.map((childLine) => /* @__PURE__ */ jsx(
+        CartLineItem,
+        {
+          childrenMap,
+          line: childLine,
+          layout
+        },
+        childLine.id
+      )) })
+    ] }) : null
+  ] }, id);
+}
+function CartLineQuantity({ line }) {
+  if (!line || typeof line?.quantity === "undefined") return null;
+  const { id: lineId, quantity, isOptimistic, merchandise } = line;
+  const msqValue = Number(merchandise?.product?.msq?.value);
+  const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
+  const prevQuantity = Number(Math.max(msq, quantity - msq).toFixed(0));
+  const nextQuantity = Number((quantity + msq).toFixed(0));
+  const inputRef = useRef(null);
+  const fetcher = useFetcher({ key: getUpdateKey([lineId]) + "-input" });
+  function submitQuantity(rawQty) {
+    if (!Number.isFinite(rawQty)) {
+      if (inputRef.current) inputRef.current.value = String(quantity);
+      return;
+    }
+    const newQty = Math.max(msq, Math.round(rawQty / msq) * msq);
+    if (inputRef.current) inputRef.current.value = String(newQty);
+    if (newQty === quantity) return;
+    const formData = new FormData();
+    formData.append(
+      "cartFormInput",
+      JSON.stringify({
+        action: CartForm.ACTIONS.LinesUpdate,
+        inputs: { lines: [{ id: lineId, quantity: newQty }] }
+      })
+    );
+    fetcher.submit(formData, { method: "POST", action: "/cart" });
+  }
+  return /* @__PURE__ */ jsxs("div", { className: "cart-line-quantity", children: [
+    /* @__PURE__ */ jsxs("div", { className: "cart-line-qty-controls", children: [
+      /* @__PURE__ */ jsx("label", { htmlFor: `qty-${lineId}`, className: "sr-only", children: "Qty" }),
+      /* @__PURE__ */ jsx(CartLineUpdateButton, { lines: [{ id: lineId, quantity: prevQuantity }], children: /* @__PURE__ */ jsx(
+        "button",
+        {
+          "aria-label": "Decrease quantity",
+          disabled: quantity <= msq || !!isOptimistic,
+          name: "decrease-quantity",
+          value: prevQuantity,
+          children: /* @__PURE__ */ jsx("span", { children: "−" })
+        }
+      ) }),
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          id: `qty-${lineId}`,
+          ref: inputRef,
+          type: "number",
+          className: "cart-line-qty-input",
+          defaultValue: quantity,
+          min: msq,
+          step: msq,
+          disabled: !!isOptimistic,
+          "aria-label": "Quantity",
+          onBlur: (e) => submitQuantity(parseInt(e.target.value, 10)),
+          onKeyDown: (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              e.target.blur();
+            }
+          }
+        },
+        quantity
+      ),
+      /* @__PURE__ */ jsx(CartLineUpdateButton, { lines: [{ id: lineId, quantity: nextQuantity }], children: /* @__PURE__ */ jsx(
+        "button",
+        {
+          "aria-label": "Increase quantity",
+          name: "increase-quantity",
+          value: nextQuantity,
+          disabled: !!isOptimistic,
+          children: /* @__PURE__ */ jsx("span", { children: "+" })
+        }
+      ) })
+    ] }),
+    msq > 1 && /* @__PURE__ */ jsxs("p", { className: "cart-line-moq-note", children: [
+      "Sold in multiples of ",
+      msq
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "cart-line-remove", children: /* @__PURE__ */ jsx(CartLineRemoveButton, { lineIds: [lineId], disabled: !!isOptimistic }) })
+  ] });
+}
+function CartLineRemoveButton({
+  lineIds,
+  disabled
+}) {
+  return /* @__PURE__ */ jsx(
+    CartForm,
+    {
+      fetcherKey: getRemoveKey(lineIds),
+      route: "/cart",
+      action: CartForm.ACTIONS.LinesRemove,
+      inputs: { lineIds },
+      children: /* @__PURE__ */ jsx("button", { disabled, type: "submit", children: "Remove" })
+    }
+  );
+}
+function CartLineUpdateButton({
+  children,
+  lines
+}) {
+  const lineIds = lines.map((line) => line.id);
+  return /* @__PURE__ */ jsx(
+    CartForm,
+    {
+      fetcherKey: getUpdateKey(lineIds),
+      route: "/cart",
+      action: CartForm.ACTIONS.LinesUpdate,
+      inputs: { lines },
+      children
+    }
+  );
+}
+function getUpdateKey(lineIds) {
+  return [CartForm.ACTIONS.LinesUpdate, ...lineIds].join("-");
+}
+function getRemoveKey(lineIds) {
+  return [CartForm.ACTIONS.LinesRemove, ...lineIds].join("-");
+}
+
+function CartSummary({ cart, layout, isCartUpdating }) {
+  const className = layout === "page" ? "cart-summary-page" : "cart-summary-aside";
+  return /* @__PURE__ */ jsxs("div", { "aria-labelledby": "cart-summary", className, children: [
+    /* @__PURE__ */ jsx("h4", { children: "Totals" }),
+    /* @__PURE__ */ jsxs("dl", { className: "cart-subtotal", children: [
+      /* @__PURE__ */ jsx("dt", { children: "Subtotal (excl. VAT)" }),
+      /* @__PURE__ */ jsx("dd", { children: cart?.cost?.subtotalAmount?.amount ? /* @__PURE__ */ jsx(Money, { data: cart?.cost?.subtotalAmount }) : "-" })
+    ] }),
+    cart?.cost?.subtotalAmount?.amount && /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsxs("dl", { className: "cart-vat", children: [
+        /* @__PURE__ */ jsx("dt", { children: "VAT" }),
+        /* @__PURE__ */ jsx("dd", { children: /* @__PURE__ */ jsx(Money, { data: displayVatOnly(cart.cost.subtotalAmount) }) })
+      ] }),
+      /* @__PURE__ */ jsxs("dl", { className: "cart-total-incl-vat", children: [
+        /* @__PURE__ */ jsx("dt", { children: "Total (incl. VAT)" }),
+        /* @__PURE__ */ jsx("dd", { children: /* @__PURE__ */ jsx(Money, { data: withDisplayVat(cart.cost.subtotalAmount) }) })
+      ] })
+    ] }),
+    layout === "page" && /* @__PURE__ */ jsx(CartDiscounts, { discountCodes: cart?.discountCodes }),
+    layout === "page" && /* @__PURE__ */ jsx(CartGiftCard, { giftCardCodes: cart?.appliedGiftCards }),
+    /* @__PURE__ */ jsx(CartCheckoutActions, { checkoutUrl: cart?.checkoutUrl, isCartUpdating })
+  ] });
+}
+function CartCheckoutActions({
+  checkoutUrl,
+  isCartUpdating
+}) {
+  if (!checkoutUrl) return null;
+  const { close } = useAside();
+  const location = useLocation();
+  const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
+  const localePrefix = localeMatch ? localeMatch[0] : "";
+  function handleCheckoutClick(e) {
+    if (isCartUpdating) {
+      e.preventDefault();
+      return;
+    }
+    close();
+  }
+  return /* @__PURE__ */ jsx("div", { className: "cart-checkout-actions", children: /* @__PURE__ */ jsx(
+    Link,
+    {
+      to: `${localePrefix}/checkout`,
+      onClick: handleCheckoutClick,
+      className: `checkout-primary-btn${isCartUpdating ? " checkout-btn-disabled" : ""}`,
+      "aria-disabled": isCartUpdating,
+      style: isCartUpdating ? { opacity: 0.5, cursor: "not-allowed", pointerEvents: "none" } : void 0,
+      children: isCartUpdating ? "Updating cart…" : "Proceed to Checkout →"
+    }
+  ) });
+}
+function CartDiscounts({
+  discountCodes
+}) {
+  const codes = discountCodes?.filter((discount) => discount.applicable)?.map(({ code }) => code) || [];
+  return /* @__PURE__ */ jsxs("div", { children: [
+    /* @__PURE__ */ jsx("dl", { hidden: !codes.length, children: /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsx("dt", { children: "Discount(s)" }),
+      /* @__PURE__ */ jsx(UpdateDiscountForm, { children: /* @__PURE__ */ jsxs("div", { className: "cart-discount", children: [
+        /* @__PURE__ */ jsx("code", { children: codes?.join(", ") }),
+        " ",
+        /* @__PURE__ */ jsx("button", { type: "submit", "aria-label": "Remove discount", children: "Remove" })
+      ] }) })
+    ] }) }),
+    /* @__PURE__ */ jsx(UpdateDiscountForm, { discountCodes: codes, children: /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsx("label", { htmlFor: "discount-code-input", className: "sr-only", children: "Discount code" }),
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          id: "discount-code-input",
+          type: "text",
+          name: "discountCode",
+          placeholder: "Discount code"
+        }
+      ),
+      " ",
+      /* @__PURE__ */ jsx("button", { type: "submit", "aria-label": "Apply discount code", children: "Apply" })
+    ] }) })
+  ] });
+}
+function UpdateDiscountForm({
+  discountCodes,
+  children
+}) {
+  return /* @__PURE__ */ jsx(
+    CartForm,
+    {
+      route: "/cart",
+      action: CartForm.ACTIONS.DiscountCodesUpdate,
+      inputs: {
+        discountCodes: discountCodes || []
+      },
+      children
+    }
+  );
+}
+function CartGiftCard({
+  giftCardCodes
+}) {
+  const giftCardCodeInput = useRef(null);
+  const giftCardAddFetcher = useFetcher({ key: "gift-card-add" });
+  useEffect(() => {
+    if (giftCardAddFetcher.data) {
+      giftCardCodeInput.current.value = "";
+    }
+  }, [giftCardAddFetcher.data]);
+  return /* @__PURE__ */ jsxs("div", { children: [
+    giftCardCodes && giftCardCodes.length > 0 && /* @__PURE__ */ jsxs("dl", { children: [
+      /* @__PURE__ */ jsx("dt", { children: "Applied Gift Card(s)" }),
+      giftCardCodes.map((giftCard) => /* @__PURE__ */ jsx(RemoveGiftCardForm, { giftCardId: giftCard.id, children: /* @__PURE__ */ jsxs("div", { className: "cart-discount", children: [
+        /* @__PURE__ */ jsxs("code", { children: [
+          "***",
+          giftCard.lastCharacters
+        ] }),
+        " ",
+        /* @__PURE__ */ jsx(Money, { data: giftCard.amountUsed }),
+        " ",
+        /* @__PURE__ */ jsx("button", { type: "submit", children: "Remove" })
+      ] }) }, giftCard.id))
+    ] }),
+    /* @__PURE__ */ jsx(AddGiftCardForm, { fetcherKey: "gift-card-add", children: /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          type: "text",
+          name: "giftCardCode",
+          placeholder: "Gift card code",
+          ref: giftCardCodeInput
+        }
+      ),
+      " ",
+      /* @__PURE__ */ jsx("button", { type: "submit", disabled: giftCardAddFetcher.state !== "idle", children: "Apply" })
+    ] }) })
+  ] });
+}
+function AddGiftCardForm({
+  fetcherKey,
+  children
+}) {
+  return /* @__PURE__ */ jsx(
+    CartForm,
+    {
+      fetcherKey,
+      route: "/cart",
+      action: CartForm.ACTIONS.GiftCardCodesAdd,
+      children
+    }
+  );
+}
+function RemoveGiftCardForm({
+  giftCardId,
+  children
+}) {
+  return /* @__PURE__ */ jsx(
+    CartForm,
+    {
+      route: "/cart",
+      action: CartForm.ACTIONS.GiftCardCodesRemove,
+      inputs: {
+        giftCardCodes: [giftCardId]
+      },
+      children
+    }
+  );
+}
+
+function getLineItemChildrenMap(lines) {
+  const children = {};
+  for (const line of lines) {
+    if ("parentRelationship" in line && line.parentRelationship?.parent) {
+      const parentId = line.parentRelationship.parent.id;
+      if (!children[parentId]) children[parentId] = [];
+      children[parentId].push(line);
+    }
+    if ("lineComponents" in line) {
+      const children2 = getLineItemChildrenMap(line.lineComponents);
+      for (const [parentId, childIds] of Object.entries(children2)) {
+        if (!children2[parentId]) children2[parentId] = [];
+        children2[parentId].push(...childIds);
+      }
+    }
+  }
+  return children;
+}
+function CartMain({ layout, cart: originalCart }) {
+  const cart = useOptimisticCart(originalCart);
+  const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
+  const withDiscount = cart && Boolean(cart?.discountCodes?.filter((code) => code.applicable)?.length);
+  const className = `cart-main ${withDiscount ? "with-discount" : ""}`;
+  const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
+  const isCartUpdating = !!cart?.isOptimistic;
+  const childrenMap = getLineItemChildrenMap(cart?.lines?.nodes ?? []);
+  return /* @__PURE__ */ jsxs("div", { className, children: [
+    /* @__PURE__ */ jsx(CartEmpty, { hidden: linesCount, layout }),
+    /* @__PURE__ */ jsxs("div", { className: "cart-details", children: [
+      /* @__PURE__ */ jsx("p", { id: "cart-lines", className: "sr-only", children: "Line items" }),
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("ul", { "aria-labelledby": "cart-lines", children: (cart?.lines?.nodes ?? []).map((line) => {
+        if ("parentRelationship" in line && line.parentRelationship?.parent) {
+          return null;
+        }
+        return /* @__PURE__ */ jsx(
+          CartLineItem,
+          {
+            line,
+            layout,
+            childrenMap
+          },
+          line.id
+        );
+      }) }) }),
+      cartHasItems && layout === "aside" && /* @__PURE__ */ jsx(ContinueShopping, { disabled: isCartUpdating }),
+      cartHasItems && /* @__PURE__ */ jsx(CartSummary, { cart, layout, isCartUpdating })
+    ] })
+  ] });
+}
+function ContinueShopping({ disabled }) {
+  const { close } = useAside();
+  return /* @__PURE__ */ jsx("div", { className: "continue-shopping", children: /* @__PURE__ */ jsx(
+    "button",
+    {
+      type: "button",
+      className: "continue-shopping-btn",
+      onClick: close,
+      disabled,
+      "aria-disabled": disabled,
+      children: "← Continue Shopping"
+    }
+  ) });
+}
+function CartEmpty({
+  hidden = false
+}) {
+  const { close } = useAside();
+  return /* @__PURE__ */ jsxs("div", { hidden, children: [
+    /* @__PURE__ */ jsx("br", {}),
+    /* @__PURE__ */ jsx("p", { children: "Looks like you haven’t added anything yet, let’s get you started!" }),
+    /* @__PURE__ */ jsx("br", {}),
+    /* @__PURE__ */ jsx(Link, { to: "/collections", onClick: close, prefetch: "viewport", children: "Continue shopping →" })
+  ] });
+}
+
+const SEARCH_ENDPOINT = "/search";
+function SearchFormPredictive({
+  children,
+  className = "predictive-search-form",
+  ...props
+}) {
+  const fetcher = useFetcher({ key: "search" });
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
+  const aside = useAside();
+  function resetInput(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (inputRef?.current?.value) {
+      inputRef.current.blur();
+    }
+  }
+  function goToSearch() {
+    const term = inputRef?.current?.value;
+    void navigate(SEARCH_ENDPOINT + (term ? `?q=${term}` : ""));
+    aside.close();
+  }
+  function fetchResults(event) {
+    void fetcher.submit(
+      { q: event.target.value || "", limit: 5, predictive: true },
+      { method: "GET", action: SEARCH_ENDPOINT }
+    );
+  }
+  useEffect(() => {
+    inputRef?.current?.setAttribute("type", "search");
+  }, []);
+  if (typeof children !== "function") {
+    return null;
+  }
+  return /* @__PURE__ */ jsx(fetcher.Form, { ...props, className, onSubmit: resetInput, children: children({ inputRef, fetcher, fetchResults, goToSearch }) });
+}
+
+function getEmptyPredictiveSearchResult() {
+  return {
+    total: 0,
+    items: {
+      articles: [],
+      collections: [],
+      products: [],
+      pages: [],
+      queries: []
+    }
+  };
+}
+function urlWithTrackingParams({
+  baseUrl,
+  trackingParams,
+  params: extraParams,
+  term
+}) {
+  let search = new URLSearchParams({
+    ...extraParams,
+    q: encodeURIComponent(term)
+  }).toString();
+  if (trackingParams) {
+    search = `${search}&${trackingParams}`;
+  }
+  return `${baseUrl}?${search}`;
+}
+
+function SearchResultsPredictive({
+  children
+}) {
+  const aside = useAside();
+  const { term, inputRef, fetcher, total, items } = usePredictiveSearch();
+  function resetInput() {
+    if (inputRef.current) {
+      inputRef.current.blur();
+      inputRef.current.value = "";
+    }
+  }
+  function closeSearch() {
+    resetInput();
+    aside.close();
+  }
+  return children({
+    items,
+    closeSearch,
+    inputRef,
+    state: fetcher.state,
+    term,
+    total
+  });
+}
+SearchResultsPredictive.Articles = SearchResultsPredictiveArticles;
+SearchResultsPredictive.Collections = SearchResultsPredictiveCollections;
+SearchResultsPredictive.Pages = SearchResultsPredictivePages;
+SearchResultsPredictive.Products = SearchResultsPredictiveProducts;
+SearchResultsPredictive.Queries = SearchResultsPredictiveQueries;
+SearchResultsPredictive.Empty = SearchResultsPredictiveEmpty;
+function SearchResultsPredictiveArticles({
+  term,
+  articles,
+  closeSearch
+}) {
+  if (!articles.length) return null;
+  return /* @__PURE__ */ jsxs("div", { className: "predictive-search-result", children: [
+    /* @__PURE__ */ jsx("h5", { children: "Articles" }),
+    /* @__PURE__ */ jsx("ul", { children: articles.map((article) => {
+      const articleUrl = urlWithTrackingParams({
+        baseUrl: `/blogs/${article.blog.handle}/${article.handle}`,
+        trackingParams: article.trackingParameters,
+        term: term.current ?? ""
+      });
+      return /* @__PURE__ */ jsx("li", { className: "predictive-search-result-item", children: /* @__PURE__ */ jsxs(Link, { onClick: closeSearch, to: articleUrl, children: [
+        article.image?.url && /* @__PURE__ */ jsx(
+          Image,
+          {
+            alt: article.image.altText ?? "",
+            src: article.image.url,
+            width: 50,
+            height: 50
+          }
+        ),
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("span", { children: article.title }) })
+      ] }) }, article.id);
+    }) })
+  ] }, "articles");
+}
+function SearchResultsPredictiveCollections({
+  term,
+  collections,
+  closeSearch
+}) {
+  if (!collections.length) return null;
+  return /* @__PURE__ */ jsxs("div", { className: "predictive-search-result", children: [
+    /* @__PURE__ */ jsx("h5", { children: "Collections" }),
+    /* @__PURE__ */ jsx("ul", { children: collections.map((collection) => {
+      const collectionUrl = urlWithTrackingParams({
+        baseUrl: `/collections/${collection.handle}`,
+        trackingParams: collection.trackingParameters,
+        term: term.current
+      });
+      return /* @__PURE__ */ jsx("li", { className: "predictive-search-result-item", children: /* @__PURE__ */ jsxs(Link, { onClick: closeSearch, to: collectionUrl, children: [
+        collection.image?.url && /* @__PURE__ */ jsx(
+          Image,
+          {
+            alt: collection.image.altText ?? "",
+            src: collection.image.url,
+            width: 50,
+            height: 50
+          }
+        ),
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("span", { children: collection.title }) })
+      ] }) }, collection.id);
+    }) })
+  ] }, "collections");
+}
+function SearchResultsPredictivePages({
+  term,
+  pages,
+  closeSearch
+}) {
+  if (!pages.length) return null;
+  return /* @__PURE__ */ jsxs("div", { className: "predictive-search-result", children: [
+    /* @__PURE__ */ jsx("h5", { children: "Pages" }),
+    /* @__PURE__ */ jsx("ul", { children: pages.map((page) => {
+      const pageUrl = urlWithTrackingParams({
+        baseUrl: `/pages/${page.handle}`,
+        trackingParams: page.trackingParameters,
+        term: term.current
+      });
+      return /* @__PURE__ */ jsx("li", { className: "predictive-search-result-item", children: /* @__PURE__ */ jsx(Link, { onClick: closeSearch, to: pageUrl, children: /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("span", { children: page.title }) }) }) }, page.id);
+    }) })
+  ] }, "pages");
+}
+function SearchResultsPredictiveProducts({
+  term,
+  products,
+  closeSearch
+}) {
+  if (!products.length) return null;
+  return /* @__PURE__ */ jsxs("div", { className: "predictive-search-result", children: [
+    /* @__PURE__ */ jsx("h5", { children: "Products" }),
+    /* @__PURE__ */ jsx("ul", { children: products.map((product) => {
+      const productUrl = urlWithTrackingParams({
+        baseUrl: `/products/${product.handle}`,
+        trackingParams: product.trackingParameters,
+        term: term.current
+      });
+      const price = product?.selectedOrFirstAvailableVariant?.price;
+      const image = product?.selectedOrFirstAvailableVariant?.image;
+      return /* @__PURE__ */ jsx("li", { className: "predictive-search-result-item", children: /* @__PURE__ */ jsxs(Link, { to: productUrl, onClick: closeSearch, children: [
+        image && /* @__PURE__ */ jsx(
+          Image,
+          {
+            alt: image.altText ?? "",
+            src: image.url,
+            width: 50,
+            height: 50
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("p", { children: product.title }),
+          /* @__PURE__ */ jsx("small", { children: price && /* @__PURE__ */ jsx(Money, { data: price }) })
+        ] })
+      ] }) }, product.id);
+    }) })
+  ] }, "products");
+}
+function SearchResultsPredictiveQueries({
+  queries,
+  queriesDatalistId
+}) {
+  if (!queries.length) return null;
+  return /* @__PURE__ */ jsx("datalist", { id: queriesDatalistId, children: queries.map((suggestion) => {
+    if (!suggestion) return null;
+    return /* @__PURE__ */ jsx("option", { value: suggestion.text }, suggestion.text);
+  }) });
+}
+function SearchResultsPredictiveEmpty({
+  term
+}) {
+  if (!term.current) {
+    return null;
+  }
+  return /* @__PURE__ */ jsxs("p", { children: [
+    "No results found for ",
+    /* @__PURE__ */ jsx("q", { children: term.current })
+  ] });
+}
+function usePredictiveSearch() {
+  const fetcher = useFetcher({ key: "search" });
+  const term = useRef("");
+  const inputRef = useRef(null);
+  if (fetcher?.state === "loading") {
+    term.current = String(fetcher.formData?.get("q") || "");
+  }
+  useEffect(() => {
+    if (!inputRef.current) {
+      inputRef.current = document.querySelector('input[type="search"]');
+    }
+  }, []);
+  const { items, total } = fetcher?.data?.result ?? getEmptyPredictiveSearchResult();
+  return { items, total, inputRef, term, fetcher };
+}
+
+function PageLayout({
+  cart,
+  children = null,
+  footer,
+  footerBanner,
+  header,
+  isLoggedIn,
+  customerFirstName,
+  publicStoreDomain
+}) {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/" || /^\/(en-nz|en-au|en-us|en-za)\/?$/.test(location.pathname);
+  const isProductPage = /^(\/(en-nz|en-au|en-us|en-za))?\/products\//.test(location.pathname);
+  const isAccountPage = /^(\/(en-nz|en-au|en-us|en-za))?\/account/.test(location.pathname);
+  const isContactPage = /^(\/(en-nz|en-au|en-us|en-za|pages))?\/contact/.test(location.pathname);
+  const isCartPage = /^(\/(en-nz|en-au|en-us|en-za))?\/cart/.test(location.pathname);
+  const isCheckoutPage = /^(\/(en-nz|en-au|en-us|en-za))?\/checkout/.test(location.pathname);
+  useEffect(() => {
+    if (isHomePage) {
+      document.body.classList.add("home-page");
+    } else {
+      document.body.classList.remove("home-page");
+    }
+    if (isProductPage) {
+      document.body.classList.add("product-page");
+    } else {
+      document.body.classList.remove("product-page");
+    }
+    if (isAccountPage) {
+      document.body.classList.add("account-page");
+    } else {
+      document.body.classList.remove("account-page");
+    }
+    if (isContactPage) {
+      document.body.classList.add("contact-page");
+    } else {
+      document.body.classList.remove("contact-page");
+    }
+    if (isCartPage) {
+      document.body.classList.add("cart-page");
+    } else {
+      document.body.classList.remove("cart-page");
+    }
+    if (isCheckoutPage) {
+      document.body.classList.add("checkout-page");
+    } else {
+      document.body.classList.remove("checkout-page");
+    }
+    return () => {
+      document.body.classList.remove("home-page");
+      document.body.classList.remove("product-page");
+      document.body.classList.remove("account-page");
+      document.body.classList.remove("contact-page");
+      document.body.classList.remove("cart-page");
+      document.body.classList.remove("checkout-page");
+    };
+  }, [isHomePage, isProductPage, isAccountPage, isContactPage, isCartPage, isCheckoutPage]);
+  return /* @__PURE__ */ jsxs(Aside.Provider, { children: [
+    /* @__PURE__ */ jsx(CartAside, { cart }),
+    /* @__PURE__ */ jsx(SearchAside, {}),
+    /* @__PURE__ */ jsx(MobileMenuAside, { header, publicStoreDomain }),
+    /* @__PURE__ */ jsxs(
+      "div",
+      {
+        className: [
+          "page-bg",
+          isHomePage && "home-page",
+          isProductPage && "product-page",
+          isAccountPage && "account-page",
+          isContactPage && "contact-page",
+          isCartPage && "cart-page"
+        ].filter(Boolean).join(" "),
+        children: [
+          header && /* @__PURE__ */ jsx(
+            Header,
+            {
+              header,
+              cart,
+              isLoggedIn,
+              customerFirstName,
+              publicStoreDomain,
+              isHomePage
+            }
+          ),
+          /* @__PURE__ */ jsx("main", { children })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      Footer,
+      {
+        footer,
+        footerBanner,
+        header,
+        publicStoreDomain
+      }
+    )
+  ] });
+}
+function CartAside({ cart }) {
+  return /* @__PURE__ */ jsx(Aside, { type: "cart", heading: "CART", children: /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("p", { children: "Loading cart ..." }), children: /* @__PURE__ */ jsx(Await, { resolve: cart, children: (cart2) => {
+    return /* @__PURE__ */ jsx(CartMain, { cart: cart2, layout: "aside" });
+  } }) }) });
+}
+function SearchAside() {
+  const queriesDatalistId = useId();
+  return /* @__PURE__ */ jsx(Aside, { type: "search", heading: "SEARCH", children: /* @__PURE__ */ jsxs("div", { className: "predictive-search", children: [
+    /* @__PURE__ */ jsx("br", {}),
+    /* @__PURE__ */ jsx(SearchFormPredictive, { children: ({ fetchResults, goToSearch, inputRef }) => /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          name: "q",
+          onChange: fetchResults,
+          onFocus: fetchResults,
+          placeholder: "Search",
+          ref: inputRef,
+          type: "search",
+          list: queriesDatalistId
+        }
+      ),
+      " ",
+      /* @__PURE__ */ jsx("button", { onClick: goToSearch, children: "Search" })
+    ] }) }),
+    /* @__PURE__ */ jsx(SearchResultsPredictive, { children: ({ items, total, term, state, closeSearch }) => {
+      const { articles, collections, pages, products, queries } = items;
+      if (state === "loading" && term.current) {
+        return /* @__PURE__ */ jsx("div", { children: "Loading..." });
+      }
+      if (!total) {
+        return /* @__PURE__ */ jsx(SearchResultsPredictive.Empty, { term });
+      }
+      return /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsx(
+          SearchResultsPredictive.Queries,
+          {
+            queries,
+            queriesDatalistId
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          SearchResultsPredictive.Products,
+          {
+            products,
+            closeSearch,
+            term
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          SearchResultsPredictive.Collections,
+          {
+            collections,
+            closeSearch,
+            term
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          SearchResultsPredictive.Pages,
+          {
+            pages,
+            closeSearch,
+            term
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          SearchResultsPredictive.Articles,
+          {
+            articles,
+            closeSearch,
+            term
+          }
+        ),
+        term.current && total ? /* @__PURE__ */ jsx(
+          Link,
+          {
+            onClick: closeSearch,
+            to: `${SEARCH_ENDPOINT}?q=${term.current}`,
+            children: /* @__PURE__ */ jsxs("p", { children: [
+              "View all results for ",
+              /* @__PURE__ */ jsx("q", { children: term.current }),
+              "  →"
+            ] })
+          }
+        ) : null
+      ] });
+    } })
+  ] }) });
+}
+function MobileMenuAside({
+  header,
+  publicStoreDomain
+}) {
+  return header.menu && header.shop.primaryDomain?.url && /* @__PURE__ */ jsx(Aside, { type: "mobile", heading: "MENU", children: /* @__PURE__ */ jsx(
+    HeaderMenu,
+    {
+      menu: header.menu,
+      viewport: "mobile",
+      primaryDomainUrl: header.shop.primaryDomain.url,
+      publicStoreDomain
+    }
+  ) });
+}
+
+const shouldRevalidate$1 = ({
+  formMethod,
+  currentUrl,
+  nextUrl
+}) => {
+  if (formMethod && formMethod !== "GET") return true;
+  if (currentUrl.toString() === nextUrl.toString()) return true;
+  return false;
+};
+function links() {
+  return [{
+    rel: "preconnect",
+    href: "https://cdn.shopify.com"
+  }, {
+    rel: "preconnect",
+    href: "https://shop.app"
+  }, {
+    rel: "preconnect",
+    href: "https://fonts.googleapis.com"
+  }, {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous"
+  }, {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap"
+  }, {
+    rel: "icon",
+    type: "image/svg+xml",
+    href: favicon
+  }];
+}
+async function loader$q(args) {
+  const deferredData = loadDeferredData(args);
+  const criticalData = await loadCriticalData(args);
+  const {
+    storefront,
+    env
+  } = args.context;
+  return {
+    ...deferredData,
+    ...criticalData,
+    publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    shop: getShopAnalytics({
+      storefront,
+      publicStorefrontId: env.PUBLIC_STOREFRONT_ID
+    }),
+    consent: {
+      checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
+      storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+      withPrivacyBanner: false,
+      // localize the privacy banner
+      country: args.context.storefront.i18n.country,
+      language: args.context.storefront.i18n.language
+    }
+  };
+}
+async function loadCriticalData({
+  context
+}) {
+  const {
+    storefront
+  } = context;
+  const [header] = await Promise.all([storefront.query(HEADER_QUERY, {
+    cache: storefront.CacheLong(),
+    variables: {
+      headerMenuHandle: "main-menu"
+      // Adjust to your header menu handle
+    }
+  })
+  // Add other queries here, so that they are loaded in parallel
+  ]);
+  return {
+    header
+  };
+}
+function loadDeferredData({
+  context
+}) {
+  const {
+    storefront,
+    customerAccount,
+    cart
+  } = context;
+  const expectedCountry = storefront.i18n.country;
+  const cartPromise = cart.get().then(async cartData => {
+    if (!cartData) return cartData;
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (currentCountry && currentCountry === expectedCountry) return cartData;
+    await cart.updateBuyerIdentity({
+      countryCode: expectedCountry
+    });
+    return cart.get();
+  }).catch(error => {
+    console.error("[cart] buyerIdentity reconciliation error:", error);
+    return null;
+  });
+  const isLoggedInPromise = customerAccount.isLoggedIn();
+  const customerFirstName = isLoggedInPromise.then(loggedIn => {
+    if (!loggedIn) return null;
+    return customerAccount.query(CUSTOMER_NAME_QUERY).then(({
+      data
+    }) => data?.customer?.firstName ?? null).catch(() => null);
+  }).catch(() => null);
+  const footer = storefront.query(FOOTER_QUERY, {
+    cache: storefront.CacheLong(),
+    variables: {
+      footerMenuHandle: "footer"
+    }
+  }).catch(error => {
+    console.error(error);
+    return null;
+  });
+  const footerBanner = storefront.query(FOOTER_BANNER_QUERY, {
+    cache: storefront.CacheLong()
+  }).then(data => data?.metaobject?.field?.value ?? null).catch(() => null);
+  return {
+    cart: cartPromise,
+    isLoggedIn: isLoggedInPromise,
+    customerFirstName,
+    footer,
+    footerBanner
+  };
+}
+const FOOTER_BANNER_QUERY = `#graphql
   query FooterBanner {
     metaobject(handle: {type: "app--footer_banner", handle: "main"}) {
       field(key: "content") {
@@ -1018,7 +1801,709 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;function bw({children:e}){const t=yd();return s.jsxs("html",{lang:"en",children:[s.jsxs("head",{children:[s.jsx("meta",{charSet:"utf-8"}),s.jsx("meta",{name:"viewport",content:"width=device-width,initial-scale=1"}),s.jsx("link",{rel:"stylesheet",href:Ix}),s.jsx("link",{rel:"stylesheet",href:Ax}),s.jsx(hp,{}),s.jsx(up,{})]}),s.jsxs("body",{children:[e,s.jsx(hc,{nonce:t}),s.jsx(cc,{nonce:t})]})]})}const Sw=ke(function(){const t=ph("root");return t?s.jsx(ig.Provider,{cart:t.cart,shop:t.shop,consent:t.consent,children:s.jsx(dw,{...t,children:s.jsx(Fa,{})})}):s.jsx(Fa,{})}),Cw=Sh(function(){var a;const t=eo();let r="Unknown error",n=500;return Oe(t)?(r=((a=t==null?void 0:t.data)==null?void 0:a.message)??t.data,n=t.status):t instanceof Error&&(r=t.message),s.jsxs("div",{className:"route-error",children:[s.jsx("h1",{children:"Oops"}),s.jsx("h2",{children:n}),r&&s.jsx("fieldset",{children:s.jsx("pre",{children:r})})]})}),jw=Object.freeze(Object.defineProperty({__proto__:null,ErrorBoundary:Cw,Layout:bw,default:Sw,links:yw,loader:gw,shouldRevalidate:mw},Symbol.toStringTag,{value:"Module"})),su=4;function Rd(e){const t=e.toLowerCase();return t.length<=su?t:t.slice(0,su)}function _d(e,t){return!e||!t?null:`/media/suppliers/${Rd(e)}/${t}.jpg`}function Ew(e,t,r=9){const n=_d(e,t);if(!n)return[];const a=Rd(e),o=Array.from({length:r+1},(i,l)=>`/media/suppliers/${a}/${t}_${l}.jpg`);return[n,...o]}function iu({product:e}){var u,c,d,p,y;const t=tt({key:`add-to-cart-${e.id}`}),r=(u=e.variants)==null?void 0:u.nodes[0],n=Number((c=e.msq)==null?void 0:c.value),a=Number.isFinite(n)&&n>1,[o,i]=b.useState(!1),l=_d((d=e.supplierName)==null?void 0:d.value,(p=e.externalProductId)==null?void 0:p.value);return s.jsxs("div",{className:"product-card group block",children:[s.jsxs(Ie,{to:`/products/${e.handle}`,prefetch:"intent",className:"block",children:[s.jsxs("div",{className:"aspect-square overflow-hidden rounded-lg bg-gray-100 moq-ribbon-wrapper",children:[e.featuredImage?s.jsx(gt,{data:e.featuredImage,aspectRatio:"1/1",sizes:"(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw",className:"w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"}):l&&!o?s.jsx("img",{src:l,alt:e.title,onError:()=>i(!0),className:"w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"}):s.jsx("div",{className:"w-full h-full flex items-center justify-center text-gray-400",children:"No image"}),a&&s.jsxs("div",{className:"moq-ribbon",children:["Minimum qty: ",n]})]}),s.jsxs("div",{className:"mt-3",style:{background:"rgba(50, 50, 50, 0.85)",padding:"0.5rem 0.75rem",borderRadius:"6px"},children:[s.jsx("h3",{className:"text-sm font-semibold text-white group-hover:underline truncate",children:e.title}),((y=e.brand)==null?void 0:y.value)&&s.jsx("p",{className:"text-xs text-gray-300 mt-0.5",children:e.brand.value}),e.productType&&s.jsx("p",{className:"text-xs text-gray-400 mt-0.5",children:e.productType}),s.jsx("div",{className:"mt-1 text-sm font-medium text-white",children:s.jsx(Ee,{data:e.priceRange.minVariantPrice})})]})]}),r&&s.jsxs(t.Form,{method:"post",action:"/cart",children:[s.jsx("input",{type:"hidden",name:re.INPUT_NAME,value:JSON.stringify({action:re.ACTIONS.LinesAdd,inputs:{lines:[{merchandiseId:r.id,quantity:1}]}})}),s.jsx("button",{type:"submit",disabled:!r.availableForSale||t.state!=="idle",className:"add-to-cart-btn",children:r.availableForSale?t.state!=="idle"?"Adding...":"Add to Cart":"Sold Out"})]})]})}const lu=250;async function kw(e){const{params:t,context:r}=e,{handle:n}=t,{storefront:a}=r;if(!n)throw new Response("Collection handle is required",{status:400});const{collection:o}=await a.query(Iw,{variables:{handle:n,first:lu}});if(!o&&n==="all"){const{products:i}=await a.query(Aw,{variables:{first:lu}});return{collection:{id:"all",title:"All Products",handle:"all",description:"",products:i}}}if(!o)throw new Response("Collection not found",{status:404});return{collection:o}}function ns(e){var t;return((t=e.subCollection)==null?void 0:t.value)||"Other"}function as(e){var t;return((t=e.subCatCollection)==null?void 0:t.value)||"Other"}function uu(e){return e.vendor||""}function Rw(e){var t,r;return Number((r=(t=e.priceRange)==null?void 0:t.minVariantPrice)==null?void 0:r.amount)||0}function os(e){return[...new Set(e.filter(Boolean))].sort((t,r)=>t.localeCompare(r,void 0,{numeric:!0}))}function ss({title:e,options:t,selected:r,onToggle:n}){return t.length===0?null:s.jsxs("div",{className:"filter-group",children:[s.jsx("h4",{className:"font-semibold text-sm mb-1",children:e}),s.jsx("div",{className:"filter-group-options",children:t.map(a=>s.jsxs("label",{className:"filter-option",children:[s.jsx("input",{type:"checkbox",checked:r.has(a),onChange:()=>n(a)}),a]},a))})]})}function cu({title:e,count:t,children:r}){const[n,a]=b.useState(!1);return s.jsxs("div",{className:"collection-section",children:[s.jsxs("button",{type:"button",className:"collection-section-toggle",onClick:()=>a(o=>!o),children:[n?"▸":"▾"," ",e," (",t,")"]}),!n&&r]})}const _w=ke(function(){const{collection:t}=Te(),[r,n]=wp(),a=t.products.nodes,o=new Set(r.getAll("brand")),i=new Set(r.getAll("subCollection")),l=new Set(r.getAll("subCatCollection")),u=r.get("minPrice")||"",c=r.get("maxPrice")||"",d=os(a.map(uu)),p=os(a.map(ns)),y=os(a.map(as)),w=o.size>0||i.size>0||l.size>0||u!==""||c!=="";function m(k,P){const N=new URLSearchParams(r),A=N.getAll(k);if(N.delete(k),A.includes(P))for(const T of A)T!==P&&N.append(k,T);else{for(const T of A)N.append(k,T);N.append(k,P)}n(N,{preventScrollReset:!0})}function S(k,P){const N=new URLSearchParams(r);P?N.set(k,P):N.delete(k),n(N,{preventScrollReset:!0})}function x(){n(new URLSearchParams,{preventScrollReset:!0})}const E=a.filter(k=>{if(o.size>0&&!o.has(uu(k))||i.size>0&&!i.has(ns(k))||l.size>0&&!l.has(as(k)))return!1;const P=Rw(k);return!(u!==""&&P<Number(u)||c!==""&&P>Number(c))}),I=new Map;for(const k of a){const P=ns(k),N=as(k);I.has(P)||I.set(P,new Map);const A=I.get(P);A.has(N)||A.set(N,[]),A.get(N).push(k)}return s.jsxs("div",{className:"collection max-w-7xl mx-auto px-4 py-8",children:[s.jsx("h1",{className:"text-3xl font-bold mb-2",children:t.title}),t.description&&s.jsx("p",{className:"collection-description text-gray-600 mb-6",children:t.description}),s.jsxs("div",{className:"collection-layout",children:[s.jsxs("aside",{className:"collection-filters",children:[s.jsxs("div",{className:"filter-group",children:[s.jsx("h4",{className:"font-semibold text-sm mb-1",children:"Price"}),s.jsxs("div",{className:"filter-price-range",children:[s.jsx("input",{type:"number",placeholder:"Min",value:u,onChange:k=>S("minPrice",k.target.value)}),s.jsx("input",{type:"number",placeholder:"Max",value:c,onChange:k=>S("maxPrice",k.target.value)})]})]}),s.jsx(ss,{title:"Brand",options:d,selected:o,onToggle:k=>m("brand",k)}),s.jsx(ss,{title:"Sub Collection",options:p,selected:i,onToggle:k=>m("subCollection",k)}),s.jsx(ss,{title:"Sub-Cat Collection",options:y,selected:l,onToggle:k=>m("subCatCollection",k)}),w&&s.jsx("button",{type:"button",className:"filter-clear-btn",onClick:x,children:"Clear filters"})]}),s.jsx("div",{className:"collection-results",children:w?E.length>0?s.jsx("div",{className:"products-grid",children:E.map(k=>s.jsx(iu,{product:k},k.id))}):s.jsx("p",{className:"text-center text-gray-500 py-8",children:"No products match the selected filters."}):[...I.entries()].map(([k,P])=>{const N=[...P.values()].reduce((A,T)=>A+T.length,0);return s.jsx(cu,{title:k,count:N,children:[...P.entries()].map(([A,T])=>s.jsx(cu,{title:A,count:T.length,children:s.jsx("div",{className:"products-grid",children:T.map($=>s.jsx(iu,{product:$},$.id))})},A))},k)})})]})]})}),Id=`#graphql
+`;
+function Layout({
+  children
+}) {
+  const nonce = useNonce();
+  return /* @__PURE__ */jsxs("html", {
+    lang: "en",
+    children: [/* @__PURE__ */jsxs("head", {
+      children: [/* @__PURE__ */jsx("meta", {
+        charSet: "utf-8"
+      }), /* @__PURE__ */jsx("meta", {
+        name: "viewport",
+        content: "width=device-width,initial-scale=1"
+      }), /* @__PURE__ */jsx("link", {
+        rel: "stylesheet",
+        href: resetStyles
+      }), /* @__PURE__ */jsx("link", {
+        rel: "stylesheet",
+        href: appStyles
+      }), /* @__PURE__ */jsx(Meta, {}), /* @__PURE__ */jsx(Links, {})]
+    }), /* @__PURE__ */jsxs("body", {
+      children: [children, /* @__PURE__ */jsx(ScrollRestoration, {
+        nonce
+      }), /* @__PURE__ */jsx(Scripts, {
+        nonce
+      })]
+    })]
+  });
+}
+const root = UNSAFE_withComponentProps(function App() {
+  const data = useRouteLoaderData("root");
+  if (!data) {
+    return /* @__PURE__ */jsx(Outlet, {});
+  }
+  return /* @__PURE__ */jsx(Analytics.Provider, {
+    cart: data.cart,
+    shop: data.shop,
+    consent: data.consent,
+    children: /* @__PURE__ */jsx(PageLayout, {
+      ...data,
+      children: /* @__PURE__ */jsx(Outlet, {})
+    })
+  });
+});
+const ErrorBoundary = UNSAFE_withErrorBoundaryProps(function ErrorBoundary() {
+  const error = useRouteError();
+  let errorMessage = "Unknown error";
+  let errorStatus = 500;
+  if (isRouteErrorResponse(error)) {
+    errorMessage = error?.data?.message ?? error.data;
+    errorStatus = error.status;
+  } else if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+  return /* @__PURE__ */jsxs("div", {
+    className: "route-error",
+    children: [/* @__PURE__ */jsx("h1", {
+      children: "Oops"
+    }), /* @__PURE__ */jsx("h2", {
+      children: errorStatus
+    }), errorMessage && /* @__PURE__ */jsx("fieldset", {
+      children: /* @__PURE__ */jsx("pre", {
+        children: errorMessage
+      })
+    })]
+  });
+});
+
+const route0 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  ErrorBoundary,
+  Layout,
+  default: root,
+  links,
+  loader: loader$q,
+  shouldRevalidate: shouldRevalidate$1
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const SUPPLIER_PREFIX_LENGTH = 4;
+function getSupplierFolderPrefix(supplierName) {
+  const lower = supplierName.toLowerCase();
+  return lower.length <= SUPPLIER_PREFIX_LENGTH ? lower : lower.slice(0, SUPPLIER_PREFIX_LENGTH);
+}
+function getProductCardImageSrc(supplierName, externalProductId) {
+  if (!supplierName || !externalProductId) return null;
+  const prefix = getSupplierFolderPrefix(supplierName);
+  return `/media/suppliers/${prefix}/${externalProductId}.jpg`;
+}
+function getProductGalleryImageSrcs(supplierName, externalProductId, maxSuffix = 9) {
+  const cardSrc = getProductCardImageSrc(supplierName, externalProductId);
+  if (!cardSrc) return [];
+  const prefix = getSupplierFolderPrefix(supplierName);
+  const suffixed = Array.from(
+    { length: maxSuffix + 1 },
+    (_, i) => `/media/suppliers/${prefix}/${externalProductId}_${i}.jpg`
+  );
+  return [cardSrc, ...suffixed];
+}
+
+function HeartIcon({ filled }) {
+  return /* @__PURE__ */ jsx(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "16",
+      height: "16",
+      viewBox: "0 0 24 24",
+      fill: filled ? "currentColor" : "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsx("path", { d: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" })
+    }
+  );
+}
+function WishlistButton({
+  productId,
+  productHandle,
+  productTitle,
+  variant = "icon"
+}) {
+  const fetcher = useFetcher({ key: `wishlist-${productId}` });
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (fetcher.data?.requiresLogin) navigate("/account/login");
+  }, [fetcher.data, navigate]);
+  const added = Boolean(fetcher.data?.success);
+  const busy = fetcher.state !== "idle";
+  return /* @__PURE__ */ jsxs(fetcher.Form, { method: "post", action: "/account/wishlist", children: [
+    /* @__PURE__ */ jsx("input", { type: "hidden", name: "intent", value: "add" }),
+    /* @__PURE__ */ jsx("input", { type: "hidden", name: "productId", value: productId }),
+    /* @__PURE__ */ jsx("input", { type: "hidden", name: "productHandle", value: productHandle }),
+    /* @__PURE__ */ jsx("input", { type: "hidden", name: "productTitle", value: productTitle }),
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "submit",
+        disabled: busy || added,
+        className: variant === "icon" ? "wishlist-icon-btn" : "wishlist-add-btn",
+        "aria-label": added ? "Added to Wish List" : "Add to Wish List",
+        title: added ? "Added to Wish List" : "Add to Wish List",
+        children: [
+          /* @__PURE__ */ jsx(HeartIcon, { filled: added }),
+          variant === "button" && /* @__PURE__ */ jsx("span", { children: added ? "Added to Wish List" : busy ? "Adding…" : "Add to Wish List" })
+        ]
+      }
+    )
+  ] });
+}
+
+function ProductCard({ product }) {
+  const fetcher = useFetcher({ key: `add-to-cart-${product.id}` });
+  const firstVariant = product.variants?.nodes[0];
+  const msq = Number(product.msq?.value);
+  const showMoqRibbon = Number.isFinite(msq) && msq > 1;
+  const [localImageFailed, setLocalImageFailed] = useState(false);
+  const localImageRef = useRef(null);
+  const localImageSrc = getProductCardImageSrc(
+    product.supplierName?.value,
+    product.externalProductId?.value
+  );
+  useEffect(() => {
+    const img = localImageRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setLocalImageFailed(true);
+  }, []);
+  const noImageAvailable = !product.featuredImage && (!localImageSrc || localImageFailed);
+  useEffect(() => {
+    return;
+  }, [noImageAvailable, localImageSrc, product.title, product.handle]);
+  return /* @__PURE__ */ jsxs("div", { className: "product-card group block", children: [
+    /* @__PURE__ */ jsxs(Link, { to: `/products/${product.handle}`, prefetch: "intent", className: "block", children: [
+      /* @__PURE__ */ jsxs("div", { className: "aspect-square overflow-hidden rounded-lg bg-gray-100 moq-ribbon-wrapper", children: [
+        product.featuredImage ? /* @__PURE__ */ jsx(
+          Image,
+          {
+            data: product.featuredImage,
+            aspectRatio: "1/1",
+            sizes: "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw",
+            className: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          }
+        ) : localImageSrc && !localImageFailed ? /* @__PURE__ */ jsx(
+          "img",
+          {
+            ref: localImageRef,
+            src: localImageSrc,
+            alt: product.title,
+            onError: () => {
+              console.warn(
+                `[ProductCard] Local fallback image 404'd for "${product.title}" (${product.handle}): ${localImageSrc}. Check that supplier_name/external_product_id metafields match a real file under media/suppliers/.`
+              );
+              setLocalImageFailed(true);
+            },
+            className: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          }
+        ) : /* @__PURE__ */ jsx("div", { className: "w-full h-full flex items-center justify-center text-gray-400", children: "No image" }),
+        showMoqRibbon && /* @__PURE__ */ jsxs("div", { className: "moq-ribbon", children: [
+          /* @__PURE__ */ jsx("span", { className: "moq-ribbon-label", children: "Min Order Qty" }),
+          /* @__PURE__ */ jsx("span", { className: "moq-ribbon-value", children: msq })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs(
+        "div",
+        {
+          className: "mt-2",
+          style: {
+            background: "rgba(50, 50, 50, 0.85)",
+            padding: "0.4rem 0.5rem",
+            borderRadius: "6px"
+          },
+          children: [
+            /* @__PURE__ */ jsx("h3", { className: "leading-snug text-white group-hover:underline", children: product.title }),
+            product.brand?.value && /* @__PURE__ */ jsx("p", { className: "text-gray-300 mt-0.5", children: product.brand.value }),
+            product.productType && /* @__PURE__ */ jsx("p", { className: "text-gray-400 mt-0.5", children: product.productType }),
+            /* @__PURE__ */ jsx("div", { className: "mt-1 text-white product-price-display", children: /* @__PURE__ */ jsx(Money, { data: withDisplayVat(product.priceRange.minVariantPrice) }) })
+          ]
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "product-card-actions", children: [
+      firstVariant && /* @__PURE__ */ jsxs(fetcher.Form, { method: "post", action: "/cart", className: "product-card-cart-form", children: [
+        /* @__PURE__ */ jsx(
+          "input",
+          {
+            type: "hidden",
+            name: CartForm.INPUT_NAME,
+            value: JSON.stringify({
+              action: CartForm.ACTIONS.LinesAdd,
+              inputs: {
+                lines: [
+                  {
+                    merchandiseId: firstVariant.id,
+                    // MOQ products must enter the cart already at their minimum
+                    // order quantity, not 1 — see moq_cart_msq_stepping pattern.
+                    quantity: showMoqRibbon ? msq : 1
+                  }
+                ]
+              }
+            })
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "submit",
+            disabled: !firstVariant.availableForSale || fetcher.state !== "idle",
+            className: "add-to-cart-btn",
+            children: !firstVariant.availableForSale ? "Sold Out" : fetcher.state !== "idle" ? "Adding..." : "Add to Cart"
+          }
+        ),
+        fetcher.data?.warnings?.map(
+          (warning, index) => /* @__PURE__ */ jsx("p", { className: "cart-stock-warning", children: warning.message }, index)
+        )
+      ] }),
+      /* @__PURE__ */ jsx(
+        WishlistButton,
+        {
+          productId: product.id,
+          productHandle: product.handle,
+          productTitle: product.title
+        }
+      )
+    ] })
+  ] });
+}
+
+function CollectionCard({ collection, headingLevel = "h3" }) {
+  const Heading = headingLevel;
+  return /* @__PURE__ */ jsx(
+    Link,
+    {
+      className: "collection-item",
+      to: `/collections/${collection.handle}`,
+      prefetch: "intent",
+      children: /* @__PURE__ */ jsxs("div", { className: "collection-item-media", children: [
+        collection.image ? /* @__PURE__ */ jsx(
+          Image,
+          {
+            data: collection.image,
+            aspectRatio: "1/1",
+            sizes: "(min-width: 768px) 25vw, 50vw"
+          }
+        ) : /* @__PURE__ */ jsx("div", { className: "collection-item-placeholder", "aria-hidden": "true" }),
+        /* @__PURE__ */ jsx("span", { className: "collection-item-title-wrap", children: /* @__PURE__ */ jsx(Heading, { className: "collection-item-title", children: collection.title }) })
+      ] })
+    },
+    collection.id
+  );
+}
+
+function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    const header = document.querySelector("header.site-header");
+    if (!header) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+  if (!isVisible) return null;
+  return /* @__PURE__ */ jsx(
+    "button",
+    {
+      type: "button",
+      onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+      "aria-label": "Return to top",
+      className: "fixed bottom-0 left-0 m-3 w-10 h-10 flex items-center justify-center bg-black text-white rounded-lg shadow-lg hover:bg-gray-800 transition-colors z-50",
+      children: /* @__PURE__ */ jsxs(
+        "svg",
+        {
+          xmlns: "http://www.w3.org/2000/svg",
+          width: "20",
+          height: "20",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          "aria-hidden": "true",
+          children: [
+            /* @__PURE__ */ jsx("line", { x1: "12", y1: "19", x2: "12", y2: "5" }),
+            /* @__PURE__ */ jsx("polyline", { points: "5 12 12 5 19 12" })
+          ]
+        }
+      )
+    }
+  );
+}
+
+const MAX_PRODUCTS = 250;
+async function loader$p(args) {
+  const {
+    params,
+    context
+  } = args;
+  const {
+    handle
+  } = params;
+  const {
+    storefront
+  } = context;
+  if (!handle) {
+    throw new Response("Collection handle is required", {
+      status: 400
+    });
+  }
+  const {
+    collection
+  } = await storefront.query(COLLECTION_QUERY$1, {
+    variables: {
+      handle,
+      first: MAX_PRODUCTS
+    }
+  });
+  if (!collection && handle === "all") {
+    const {
+      products
+    } = await storefront.query(ALL_PRODUCTS_QUERY, {
+      variables: {
+        first: MAX_PRODUCTS
+      }
+    });
+    return {
+      collection: {
+        id: "all",
+        title: "All Products",
+        handle: "all",
+        description: "",
+        products
+      },
+      subCollections: null
+    };
+  }
+  if (!collection) {
+    throw new Response("Collection not found", {
+      status: 404
+    });
+  }
+  if (collection.role?.value === "main") {
+    const childData = await storefront.query(CHILD_COLLECTIONS_QUERY);
+    const wanted = collection.title.trim().toLowerCase();
+    const subCollections = (childData.collections?.nodes ?? []).filter(c => (c.parent?.value || "").trim().toLowerCase() === wanted).sort((a, b) => a.title.localeCompare(b.title, void 0, {
+      numeric: true
+    }));
+    return {
+      collection,
+      subCollections
+    };
+  }
+  return {
+    collection,
+    subCollections: null
+  };
+}
+function getSubCollection(product) {
+  return product.subCollection?.value || "Other";
+}
+function getSubCatCollection(product) {
+  return product.subCatCollection?.value || "Other";
+}
+function getBrand(product) {
+  return product.vendor || "";
+}
+function getPrice(product) {
+  return Number(product.priceRange?.minVariantPrice?.amount) || 0;
+}
+function uniqueSorted(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, void 0, {
+    numeric: true
+  }));
+}
+function FilterCheckboxGroup({
+  title,
+  options,
+  selected,
+  onToggle
+}) {
+  if (options.length === 0) return null;
+  return /* @__PURE__ */jsxs("div", {
+    className: "filter-group",
+    children: [/* @__PURE__ */jsx("h4", {
+      className: "font-semibold text-sm mb-1",
+      children: title
+    }), /* @__PURE__ */jsx("div", {
+      className: "filter-group-options",
+      children: options.map(option => /* @__PURE__ */jsxs("label", {
+        className: "filter-option",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: selected.has(option),
+          onChange: () => onToggle(option)
+        }), option]
+      }, option))
+    })]
+  });
+}
+function CollapsibleSection({
+  title,
+  count,
+  children
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  return /* @__PURE__ */jsxs("div", {
+    className: "collection-section",
+    children: [/* @__PURE__ */jsxs("button", {
+      type: "button",
+      className: "collection-section-toggle",
+      onClick: () => setCollapsed(c => !c),
+      children: [collapsed ? "▸" : "▾", " ", title, " (", count, ")"]
+    }), !collapsed && children]
+  });
+}
+const _$locale__collections_$handle = UNSAFE_withComponentProps(function Collection() {
+  const {
+    collection,
+    subCollections
+  } = useLoaderData();
+  if (subCollections) {
+    return /* @__PURE__ */jsx(SubCollectionsView, {
+      collection,
+      subCollections
+    });
+  }
+  return /* @__PURE__ */jsx(CollectionProductsView, {
+    collection
+  });
+});
+function SubCollectionsView({
+  collection,
+  subCollections
+}) {
+  return /* @__PURE__ */jsx("div", {
+    className: "page-card page-card--wide",
+    children: /* @__PURE__ */jsxs("div", {
+      className: "collection max-w-7xl mx-auto px-4 py-8",
+      children: [/* @__PURE__ */jsx("div", {
+        className: "collection-header",
+        children: /* @__PURE__ */jsxs("div", {
+          children: [/* @__PURE__ */jsx("h1", {
+            className: "text-3xl font-bold mb-2 text-white",
+            children: collection.title
+          }), collection.description && /* @__PURE__ */jsx("p", {
+            className: "collection-description text-gray-300 mb-6",
+            children: collection.description
+          })]
+        })
+      }), subCollections.length > 0 ? /* @__PURE__ */jsx("div", {
+        className: "collections-grid",
+        children: subCollections.map(sub => /* @__PURE__ */jsx(CollectionCard, {
+          collection: sub,
+          headingLevel: "h3"
+        }, sub.id))
+      }) : /* @__PURE__ */jsx("p", {
+        className: "text-gray-300 py-8",
+        children: "No Sub Collections have been assigned to this Collection yet."
+      })]
+    })
+  });
+}
+function CollectionProductsView({
+  collection
+}) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const allProducts = collection.products.nodes;
+  const selectedBrands = new Set(searchParams.getAll("brand"));
+  const selectedSubCollections = new Set(searchParams.getAll("subCollection"));
+  const selectedSubCatCollections = new Set(searchParams.getAll("subCatCollection"));
+  const minPrice = searchParams.get("minPrice") || "";
+  const maxPrice = searchParams.get("maxPrice") || "";
+  const brandOptions = uniqueSorted(allProducts.map(getBrand));
+  const subCollectionOptions = uniqueSorted(allProducts.map(getSubCollection));
+  const subCatCollectionOptions = uniqueSorted(allProducts.map(getSubCatCollection));
+  const hasFilters = selectedBrands.size > 0 || selectedSubCollections.size > 0 || selectedSubCatCollections.size > 0 || minPrice !== "" || maxPrice !== "";
+  function toggleParam(key, value) {
+    const next = new URLSearchParams(searchParams);
+    const values = next.getAll(key);
+    next.delete(key);
+    if (values.includes(value)) {
+      for (const v of values) if (v !== value) next.append(key, v);
+    } else {
+      for (const v of values) next.append(key, v);
+      next.append(key, value);
+    }
+    setSearchParams(next, {
+      preventScrollReset: true
+    });
+  }
+  function setPrice(key, value) {
+    const next = new URLSearchParams(searchParams);
+    if (value) next.set(key, value);else next.delete(key);
+    setSearchParams(next, {
+      preventScrollReset: true
+    });
+  }
+  function clearFilters() {
+    setSearchParams(new URLSearchParams(), {
+      preventScrollReset: true
+    });
+  }
+  const filteredProducts = allProducts.filter(product => {
+    if (selectedBrands.size > 0 && !selectedBrands.has(getBrand(product))) return false;
+    if (selectedSubCollections.size > 0 && !selectedSubCollections.has(getSubCollection(product))) return false;
+    if (selectedSubCatCollections.size > 0 && !selectedSubCatCollections.has(getSubCatCollection(product))) return false;
+    const price = getPrice(product);
+    if (minPrice !== "" && price < Number(minPrice)) return false;
+    if (maxPrice !== "" && price > Number(maxPrice)) return false;
+    return true;
+  });
+  const grouped = /* @__PURE__ */new Map();
+  for (const product of allProducts) {
+    const brand = getBrand(product) || "Other";
+    const subCollection = getSubCollection(product);
+    const subCatCollection = getSubCatCollection(product);
+    if (!grouped.has(brand)) grouped.set(brand, /* @__PURE__ */new Map());
+    const subCollectionMap = grouped.get(brand);
+    if (!subCollectionMap.has(subCollection)) subCollectionMap.set(subCollection, /* @__PURE__ */new Map());
+    const subCatMap = subCollectionMap.get(subCollection);
+    if (!subCatMap.has(subCatCollection)) subCatMap.set(subCatCollection, []);
+    subCatMap.get(subCatCollection).push(product);
+  }
+  const priceValues = allProducts.map(getPrice);
+  const priceFloor = priceValues.length ? Math.floor(Math.min(...priceValues)) : 0;
+  const priceCeil = priceValues.length ? Math.ceil(Math.max(...priceValues)) : 0;
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  return /* @__PURE__ */jsxs("div", {
+    className: "page-card page-card--wide",
+    children: [/* @__PURE__ */jsx(ScrollToTopButton, {}), /* @__PURE__ */jsxs("div", {
+      className: "collection max-w-7xl mx-auto px-4 py-8",
+      children: [/* @__PURE__ */jsx("div", {
+        className: "collection-header",
+        children: /* @__PURE__ */jsxs("div", {
+          children: [/* @__PURE__ */jsx("h1", {
+            className: "text-3xl font-bold mb-2 text-white",
+            children: collection.title
+          }), collection.description && /* @__PURE__ */jsx("p", {
+            className: "collection-description text-gray-300 mb-6",
+            children: collection.description
+          })]
+        })
+      }), /* @__PURE__ */jsxs("button", {
+        type: "button",
+        className: "filter-toggle-btn",
+        "aria-expanded": filtersOpen,
+        "aria-controls": "collection-filters",
+        onClick: () => setFiltersOpen(open => !open),
+        children: [/* @__PURE__ */jsx("svg", {
+          width: "18",
+          height: "18",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          "aria-hidden": "true",
+          children: /* @__PURE__ */jsx("path", {
+            d: "M4 5h16M7 12h10M10 19h4",
+            strokeLinecap: "round"
+          })
+        }), "Filters"]
+      }), /* @__PURE__ */jsxs("div", {
+        className: `collection-layout${filtersOpen ? " filters-open" : ""}`,
+        children: [filtersOpen && /* @__PURE__ */jsxs("aside", {
+          id: "collection-filters",
+          className: "collection-filters",
+          children: [/* @__PURE__ */jsxs("div", {
+            className: "filter-group",
+            children: [/* @__PURE__ */jsx("h4", {
+              className: "font-semibold text-sm mb-1",
+              children: "Price"
+            }), /* @__PURE__ */jsxs("div", {
+              className: "filter-price-slider",
+              children: [/* @__PURE__ */jsx("input", {
+                type: "range",
+                min: priceFloor,
+                max: priceCeil,
+                value: minPrice === "" ? priceFloor : Number(minPrice),
+                onChange: e => setPrice("minPrice", Math.min(Number(e.target.value), maxPrice === "" ? priceCeil : Number(maxPrice)).toString())
+              }), /* @__PURE__ */jsx("input", {
+                type: "range",
+                min: priceFloor,
+                max: priceCeil,
+                value: maxPrice === "" ? priceCeil : Number(maxPrice),
+                onChange: e => setPrice("maxPrice", Math.max(Number(e.target.value), minPrice === "" ? priceFloor : Number(minPrice)).toString())
+              })]
+            }), /* @__PURE__ */jsxs("div", {
+              className: "filter-price-range",
+              children: [/* @__PURE__ */jsx("input", {
+                type: "number",
+                placeholder: "Min",
+                value: minPrice,
+                onChange: e => setPrice("minPrice", e.target.value)
+              }), /* @__PURE__ */jsx("input", {
+                type: "number",
+                placeholder: "Max",
+                value: maxPrice,
+                onChange: e => setPrice("maxPrice", e.target.value)
+              })]
+            })]
+          }), /* @__PURE__ */jsx(FilterCheckboxGroup, {
+            title: "Brand",
+            options: brandOptions,
+            selected: selectedBrands,
+            onToggle: v => toggleParam("brand", v)
+          }), /* @__PURE__ */jsx(FilterCheckboxGroup, {
+            title: "Sub Collection",
+            options: subCollectionOptions,
+            selected: selectedSubCollections,
+            onToggle: v => toggleParam("subCollection", v)
+          }), /* @__PURE__ */jsx(FilterCheckboxGroup, {
+            title: "Sub-Cat Collection",
+            options: subCatCollectionOptions,
+            selected: selectedSubCatCollections,
+            onToggle: v => toggleParam("subCatCollection", v)
+          }), hasFilters && /* @__PURE__ */jsx("button", {
+            type: "button",
+            className: "filter-clear-btn",
+            onClick: clearFilters,
+            children: "Clear filters"
+          })]
+        }), /* @__PURE__ */jsx("div", {
+          className: "collection-results",
+          children: hasFilters ? filteredProducts.length > 0 ? /* @__PURE__ */jsx("div", {
+            className: "products-grid",
+            children: filteredProducts.map(product => /* @__PURE__ */jsx(ProductCard, {
+              product
+            }, product.id))
+          }) : /* @__PURE__ */jsx("p", {
+            className: "text-center text-gray-300 py-8",
+            children: "No products match the selected filters."
+          }) : [...grouped.entries()].map(([brand, subCollectionMap]) => {
+            const brandCount = [...subCollectionMap.values()].flatMap(subCatMap => [...subCatMap.values()]).reduce((sum, p) => sum + p.length, 0);
+            return /* @__PURE__ */jsx(CollapsibleSection, {
+              title: brand,
+              count: brandCount,
+              children: [...subCollectionMap.entries()].map(([subCollection, subCatMap]) => {
+                const sectionCount = [...subCatMap.values()].reduce((sum, p) => sum + p.length, 0);
+                return /* @__PURE__ */jsx(CollapsibleSection, {
+                  title: subCollection,
+                  count: sectionCount,
+                  children: [...subCatMap.entries()].map(([subCatCollection, products]) => /* @__PURE__ */jsx(CollapsibleSection, {
+                    title: subCatCollection,
+                    count: products.length,
+                    children: /* @__PURE__ */jsx("div", {
+                      className: "products-grid",
+                      children: products.map(product => /* @__PURE__ */jsx(ProductCard, {
+                        product
+                      }, product.id))
+                    })
+                  }, subCatCollection))
+                }, subCollection);
+              })
+            }, brand);
+          })
+        })]
+      })]
+    })]
+  });
+}
+const PRODUCT_FIELDS = `#graphql
   fragment CollectionProductFields on Product {
     id
     title
@@ -1037,22 +2522,22 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
         currencyCode
       }
     }
-    brand: metafield(namespace: "app", key: "brand") {
+    brand: metafield(namespace: "custom", key: "brand") {
       value
     }
-    subCollection: metafield(namespace: "app", key: "sub_collection") {
+    subCollection: metafield(namespace: "custom", key: "sub_collection") {
       value
     }
-    subCatCollection: metafield(namespace: "app", key: "sub_cat_collection") {
+    subCatCollection: metafield(namespace: "custom", key: "sub_cat_collection") {
       value
     }
-    msq: metafield(namespace: "app", key: "msq") {
+    msq: metafield(namespace: "custom", key: "msq") {
       value
     }
-    supplierName: metafield(namespace: "app", key: "supplier_name") {
+    supplierName: metafield(namespace: "custom", key: "supplier_name") {
       value
     }
-    externalProductId: metafield(namespace: "app", key: "external_product_id") {
+    externalProductId: metafield(namespace: "custom", key: "external_product_id") {
       value
     }
     variants(first: 1) {
@@ -1062,7 +2547,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Iw=`#graphql
+`;
+const COLLECTION_QUERY$1 = `#graphql
   query Collection(
     $handle: String!
     $first: Int
@@ -1074,6 +2560,9 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       title
       handle
       description
+      role: metafield(namespace: "custom", key: "collection_role") {
+        value
+      }
       products(first: $first) {
         nodes {
           ...CollectionProductFields
@@ -1081,8 +2570,32 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-  ${Id}
-`,Aw=`#graphql
+  ${PRODUCT_FIELDS}
+`;
+const CHILD_COLLECTIONS_QUERY = `#graphql
+  query ChildCollections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    collections(first: 100) {
+      nodes {
+        id
+        title
+        handle
+        image {
+          url
+          altText
+          width
+          height
+        }
+        parent: metafield(namespace: "custom", key: "parent_collection") {
+          value
+        }
+      }
+    }
+  }
+`;
+const ALL_PRODUCTS_QUERY = `#graphql
   query AllProducts(
     $first: Int
     $country: CountryCode
@@ -1094,17 +2607,86 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-  ${Id}
-`,Nw=Object.freeze(Object.defineProperty({__proto__:null,default:_w,loader:kw},Symbol.toStringTag,{value:"Module"}));function Ad({collection:e}){return s.jsxs(Ie,{className:"collection-item",to:`/collections/${e.handle}`,prefetch:"intent",children:[e.image&&s.jsx(gt,{data:e.image,aspectRatio:"1/1",sizes:"(min-width: 768px) 25vw, 50vw"}),s.jsx("h3",{className:"mt-2 font-semibold",children:e.title})]},e.id)}async function Tw(e){const{context:t,request:r}=e,n=si(r,{pageBy:8}),{collections:a}=await t.storefront.query(Pw,{variables:n});return{collections:a}}const $w=ke(function(){const{collections:t}=Te();return s.jsxs("div",{className:"collections max-w-7xl mx-auto px-4 py-8",children:[s.jsx("h1",{className:"text-3xl font-bold mb-6",children:"Collections"}),s.jsx(Kv,{connection:t,children:({nodes:r,isLoading:n,PreviousLink:a,NextLink:o})=>s.jsxs(s.Fragment,{children:[s.jsx(a,{children:n?"Loading...":s.jsx("span",{children:"Load previous"})}),s.jsx("div",{className:"collections-grid",children:r.map(i=>s.jsx(Ad,{collection:i},i.id))}),s.jsx(o,{children:n?"Loading...":s.jsx("span",{children:"Load more"})})]})})]})}),Pw=`#graphql
+  ${PRODUCT_FIELDS}
+`;
+
+const route1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__collections_$handle,
+  loader: loader$p
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const FIXED_COLLECTION_ORDER = [
+  "Agricultural",
+  "Automotive",
+  "Construction",
+  "Electrical",
+  "Fire Protection",
+  "Garden & Lawn",
+  "Irrigation",
+  "Garden Irrigation",
+  "Hardware & Tools",
+  "Household",
+  "Livestock & Animals",
+  "Outdoor",
+  "Paint & Related",
+  "Plumbing",
+  "Power Products",
+  "Welding",
+  "PPE"
+];
+const orderIndex = new Map(
+  FIXED_COLLECTION_ORDER.map((title, i) => [title.toLowerCase(), i])
+);
+function sortMainCollections(collections) {
+  return [...collections].sort((a, b) => {
+    const ia = orderIndex.get(a.title.trim().toLowerCase());
+    const ib = orderIndex.get(b.title.trim().toLowerCase());
+    if (ia !== void 0 && ib !== void 0) return ia - ib;
+    if (ia !== void 0) return -1;
+    if (ib !== void 0) return 1;
+    return a.title.localeCompare(b.title);
+  });
+}
+
+async function loader$o(args) {
+  const {
+    context
+  } = args;
+  const data = await context.storefront.query(COLLECTIONS_QUERY);
+  const nodes = data.collections?.nodes ?? [];
+  const mains = nodes.filter(col => col.role?.value === "main");
+  return {
+    collections: mains.length > 0 ? sortMainCollections(mains) : nodes.filter(col => col.title !== "JSON Imported")
+  };
+}
+const _$locale__collections__index = UNSAFE_withComponentProps(function Collections() {
+  const {
+    collections
+  } = useLoaderData();
+  return /* @__PURE__ */jsxs("div", {
+    className: "collections max-w-7xl mx-auto px-4 py-8",
+    children: [/* @__PURE__ */jsx("h1", {
+      className: "text-3xl font-bold mb-6",
+      children: "Collections"
+    }), collections.length > 0 ? /* @__PURE__ */jsx("div", {
+      className: "collections-grid",
+      children: collections.map(collection => /* @__PURE__ */jsx(CollectionCard, {
+        collection,
+        headingLevel: "h2"
+      }, collection.id))
+    }) : /* @__PURE__ */jsx("p", {
+      className: "text-gray-500 py-8",
+      children: "No collections available yet."
+    })]
+  });
+});
+const COLLECTIONS_QUERY = `#graphql
   query Collections(
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+    collections(first: 100) {
       nodes {
         id
         title
@@ -1115,16 +2697,325 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
           width
           height
         }
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
+        role: metafield(namespace: "custom", key: "collection_role") {
+          value
+        }
       }
     }
   }
-`,Ow=Object.freeze(Object.defineProperty({__proto__:null,default:$w,loader:Tw},Symbol.toStringTag,{value:"Module"}));async function Lw({request:e,context:t}){const n=new URL(e.url).searchParams.get("handle");if(!n)return{error:"Pass ?handle=product-handle to test availability",results:null};const{storefront:a}=t,{country:o,language:i}=a.i18n,l=await a.query(Mw,{variables:{handle:n,country:o,language:i}}),u=await a.query(Fw,{variables:{handle:n}});return{error:null,results:{handle:n,resolvedContext:{country:o,language:i},withContext:l.product,withoutContext:u.product}}}const Dw=ke(function(){var i;const{error:t,results:r}=Te();if(t)return s.jsxs("div",{style:{padding:"2rem",color:"white"},children:[s.jsx("h1",{children:"Debug Product Availability"}),s.jsx("p",{children:t})]});if(!r)return null;const{handle:n,withContext:a,withoutContext:o}=r;return s.jsxs("div",{style:{padding:"2rem",color:"white",maxWidth:"900px",margin:"0 auto"},children:[s.jsxs("h1",{style:{marginBottom:"1rem"},children:["Debug: ",n]}),s.jsxs("div",{style:{marginBottom:"1rem",padding:"0.5rem",background:"rgba(0,100,255,0.15)",borderRadius:"8px"},children:[s.jsx("strong",{children:"Resolved Context:"})," country=",r.resolvedContext.country,", language=",r.resolvedContext.language]}),s.jsxs("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"2rem"},children:[s.jsx(du,{title:"WITH @inContext (ZA)",product:a}),s.jsx(du,{title:"WITHOUT @inContext",product:o})]}),s.jsxs("div",{style:{marginTop:"2rem",padding:"1rem",background:"rgba(255,255,0,0.1)",borderRadius:"8px"},children:[s.jsx("h3",{children:"Diagnosis"}),a&&o?s.jsxs("ul",{children:[s.jsxs("li",{children:["With ZA context: availableForSale ="," ",s.jsx("strong",{style:{color:a.availableForSale?"lime":"red"},children:String(a.availableForSale)})]}),s.jsxs("li",{children:["Without context: availableForSale ="," ",s.jsx("strong",{style:{color:o.availableForSale?"lime":"red"},children:String(o.availableForSale)})]}),a.availableForSale!==o.availableForSale&&s.jsx("li",{style:{color:"orange",fontWeight:"bold"},children:"Discrepancy detected — the ZA market context is affecting availability. Check if the ZA market is in DRAFT status."}),!a.availableForSale&&!o.availableForSale&&s.jsx("li",{style:{color:"red"},children:"Product is unavailable in both contexts — issue is not market-specific. Check inventory tracking and publication status in admin."}),a.availableForSale&&o.availableForSale&&s.jsx("li",{style:{color:"lime"},children:"Product is available in both contexts — no issue detected."}),((i=a.selectedOrFirstAvailableVariant)==null?void 0:i.quantityAvailable)==null&&s.jsx("li",{style:{color:"orange"},children:'quantityAvailable is null/N/A. Enable "Read inventory of assigned locations" in Shopify Admin → Settings → Apps → Headless → Storefront API permissions.'})]}):s.jsx("p",{children:"One or both queries returned null — product may not exist or not be published."})]})]})});function du({title:e,product:t}){var n,a;if(!t)return s.jsxs("div",{style:{background:"rgba(50,50,50,0.6)",padding:"1rem",borderRadius:"8px"},children:[s.jsx("h2",{children:e}),s.jsx("p",{style:{color:"red"},children:"Product not found (null)"})]});const r=t.selectedOrFirstAvailableVariant;return s.jsxs("div",{style:{background:"rgba(50,50,50,0.6)",padding:"1rem",borderRadius:"8px"},children:[s.jsx("h2",{style:{marginBottom:"0.5rem"},children:e}),s.jsx("table",{style:{width:"100%",borderCollapse:"collapse"},children:s.jsxs("tbody",{children:[s.jsx(cn,{label:"Title",value:t.title}),s.jsx(cn,{label:"Product availableForSale",value:String(t.availableForSale),color:t.availableForSale?"lime":"red"}),s.jsx(cn,{label:"Variant availableForSale",value:String(r==null?void 0:r.availableForSale),color:r!=null&&r.availableForSale?"lime":"red"}),s.jsx(cn,{label:"Variant quantityAvailable",value:String((r==null?void 0:r.quantityAvailable)??"N/A")}),s.jsx(cn,{label:"Price",value:r?`${r.price.amount} ${r.price.currencyCode}`:"N/A"})]})}),((a=(n=t.variants)==null?void 0:n.nodes)==null?void 0:a.length)>0&&s.jsxs(s.Fragment,{children:[s.jsx("h3",{style:{marginTop:"1rem"},children:"All Variants"}),s.jsxs("table",{style:{width:"100%",borderCollapse:"collapse",fontSize:"0.85rem"},children:[s.jsx("thead",{children:s.jsxs("tr",{children:[s.jsx("th",{style:{textAlign:"left",padding:"4px"},children:"Title"}),s.jsx("th",{style:{textAlign:"left",padding:"4px"},children:"Available"}),s.jsx("th",{style:{textAlign:"left",padding:"4px"},children:"Qty"}),s.jsx("th",{style:{textAlign:"left",padding:"4px"},children:"Price"})]})}),s.jsx("tbody",{children:t.variants.nodes.map(o=>s.jsxs("tr",{children:[s.jsx("td",{style:{padding:"4px"},children:o.title}),s.jsx("td",{style:{padding:"4px",color:o.availableForSale?"lime":"red"},children:String(o.availableForSale)}),s.jsx("td",{style:{padding:"4px"},children:o.quantityAvailable??"N/A"}),s.jsxs("td",{style:{padding:"4px"},children:[o.price.amount," ",o.price.currencyCode]})]},o.id))})]})]})]})}function cn({label:e,value:t,color:r}){return s.jsxs("tr",{children:[s.jsx("td",{style:{padding:"4px",fontWeight:"bold"},children:e}),s.jsx("td",{style:{padding:"4px",color:r||"white"},children:t})]})}const Mw=`#graphql
+`;
+
+const route2 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__collections__index,
+  loader: loader$o
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$n({
+  request,
+  context
+}) {
+  const url = new URL(request.url);
+  const handle = url.searchParams.get("handle");
+  if (!handle) {
+    return {
+      error: "Pass ?handle=product-handle to test availability",
+      results: null
+    };
+  }
+  const {
+    storefront
+  } = context;
+  const {
+    country,
+    language
+  } = storefront.i18n;
+  const withContext = await storefront.query(DEBUG_QUERY_WITH_CONTEXT, {
+    variables: {
+      handle,
+      country,
+      language
+    }
+  });
+  const withoutContext = await storefront.query(DEBUG_QUERY_WITHOUT_CONTEXT, {
+    variables: {
+      handle
+    }
+  });
+  return {
+    error: null,
+    results: {
+      handle,
+      resolvedContext: {
+        country,
+        language
+      },
+      withContext: withContext.product,
+      withoutContext: withoutContext.product
+    }
+  };
+}
+const _$locale__debugAvailability = UNSAFE_withComponentProps(function DebugAvailability() {
+  const {
+    error,
+    results
+  } = useLoaderData();
+  if (error) {
+    return /* @__PURE__ */jsxs("div", {
+      style: {
+        padding: "2rem",
+        color: "white"
+      },
+      children: [/* @__PURE__ */jsx("h1", {
+        children: "Debug Product Availability"
+      }), /* @__PURE__ */jsx("p", {
+        children: error
+      })]
+    });
+  }
+  if (!results) return null;
+  const {
+    handle,
+    withContext,
+    withoutContext
+  } = results;
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      padding: "2rem",
+      color: "white",
+      maxWidth: "900px",
+      margin: "0 auto"
+    },
+    children: [/* @__PURE__ */jsxs("h1", {
+      style: {
+        marginBottom: "1rem"
+      },
+      children: ["Debug: ", handle]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        marginBottom: "1rem",
+        padding: "0.5rem",
+        background: "rgba(0,100,255,0.15)",
+        borderRadius: "8px"
+      },
+      children: [/* @__PURE__ */jsx("strong", {
+        children: "Resolved Context:"
+      }), " country=", results.resolvedContext.country, ", language=", results.resolvedContext.language]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "2rem"
+      },
+      children: [/* @__PURE__ */jsx(Section, {
+        title: "WITH @inContext (ZA)",
+        product: withContext
+      }), /* @__PURE__ */jsx(Section, {
+        title: "WITHOUT @inContext",
+        product: withoutContext
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        marginTop: "2rem",
+        padding: "1rem",
+        background: "rgba(255,255,0,0.1)",
+        borderRadius: "8px"
+      },
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Diagnosis"
+      }), withContext && withoutContext ? /* @__PURE__ */jsxs("ul", {
+        children: [/* @__PURE__ */jsxs("li", {
+          children: ["With ZA context: availableForSale =", " ", /* @__PURE__ */jsx("strong", {
+            style: {
+              color: withContext.availableForSale ? "lime" : "red"
+            },
+            children: String(withContext.availableForSale)
+          })]
+        }), /* @__PURE__ */jsxs("li", {
+          children: ["Without context: availableForSale =", " ", /* @__PURE__ */jsx("strong", {
+            style: {
+              color: withoutContext.availableForSale ? "lime" : "red"
+            },
+            children: String(withoutContext.availableForSale)
+          })]
+        }), withContext.availableForSale !== withoutContext.availableForSale && /* @__PURE__ */jsx("li", {
+          style: {
+            color: "orange",
+            fontWeight: "bold"
+          },
+          children: "Discrepancy detected — the ZA market context is affecting availability. Check if the ZA market is in DRAFT status."
+        }), !withContext.availableForSale && !withoutContext.availableForSale && /* @__PURE__ */jsx("li", {
+          style: {
+            color: "red"
+          },
+          children: "Product is unavailable in both contexts — issue is not market-specific. Check inventory tracking and publication status in admin."
+        }), withContext.availableForSale && withoutContext.availableForSale && /* @__PURE__ */jsx("li", {
+          style: {
+            color: "lime"
+          },
+          children: "Product is available in both contexts — no issue detected."
+        }), withContext.selectedOrFirstAvailableVariant?.quantityAvailable == null && /* @__PURE__ */jsx("li", {
+          style: {
+            color: "orange"
+          },
+          children: 'quantityAvailable is null/N/A. Enable "Read inventory of assigned locations" in Shopify Admin → Settings → Apps → Headless → Storefront API permissions.'
+        })]
+      }) : /* @__PURE__ */jsx("p", {
+        children: "One or both queries returned null — product may not exist or not be published."
+      })]
+    })]
+  });
+});
+function Section({
+  title,
+  product
+}) {
+  if (!product) {
+    return /* @__PURE__ */jsxs("div", {
+      style: {
+        background: "rgba(50,50,50,0.6)",
+        padding: "1rem",
+        borderRadius: "8px"
+      },
+      children: [/* @__PURE__ */jsx("h2", {
+        children: title
+      }), /* @__PURE__ */jsx("p", {
+        style: {
+          color: "red"
+        },
+        children: "Product not found (null)"
+      })]
+    });
+  }
+  const variant = product.selectedOrFirstAvailableVariant;
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      background: "rgba(50,50,50,0.6)",
+      padding: "1rem",
+      borderRadius: "8px"
+    },
+    children: [/* @__PURE__ */jsx("h2", {
+      style: {
+        marginBottom: "0.5rem"
+      },
+      children: title
+    }), /* @__PURE__ */jsx("table", {
+      style: {
+        width: "100%",
+        borderCollapse: "collapse"
+      },
+      children: /* @__PURE__ */jsxs("tbody", {
+        children: [/* @__PURE__ */jsx(Row, {
+          label: "Title",
+          value: product.title
+        }), /* @__PURE__ */jsx(Row, {
+          label: "Product availableForSale",
+          value: String(product.availableForSale),
+          color: product.availableForSale ? "lime" : "red"
+        }), /* @__PURE__ */jsx(Row, {
+          label: "Variant availableForSale",
+          value: String(variant?.availableForSale),
+          color: variant?.availableForSale ? "lime" : "red"
+        }), /* @__PURE__ */jsx(Row, {
+          label: "Variant quantityAvailable",
+          value: String(variant?.quantityAvailable ?? "N/A")
+        }), /* @__PURE__ */jsx(Row, {
+          label: "Price",
+          value: variant ? `${variant.price.amount} ${variant.price.currencyCode}` : "N/A"
+        })]
+      })
+    }), product.variants?.nodes?.length > 0 && /* @__PURE__ */jsxs(Fragment, {
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          marginTop: "1rem"
+        },
+        children: "All Variants"
+      }), /* @__PURE__ */jsxs("table", {
+        style: {
+          width: "100%",
+          borderCollapse: "collapse",
+          fontSize: "0.85rem"
+        },
+        children: [/* @__PURE__ */jsx("thead", {
+          children: /* @__PURE__ */jsxs("tr", {
+            children: [/* @__PURE__ */jsx("th", {
+              style: {
+                textAlign: "left",
+                padding: "4px"
+              },
+              children: "Title"
+            }), /* @__PURE__ */jsx("th", {
+              style: {
+                textAlign: "left",
+                padding: "4px"
+              },
+              children: "Available"
+            }), /* @__PURE__ */jsx("th", {
+              style: {
+                textAlign: "left",
+                padding: "4px"
+              },
+              children: "Qty"
+            }), /* @__PURE__ */jsx("th", {
+              style: {
+                textAlign: "left",
+                padding: "4px"
+              },
+              children: "Price"
+            })]
+          })
+        }), /* @__PURE__ */jsx("tbody", {
+          children: product.variants.nodes.map(v => /* @__PURE__ */jsxs("tr", {
+            children: [/* @__PURE__ */jsx("td", {
+              style: {
+                padding: "4px"
+              },
+              children: v.title
+            }), /* @__PURE__ */jsx("td", {
+              style: {
+                padding: "4px",
+                color: v.availableForSale ? "lime" : "red"
+              },
+              children: String(v.availableForSale)
+            }), /* @__PURE__ */jsx("td", {
+              style: {
+                padding: "4px"
+              },
+              children: v.quantityAvailable ?? "N/A"
+            }), /* @__PURE__ */jsxs("td", {
+              style: {
+                padding: "4px"
+              },
+              children: [v.price.amount, " ", v.price.currencyCode]
+            })]
+          }, v.id))
+        })]
+      })]
+    })]
+  });
+}
+function Row({
+  label,
+  value,
+  color
+}) {
+  return /* @__PURE__ */jsxs("tr", {
+    children: [/* @__PURE__ */jsx("td", {
+      style: {
+        padding: "4px",
+        fontWeight: "bold"
+      },
+      children: label
+    }), /* @__PURE__ */jsx("td", {
+      style: {
+        padding: "4px",
+        color: color || "white"
+      },
+      children: value
+    })]
+  });
+}
+const DEBUG_QUERY_WITH_CONTEXT = `#graphql
   query DebugProductWithContext(
     $handle: String!
     $country: CountryCode
@@ -1151,7 +3042,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Fw=`#graphql
+`;
+const DEBUG_QUERY_WITHOUT_CONTEXT = `#graphql
   query DebugProductWithoutContext($handle: String!) {
     product(handle: $handle) {
       id
@@ -1174,7 +3066,335 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Uw=Object.freeze(Object.defineProperty({__proto__:null,default:Dw,loader:Lw},Symbol.toStringTag,{value:"Module"}));async function Bw({request:e,context:t}){var l;const r=new URL(e.url),n=r.searchParams.get("ref")??"",a=r.searchParams.get("pf_payment_id")??"";try{const u=await t.cart.get(),c=(((l=u==null?void 0:u.lines)==null?void 0:l.nodes)??[]).map(d=>d.id);c.length>0&&await t.cart.removeLines(c)}catch(u){console.error("[checkout/success] Cart lines removal failed:",u)}t.session.unset("cartId");const o=await t.session.commit(),i=new Headers({"Set-Cookie":o});return Ct({orderRef:n,paymentRef:a},{headers:i})}const zw=ke(function(){const{orderRef:t,paymentRef:r}=Te();return s.jsx("div",{className:"checkout-result-wrapper",children:s.jsxs("div",{className:"checkout-result-box",children:[s.jsx("div",{className:"checkout-result-icon",children:"✓"}),s.jsx("h1",{className:"checkout-result-title",children:"Order Confirmed!"}),s.jsx("p",{className:"checkout-result-message",children:"Thank you for your order. We have received your payment and will process your order shortly. A confirmation email will be sent to you."}),t&&s.jsxs("p",{className:"checkout-result-order-ref",children:["Order ref: ",t]}),r&&s.jsxs("p",{className:"checkout-result-order-ref",children:["Payment ref: ",r]}),s.jsx("a",{href:"/",className:"checkout-result-btn",children:"Continue Shopping"})]})})}),qw=Object.freeze(Object.defineProperty({__proto__:null,default:zw,loader:Bw},Symbol.toStringTag,{value:"Module"}));async function Hw({context:e}){var o,i,l,u,c,d,p;const{storefront:t}=e,{country:r,language:n}=t.i18n,a=[];try{const{shop:y}=await t.query(Yw);a.push({name:"Storefront API Connectivity",status:y!=null&&y.name?"pass":"fail",detail:y!=null&&y.name?`Connected to "${y.name}" (${(o=y.primaryDomain)==null?void 0:o.url})`:"Shop query returned null"})}catch(y){a.push({name:"Storefront API Connectivity",status:"fail",detail:`Error: ${y.message}`})}try{const{products:y}=await t.query(Gw,{variables:{country:r,language:n}}),w=(i=y==null?void 0:y.nodes)==null?void 0:i[0];if(!w)a.push({name:"Product Availability",status:"fail",detail:"No products found via Storefront API. Check that products are published to the Headless channel."});else{const m=(l=w.selectedOrFirstAvailableVariant)==null?void 0:l.price,S=parseFloat((m==null?void 0:m.amount)??"0");a.push({name:"Product Availability",status:"pass",detail:`Found "${w.title}" (handle: ${w.handle})`}),a.push({name:`Market Pricing (@inContext country=${r})`,status:S>0?"pass":"fail",detail:S>0?`Price: ${m.amount} ${m.currencyCode}`:`Price is ${(m==null?void 0:m.amount)??"null"} ${(m==null?void 0:m.currencyCode)??""} - ZA market is likely in DRAFT status. Activate it in Admin > Catalogs.`});const x=(u=w.selectedOrFirstAvailableVariant)==null?void 0:u.quantityAvailable;a.push({name:"Inventory Permissions",status:x!=null?"pass":"warn",detail:x!=null?`quantityAvailable: ${x}`:'quantityAvailable is null. Enable "Read inventory of assigned locations" in Admin > Settings > Apps > Headless > Storefront API permissions.'})}}catch(y){a.push({name:"Product Availability",status:"fail",detail:`Error: ${y.message}`})}try{const y=await t.query(Xw),w=y.collection,m=((c=y.collections)==null?void 0:c.nodes)??[];a.push({name:'Collection "all" Handle',status:w?"pass":"warn",detail:w?`"all" collection exists (id: ${w.id})`:'"all" collection not found via Storefront API (this is normal - the route uses a fallback query for /collections/all)'}),a.push({name:"Collections Available",status:m.length>0?"pass":"fail",detail:m.length>0?`${m.length} collections found: ${m.map(S=>S.handle).join(", ")}`:"No collections found. Check that collections are published to the Headless channel."})}catch(y){a.push({name:"Collection Availability",status:"fail",detail:`Error: ${y.message}`})}try{const y=await e.cart.get();if(y){const w=(d=y.buyerIdentity)==null?void 0:d.countryCode,m=(p=y.cost)==null?void 0:p.totalAmount;a.push({name:"Cart State",status:w===r?"pass":"warn",detail:w===r?`Cart exists, buyerIdentity.countryCode=${w}, total=${(m==null?void 0:m.amount)??"0"} ${(m==null?void 0:m.currencyCode)??""}, items=${y.totalQuantity??0}`:`Cart exists but buyerIdentity.countryCode=${w??"none"} (expected ${r}). Reconciliation should fix this on next page load.`})}else a.push({name:"Cart State",status:"pass",detail:"No active cart (normal for new sessions). Cart will be created on first add-to-cart."})}catch(y){a.push({name:"Cart State",status:"fail",detail:`Error: ${y.message}`})}return{checks:a,context:{country:r,language:n},timestamp:new Date().toISOString()}}const Vw=ke(function(){const{checks:t,context:r,timestamp:n}=Te(),a=t.filter(l=>l.status==="pass").length,o=t.filter(l=>l.status==="fail").length,i=t.filter(l=>l.status==="warn").length;return s.jsxs("div",{style:{padding:"2rem",color:"white",maxWidth:"900px",margin:"0 auto"},children:[s.jsx("h1",{style:{marginBottom:"0.5rem"},children:"Integration Test Dashboard"}),s.jsxs("p",{style:{color:"#aaa",marginBottom:"1.5rem"},children:["Context: country=",r.country,", language=",r.language," | ",n]}),s.jsxs("div",{style:{display:"flex",gap:"1rem",marginBottom:"2rem",flexWrap:"wrap"},children:[s.jsx(is,{label:"Pass",count:a,color:"lime"}),s.jsx(is,{label:"Fail",count:o,color:"red"}),s.jsx(is,{label:"Warn",count:i,color:"orange"})]}),s.jsx("div",{style:{display:"flex",flexDirection:"column",gap:"0.75rem"},children:t.map((l,u)=>s.jsx(Ww,{check:l},u))}),s.jsxs("div",{style:{marginTop:"2rem",padding:"1rem",background:"rgba(255,255,255,0.05)",borderRadius:"8px",fontSize:"0.85rem",color:"#aaa"},children:[s.jsx("h3",{style:{marginBottom:"0.5rem",color:"white"},children:"Manual Actions Checklist"}),s.jsxs("ul",{style:{paddingLeft:"1.2rem"},children:[s.jsx("li",{children:'Activate ZA market: Admin app > Catalogs > click "Activate" next to South Africa'}),s.jsx("li",{children:'Enable inventory permission: Settings > Apps > Headless > Storefront API permissions > "Read inventory of assigned locations"'}),s.jsx("li",{children:"Clear browser cookies for the storefront domain to eliminate stale cart sessions"})]})]})]})});function is({label:e,count:t,color:r}){return s.jsxs("div",{style:{padding:"0.5rem 1rem",background:`rgba(${r==="lime"?"0,255,0":r==="red"?"255,0,0":"255,165,0"},0.15)`,borderRadius:"8px",fontWeight:"bold",color:r},children:[t," ",e]})}function Ww({check:e}){const t=e.status==="pass"?"✅":e.status==="fail"?"❌":"⚠️",r=e.status==="pass"?"rgba(0,255,0,0.08)":e.status==="fail"?"rgba(255,0,0,0.08)":"rgba(255,165,0,0.08)";return s.jsxs("div",{style:{padding:"0.75rem 1rem",background:r,borderRadius:"8px",borderLeft:`3px solid ${e.status==="pass"?"lime":e.status==="fail"?"red":"orange"}`},children:[s.jsxs("div",{style:{fontWeight:"bold",marginBottom:"0.25rem"},children:[t," ",e.name]}),s.jsx("div",{style:{fontSize:"0.85rem",color:"#ccc"},children:e.detail})]})}const Yw=`#graphql
+`;
+
+const route3 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__debugAvailability,
+  loader: loader$n
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$m({
+  request,
+  context
+}) {
+  const url = new URL(request.url);
+  const orderRef = url.searchParams.get("ref") ?? "";
+  const paymentRef = url.searchParams.get("pf_payment_id") ?? "";
+  try {
+    const cartData = await context.cart.get();
+    const lineIds = (cartData?.lines?.nodes ?? []).map(line => line.id);
+    if (lineIds.length > 0) {
+      await context.cart.removeLines(lineIds);
+    }
+  } catch (err) {
+    console.error("[checkout/success] Cart lines removal failed:", err);
+  }
+  context.session.unset("cartId");
+  const cookieHeader = await context.session.commit();
+  const headers = new Headers({
+    "Set-Cookie": cookieHeader
+  });
+  return data({
+    orderRef,
+    paymentRef
+  }, {
+    headers
+  });
+}
+const _$locale__checkout__success = UNSAFE_withComponentProps(function CheckoutSuccess() {
+  const {
+    orderRef,
+    paymentRef
+  } = useLoaderData();
+  return /* @__PURE__ */jsx("div", {
+    className: "checkout-result-wrapper",
+    children: /* @__PURE__ */jsxs("div", {
+      className: "checkout-result-box",
+      children: [/* @__PURE__ */jsx("div", {
+        className: "checkout-result-icon",
+        children: "✓"
+      }), /* @__PURE__ */jsx("h1", {
+        className: "checkout-result-title",
+        children: "Order Confirmed!"
+      }), /* @__PURE__ */jsx("p", {
+        className: "checkout-result-message",
+        children: "Thank you for your order. We have received your payment and will process your order shortly. A confirmation email will be sent to you."
+      }), orderRef && /* @__PURE__ */jsxs("p", {
+        className: "checkout-result-order-ref",
+        children: ["Order ref: ", orderRef]
+      }), paymentRef && /* @__PURE__ */jsxs("p", {
+        className: "checkout-result-order-ref",
+        children: ["Payment ref: ", paymentRef]
+      }), /* @__PURE__ */jsx("a", {
+        href: "/",
+        className: "checkout-result-btn",
+        children: "Continue Shopping"
+      })]
+    })
+  });
+});
+
+const route4 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__checkout__success,
+  loader: loader$m
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$l({
+  context
+}) {
+  const {
+    storefront
+  } = context;
+  const {
+    country,
+    language
+  } = storefront.i18n;
+  const checks = [];
+  try {
+    const {
+      shop
+    } = await storefront.query(SHOP_QUERY);
+    checks.push({
+      name: "Storefront API Connectivity",
+      status: shop?.name ? "pass" : "fail",
+      detail: shop?.name ? `Connected to "${shop.name}" (${shop.primaryDomain?.url})` : "Shop query returned null"
+    });
+  } catch (e) {
+    checks.push({
+      name: "Storefront API Connectivity",
+      status: "fail",
+      detail: `Error: ${e.message}`
+    });
+  }
+  try {
+    const {
+      products
+    } = await storefront.query(PRODUCTS_QUERY, {
+      variables: {
+        country,
+        language
+      }
+    });
+    const product = products?.nodes?.[0];
+    if (!product) {
+      checks.push({
+        name: "Product Availability",
+        status: "fail",
+        detail: "No products found via Storefront API. Check that products are published to the Headless channel."
+      });
+    } else {
+      const price = product.selectedOrFirstAvailableVariant?.price;
+      const priceAmount = parseFloat(price?.amount ?? "0");
+      checks.push({
+        name: "Product Availability",
+        status: "pass",
+        detail: `Found "${product.title}" (handle: ${product.handle})`
+      });
+      checks.push({
+        name: `Market Pricing (@inContext country=${country})`,
+        status: priceAmount > 0 ? "pass" : "fail",
+        detail: priceAmount > 0 ? `Price: ${price.amount} ${price.currencyCode}` : `Price is ${price?.amount ?? "null"} ${price?.currencyCode ?? ""} - ZA market is likely in DRAFT status. Activate it in Admin > Catalogs.`
+      });
+      const qty = product.selectedOrFirstAvailableVariant?.quantityAvailable;
+      checks.push({
+        name: "Inventory Permissions",
+        status: qty != null ? "pass" : "warn",
+        detail: qty != null ? `quantityAvailable: ${qty}` : 'quantityAvailable is null. Enable "Read inventory of assigned locations" in Admin > Settings > Apps > Headless > Storefront API permissions.'
+      });
+    }
+  } catch (e) {
+    checks.push({
+      name: "Product Availability",
+      status: "fail",
+      detail: `Error: ${e.message}`
+    });
+  }
+  try {
+    const data = await storefront.query(COLLECTION_QUERY);
+    const allCollection = data.collection;
+    const collections = data.collections?.nodes ?? [];
+    checks.push({
+      name: 'Collection "all" Handle',
+      status: allCollection ? "pass" : "warn",
+      detail: allCollection ? `"all" collection exists (id: ${allCollection.id})` : '"all" collection not found via Storefront API (this is normal - the route uses a fallback query for /collections/all)'
+    });
+    checks.push({
+      name: "Collections Available",
+      status: collections.length > 0 ? "pass" : "fail",
+      detail: collections.length > 0 ? `${collections.length} collections found: ${collections.map(c => c.handle).join(", ")}` : "No collections found. Check that collections are published to the Headless channel."
+    });
+  } catch (e) {
+    checks.push({
+      name: "Collection Availability",
+      status: "fail",
+      detail: `Error: ${e.message}`
+    });
+  }
+  try {
+    const cartData = await context.cart.get();
+    if (cartData) {
+      const buyerCountry = cartData.buyerIdentity?.countryCode;
+      const totalAmount = cartData.cost?.totalAmount;
+      checks.push({
+        name: "Cart State",
+        status: buyerCountry === country ? "pass" : "warn",
+        detail: buyerCountry === country ? `Cart exists, buyerIdentity.countryCode=${buyerCountry}, total=${totalAmount?.amount ?? "0"} ${totalAmount?.currencyCode ?? ""}, items=${cartData.totalQuantity ?? 0}` : `Cart exists but buyerIdentity.countryCode=${buyerCountry ?? "none"} (expected ${country}). Reconciliation should fix this on next page load.`
+      });
+    } else {
+      checks.push({
+        name: "Cart State",
+        status: "pass",
+        detail: "No active cart (normal for new sessions). Cart will be created on first add-to-cart."
+      });
+    }
+  } catch (e) {
+    checks.push({
+      name: "Cart State",
+      status: "fail",
+      detail: `Error: ${e.message}`
+    });
+  }
+  return {
+    checks,
+    context: {
+      country,
+      language
+    },
+    timestamp: (/* @__PURE__ */new Date()).toISOString()
+  };
+}
+const _$locale__integrationTest = UNSAFE_withComponentProps(function IntegrationTest() {
+  const {
+    checks,
+    context,
+    timestamp
+  } = useLoaderData();
+  const passCount = checks.filter(c => c.status === "pass").length;
+  const failCount = checks.filter(c => c.status === "fail").length;
+  const warnCount = checks.filter(c => c.status === "warn").length;
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      padding: "2rem",
+      color: "white",
+      maxWidth: "900px",
+      margin: "0 auto"
+    },
+    children: [/* @__PURE__ */jsx("h1", {
+      style: {
+        marginBottom: "0.5rem"
+      },
+      children: "Integration Test Dashboard"
+    }), /* @__PURE__ */jsxs("p", {
+      style: {
+        color: "#aaa",
+        marginBottom: "1.5rem"
+      },
+      children: ["Context: country=", context.country, ", language=", context.language, " | ", timestamp]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "flex",
+        gap: "1rem",
+        marginBottom: "2rem",
+        flexWrap: "wrap"
+      },
+      children: [/* @__PURE__ */jsx(StatusBadge, {
+        label: "Pass",
+        count: passCount,
+        color: "lime"
+      }), /* @__PURE__ */jsx(StatusBadge, {
+        label: "Fail",
+        count: failCount,
+        color: "red"
+      }), /* @__PURE__ */jsx(StatusBadge, {
+        label: "Warn",
+        count: warnCount,
+        color: "orange"
+      })]
+    }), /* @__PURE__ */jsx("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.75rem"
+      },
+      children: checks.map((check, i) => /* @__PURE__ */jsx(CheckRow, {
+        check
+      }, i))
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        marginTop: "2rem",
+        padding: "1rem",
+        background: "rgba(255,255,255,0.05)",
+        borderRadius: "8px",
+        fontSize: "0.85rem",
+        color: "#aaa"
+      },
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          marginBottom: "0.5rem",
+          color: "white"
+        },
+        children: "Manual Actions Checklist"
+      }), /* @__PURE__ */jsxs("ul", {
+        style: {
+          paddingLeft: "1.2rem"
+        },
+        children: [/* @__PURE__ */jsx("li", {
+          children: 'Activate ZA market: Admin app > Catalogs > click "Activate" next to South Africa'
+        }), /* @__PURE__ */jsx("li", {
+          children: 'Enable inventory permission: Settings > Apps > Headless > Storefront API permissions > "Read inventory of assigned locations"'
+        }), /* @__PURE__ */jsx("li", {
+          children: "Clear browser cookies for the storefront domain to eliminate stale cart sessions"
+        })]
+      })]
+    })]
+  });
+});
+function StatusBadge({
+  label,
+  count,
+  color
+}) {
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      padding: "0.5rem 1rem",
+      background: `rgba(${color === "lime" ? "0,255,0" : color === "red" ? "255,0,0" : "255,165,0"},0.15)`,
+      borderRadius: "8px",
+      fontWeight: "bold",
+      color
+    },
+    children: [count, " ", label]
+  });
+}
+function CheckRow({
+  check
+}) {
+  const statusIcon = check.status === "pass" ? "✅" : check.status === "fail" ? "❌" : "⚠️";
+  const bgColor = check.status === "pass" ? "rgba(0,255,0,0.08)" : check.status === "fail" ? "rgba(255,0,0,0.08)" : "rgba(255,165,0,0.08)";
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      padding: "0.75rem 1rem",
+      background: bgColor,
+      borderRadius: "8px",
+      borderLeft: `3px solid ${check.status === "pass" ? "lime" : check.status === "fail" ? "red" : "orange"}`
+    },
+    children: [/* @__PURE__ */jsxs("div", {
+      style: {
+        fontWeight: "bold",
+        marginBottom: "0.25rem"
+      },
+      children: [statusIcon, " ", check.name]
+    }), /* @__PURE__ */jsx("div", {
+      style: {
+        fontSize: "0.85rem",
+        color: "#ccc"
+      },
+      children: check.detail
+    })]
+  });
+}
+const SHOP_QUERY = `#graphql
   query IntegrationShop {
     shop {
       name
@@ -1183,7 +3403,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Gw=`#graphql
+`;
+const PRODUCTS_QUERY = `#graphql
   query IntegrationProducts(
     $country: CountryCode
     $language: LanguageCode
@@ -1212,7 +3433,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Xw=`#graphql
+`;
+const COLLECTION_QUERY = `#graphql
   query IntegrationCollection(
     $country: CountryCode
     $language: LanguageCode
@@ -1229,7 +3451,105 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Jw=Object.freeze(Object.defineProperty({__proto__:null,default:Vw,loader:Hw},Symbol.toStringTag,{value:"Module"}));function Nd(e){return e.replace(/-([a-z])/g,(t,r)=>r.toUpperCase())}const Zw=({data:e})=>{var t;return[{title:`${((t=e==null?void 0:e.policy)==null?void 0:t.title)??"Policy"} | Hoseworld`}]};async function Qw({params:e,context:t}){var o;if(!e.handle)throw new Response("No policy handle provided",{status:400});const r=Nd(e.handle),a=(o=(await t.storefront.query(eb,{variables:{privacyPolicy:!1,shippingPolicy:!1,termsOfService:!1,refundPolicy:!1,[r]:!0,language:t.storefront.i18n.language,country:t.storefront.i18n.country},cache:t.storefront.CacheLong()})).shop)==null?void 0:o[r];if(!a)throw new Response("Policy not found",{status:404});return{policy:a}}const Kw=ke(function(){const{policy:t}=Te(),r={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.5rem",marginBottom:"1.5rem"};return s.jsxs("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem 1rem",color:"white"},children:[s.jsx("div",{style:{marginBottom:"1rem"},children:s.jsx(Ie,{to:"/policies",style:{color:"rgba(255, 255, 255, 0.7)",textDecoration:"none"},children:"← Back to Policies"})}),s.jsx("h1",{style:{fontSize:"1.75rem",marginBottom:"1.5rem"},children:t.title}),s.jsx("div",{style:r,children:s.jsx("div",{dangerouslySetInnerHTML:{__html:t.body},style:{lineHeight:"1.6"}})})]})}),eb=`#graphql
+`;
+
+const route5 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__integrationTest,
+  loader: loader$l
+}, Symbol.toStringTag, { value: 'Module' }));
+
+function policyHandleToFieldName(handle) {
+  return handle.replace(/-([a-z])/g, (_, m1) => m1.toUpperCase());
+}
+const meta$4 = ({
+  data
+}) => {
+  return [{
+    title: `${data?.policy?.title ?? "Policy"} | Hoseworld`
+  }];
+};
+async function loader$k({
+  params,
+  context
+}) {
+  if (!params.handle) {
+    throw new Response("No policy handle provided", {
+      status: 400
+    });
+  }
+  const policyName = policyHandleToFieldName(params.handle);
+  const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
+    variables: {
+      privacyPolicy: false,
+      shippingPolicy: false,
+      termsOfService: false,
+      refundPolicy: false,
+      [policyName]: true,
+      language: context.storefront.i18n.language,
+      country: context.storefront.i18n.country
+    },
+    cache: context.storefront.CacheLong()
+  });
+  const policy = data.shop?.[policyName];
+  if (!policy) {
+    throw new Response("Policy not found", {
+      status: 404
+    });
+  }
+  return {
+    policy
+  };
+}
+const _$locale__policies_$handle = UNSAFE_withComponentProps(function Policy() {
+  const {
+    policy
+  } = useLoaderData();
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.5rem",
+    marginBottom: "1.5rem"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      maxWidth: "800px",
+      margin: "0 auto",
+      padding: "2rem 1rem",
+      color: "white"
+    },
+    children: [/* @__PURE__ */jsx("div", {
+      style: {
+        marginBottom: "1rem"
+      },
+      children: /* @__PURE__ */jsx(Link, {
+        to: "/policies",
+        style: {
+          color: "rgba(255, 255, 255, 0.7)",
+          textDecoration: "none"
+        },
+        children: "← Back to Policies"
+      })
+    }), /* @__PURE__ */jsx("h1", {
+      style: {
+        fontSize: "1.75rem",
+        marginBottom: "1.5rem"
+      },
+      children: policy.title
+    }), /* @__PURE__ */jsx("div", {
+      style: cardStyle,
+      children: /* @__PURE__ */jsx("div", {
+        dangerouslySetInnerHTML: {
+          __html: policy.body
+        },
+        style: {
+          lineHeight: "1.6"
+        }
+      })
+    })]
+  });
+});
+const POLICY_CONTENT_QUERY = `#graphql
   fragment Policy on ShopPolicy {
     body
     handle
@@ -1252,7 +3572,459 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       refundPolicy @include(if: $refundPolicy) { ...Policy }
     }
   }
-`,tb=Object.freeze(Object.defineProperty({__proto__:null,default:Kw,loader:Qw,meta:Zw,policyHandleToFieldName:Nd},Symbol.toStringTag,{value:"Module"}));function rb({quantity:e,onChange:t,min:r=1,max:n}){return s.jsxs("div",{className:"quantity-selector",children:[s.jsx("button",{type:"button",className:"quantity-btn",onClick:()=>t(Math.max(r,e-1)),disabled:e<=r,"aria-label":"Decrease quantity",children:"−"}),s.jsx("span",{className:"quantity-display",children:e}),s.jsx("button",{type:"button",className:"quantity-btn",onClick:()=>t(n?Math.min(n,e+1):e+1),disabled:n!==void 0&&e>=n,"aria-label":"Increase quantity",children:"+"})]})}function fu({src:e,alt:t,wrapperClassName:r="aspect-square overflow-hidden rounded bg-gray-100"}){const[n,a]=b.useState(!1);return n?null:s.jsx("div",{className:r,children:s.jsx("img",{src:e,alt:t,onError:()=>a(!0),className:"w-full h-full object-cover"})})}async function nb(e){const{params:t,request:r,context:n}=e,{handle:a}=t,{storefront:o}=n;if(!a)throw new Response("Product handle is required",{status:400});const i=rx(r),{product:l}=await o.query(ob,{variables:{handle:a,selectedOptions:i}});if(!l)throw new Response("Product not found",{status:404});return{product:l}}const ab=ke(function(){var w,m,S,x,E,I,k,P;const{product:t}=Te(),{title:r,descriptionHtml:n,featuredImage:a}=t,[o,i]=b.useState(1),l=(w=t.dimensions)!=null&&w.value?JSON.parse(t.dimensions.value):null,u=l&&(l.length||l.width||l.height||l.weight),c=Ew((m=t.supplierName)==null?void 0:m.value,(S=t.externalProductId)==null?void 0:S.value),d=tt({key:"add-to-cart"}),{open:p}=it(),y=b.useRef(d.state);return b.useEffect(()=>{y.current==="loading"&&d.state==="idle"&&p("cart"),y.current=d.state},[d.state,p]),s.jsx("div",{style:{maxWidth:"80%",margin:"0 auto",background:"rgba(50, 50, 50, 0.65)",padding:"2rem",borderRadius:"12px"},children:s.jsx("div",{className:"product max-w-7xl mx-auto px-4 py-8",children:s.jsxs("div",{className:"grid md:grid-cols-2 gap-8",children:[s.jsxs("div",{className:"product-image",children:[a?s.jsx(gt,{data:a,sizes:"(min-width: 768px) 50vw, 100vw"}):c[0]&&s.jsx(fu,{src:c[0],alt:r,wrapperClassName:"w-full aspect-square overflow-hidden rounded"}),c.length>1&&s.jsx("div",{className:"grid grid-cols-4 gap-2 mt-2",children:c.slice(1).map(N=>s.jsx(fu,{src:N,alt:r},N))})]}),s.jsxs("div",{className:"product-main",children:[s.jsx("h1",{className:"text-3xl font-bold mb-4 text-white",children:r}),s.jsx("div",{className:"text-white text-xl font-semibold",children:s.jsx(bd,{price:(x=t.selectedOrFirstAvailableVariant)==null?void 0:x.price,compareAtPrice:(E=t.selectedOrFirstAvailableVariant)==null?void 0:E.compareAtPrice})}),s.jsx("div",{className:"mt-4 prose text-gray-200",dangerouslySetInnerHTML:{__html:n}}),u&&s.jsxs("div",{className:"mt-4 text-gray-200",children:[s.jsx("h3",{className:"font-semibold mb-2 text-white",children:"Specifications"}),s.jsxs("ul",{className:"text-sm space-y-1",children:[(l==null?void 0:l.length)&&s.jsxs("li",{children:["Length: ",l.length," cm"]}),(l==null?void 0:l.width)&&s.jsxs("li",{children:["Width: ",l.width," cm"]}),(l==null?void 0:l.height)&&s.jsxs("li",{children:["Height: ",l.height," cm"]}),(l==null?void 0:l.weight)&&s.jsxs("li",{children:["Weight: ",l.weight," kg"]})]})]}),s.jsx(tx,{handle:t.handle,options:t.options,variants:t.adjacentVariants,children:({option:N})=>s.jsxs("div",{className:"mt-4",children:[s.jsx("h3",{className:"font-semibold mb-2 text-white",children:N.name}),s.jsx("div",{className:"flex flex-wrap gap-2",children:N.values.map(({value:A,isAvailable:T,to:$,isActive:V})=>s.jsx("a",{href:$,className:`px-3 py-1 border rounded ${V?"border-white bg-white text-black":T?"border-gray-400 text-gray-200 hover:border-white hover:text-white":"border-gray-600 text-gray-500 cursor-not-allowed"}`,children:A},A))})]},N.name)}),s.jsxs("div",{className:"mt-6",children:[s.jsx("label",{className:"block text-white text-sm font-semibold mb-2",children:"Quantity"}),s.jsx(rb,{quantity:o,onChange:i})]}),s.jsxs(d.Form,{method:"post",action:"/cart",children:[s.jsx("input",{type:"hidden",name:re.INPUT_NAME,value:JSON.stringify({action:re.ACTIONS.LinesAdd,inputs:{lines:[{merchandiseId:((I=t.selectedOrFirstAvailableVariant)==null?void 0:I.id)??"",quantity:o,selectedVariant:t.selectedOrFirstAvailableVariant?{...t.selectedOrFirstAvailableVariant,product:{handle:t.handle,title:t.title,id:t.id,vendor:t.vendor}}:void 0}]}})}),s.jsx("button",{type:"submit",className:"mt-4 w-full bg-white text-black py-3 px-6 rounded hover:bg-gray-200 transition font-semibold",disabled:!((k=t.selectedOrFirstAvailableVariant)!=null&&k.availableForSale)||d.state!=="idle",children:(P=t.selectedOrFirstAvailableVariant)!=null&&P.availableForSale?d.state!=="idle"?"Adding...":"Add to Cart":"Sold Out"})]})]})]})})})}),ob=`#graphql
+`;
+
+const route6 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__policies_$handle,
+  loader: loader$k,
+  meta: meta$4,
+  policyHandleToFieldName
+}, Symbol.toStringTag, { value: 'Module' }));
+
+function QuantitySelector({
+  quantity,
+  onChange,
+  min = 1,
+  max,
+  step = 1
+}) {
+  return /* @__PURE__ */ jsxs("div", { className: "quantity-selector", children: [
+    /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        className: "quantity-btn",
+        onClick: () => onChange(Math.max(min, quantity - step)),
+        disabled: quantity <= min,
+        "aria-label": "Decrease quantity",
+        children: "−"
+      }
+    ),
+    /* @__PURE__ */ jsx("span", { className: "quantity-display", children: quantity }),
+    /* @__PURE__ */ jsx(
+      "button",
+      {
+        type: "button",
+        className: "quantity-btn",
+        onClick: () => onChange(max ? Math.min(max, quantity + step) : quantity + step),
+        disabled: max !== void 0 && quantity >= max,
+        "aria-label": "Increase quantity",
+        children: "+"
+      }
+    )
+  ] });
+}
+
+function stripHtml(html) {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+function splitSentences(text) {
+  return text.split(/(?<=[.!?])\s+/).map(sentence => sentence.trim()).filter(Boolean);
+}
+function buildCombinedDetails(fields, alreadyShown) {
+  const seen = new Set(alreadyShown ? splitSentences(alreadyShown).map(s => s.toLowerCase()) : []);
+  const blocks = [];
+  for (const field of fields) {
+    if (!field.text) continue;
+    const uniqueSentences = splitSentences(field.text).filter(sentence => {
+      const key = sentence.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    if (uniqueSentences.length > 0) {
+      blocks.push(uniqueSentences.join(" "));
+    }
+  }
+  return blocks;
+}
+function GalleryThumbnail({
+  src,
+  alt,
+  wrapperClassName = "aspect-square overflow-hidden rounded bg-gray-100",
+  onExpand
+}) {
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef(null);
+  useEffect(() => {
+    const img2 = imgRef.current;
+    if (img2 && img2.complete && img2.naturalWidth === 0) setFailed(true);
+  }, []);
+  if (failed) return null;
+  const img = /* @__PURE__ */jsx("img", {
+    ref: imgRef,
+    src,
+    alt,
+    onError: () => setFailed(true),
+    className: "w-full h-full object-cover"
+  });
+  if (onExpand) {
+    return /* @__PURE__ */jsx("button", {
+      type: "button",
+      onClick: onExpand,
+      className: `${wrapperClassName} block w-full p-0 border-0 cursor-zoom-in`,
+      "aria-label": `Expand image: ${alt}`,
+      children: img
+    });
+  }
+  return /* @__PURE__ */jsx("div", {
+    className: wrapperClassName,
+    children: img
+  });
+}
+function GalleryCarousel({
+  srcs,
+  index,
+  alt,
+  onNavigate,
+  onClose
+}) {
+  useEffect(() => {
+    const onKeyDown = event => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowLeft") onNavigate((index - 1 + srcs.length) % srcs.length);
+      if (event.key === "ArrowRight") onNavigate((index + 1) % srcs.length);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [index, srcs.length, onNavigate, onClose]);
+  return /* @__PURE__ */jsxs("div", {
+    className: "fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4",
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-label": "Expanded product image",
+    onClick: onClose,
+    children: [/* @__PURE__ */jsx("img", {
+      src: srcs[index],
+      alt,
+      className: "max-w-[90vw] max-h-[85vh] object-contain rounded bg-white",
+      onClick: event => event.stopPropagation()
+    }), /* @__PURE__ */jsx("button", {
+      type: "button",
+      onClick: onClose,
+      "aria-label": "Close expanded image",
+      className: "absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white",
+      children: "×"
+    }), srcs.length > 1 && /* @__PURE__ */jsxs(Fragment, {
+      children: [/* @__PURE__ */jsx("button", {
+        type: "button",
+        "aria-label": "Previous image",
+        onClick: event => {
+          event.stopPropagation();
+          onNavigate((index - 1 + srcs.length) % srcs.length);
+        },
+        className: "absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white",
+        children: "‹"
+      }), /* @__PURE__ */jsx("button", {
+        type: "button",
+        "aria-label": "Next image",
+        onClick: event => {
+          event.stopPropagation();
+          onNavigate((index + 1) % srcs.length);
+        },
+        className: "absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white",
+        children: "›"
+      })]
+    })]
+  });
+}
+async function loader$j(args) {
+  const {
+    params,
+    request,
+    context
+  } = args;
+  const {
+    handle
+  } = params;
+  const {
+    storefront
+  } = context;
+  if (!handle) {
+    throw new Response("Product handle is required", {
+      status: 400
+    });
+  }
+  const selectedOptions = getSelectedProductOptions(request);
+  const {
+    product
+  } = await storefront.query(PRODUCT_QUERY, {
+    variables: {
+      handle,
+      selectedOptions
+    }
+  });
+  if (!product) {
+    throw new Response("Product not found", {
+      status: 404
+    });
+  }
+  const candidates = getProductGalleryImageSrcs(product.supplierName?.value, product.externalProductId?.value);
+  let gallerySrcs = [];
+  if (candidates.length > 0) {
+    const [fs, path] = await Promise.all([import('node:fs/promises'), import('node:path')]);
+    const root = path.resolve(process.cwd(), "media", "suppliers");
+    gallerySrcs = (await Promise.all(candidates.map(async src => {
+      const rel = src.replace(/^\/media\/suppliers\//, "");
+      try {
+        await fs.access(path.resolve(root, rel));
+        return src;
+      } catch {
+        return null;
+      }
+    }))).filter(src => src !== null);
+  }
+  return {
+    product,
+    gallerySrcs
+  };
+}
+const _$locale__products_$handle = UNSAFE_withComponentProps(function Product() {
+  const {
+    product,
+    gallerySrcs
+  } = useLoaderData();
+  const {
+    title,
+    descriptionHtml,
+    featuredImage
+  } = product;
+  const msqValue = Number(product.msq?.value);
+  const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
+  const [quantity, setQuantity] = useState(msq);
+  const dimensions = product.dimensions?.value ? JSON.parse(product.dimensions.value) : null;
+  const hasDimensions = dimensions && (dimensions.length || dimensions.width || dimensions.height || dimensions.weight);
+  const combinedDetailBlocks = buildCombinedDetails([{
+    text: product.shortDescription?.value
+  }, {
+    text: product.b2cShortDescription?.value
+  }, {
+    text: product.b2cDescription?.value
+  }, {
+    text: product.erpShortDescription?.value
+  }, {
+    text: product.erpLongDescription?.value
+  }], descriptionHtml ? stripHtml(descriptionHtml) : null);
+  const partNo = product.cleansku?.value;
+  const [expandedImage, setExpandedImage] = useState(null);
+  const fetcher = useFetcher({
+    key: "add-to-cart"
+  });
+  const {
+    open
+  } = useAside();
+  const prevFetcherState = useRef(fetcher.state);
+  useEffect(() => {
+    if (prevFetcherState.current === "loading" && fetcher.state === "idle") {
+      open("cart");
+    }
+    prevFetcherState.current = fetcher.state;
+  }, [fetcher.state, open]);
+  return /* @__PURE__ */jsx("div", {
+    className: "page-card page-card--narrow",
+    children: /* @__PURE__ */jsx("div", {
+      className: "product mx-auto px-4 py-8",
+      children: /* @__PURE__ */jsxs("div", {
+        className: "product-layout",
+        children: [/* @__PURE__ */jsxs("div", {
+          className: "product-image",
+          children: [featuredImage ? /* @__PURE__ */jsx(Image, {
+            data: featuredImage,
+            sizes: "(min-width: 768px) 50vw, 100vw"
+          }) : gallerySrcs[0] ? /* @__PURE__ */jsx(GalleryThumbnail, {
+            src: gallerySrcs[0],
+            alt: title,
+            wrapperClassName: "w-full aspect-square overflow-hidden rounded",
+            onExpand: () => setExpandedImage(0)
+          }) : /* @__PURE__ */jsx("div", {
+            className: "w-full aspect-square rounded bg-gray-100 flex items-center justify-center text-gray-400",
+            children: "No image"
+          }), gallerySrcs.length > 1 && /* @__PURE__ */jsx("div", {
+            className: "grid grid-cols-4 gap-2 mt-2",
+            children: gallerySrcs.slice(1).map((src, thumbIndex) => /* @__PURE__ */jsx(GalleryThumbnail, {
+              src,
+              alt: title,
+              onExpand: () => setExpandedImage(thumbIndex + 1)
+            }, src))
+          }), expandedImage !== null && gallerySrcs[expandedImage] && /* @__PURE__ */jsx(GalleryCarousel, {
+            srcs: gallerySrcs,
+            index: expandedImage,
+            alt: title,
+            onNavigate: setExpandedImage,
+            onClose: () => setExpandedImage(null)
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          className: "product-main",
+          children: [/* @__PURE__ */jsx("h1", {
+            className: "mb-4 text-white",
+            children: title
+          }), /* @__PURE__ */jsx("div", {
+            className: "text-white product-price-display",
+            children: /* @__PURE__ */jsx(ProductPrice, {
+              price: product.selectedOrFirstAvailableVariant?.price ? withDisplayVat(product.selectedOrFirstAvailableVariant.price) : void 0,
+              compareAtPrice: product.selectedOrFirstAvailableVariant?.compareAtPrice ? withDisplayVat(product.selectedOrFirstAvailableVariant.compareAtPrice) : void 0
+            })
+          }), /* @__PURE__ */jsx("div", {
+            className: "mt-4 prose product-description text-gray-200",
+            dangerouslySetInnerHTML: {
+              __html: descriptionHtml
+            }
+          }), (partNo || combinedDetailBlocks.length > 0) && /* @__PURE__ */jsxs("div", {
+            className: "mt-6 text-gray-200",
+            children: [/* @__PURE__ */jsx("h3", {
+              className: "mb-2 text-white",
+              children: "Product Details"
+            }), partNo && /* @__PURE__ */jsxs("p", {
+              children: [/* @__PURE__ */jsxs("span", {
+                className: "font-semibold text-white",
+                children: ["Part No.:", " "]
+              }), partNo]
+            }), combinedDetailBlocks.map((block, index) => /* @__PURE__ */jsx("p", {
+              className: index > 0 || partNo ? "mt-3 pt-3 border-t border-gray-600" : void 0,
+              children: block
+            }, index))]
+          }), hasDimensions && /* @__PURE__ */jsxs("div", {
+            className: "mt-6 text-gray-200",
+            children: [/* @__PURE__ */jsx("h3", {
+              className: "mb-2 text-white",
+              children: "Specifications"
+            }), /* @__PURE__ */jsx("div", {
+              className: "product-dimensions-table",
+              children: /* @__PURE__ */jsx("table", {
+                className: "w-full text-left border-collapse",
+                children: /* @__PURE__ */jsxs("tbody", {
+                  children: [dimensions?.weight && /* @__PURE__ */jsxs("tr", {
+                    className: "border-b border-gray-600",
+                    children: [/* @__PURE__ */jsx("th", {
+                      scope: "row",
+                      className: "py-1.5 pr-4 font-medium text-white whitespace-nowrap",
+                      children: "Weight"
+                    }), /* @__PURE__ */jsxs("td", {
+                      className: "py-1.5",
+                      children: [dimensions.weight, " kg"]
+                    })]
+                  }), dimensions?.length && /* @__PURE__ */jsxs("tr", {
+                    className: "border-b border-gray-600",
+                    children: [/* @__PURE__ */jsx("th", {
+                      scope: "row",
+                      className: "py-1.5 pr-4 font-medium text-white whitespace-nowrap",
+                      children: "Length"
+                    }), /* @__PURE__ */jsxs("td", {
+                      className: "py-1.5",
+                      children: [dimensions.length, " mm"]
+                    })]
+                  }), dimensions?.width && /* @__PURE__ */jsxs("tr", {
+                    className: "border-b border-gray-600",
+                    children: [/* @__PURE__ */jsx("th", {
+                      scope: "row",
+                      className: "py-1.5 pr-4 font-medium text-white whitespace-nowrap",
+                      children: "Width"
+                    }), /* @__PURE__ */jsxs("td", {
+                      className: "py-1.5",
+                      children: [dimensions.width, " mm"]
+                    })]
+                  }), dimensions?.height && /* @__PURE__ */jsxs("tr", {
+                    children: [/* @__PURE__ */jsx("th", {
+                      scope: "row",
+                      className: "py-1.5 pr-4 font-medium text-white whitespace-nowrap",
+                      children: "Height"
+                    }), /* @__PURE__ */jsxs("td", {
+                      className: "py-1.5",
+                      children: [dimensions.height, " mm"]
+                    })]
+                  })]
+                })
+              })
+            })]
+          }), /* @__PURE__ */jsx(VariantSelector, {
+            handle: product.handle,
+            options: product.options,
+            variants: product.adjacentVariants,
+            children: ({
+              option
+            }) => /* @__PURE__ */jsxs("div", {
+              className: "mt-4",
+              children: [/* @__PURE__ */jsx("h3", {
+                className: "mb-2 text-white",
+                children: option.name
+              }), /* @__PURE__ */jsx("div", {
+                className: "flex flex-wrap gap-2",
+                children: option.values.map(({
+                  value,
+                  isAvailable,
+                  to,
+                  isActive
+                }) => /* @__PURE__ */jsx("a", {
+                  href: to,
+                  className: `px-3 py-1 border rounded ${isActive ? "border-white bg-white text-black" : isAvailable ? "border-gray-400 text-gray-200 hover:border-white hover:text-white" : "border-gray-600 text-gray-500 cursor-not-allowed"}`,
+                  children: value
+                }, value))
+              })]
+            }, option.name)
+          }), /* @__PURE__ */jsxs("div", {
+            className: "mt-6",
+            children: [/* @__PURE__ */jsx("label", {
+              className: "block text-white text-sm font-semibold mb-2",
+              children: "Quantity"
+            }), /* @__PURE__ */jsx(QuantitySelector, {
+              quantity,
+              onChange: setQuantity,
+              min: msq,
+              step: msq
+            }), msq > 1 && /* @__PURE__ */jsxs("p", {
+              className: "text-xs text-gray-300 mt-1",
+              children: ["Sold in multiples of ", msq]
+            })]
+          }), /* @__PURE__ */jsxs(fetcher.Form, {
+            method: "post",
+            action: "/cart",
+            children: [/* @__PURE__ */jsx("input", {
+              type: "hidden",
+              name: CartForm.INPUT_NAME,
+              value: JSON.stringify({
+                action: CartForm.ACTIONS.LinesAdd,
+                inputs: {
+                  lines: [{
+                    merchandiseId: product.selectedOrFirstAvailableVariant?.id ?? "",
+                    quantity,
+                    selectedVariant: product.selectedOrFirstAvailableVariant ? {
+                      ...product.selectedOrFirstAvailableVariant,
+                      product: {
+                        handle: product.handle,
+                        title: product.title,
+                        id: product.id,
+                        vendor: product.vendor,
+                        msq: product.msq
+                      }
+                    } : void 0
+                  }]
+                }
+              })
+            }), /* @__PURE__ */jsx("button", {
+              type: "submit",
+              className: "mt-4 w-full bg-white text-black py-3 px-6 rounded hover:bg-gray-200 transition font-semibold",
+              disabled: !product.selectedOrFirstAvailableVariant?.availableForSale || fetcher.state !== "idle",
+              children: product.selectedOrFirstAvailableVariant?.availableForSale ? fetcher.state !== "idle" ? "Adding..." : "Add to Cart" : "Sold Out"
+            }), fetcher.data?.warnings?.map((warning, index) => /* @__PURE__ */jsx("p", {
+              className: "text-xs text-amber-300 mt-2",
+              children: warning.message
+            }, index))]
+          }), /* @__PURE__ */jsx("div", {
+            className: "mt-3",
+            children: /* @__PURE__ */jsx(WishlistButton, {
+              productId: product.id,
+              productHandle: product.handle,
+              productTitle: product.title,
+              variant: "button"
+            })
+          })]
+        })]
+      })
+    })
+  });
+});
+const PRODUCT_QUERY = `#graphql
   query Product(
     $handle: String!
     $selectedOptions: [SelectedOptionInput!]!
@@ -1325,24 +4097,119 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
           value
         }
       }
-      brand: metafield(namespace: "app", key: "brand") {
+      brand: metafield(namespace: "custom", key: "brand") {
         value
       }
-      b2cDescription: metafield(namespace: "app", key: "b2c_description") {
+      shortDescription: metafield(namespace: "custom", key: "short_description") {
         value
       }
-      dimensions: metafield(namespace: "app", key: "dimensions") {
+      b2cDescription: metafield(namespace: "custom", key: "b2c_description") {
         value
       }
-      supplierName: metafield(namespace: "app", key: "supplier_name") {
+      b2cShortDescription: metafield(namespace: "custom", key: "b2c_short_description") {
         value
       }
-      externalProductId: metafield(namespace: "app", key: "external_product_id") {
+      erpShortDescription: metafield(namespace: "custom", key: "erp_short_description") {
+        value
+      }
+      erpLongDescription: metafield(namespace: "custom", key: "erp_long_description") {
+        value
+      }
+      cleansku: metafield(namespace: "custom", key: "cleansku") {
+        value
+      }
+      dimensions: metafield(namespace: "custom", key: "dimensions") {
+        value
+      }
+      supplierName: metafield(namespace: "custom", key: "supplier_name") {
+        value
+      }
+      externalProductId: metafield(namespace: "custom", key: "external_product_id") {
+        value
+      }
+      msq: metafield(namespace: "custom", key: "msq") {
         value
       }
     }
   }
-`,sb=Object.freeze(Object.defineProperty({__proto__:null,default:ab,loader:nb},Symbol.toStringTag,{value:"Module"})),ib=()=>[{title:"Policies | Hoseworld"}];async function lb({context:e}){const t=await e.storefront.query(cb,{variables:{language:e.storefront.i18n.language,country:e.storefront.i18n.country},cache:e.storefront.CacheLong()}),r=[t.shop.privacyPolicy,t.shop.shippingPolicy,t.shop.termsOfService,t.shop.refundPolicy,t.shop.subscriptionPolicy].filter(Boolean);if(r.length===0)throw new Response("No policies found",{status:404});return{policies:r}}const ub=ke(function(){const{policies:t}=Te(),r={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"0.75rem",display:"block",color:"white",textDecoration:"none"};return s.jsxs("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem 1rem",color:"white"},children:[s.jsx("h1",{style:{fontSize:"1.75rem",marginBottom:"1.5rem"},children:"Policies"}),t.map(n=>s.jsxs(Ie,{to:`/policies/${n.handle}`,style:r,children:[s.jsx("span",{style:{fontSize:"1.1rem"},children:n.title}),s.jsx("span",{style:{float:"right",color:"rgba(255, 255, 255, 0.5)"},children:"→"})]},n.handle))]})}),cb=`#graphql
+`;
+
+const route7 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__products_$handle,
+  loader: loader$j
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const meta$3 = () => {
+  return [{
+    title: "Policies | Hoseworld"
+  }];
+};
+async function loader$i({
+  context
+}) {
+  const data = await context.storefront.query(POLICIES_QUERY, {
+    variables: {
+      language: context.storefront.i18n.language,
+      country: context.storefront.i18n.country
+    },
+    cache: context.storefront.CacheLong()
+  });
+  const policies = [data.shop.privacyPolicy, data.shop.shippingPolicy, data.shop.termsOfService, data.shop.refundPolicy, data.shop.subscriptionPolicy].filter(Boolean);
+  if (policies.length === 0) {
+    throw new Response("No policies found", {
+      status: 404
+    });
+  }
+  return {
+    policies
+  };
+}
+const _$locale__policies__index = UNSAFE_withComponentProps(function Policies() {
+  const {
+    policies
+  } = useLoaderData();
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "0.75rem",
+    display: "block",
+    color: "white",
+    textDecoration: "none"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      maxWidth: "800px",
+      margin: "0 auto",
+      padding: "2rem 1rem",
+      color: "white"
+    },
+    children: [/* @__PURE__ */jsx("h1", {
+      style: {
+        fontSize: "1.75rem",
+        marginBottom: "1.5rem"
+      },
+      children: "Policies"
+    }), policies.map(policy => /* @__PURE__ */jsxs(Link, {
+      to: `/policies/${policy.handle}`,
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("span", {
+        style: {
+          fontSize: "1.1rem"
+        },
+        children: policy.title
+      }), /* @__PURE__ */jsx("span", {
+        style: {
+          float: "right",
+          color: "rgba(255, 255, 255, 0.5)"
+        },
+        children: "→"
+      })]
+    }, policy.handle))]
+  });
+});
+const POLICIES_QUERY = `#graphql
   fragment PolicyItem on ShopPolicy {
     id
     title
@@ -1360,7 +4227,123 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       subscriptionPolicy { id title handle }
     }
   }
-`,db=Object.freeze(Object.defineProperty({__proto__:null,default:ub,loader:lb,meta:ib},Symbol.toStringTag,{value:"Module"}));async function fb({request:e,params:t,context:{storefront:r}}){const n=await cx({storefront:r,request:e,params:t,locales:["EN-ZA","EN-NZ","EN-AU","EN-US"],getLink:({type:a,baseUrl:o,handle:i,locale:l})=>{const u=l?`/${l.toLowerCase()}`:"";return`${o}${u}/${a}/${i}`}});return n.headers.set("Cache-Control","max-age=86400"),n}const hb=Object.freeze(Object.defineProperty({__proto__:null,loader:fb},Symbol.toStringTag,{value:"Module"})),pb=({data:e})=>{var t,r,n;return[{title:((r=(t=e==null?void 0:e.page)==null?void 0:t.seo)==null?void 0:r.title)||((n=e==null?void 0:e.page)==null?void 0:n.title)||"Page"}]};async function mb({params:e,context:t}){if(!e.handle)throw new Response("No page handle provided",{status:400});if(e.handle==="contact"){const a=t.storefront.i18n.pathPrefix||"";throw Et(`${a}/contact`)}const{page:r}=await t.storefront.query(gb,{variables:{handle:e.handle,language:t.storefront.i18n.language,country:t.storefront.i18n.country},cache:t.storefront.CacheLong()});if(!r)throw new Response("Page not found",{status:404});return{page:r}}const yb=ke(function(){const{page:t}=Te(),r={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.5rem",marginBottom:"1.5rem"};return s.jsxs("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem 1rem",color:"white"},children:[s.jsx("h1",{style:{fontSize:"1.75rem",marginBottom:"1.5rem"},children:t.title}),s.jsx("div",{style:r,children:s.jsx("div",{dangerouslySetInnerHTML:{__html:t.body},style:{lineHeight:"1.6"}})})]})}),gb=`#graphql
+`;
+
+const route8 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__policies__index,
+  loader: loader$i,
+  meta: meta$3
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$h({
+  request,
+  params,
+  context: {
+    storefront
+  }
+}) {
+  const response = await getSitemap({
+    storefront,
+    request,
+    params,
+    locales: ["EN-ZA", "EN-NZ", "EN-AU", "EN-US"],
+    getLink: ({
+      type,
+      baseUrl,
+      handle,
+      locale
+    }) => {
+      const localePrefix = locale ? `/${locale.toLowerCase()}` : "";
+      return `${baseUrl}${localePrefix}/${type}/${handle}`;
+    }
+  });
+  response.headers.set("Cache-Control", "max-age=86400");
+  return response;
+}
+
+const route9 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  loader: loader$h
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const meta$2 = ({
+  data
+}) => {
+  return [{
+    title: data?.page?.seo?.title || data?.page?.title || "Page"
+  }];
+};
+async function loader$g({
+  params,
+  context
+}) {
+  if (!params.handle) {
+    throw new Response("No page handle provided", {
+      status: 400
+    });
+  }
+  if (params.handle === "contact") {
+    const locale = context.storefront.i18n;
+    const prefix = locale.pathPrefix || "";
+    throw redirect(`${prefix}/contact`);
+  }
+  const {
+    page
+  } = await context.storefront.query(PAGE_QUERY, {
+    variables: {
+      handle: params.handle,
+      language: context.storefront.i18n.language,
+      country: context.storefront.i18n.country
+    },
+    cache: context.storefront.CacheLong()
+  });
+  if (!page) {
+    throw new Response("Page not found", {
+      status: 404
+    });
+  }
+  return {
+    page
+  };
+}
+const _$locale__pages_$handle = UNSAFE_withComponentProps(function Page() {
+  const {
+    page
+  } = useLoaderData();
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.5rem",
+    marginBottom: "1.5rem"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      maxWidth: "800px",
+      margin: "0 auto",
+      padding: "2rem 1rem",
+      color: "white"
+    },
+    children: [/* @__PURE__ */jsx("h1", {
+      style: {
+        fontSize: "1.75rem",
+        marginBottom: "1.5rem"
+      },
+      children: page.title
+    }), /* @__PURE__ */jsx("div", {
+      style: cardStyle,
+      children: /* @__PURE__ */jsx("div", {
+        dangerouslySetInnerHTML: {
+          __html: page.body
+        },
+        style: {
+          lineHeight: "1.6"
+        }
+      })
+    })]
+  });
+});
+const PAGE_QUERY = `#graphql
   query Page(
     $handle: String!
     $language: LanguageCode
@@ -1377,7 +4360,16 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,vb=Object.freeze(Object.defineProperty({__proto__:null,default:yb,loader:mb,meta:pb},Symbol.toStringTag,{value:"Module"})),xb=`#graphql
+`;
+
+const route10 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__pages_$handle,
+  loader: loader$g,
+  meta: meta$2
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const CUSTOMER_FRAGMENT = `#graphql
   fragment Customer on Customer {
     id
     firstName
@@ -1408,19 +4400,1892 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
     zip
     phoneNumber
   }
-`,Td=`#graphql
+`;
+const CUSTOMER_DETAILS_QUERY = `#graphql
   query CustomerDetails($language: LanguageCode) @inContext(language: $language) {
     customer {
       ...Customer
     }
   }
-  ${xb}
-`;async function wb({context:e}){var c,d;const{cart:t,storefront:r,customerAccount:n}=e,a=r.i18n.country;let o=await t.get();if(o){const p=(c=o.buyerIdentity)==null?void 0:c.countryCode;(!p||p!==a)&&(console.log(`[checkout-loader] Syncing buyerIdentity: ${p??"none"} -> ${a}`),await t.updateBuyerIdentity({countryCode:a}),o=await t.get())}if(!o||!o.totalQuantity)throw Et("/cart");let i=null,l={companyName:"",regNumber:"",vatNumber:""};try{if(await n.isLoggedIn()){const{data:y}=await n.query(Td);i=y.customer;const w=e.env,m=w.STOREFRONT_UI_API_URL??"",S=w.INTERNAL_API_SECRET??"",x=((d=i==null?void 0:i.emailAddress)==null?void 0:d.emailAddress)??"";if(m&&x)try{const E=await fetch(`${m}/api/customer/business?email=${encodeURIComponent(x)}`,{headers:{"X-Internal-Secret":S}});E.ok&&(l=await E.json())}catch{}}}catch{}const u=e.env.PUBLIC_PAYMENT_GATEWAY??"shopify";return{cart:o,customer:i,paymentGateway:u,businessProfile:l}}async function bb({request:e,context:t}){var c,d,p,y;const{cart:r}=t,n=await e.formData(),a=n.get("step");let o;if(a==="customer-info"){const w=n.get("email"),m=n.get("phone"),x=`/${((c=new URL(e.url).pathname.split("/")[1])==null?void 0:c.toLowerCase())??""}`,I={"/en-za":"ZA","/en-nz":"NZ","/en-au":"AU","/en-us":"US"}[x]??"ZA";if(o=await r.updateBuyerIdentity({email:w,phone:m||void 0,countryCode:I}),n.get("isBusinessCustomer")==="true"&&w){const P=t.env,N=P.STOREFRONT_UI_API_URL??"",A=P.INTERNAL_API_SECRET??"";if(N){const T=n.get("companyName")||"",$=n.get("regNumber")||"",V=n.get("vatNumber")||"";try{let X="";try{if(await t.customerAccount.isLoggedIn()){const{data:G}=await t.customerAccount.query("#graphql query { customer { id } }");X=((d=G==null?void 0:G.customer)==null?void 0:d.id)??""}}catch{}await fetch(`${N}/api/customer/business`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":A},body:JSON.stringify({shopifyCustomerId:X,email:w,companyName:T,regNumber:$,vatNumber:V})})}catch{}}}}else if(a==="shipping-address"){const w=(p=n.get("countryCode"))==null?void 0:p.trim().toUpperCase(),m=/^[A-Z]{2}$/.test(w)?w:null;if(!m)return Ct({step:a,success:!1,errors:[{message:"Please select a valid country."}]},{status:422});o=await r.addDeliveryAddresses([{address:{deliveryAddress:{address1:n.get("address1"),address2:n.get("address2")||void 0,city:n.get("city"),provinceCode:n.get("provinceCode")||void 0,zip:n.get("zip"),countryCode:m,firstName:n.get("firstName"),lastName:n.get("lastName"),phone:n.get("phone")||void 0}},selected:!0}])}else return Ct({error:"Invalid step"},{status:400});const i=(o==null?void 0:o.userErrors)||[];if(i.length>0)return Ct({step:a,success:!1,errors:i},{status:422});const l=(y=o==null?void 0:o.cart)==null?void 0:y.id,u=l?r.setCartId(l):new Headers;return Ct({step:a,success:!0},{status:200,headers:u})}const Sb=ke(function(){var Z,B,Q,ae,fe,ge,Se,O,H,K,ue,ne,ye,se,he,ce,we,Fe,lt,Re;const{cart:t,customer:r,paymentGateway:n,businessProfile:a}=Te(),o=tt({key:"checkout-step"}),i=Vu(),l=b.useRef(!1),c=Ae().pathname.match(/^\/(en-nz|en-au|en-us|en-za)/),d=c?c[0]:"",p=((B=(Z=c==null?void 0:c[1])==null?void 0:Z.split("-")[1])==null?void 0:B.toUpperCase())??"ZA",y=`${d}/checkout`,w=!!((Q=r==null?void 0:r.defaultAddress)!=null&&Q.address1||r!=null&&r.firstName),m=!r,S=w||m,[x,E]=b.useState(!S),[I,k]=b.useState(1),[P,N]=b.useState(!1),[A,T]=b.useState(!!(a!=null&&a.companyName||a!=null&&a.regNumber||a!=null&&a.vatNumber)),[$,V]=b.useState({companyName:(a==null?void 0:a.companyName)??"",vatNumber:(a==null?void 0:a.vatNumber)??"",regNumber:(a==null?void 0:a.regNumber)??""}),[X,q]=b.useState({email:((ae=t.buyerIdentity)==null?void 0:ae.email)||((fe=r==null?void 0:r.emailAddress)==null?void 0:fe.emailAddress)||"",firstName:((Se=(ge=t.buyerIdentity)==null?void 0:ge.customer)==null?void 0:Se.firstName)||(r==null?void 0:r.firstName)||"",lastName:((H=(O=t.buyerIdentity)==null?void 0:O.customer)==null?void 0:H.lastName)||(r==null?void 0:r.lastName)||"",phone:((K=t.buyerIdentity)==null?void 0:K.phone)||((ue=r==null?void 0:r.defaultAddress)==null?void 0:ue.phoneNumber)||""}),[G,J]=b.useState({firstName:((ne=r==null?void 0:r.defaultAddress)==null?void 0:ne.firstName)||"",lastName:((ye=r==null?void 0:r.defaultAddress)==null?void 0:ye.lastName)||"",address1:((se=r==null?void 0:r.defaultAddress)==null?void 0:se.address1)||"",address2:((he=r==null?void 0:r.defaultAddress)==null?void 0:he.address2)||"",city:((ce=r==null?void 0:r.defaultAddress)==null?void 0:ce.city)||"",provinceCode:((we=r==null?void 0:r.defaultAddress)==null?void 0:we.zoneCode)||"",zip:((Fe=r==null?void 0:r.defaultAddress)==null?void 0:Fe.zip)||"",countryCode:(()=>{var Pe;const ve=((Pe=r==null?void 0:r.defaultAddress)==null?void 0:Pe.territoryCode)||p;return/^[A-Z]{2}$/.test(ve)?ve:p})(),phone:((lt=r==null?void 0:r.defaultAddress)==null?void 0:lt.phoneNumber)||""});return b.useEffect(()=>{G.countryCode||J(ve=>({...ve,countryCode:p}))},[p,G.countryCode]),b.useEffect(()=>{var ve,Pe;(ve=o.data)!=null&&ve.success&&o.data.step==="shipping-address"?(l.current=!0,i.revalidate()):(Pe=o.data)!=null&&Pe.success&&o.data.step==="customer-info"&&k(2)},[o.data]),b.useEffect(()=>{i.state==="idle"&&l.current&&(l.current=!1,k(3))},[i.state]),s.jsx("div",{className:"checkout-wrapper",children:s.jsxs("div",{className:"checkout-container",children:[s.jsx("h1",{className:"checkout-title",children:"Checkout"}),s.jsx(Cb,{currentStep:I}),((Re=o.data)==null?void 0:Re.errors)&&o.data.errors.length>0&&s.jsx("div",{className:"checkout-errors",children:o.data.errors.map((ve,Pe)=>s.jsx("p",{children:ve.message},Pe))}),I===1&&s.jsx(Eb,{customerInfo:X,isPreFilled:w,isGuest:m,prefillConfirmed:x,onPrefillConfirm:E,onFieldChange:(ve,Pe)=>q(rt=>({...rt,[ve]:Pe})),businessCustomer:A,onBusinessCustomerChange:T,businessDetails:$,onBusinessDetailChange:(ve,Pe)=>V(rt=>({...rt,[ve]:Pe})),fetcher:o,actionUrl:y}),I===2&&s.jsx(kb,{shippingAddress:G,onFieldChange:(ve,Pe)=>J(rt=>({...rt,[ve]:Pe})),onBack:()=>k(1),fetcher:o,actionUrl:y}),I===3&&s.jsx(Rb,{deliveryGroups:t.deliveryGroups,localePrefix:d,onBack:()=>k(2),onContinue:()=>k(4)}),I===4&&s.jsx(_b,{cart:t,customerInfo:X,shippingAddress:G,paymentGateway:n,localePrefix:d,invoiceEmailRequested:P,onInvoiceEmailChange:N,businessCustomer:A,businessDetails:$,onBack:()=>k(3)})]})})});function Cb({currentStep:e}){const t=[{num:1,label:"Information"},{num:2,label:"Shipping"},{num:3,label:"Method"},{num:4,label:"Review & Pay"}];return s.jsx("div",{className:"checkout-steps",children:t.map((r,n)=>s.jsxs("div",{className:"checkout-step-item",children:[s.jsx("div",{className:`checkout-step-circle ${e>=r.num?"active":""}`,children:r.num}),s.jsx("span",{className:`checkout-step-label ${e>=r.num?"active":""}`,children:r.label}),n<t.length-1&&s.jsx("div",{className:"checkout-step-line"})]},r.num))})}function jb(e){if(/^[a-zA-Z]/.test(e)||/^\d{4}\/\d{6}\/\d{2}$/.test(e))return e;const t=e.replace(/\D/g,"");return t.length<=4?t:t.length<=10?`${t.slice(0,4)}/${t.slice(4)}`:`${t.slice(0,4)}/${t.slice(4,10)}/${t.slice(10,12)}`}function Eb({customerInfo:e,isPreFilled:t,isGuest:r,prefillConfirmed:n,onPrefillConfirm:a,onFieldChange:o,businessCustomer:i,onBusinessCustomerChange:l,businessDetails:u,onBusinessDetailChange:c,fetcher:d,actionUrl:p}){const y=d.state!=="idle";return s.jsxs(d.Form,{method:"post",action:p,className:"checkout-form",children:[s.jsx("input",{type:"hidden",name:"step",value:"customer-info"}),s.jsx("input",{type:"hidden",name:"isBusinessCustomer",value:i?"true":"false"}),s.jsx("h2",{className:"checkout-section-title",children:"Contact Information"}),t&&s.jsxs("div",{className:"checkout-prefill-notice",children:[s.jsx("p",{children:"Your details have been pre-filled from your account. Please verify they are correct before continuing."}),s.jsxs("label",{className:"checkout-prefill-confirm-label",children:[s.jsx("input",{type:"checkbox",checked:n,onChange:w=>a(w.target.checked)}),"I confirm these details are correct"]})]}),r&&s.jsxs("div",{className:"checkout-prefill-notice",children:[s.jsx("p",{children:"You are checking out as a guest. A customer account will be created using the details below. Please confirm they are correct before continuing."}),s.jsxs("label",{className:"checkout-prefill-confirm-label",children:[s.jsx("input",{type:"checkbox",checked:n,onChange:w=>a(w.target.checked)}),"I confirm my details are correct and agree to have an account created"]})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"email",className:"checkout-form-label",children:"Email"}),s.jsx("input",{id:"email",name:"email",type:"email",required:!0,className:"checkout-form-input",value:e.email,onChange:w=>o("email",w.target.value),placeholder:"your@email.com"})]}),s.jsxs("div",{className:"checkout-form-row",children:[s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"firstName",className:"checkout-form-label",children:"First Name"}),s.jsx("input",{id:"firstName",name:"firstName",type:"text",required:!0,className:"checkout-form-input",value:e.firstName,onChange:w=>o("firstName",w.target.value)})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"lastName",className:"checkout-form-label",children:"Last Name"}),s.jsx("input",{id:"lastName",name:"lastName",type:"text",required:!0,className:"checkout-form-input",value:e.lastName,onChange:w=>o("lastName",w.target.value)})]})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"phone",className:"checkout-form-label",children:"Phone (optional)"}),s.jsx("input",{id:"phone",name:"phone",type:"tel",className:"checkout-form-input",value:e.phone,onChange:w=>o("phone",w.target.value),placeholder:"+27 82 000 0000"})]}),s.jsx("div",{className:"checkout-form-field",style:{marginTop:"0.75rem"},children:s.jsxs("label",{className:"checkout-prefill-confirm-label",children:[s.jsx("input",{type:"checkbox",checked:i,onChange:w=>l(w.target.checked)}),"This order is for a business"]})}),i&&s.jsxs(s.Fragment,{children:[s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"companyName",className:"checkout-form-label",children:"Company name"}),s.jsx("input",{id:"companyName",name:"companyName",type:"text",className:"checkout-form-input",value:u.companyName,onChange:w=>c("companyName",w.target.value),placeholder:"e.g. Acme (Pty) Ltd"})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"vatNumber",className:"checkout-form-label",children:"TAX/VAT No (SARS VAT Number)"}),s.jsx("input",{id:"vatNumber",name:"vatNumber",type:"text",className:"checkout-form-input",value:u.vatNumber,onChange:w=>c("vatNumber",w.target.value),placeholder:"4XXXXXXXXX"})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"regNumber",className:"checkout-form-label",children:"Reg No (Business Registration Number)"}),s.jsx("input",{id:"regNumber",name:"regNumber",type:"text",className:"checkout-form-input",value:u.regNumber,onChange:w=>c("regNumber",jb(w.target.value)),placeholder:"XXXX/XXXXXX/XX"})]})]}),s.jsx("button",{type:"submit",className:"checkout-submit-btn",disabled:y||(t||r)&&!n,children:y?"Saving...":"Continue to Shipping →"})]})}function kb({shippingAddress:e,onFieldChange:t,onBack:r,fetcher:n,actionUrl:a}){const o=n.state!=="idle";return s.jsxs(n.Form,{method:"post",action:a,className:"checkout-form",children:[s.jsx("input",{type:"hidden",name:"step",value:"shipping-address"}),s.jsx("h2",{className:"checkout-section-title",children:"Shipping Address"}),s.jsxs("div",{className:"checkout-form-row",children:[s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"ship-firstName",className:"checkout-form-label",children:"First Name"}),s.jsx("input",{id:"ship-firstName",name:"firstName",type:"text",required:!0,className:"checkout-form-input",value:e.firstName,onChange:i=>t("firstName",i.target.value)})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"ship-lastName",className:"checkout-form-label",children:"Last Name"}),s.jsx("input",{id:"ship-lastName",name:"lastName",type:"text",required:!0,className:"checkout-form-input",value:e.lastName,onChange:i=>t("lastName",i.target.value)})]})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"address1",className:"checkout-form-label",children:"Address"}),s.jsx("input",{id:"address1",name:"address1",type:"text",required:!0,className:"checkout-form-input",value:e.address1,onChange:i=>t("address1",i.target.value)})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"address2",className:"checkout-form-label",children:"Apartment, suite, etc. (optional)"}),s.jsx("input",{id:"address2",name:"address2",type:"text",className:"checkout-form-input",value:e.address2,onChange:i=>t("address2",i.target.value)})]}),s.jsxs("div",{className:"checkout-form-row",children:[s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"city",className:"checkout-form-label",children:"City"}),s.jsx("input",{id:"city",name:"city",type:"text",required:!0,className:"checkout-form-input",value:e.city,onChange:i=>t("city",i.target.value)})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"provinceCode",className:"checkout-form-label",children:"Province / State"}),s.jsx("input",{id:"provinceCode",name:"provinceCode",type:"text",className:"checkout-form-input",value:e.provinceCode,onChange:i=>t("provinceCode",i.target.value)})]})]}),s.jsxs("div",{className:"checkout-form-row",children:[s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"zip",className:"checkout-form-label",children:"Postal / Zip Code"}),s.jsx("input",{id:"zip",name:"zip",type:"text",required:!0,className:"checkout-form-input",value:e.zip,onChange:i=>t("zip",i.target.value)})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"countryCode",className:"checkout-form-label",children:"Country"}),s.jsxs("select",{id:"countryCode",name:"countryCode",required:!0,className:"checkout-form-input",value:e.countryCode,onChange:i=>t("countryCode",i.target.value),children:[s.jsx("option",{value:"ZA",children:"South Africa (ZA)"}),s.jsx("option",{value:"AU",disabled:!0,children:"Australia (AU)"}),s.jsx("option",{value:"BW",disabled:!0,children:"Botswana (BW)"}),s.jsx("option",{value:"CA",disabled:!0,children:"Canada (CA)"}),s.jsx("option",{value:"GB",disabled:!0,children:"United Kingdom (GB)"}),s.jsx("option",{value:"LS",disabled:!0,children:"Lesotho (LS)"}),s.jsx("option",{value:"MW",disabled:!0,children:"Malawi (MW)"}),s.jsx("option",{value:"MZ",disabled:!0,children:"Mozambique (MZ)"}),s.jsx("option",{value:"NA",disabled:!0,children:"Namibia (NA)"}),s.jsx("option",{value:"NZ",disabled:!0,children:"New Zealand (NZ)"}),s.jsx("option",{value:"SZ",disabled:!0,children:"Eswatini (SZ)"}),s.jsx("option",{value:"TZ",disabled:!0,children:"Tanzania (TZ)"}),s.jsx("option",{value:"US",disabled:!0,children:"United States (US)"}),s.jsx("option",{value:"ZM",disabled:!0,children:"Zambia (ZM)"}),s.jsx("option",{value:"ZW",disabled:!0,children:"Zimbabwe (ZW)"})]})]})]}),s.jsxs("div",{className:"checkout-form-field",children:[s.jsx("label",{htmlFor:"ship-phone",className:"checkout-form-label",children:"Phone (optional)"}),s.jsx("input",{id:"ship-phone",name:"phone",type:"tel",className:"checkout-form-input",value:e.phone,onChange:i=>t("phone",i.target.value)})]}),s.jsxs("div",{className:"checkout-nav-buttons",children:[s.jsx("button",{type:"button",className:"checkout-back-btn",onClick:r,children:"← Back"}),s.jsx("button",{type:"submit",className:"checkout-submit-btn",disabled:o,children:o?"Saving...":"Continue to Shipping Method →"})]})]})}function Rb({deliveryGroups:e,localePrefix:t,onBack:r,onContinue:n}){var p,y,w;const a=tt({key:"shipping-method"}),o=(p=e==null?void 0:e.nodes)==null?void 0:p[0],i=(o==null?void 0:o.deliveryOptions)??[],[l,u]=b.useState(((y=o==null?void 0:o.selectedDeliveryOption)==null?void 0:y.handle)??((w=i[0])==null?void 0:w.handle)??null);if(b.useEffect(()=>{if(!l&&i.length>0&&o){const m=i[0].handle;u(m),a.submit({[re.INPUT_NAME]:JSON.stringify({action:re.ACTIONS.SelectedDeliveryOptionsUpdate,inputs:{selectedDeliveryOptions:[{deliveryGroupId:o.id,deliveryOptionHandle:m}]}})},{method:"POST",action:`${t}/cart`})}},[]),i.length===0)return s.jsxs("div",{className:"checkout-form",children:[s.jsx("h2",{className:"checkout-section-title",children:"Shipping Method"}),s.jsx("div",{className:"checkout-shipping-empty",children:"No shipping options are currently available for your address. Please contact us for assistance."}),s.jsxs("div",{className:"checkout-nav-buttons",children:[s.jsx("button",{type:"button",className:"checkout-back-btn",onClick:r,children:"← Back"}),s.jsx("button",{type:"button",className:"checkout-submit-btn",onClick:n,children:"Continue to Review →"})]})]});function c(m){o&&(u(m.handle),a.submit({[re.INPUT_NAME]:JSON.stringify({action:re.ACTIONS.SelectedDeliveryOptionsUpdate,inputs:{selectedDeliveryOptions:[{deliveryGroupId:o.id,deliveryOptionHandle:m.handle}]}})},{method:"POST",action:`${t}/cart`}))}const d=m=>parseFloat(m)===0;return s.jsxs("div",{className:"checkout-form",children:[s.jsx("h2",{className:"checkout-section-title",children:"Shipping Method"}),s.jsx("div",{className:"checkout-shipping-options",children:i.map(m=>s.jsxs("label",{className:"checkout-shipping-option",children:[s.jsx("input",{type:"radio",name:"delivery",value:m.handle,checked:l===m.handle,onChange:()=>c(m)}),s.jsx("span",{className:"checkout-shipping-option-label",children:m.title}),s.jsx("span",{className:`checkout-shipping-option-cost ${d(m.estimatedCost.amount)?"checkout-shipping-option-free":""}`,children:d(m.estimatedCost.amount)?"Free":s.jsx(Ee,{data:m.estimatedCost})})]},m.handle))}),s.jsxs("div",{className:"checkout-nav-buttons",children:[s.jsx("button",{type:"button",className:"checkout-back-btn",onClick:r,children:"← Back"}),s.jsx("button",{type:"button",className:"checkout-submit-btn",onClick:n,disabled:!l||a.state!=="idle",children:a.state!=="idle"?"Updating...":"Continue to Review →"})]})]})}function _b({cart:e,customerInfo:t,shippingAddress:r,paymentGateway:n,localePrefix:a,invoiceEmailRequested:o,onInvoiceEmailChange:i,businessCustomer:l,businessDetails:u,onBack:c}){var y,w,m,S,x;const d=(w=(y=e.deliveryGroups)==null?void 0:y.nodes)==null?void 0:w[0],p=d==null?void 0:d.selectedDeliveryOption;return s.jsxs("div",{className:"checkout-review",children:[s.jsx("h2",{className:"checkout-section-title",children:"Order Review"}),s.jsxs("div",{className:"checkout-review-section",children:[s.jsx("h3",{children:"Contact"}),s.jsx("p",{children:t.email}),s.jsxs("p",{children:[t.firstName," ",t.lastName]}),t.phone&&s.jsx("p",{children:t.phone})]}),s.jsxs("div",{className:"checkout-review-section",children:[s.jsx("h3",{children:"Ship to"}),s.jsxs("p",{children:[r.firstName," ",r.lastName]}),s.jsx("p",{children:r.address1}),r.address2&&s.jsx("p",{children:r.address2}),s.jsxs("p",{children:[r.city,r.provinceCode&&`, ${r.provinceCode}`," ",r.zip]}),s.jsx("p",{children:r.countryCode})]}),p&&s.jsxs("div",{className:"checkout-review-section",children:[s.jsx("h3",{children:"Shipping Method"}),s.jsxs("p",{children:[p.title," — ",parseFloat(p.estimatedCost.amount)===0?"Free":s.jsx(Ee,{data:p.estimatedCost})]})]}),s.jsxs("div",{className:"checkout-review-section",children:[s.jsx("h3",{children:"Items"}),s.jsx("ul",{className:"checkout-review-items",children:(((m=e.lines)==null?void 0:m.nodes)??[]).map(E=>{const I=E.merchandise;return"product"in I?s.jsxs("li",{className:"checkout-review-line",children:[s.jsx("div",{className:"checkout-review-line-image",children:I.image&&s.jsx(gt,{data:I.image,width:60,height:60})}),s.jsxs("div",{className:"checkout-review-line-details",children:[s.jsx("p",{className:"checkout-review-line-title",children:I.product.title}),I.title!=="Default Title"&&s.jsx("p",{className:"checkout-review-line-variant",children:I.title}),s.jsxs("p",{className:"checkout-review-line-qty",children:["Qty: ",E.quantity]})]}),s.jsx("div",{className:"checkout-review-line-price",children:s.jsx(Ee,{data:E.cost.totalAmount})})]},E.id):null})})]}),s.jsxs("div",{className:"checkout-review-section checkout-review-totals",children:[s.jsxs("div",{className:"checkout-review-total-row",children:[s.jsx("span",{children:"Subtotal"}),s.jsx("span",{children:(S=e.cost)!=null&&S.subtotalAmount?s.jsx(Ee,{data:e.cost.subtotalAmount}):"-"})]}),p&&parseFloat(p.estimatedCost.amount)>0&&s.jsxs("div",{className:"checkout-review-total-row",children:[s.jsx("span",{children:"Shipping"}),s.jsx("span",{children:s.jsx(Ee,{data:p.estimatedCost})})]}),s.jsxs("div",{className:"checkout-review-total-row checkout-review-grand-total",children:[s.jsx("span",{children:"Total"}),s.jsx("span",{children:(x=e.cost)!=null&&x.totalAmount?s.jsx(Ee,{data:e.cost.totalAmount}):"-"})]})]}),s.jsxs("div",{className:"checkout-review-section",children:[s.jsx("h3",{children:"Discounts & Gift Cards"}),s.jsx(Ib,{cart:e,localePrefix:a}),s.jsx(Ab,{cart:e,localePrefix:a})]}),s.jsxs("div",{className:"checkout-review-section checkout-payment-info",children:[s.jsx("h3",{children:"Payment"}),n==="payfast"?s.jsx("p",{children:"You will be redirected to PayFast to complete your payment securely."}):s.jsx("p",{children:"You will be redirected to our secure payment page to complete your order."}),s.jsxs("div",{className:"checkout-payment-methods",children:[s.jsx("span",{className:"checkout-payment-badge",children:"Card"}),s.jsx("span",{className:"checkout-payment-badge",children:"EFT"}),s.jsx("span",{className:"checkout-payment-badge",children:"Google Pay"}),s.jsx("span",{className:"checkout-payment-badge",children:"Apple Pay"})]})]}),s.jsxs("div",{className:"checkout-review-section",style:{borderTop:"1px solid rgba(255,255,255,0.1)",paddingTop:"1rem"},children:[s.jsxs("label",{style:{display:"flex",alignItems:"flex-start",gap:"0.6rem",cursor:"pointer",fontSize:"0.875rem",color:"rgba(255,255,255,0.85)"},children:[s.jsx("input",{type:"checkbox",checked:o,onChange:E=>i(E.target.checked),style:{marginTop:"2px",flexShrink:0}}),"Email me a tax invoice for this order"]}),s.jsxs("p",{style:{fontSize:"0.8rem",color:"rgba(255,255,255,0.5)",marginTop:"0.75rem",lineHeight:"1.5"},children:["By proceeding you agree to our"," ",s.jsx("a",{href:"/policies/terms-of-service",target:"_blank",rel:"noreferrer",style:{color:"rgba(26,180,215,0.9)",textDecoration:"underline"},children:"Terms & Conditions"})," ","and"," ",s.jsx("a",{href:"/policies/refund-policy",target:"_blank",rel:"noreferrer",style:{color:"rgba(26,180,215,0.9)",textDecoration:"underline"},children:"Return Policy"}),"."]})]}),s.jsxs("div",{className:"checkout-nav-buttons",children:[s.jsx("button",{type:"button",className:"checkout-back-btn",onClick:c,children:"← Back"}),n==="payfast"?s.jsx(Nb,{cart:e,customerInfo:t,shippingAddress:r,localePrefix:a,invoiceEmailRequested:o,businessCustomer:l,businessDetails:u}):s.jsx("a",{href:e.checkoutUrl,target:"_self",className:"checkout-pay-btn",children:"Proceed to Payment →"})]})]})}function Ib({cart:e,localePrefix:t}){const r=(e.discountCodes??[]).filter(n=>n.applicable).map(n=>n.code);return s.jsxs("div",{style:{marginBottom:"0.75rem"},children:[r.length>0&&s.jsx("div",{style:{marginBottom:"0.5rem"},children:s.jsx(re,{route:`${t}/cart`,action:re.ACTIONS.DiscountCodesUpdate,inputs:{discountCodes:[]},children:s.jsxs("div",{style:{display:"flex",alignItems:"center",gap:"0.5rem",fontSize:"0.875rem"},children:[s.jsx("code",{style:{background:"rgba(255,255,255,0.1)",padding:"2px 8px",borderRadius:"4px"},children:r.join(", ")}),s.jsx("button",{type:"submit",style:{background:"none",border:"none",color:"rgba(255,100,100,0.8)",cursor:"pointer",fontSize:"0.8rem",textDecoration:"underline",padding:0},children:"Remove"})]})})}),s.jsx(re,{route:`${t}/cart`,action:re.ACTIONS.DiscountCodesUpdate,inputs:{discountCodes:r},children:s.jsxs("div",{style:{display:"flex",gap:"0.5rem"},children:[s.jsx("input",{type:"text",name:"discountCode",placeholder:"Discount code",className:"checkout-form-input",style:{flex:1,margin:0}}),s.jsx("button",{type:"submit",className:"checkout-back-btn",style:{margin:0,whiteSpace:"nowrap"},children:"Apply"})]})})]})}function Ab({cart:e,localePrefix:t}){const r=e.appliedGiftCards??[];return s.jsxs("div",{children:[r.length>0&&s.jsx("div",{style:{marginBottom:"0.5rem"},children:r.map(n=>s.jsx(re,{route:`${t}/cart`,action:re.ACTIONS.GiftCardCodesRemove,inputs:{giftCardCodes:[n.id]},children:s.jsxs("div",{style:{display:"flex",alignItems:"center",gap:"0.5rem",fontSize:"0.875rem",marginBottom:"0.25rem"},children:[s.jsxs("code",{style:{background:"rgba(255,255,255,0.1)",padding:"2px 8px",borderRadius:"4px"},children:["***",n.lastCharacters]}),s.jsx(Ee,{data:n.amountUsed}),s.jsx("button",{type:"submit",style:{background:"none",border:"none",color:"rgba(255,100,100,0.8)",cursor:"pointer",fontSize:"0.8rem",textDecoration:"underline",padding:0},children:"Remove"})]})},n.id))}),s.jsx(re,{route:`${t}/cart`,action:re.ACTIONS.GiftCardCodesAdd,children:s.jsxs("div",{style:{display:"flex",gap:"0.5rem"},children:[s.jsx("input",{type:"text",name:"giftCardCode",placeholder:"Gift card code",className:"checkout-form-input",style:{flex:1,margin:0}}),s.jsx("button",{type:"submit",className:"checkout-back-btn",style:{margin:0,whiteSpace:"nowrap"},children:"Apply"})]})})]})}function Nb({cart:e,customerInfo:t,shippingAddress:r,localePrefix:n,invoiceEmailRequested:a,businessCustomer:o,businessDetails:i}){var c,d,p,y,w,m,S,x,E,I,k,P,N,A,T;const l=tt({key:"payfast-initiate"}),u=l.state!=="idle";return s.jsxs(l.Form,{method:"post",action:`${n}/checkout/payment`,children:[s.jsx("input",{type:"hidden",name:"cartId",value:e.id}),s.jsx("input",{type:"hidden",name:"cartTotal",value:((d=(c=e.cost)==null?void 0:c.totalAmount)==null?void 0:d.amount)??"0"}),s.jsx("input",{type:"hidden",name:"cartCurrency",value:((y=(p=e.cost)==null?void 0:p.totalAmount)==null?void 0:y.currencyCode)??"ZAR"}),s.jsx("input",{type:"hidden",name:"email",value:t.email}),s.jsx("input",{type:"hidden",name:"firstName",value:t.firstName}),s.jsx("input",{type:"hidden",name:"lastName",value:t.lastName}),s.jsx("input",{type:"hidden",name:"phone",value:t.phone}),s.jsx("input",{type:"hidden",name:"shipAddress1",value:r.address1}),s.jsx("input",{type:"hidden",name:"shipAddress2",value:r.address2}),s.jsx("input",{type:"hidden",name:"shipCity",value:r.city}),s.jsx("input",{type:"hidden",name:"shipProvince",value:r.provinceCode}),s.jsx("input",{type:"hidden",name:"shipZip",value:r.zip}),s.jsx("input",{type:"hidden",name:"shipCountry",value:r.countryCode}),s.jsx("input",{type:"hidden",name:"invoiceEmailRequested",value:a?"true":"false"}),s.jsx("input",{type:"hidden",name:"isBusinessCustomer",value:o?"true":"false"}),s.jsx("input",{type:"hidden",name:"companyName",value:i.companyName}),s.jsx("input",{type:"hidden",name:"vatNumber",value:i.vatNumber}),s.jsx("input",{type:"hidden",name:"regNumber",value:i.regNumber}),s.jsx("input",{type:"hidden",name:"lineItems",value:JSON.stringify((((w=e.lines)==null?void 0:w.nodes)??[]).map($=>{var V,X,q,G,J,Z,B,Q;return{variantId:((V=$.merchandise)==null?void 0:V.id)??"",quantity:$.quantity,title:((q=(X=$.merchandise)==null?void 0:X.product)==null?void 0:q.title)??"",variantTitle:((G=$.merchandise)==null?void 0:G.title)??"",price:((Z=(J=$.cost)==null?void 0:J.amountPerQuantity)==null?void 0:Z.amount)??"0",total:((Q=(B=$.cost)==null?void 0:B.totalAmount)==null?void 0:Q.amount)??"0"}}))}),s.jsx("input",{type:"hidden",name:"shippingTitle",value:((E=(x=(S=(m=e.deliveryGroups)==null?void 0:m.nodes)==null?void 0:S[0])==null?void 0:x.selectedDeliveryOption)==null?void 0:E.title)??""}),s.jsx("input",{type:"hidden",name:"shippingCost",value:((A=(N=(P=(k=(I=e.deliveryGroups)==null?void 0:I.nodes)==null?void 0:k[0])==null?void 0:P.selectedDeliveryOption)==null?void 0:N.estimatedCost)==null?void 0:A.amount)??"0"}),((T=l.data)==null?void 0:T.error)&&s.jsx("p",{style:{color:"#fc8181",fontSize:"0.85rem",marginBottom:"0.5rem"},children:l.data.error}),s.jsx("button",{type:"submit",className:"checkout-pay-btn",disabled:u,style:{border:"none",cursor:u?"wait":"pointer"},children:u?"Redirecting to PayFast...":"Proceed to Payment →"})]})}const Tb=Object.freeze(Object.defineProperty({__proto__:null,action:bb,default:Sb,loader:wb},Symbol.toStringTag,{value:"Module"}));async function $b({request:e,context:t}){const r=t.env,n=r.STOREFRONT_UI_API_URL??"",a=r.INTERNAL_API_SECRET??"";if(!n)return Ct({error:"Payment service is not configured. Please try again later."},{status:503});const o=await e.formData(),i={cartId:o.get("cartId"),cartTotal:o.get("cartTotal"),cartCurrency:o.get("cartCurrency"),customer:{email:o.get("email"),firstName:o.get("firstName"),lastName:o.get("lastName"),phone:o.get("phone")},shippingAddress:{address1:o.get("shipAddress1"),address2:o.get("shipAddress2"),city:o.get("shipCity"),province:o.get("shipProvince"),zip:o.get("shipZip"),country:o.get("shipCountry")},lineItems:(()=>{try{return JSON.parse(o.get("lineItems")??"[]")}catch{return[]}})(),invoiceEmailRequested:o.get("invoiceEmailRequested")==="true",businessDetails:{isBusinessCustomer:o.get("isBusinessCustomer")==="true",companyName:o.get("companyName")||"",vatNumber:o.get("vatNumber")||"",regNumber:o.get("regNumber")||""},shippingLine:{title:o.get("shippingTitle")||"Shipping",cost:o.get("shippingCost")||"0"}};try{const l=await fetch(`${n}/api/payment/initiate`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":a},body:JSON.stringify(i)});if(!l.ok){const c=await l.text().catch(()=>"Unknown error");return console.error("[checkout/payment] initiate failed:",l.status,c),Ct({error:"Payment initiation failed. Please try again."},{status:502})}const{redirectUrl:u}=await l.json();if(!u)return Ct({error:"No payment redirect URL received. Please try again."},{status:502});throw Et(u)}catch(l){if(l instanceof Response)throw l;return console.error("[checkout/payment] unexpected error:",l),Ct({error:"An unexpected error occurred. Please try again."},{status:500})}}async function Pb(){throw Et("/checkout")}const Ob=Object.freeze(Object.defineProperty({__proto__:null,action:$b,loader:Pb},Symbol.toStringTag,{value:"Module"}));async function Lb({request:e}){return{orderRef:new URL(e.url).searchParams.get("ref")??""}}const Db=ke(function(){const{orderRef:t}=Te();return s.jsx("div",{className:"checkout-result-wrapper",children:s.jsxs("div",{className:"checkout-result-box",children:[s.jsx("div",{className:"checkout-result-icon",style:{color:"#fc8181"},children:"✕"}),s.jsx("h1",{className:"checkout-result-title",children:"Payment Cancelled"}),s.jsx("p",{className:"checkout-result-message",children:"Your payment was cancelled and you have not been charged. Your cart is still intact — you can try again when you are ready."}),t&&s.jsxs("p",{className:"checkout-result-order-ref",children:["Order ref: ",t]}),s.jsxs("div",{style:{display:"flex",gap:"1rem",justifyContent:"center",flexWrap:"wrap"},children:[s.jsx("a",{href:"/checkout",className:"checkout-result-btn",children:"Try Again"}),s.jsx("a",{href:"/cart",className:"checkout-result-btn",style:{background:"rgba(255,255,255,0.1)",border:"1px solid rgba(255,255,255,0.3)"},children:"Back to Cart"})]})]})})}),Mb=Object.freeze(Object.defineProperty({__proto__:null,default:Db,loader:Lb},Symbol.toStringTag,{value:"Module"}));async function Fb({context:e}){return e.customerAccount.authorize()}const Ub=Object.freeze(Object.defineProperty({__proto__:null,loader:Fb},Symbol.toStringTag,{value:"Module"})),Bb=()=>[{title:"Contact Us | Hoseworld"}],zb=ke(function(){const t={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.5rem",marginBottom:"1.5rem"},r={width:"100%",padding:"0.75rem",borderRadius:"4px",border:"1px solid rgba(255, 255, 255, 0.3)",background:"rgba(255, 255, 255, 0.1)",color:"white",fontSize:"1rem",marginBottom:"1rem",boxSizing:"border-box"},n={display:"block",marginBottom:"0.25rem",color:"rgba(255, 255, 255, 0.7)",fontSize:"0.875rem"};return s.jsxs("div",{style:{maxWidth:"800px",margin:"0 auto",padding:"2rem 1rem",color:"white"},children:[s.jsx("h1",{style:{fontSize:"1.75rem",marginBottom:"1.5rem"},children:"Contact Us"}),s.jsxs("div",{style:{display:"flex",gap:"2rem",flexWrap:"wrap"},children:[s.jsx("div",{style:{flex:"1 1 300px"},children:s.jsxs("div",{style:t,children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem"},children:"Get in Touch"}),s.jsx("p",{style:{marginBottom:"0.75rem",lineHeight:"1.6"},children:"Have a question about our products or need assistance with an order? We are here to help."}),s.jsxs("div",{style:{marginTop:"1.5rem"},children:[s.jsxs("p",{style:{marginBottom:"0.5rem"},children:[s.jsx("strong",{children:"Email:"})," info@hoseworld.co.za"]}),s.jsxs("p",{style:{marginBottom:"0.5rem"},children:[s.jsx("strong",{children:"Phone:"})," +27 (0)11 123 4567"]}),s.jsxs("p",{style:{marginBottom:"0.5rem"},children:[s.jsx("strong",{children:"Address:"})," Johannesburg, South Africa"]}),s.jsxs("p",{style:{marginBottom:"0.5rem"},children:[s.jsx("strong",{children:"Hours:"})," Mon-Fri 8am - 5pm SAST"]})]})]})}),s.jsx("div",{style:{flex:"1 1 300px"},children:s.jsxs("div",{style:t,children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem"},children:"Send a Message"}),s.jsxs("form",{method:"post",children:[s.jsx("label",{style:n,children:"Name"}),s.jsx("input",{type:"text",name:"name",required:!0,style:r,placeholder:"Your name"}),s.jsx("label",{style:n,children:"Email"}),s.jsx("input",{type:"email",name:"email",required:!0,style:r,placeholder:"your@email.com"}),s.jsx("label",{style:n,children:"Message"}),s.jsx("textarea",{name:"message",required:!0,rows:5,style:{...r,resize:"vertical"},placeholder:"How can we help?"}),s.jsx("button",{type:"submit",style:{background:"rgba(255, 255, 255, 0.15)",color:"white",border:"1px solid rgba(255, 255, 255, 0.3)",padding:"0.75rem 1.5rem",borderRadius:"4px",fontSize:"1rem",cursor:"pointer",width:"100%"},children:"Send Message"})]})]})})]})]})}),qb=Object.freeze(Object.defineProperty({__proto__:null,default:zb,meta:Bb},Symbol.toStringTag,{value:"Module"}));async function Hb(e){var o;const{context:t}=e,{storefront:r}=t;return{collections:(((o=(await r.query(Wb)).collections)==null?void 0:o.nodes)??[]).filter(i=>i.title!=="JSON Imported"&&i.products.nodes.length>0)}}const Vb=ke(function(){const{collections:t}=Te();return s.jsxs("div",{className:"home",children:[s.jsx("section",{className:"px-4 pt-8 max-w-7xl mx-auto",children:s.jsx("h2",{className:"text-2xl font-bold text-left",children:"Online"})}),s.jsx("div",{className:"px-4 max-w-7xl mx-auto",children:s.jsx("hr",{style:{border:"none",borderTop:"2px solid rgb(0, 0, 0)"}})}),s.jsx("section",{hidden:!0,className:"px-4 py-8 max-w-7xl mx-auto",children:s.jsx("h2",{className:"text-2xl font-bold",children:"Instore"})}),s.jsx("section",{className:"px-4 py-8 max-w-7xl mx-auto",children:t.length>0?s.jsx("div",{className:"collections-grid",children:t.map(r=>s.jsx(Ad,{collection:r},r.id))}):s.jsx("p",{className:"text-center text-gray-500 py-8",children:"No collections available yet."})})]})}),Wb=`#graphql
+  ${CUSTOMER_FRAGMENT}
+`;
+
+async function loader$f({
+  context
+}) {
+  const {
+    cart,
+    storefront,
+    customerAccount
+  } = context;
+  const expectedCountry = storefront.i18n.country;
+  let cartData = await cart.get();
+  if (cartData) {
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (!currentCountry || currentCountry !== expectedCountry) {
+      console.log(`[checkout-loader] Syncing buyerIdentity: ${currentCountry ?? "none"} -> ${expectedCountry}`);
+      await cart.updateBuyerIdentity({
+        countryCode: expectedCountry
+      });
+      cartData = await cart.get();
+    }
+  }
+  if (!cartData || !cartData.totalQuantity) {
+    throw redirect("/cart");
+  }
+  let customer = null;
+  let businessProfile = {
+    companyName: "",
+    regNumber: "",
+    vatNumber: ""
+  };
+  try {
+    const isLoggedIn = await customerAccount.isLoggedIn();
+    if (isLoggedIn) {
+      const {
+        data: accountData
+      } = await customerAccount.query(CUSTOMER_DETAILS_QUERY);
+      customer = accountData.customer;
+      const env = context.env;
+      const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+      const internalSecret = env.INTERNAL_API_SECRET ?? "";
+      const email = customer?.emailAddress?.emailAddress ?? "";
+      if (storefrontUiUrl && email) {
+        try {
+          const bpRes = await fetch(`${storefrontUiUrl}/api/customer/business?email=${encodeURIComponent(email)}`, {
+            headers: {
+              "X-Internal-Secret": internalSecret
+            }
+          });
+          if (bpRes.ok) {
+            businessProfile = await bpRes.json();
+          }
+        } catch {}
+      }
+    }
+  } catch {}
+  const paymentGateway = context.env.PUBLIC_PAYMENT_GATEWAY ?? "shopify";
+  return {
+    cart: cartData,
+    customer,
+    paymentGateway,
+    businessProfile
+  };
+}
+async function action$9({
+  request,
+  context
+}) {
+  const {
+    cart
+  } = context;
+  const formData = await request.formData();
+  const step = formData.get("step");
+  let result;
+  if (step === "customer-info") {
+    const email = formData.get("email");
+    const phone = formData.get("phone");
+    const url = new URL(request.url);
+    const pathPrefix = `/${url.pathname.split("/")[1]?.toLowerCase() ?? ""}`;
+    const localeCountryMap = {
+      "/en-za": "ZA",
+      "/en-nz": "NZ",
+      "/en-au": "AU",
+      "/en-us": "US"
+    };
+    const countryCode = localeCountryMap[pathPrefix] ?? "ZA";
+    result = await cart.updateBuyerIdentity({
+      email,
+      phone: phone || void 0,
+      countryCode
+    });
+    const isBusinessCustomer = formData.get("isBusinessCustomer") === "true";
+    if (isBusinessCustomer && email) {
+      const env = context.env;
+      const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+      const internalSecret = env.INTERNAL_API_SECRET ?? "";
+      if (storefrontUiUrl) {
+        const companyName = formData.get("companyName") || "";
+        const regNumber = formData.get("regNumber") || "";
+        const vatNumber = formData.get("vatNumber") || "";
+        try {
+          let shopifyCustomerId = "";
+          try {
+            const isLoggedIn = await context.customerAccount.isLoggedIn();
+            if (isLoggedIn) {
+              const {
+                data: idData
+              } = await context.customerAccount.query(`#graphql query { customer { id } }`);
+              shopifyCustomerId = idData?.customer?.id ?? "";
+            }
+          } catch {}
+          await fetch(`${storefrontUiUrl}/api/customer/business`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Internal-Secret": internalSecret
+            },
+            body: JSON.stringify({
+              shopifyCustomerId,
+              email,
+              companyName,
+              regNumber,
+              vatNumber
+            })
+          });
+        } catch {}
+      }
+    }
+  } else if (step === "shipping-address") {
+    const rawCountryCode = formData.get("countryCode")?.trim().toUpperCase();
+    const countryCode = /^[A-Z]{2}$/.test(rawCountryCode) ? rawCountryCode : null;
+    if (!countryCode) {
+      return data({
+        step,
+        success: false,
+        errors: [{
+          message: "Please select a valid country."
+        }]
+      }, {
+        status: 422
+      });
+    }
+    result = await cart.addDeliveryAddresses([{
+      address: {
+        deliveryAddress: {
+          address1: formData.get("address1"),
+          address2: formData.get("address2") || void 0,
+          city: formData.get("city"),
+          provinceCode: formData.get("provinceCode") || void 0,
+          zip: formData.get("zip"),
+          countryCode,
+          firstName: formData.get("firstName"),
+          lastName: formData.get("lastName"),
+          phone: formData.get("phone") || void 0
+        }
+      },
+      selected: true
+    }]);
+  } else {
+    return data({
+      error: "Invalid step"
+    }, {
+      status: 400
+    });
+  }
+  const userErrors = result?.userErrors || [];
+  if (userErrors.length > 0) {
+    return data({
+      step,
+      success: false,
+      errors: userErrors
+    }, {
+      status: 422
+    });
+  }
+  const cartId = result?.cart?.id;
+  const headers = cartId ? cart.setCartId(cartId) : new Headers();
+  return data({
+    step,
+    success: true
+  }, {
+    status: 200,
+    headers
+  });
+}
+const _$locale__checkout = UNSAFE_withComponentProps(function Checkout() {
+  const {
+    cart,
+    customer,
+    paymentGateway,
+    businessProfile
+  } = useLoaderData();
+  const fetcher = useFetcher({
+    key: "checkout-step"
+  });
+  const revalidator = useRevalidator();
+  const pendingStep3 = useRef(false);
+  const location = useLocation();
+  const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
+  const localePrefix = localeMatch ? localeMatch[0] : "";
+  const defaultCountry = localeMatch?.[1]?.split("-")[1]?.toUpperCase() ?? "ZA";
+  const actionUrl = `${localePrefix}/checkout`;
+  const isPreFilled = Boolean(customer?.defaultAddress?.address1 || customer?.firstName);
+  const isGuest = !customer;
+  const requiresConfirm = isPreFilled || isGuest;
+  const [prefillConfirmed, setPrefillConfirmed] = useState(!requiresConfirm);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [invoiceEmailRequested, setInvoiceEmailRequested] = useState(false);
+  const [businessCustomer, setBusinessCustomer] = useState(!!(businessProfile?.companyName || businessProfile?.regNumber || businessProfile?.vatNumber));
+  const [businessDetails, setBusinessDetails] = useState({
+    companyName: businessProfile?.companyName ?? "",
+    vatNumber: businessProfile?.vatNumber ?? "",
+    regNumber: businessProfile?.regNumber ?? ""
+  });
+  const [customerInfo, setCustomerInfo] = useState({
+    email: cart.buyerIdentity?.email || customer?.emailAddress?.emailAddress || "",
+    firstName: cart.buyerIdentity?.customer?.firstName || customer?.firstName || "",
+    lastName: cart.buyerIdentity?.customer?.lastName || customer?.lastName || "",
+    phone: cart.buyerIdentity?.phone || customer?.defaultAddress?.phoneNumber || ""
+  });
+  const [shippingAddress, setShippingAddress] = useState({
+    firstName: customer?.defaultAddress?.firstName || "",
+    lastName: customer?.defaultAddress?.lastName || "",
+    address1: customer?.defaultAddress?.address1 || "",
+    address2: customer?.defaultAddress?.address2 || "",
+    city: customer?.defaultAddress?.city || "",
+    provinceCode: customer?.defaultAddress?.zoneCode || "",
+    zip: customer?.defaultAddress?.zip || "",
+    countryCode: (() => {
+      const raw = customer?.defaultAddress?.territoryCode || defaultCountry;
+      return /^[A-Z]{2}$/.test(raw) ? raw : defaultCountry;
+    })(),
+    phone: customer?.defaultAddress?.phoneNumber || ""
+  });
+  useEffect(() => {
+    if (!shippingAddress.countryCode) {
+      setShippingAddress(prev => ({
+        ...prev,
+        countryCode: defaultCountry
+      }));
+    }
+  }, [defaultCountry, shippingAddress.countryCode]);
+  useEffect(() => {
+    if (fetcher.data?.success && fetcher.data.step === "shipping-address") {
+      pendingStep3.current = true;
+      revalidator.revalidate();
+    } else if (fetcher.data?.success && fetcher.data.step === "customer-info") {
+      setCurrentStep(2);
+    }
+  }, [fetcher.data]);
+  useEffect(() => {
+    if (revalidator.state === "idle" && pendingStep3.current) {
+      pendingStep3.current = false;
+      setCurrentStep(3);
+    }
+  }, [revalidator.state]);
+  return /* @__PURE__ */jsx("div", {
+    className: "checkout-wrapper",
+    children: /* @__PURE__ */jsxs("div", {
+      className: "checkout-container",
+      children: [/* @__PURE__ */jsx("h1", {
+        className: "checkout-title",
+        children: "Checkout"
+      }), /* @__PURE__ */jsx(StepIndicator, {
+        currentStep
+      }), fetcher.data?.errors && fetcher.data.errors.length > 0 && /* @__PURE__ */jsx("div", {
+        className: "checkout-errors",
+        children: fetcher.data.errors.map((err, i) => /* @__PURE__ */jsx("p", {
+          children: err.message
+        }, i))
+      }), currentStep === 1 && /* @__PURE__ */jsx(CustomerInfoStep, {
+        customerInfo,
+        isPreFilled,
+        isGuest,
+        prefillConfirmed,
+        onPrefillConfirm: setPrefillConfirmed,
+        onFieldChange: (field, value) => setCustomerInfo(prev => ({
+          ...prev,
+          [field]: value
+        })),
+        businessCustomer,
+        onBusinessCustomerChange: setBusinessCustomer,
+        businessDetails,
+        onBusinessDetailChange: (field, value) => setBusinessDetails(prev => ({
+          ...prev,
+          [field]: value
+        })),
+        fetcher,
+        actionUrl
+      }), currentStep === 2 && /* @__PURE__ */jsx(ShippingAddressStep, {
+        shippingAddress,
+        onFieldChange: (field, value) => setShippingAddress(prev => ({
+          ...prev,
+          [field]: value
+        })),
+        onBack: () => setCurrentStep(1),
+        fetcher,
+        actionUrl
+      }), currentStep === 3 && /* @__PURE__ */jsx(ShippingMethodStep, {
+        deliveryGroups: cart.deliveryGroups,
+        localePrefix,
+        onBack: () => setCurrentStep(2),
+        onContinue: () => setCurrentStep(4)
+      }), currentStep === 4 && /* @__PURE__ */jsx(OrderReviewStep, {
+        cart,
+        customerInfo,
+        shippingAddress,
+        paymentGateway,
+        localePrefix,
+        invoiceEmailRequested,
+        onInvoiceEmailChange: setInvoiceEmailRequested,
+        businessCustomer,
+        businessDetails,
+        onBack: () => setCurrentStep(3)
+      })]
+    })
+  });
+});
+function StepIndicator({
+  currentStep
+}) {
+  const steps = [{
+    num: 1,
+    label: "Information"
+  }, {
+    num: 2,
+    label: "Shipping"
+  }, {
+    num: 3,
+    label: "Method"
+  }, {
+    num: 4,
+    label: "Review & Pay"
+  }];
+  return /* @__PURE__ */jsx("div", {
+    className: "checkout-steps",
+    children: steps.map((step, i) => /* @__PURE__ */jsxs("div", {
+      className: "checkout-step-item",
+      children: [/* @__PURE__ */jsx("div", {
+        className: `checkout-step-circle ${currentStep >= step.num ? "active" : ""}`,
+        children: step.num
+      }), /* @__PURE__ */jsx("span", {
+        className: `checkout-step-label ${currentStep >= step.num ? "active" : ""}`,
+        children: step.label
+      }), i < steps.length - 1 && /* @__PURE__ */jsx("div", {
+        className: "checkout-step-line"
+      })]
+    }, step.num))
+  });
+}
+function formatRegNumber(value) {
+  if (/^[a-zA-Z]/.test(value)) return value;
+  if (/^\d{4}\/\d{6}\/\d{2}$/.test(value)) return value;
+  const digits = value.replace(/\D/g, "");
+  if (digits.length <= 4) return digits;
+  if (digits.length <= 10) return `${digits.slice(0, 4)}/${digits.slice(4)}`;
+  return `${digits.slice(0, 4)}/${digits.slice(4, 10)}/${digits.slice(10, 12)}`;
+}
+function CustomerInfoStep({
+  customerInfo,
+  isPreFilled,
+  isGuest,
+  prefillConfirmed,
+  onPrefillConfirm,
+  onFieldChange,
+  businessCustomer,
+  onBusinessCustomerChange,
+  businessDetails,
+  onBusinessDetailChange,
+  fetcher,
+  actionUrl
+}) {
+  const isSubmitting = fetcher.state !== "idle";
+  return /* @__PURE__ */jsxs(fetcher.Form, {
+    method: "post",
+    action: actionUrl,
+    className: "checkout-form",
+    children: [/* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "step",
+      value: "customer-info"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "isBusinessCustomer",
+      value: businessCustomer ? "true" : "false"
+    }), /* @__PURE__ */jsx("h2", {
+      className: "checkout-section-title",
+      children: "Contact Information"
+    }), isPreFilled && /* @__PURE__ */jsxs("div", {
+      className: "checkout-prefill-notice",
+      children: [/* @__PURE__ */jsx("p", {
+        children: "Your details have been pre-filled from your account. Please verify they are correct before continuing."
+      }), /* @__PURE__ */jsxs("label", {
+        className: "checkout-prefill-confirm-label",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: prefillConfirmed,
+          onChange: e => onPrefillConfirm(e.target.checked)
+        }), "I confirm these details are correct"]
+      })]
+    }), isGuest && /* @__PURE__ */jsxs("div", {
+      className: "checkout-prefill-notice",
+      children: [/* @__PURE__ */jsx("p", {
+        children: "You are checking out as a guest. A customer account will be created using the details below. Please confirm they are correct before continuing."
+      }), /* @__PURE__ */jsxs("label", {
+        className: "checkout-prefill-confirm-label",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: prefillConfirmed,
+          onChange: e => onPrefillConfirm(e.target.checked)
+        }), "I confirm my details are correct and agree to have an account created"]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-field",
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "email",
+        className: "checkout-form-label",
+        children: "Email"
+      }), /* @__PURE__ */jsx("input", {
+        id: "email",
+        name: "email",
+        type: "email",
+        required: true,
+        className: "checkout-form-input",
+        value: customerInfo.email,
+        onChange: e => onFieldChange("email", e.target.value),
+        placeholder: "your@email.com"
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-row",
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "firstName",
+          className: "checkout-form-label",
+          children: "First Name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "firstName",
+          name: "firstName",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: customerInfo.firstName,
+          onChange: e => onFieldChange("firstName", e.target.value)
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "lastName",
+          className: "checkout-form-label",
+          children: "Last Name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "lastName",
+          name: "lastName",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: customerInfo.lastName,
+          onChange: e => onFieldChange("lastName", e.target.value)
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-field",
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "phone",
+        className: "checkout-form-label",
+        children: "Phone (optional)"
+      }), /* @__PURE__ */jsx("input", {
+        id: "phone",
+        name: "phone",
+        type: "tel",
+        className: "checkout-form-input",
+        value: customerInfo.phone,
+        onChange: e => onFieldChange("phone", e.target.value),
+        placeholder: "+27 82 000 0000"
+      })]
+    }), /* @__PURE__ */jsx("div", {
+      className: "checkout-form-field",
+      style: {
+        marginTop: "0.75rem"
+      },
+      children: /* @__PURE__ */jsxs("label", {
+        className: "checkout-prefill-confirm-label",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: businessCustomer,
+          onChange: e => onBusinessCustomerChange(e.target.checked)
+        }), "This order is for a business"]
+      })
+    }), businessCustomer && /* @__PURE__ */jsxs(Fragment, {
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "companyName",
+          className: "checkout-form-label",
+          children: "Company name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "companyName",
+          name: "companyName",
+          type: "text",
+          className: "checkout-form-input",
+          value: businessDetails.companyName,
+          onChange: e => onBusinessDetailChange("companyName", e.target.value),
+          placeholder: "e.g. Acme (Pty) Ltd"
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "vatNumber",
+          className: "checkout-form-label",
+          children: "TAX/VAT No (SARS VAT Number)"
+        }), /* @__PURE__ */jsx("input", {
+          id: "vatNumber",
+          name: "vatNumber",
+          type: "text",
+          className: "checkout-form-input",
+          value: businessDetails.vatNumber,
+          onChange: e => onBusinessDetailChange("vatNumber", e.target.value),
+          placeholder: "4XXXXXXXXX"
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "regNumber",
+          className: "checkout-form-label",
+          children: "Reg No (Business Registration Number)"
+        }), /* @__PURE__ */jsx("input", {
+          id: "regNumber",
+          name: "regNumber",
+          type: "text",
+          className: "checkout-form-input",
+          value: businessDetails.regNumber,
+          onChange: e => onBusinessDetailChange("regNumber", formatRegNumber(e.target.value)),
+          placeholder: "XXXX/XXXXXX/XX"
+        })]
+      })]
+    }), /* @__PURE__ */jsx("button", {
+      type: "submit",
+      className: "checkout-submit-btn",
+      disabled: isSubmitting || (isPreFilled || isGuest) && !prefillConfirmed,
+      children: isSubmitting ? "Saving..." : "Continue to Shipping →"
+    })]
+  });
+}
+function ShippingAddressStep({
+  shippingAddress,
+  onFieldChange,
+  onBack,
+  fetcher,
+  actionUrl
+}) {
+  const isSubmitting = fetcher.state !== "idle";
+  return /* @__PURE__ */jsxs(fetcher.Form, {
+    method: "post",
+    action: actionUrl,
+    className: "checkout-form",
+    children: [/* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "step",
+      value: "shipping-address"
+    }), /* @__PURE__ */jsx("h2", {
+      className: "checkout-section-title",
+      children: "Shipping Address"
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-row",
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "ship-firstName",
+          className: "checkout-form-label",
+          children: "First Name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "ship-firstName",
+          name: "firstName",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: shippingAddress.firstName,
+          onChange: e => onFieldChange("firstName", e.target.value)
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "ship-lastName",
+          className: "checkout-form-label",
+          children: "Last Name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "ship-lastName",
+          name: "lastName",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: shippingAddress.lastName,
+          onChange: e => onFieldChange("lastName", e.target.value)
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-field",
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "address1",
+        className: "checkout-form-label",
+        children: "Address"
+      }), /* @__PURE__ */jsx("input", {
+        id: "address1",
+        name: "address1",
+        type: "text",
+        required: true,
+        className: "checkout-form-input",
+        value: shippingAddress.address1,
+        onChange: e => onFieldChange("address1", e.target.value)
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-field",
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "address2",
+        className: "checkout-form-label",
+        children: "Apartment, suite, etc. (optional)"
+      }), /* @__PURE__ */jsx("input", {
+        id: "address2",
+        name: "address2",
+        type: "text",
+        className: "checkout-form-input",
+        value: shippingAddress.address2,
+        onChange: e => onFieldChange("address2", e.target.value)
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-row",
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "city",
+          className: "checkout-form-label",
+          children: "City"
+        }), /* @__PURE__ */jsx("input", {
+          id: "city",
+          name: "city",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: shippingAddress.city,
+          onChange: e => onFieldChange("city", e.target.value)
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "provinceCode",
+          className: "checkout-form-label",
+          children: "Province / State"
+        }), /* @__PURE__ */jsx("input", {
+          id: "provinceCode",
+          name: "provinceCode",
+          type: "text",
+          className: "checkout-form-input",
+          value: shippingAddress.provinceCode,
+          onChange: e => onFieldChange("provinceCode", e.target.value)
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-row",
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "zip",
+          className: "checkout-form-label",
+          children: "Postal / Zip Code"
+        }), /* @__PURE__ */jsx("input", {
+          id: "zip",
+          name: "zip",
+          type: "text",
+          required: true,
+          className: "checkout-form-input",
+          value: shippingAddress.zip,
+          onChange: e => onFieldChange("zip", e.target.value)
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-form-field",
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "countryCode",
+          className: "checkout-form-label",
+          children: "Country"
+        }), /* @__PURE__ */jsxs("select", {
+          id: "countryCode",
+          name: "countryCode",
+          required: true,
+          className: "checkout-form-input",
+          value: shippingAddress.countryCode,
+          onChange: e => onFieldChange("countryCode", e.target.value),
+          children: [/* @__PURE__ */jsx("option", {
+            value: "ZA",
+            children: "South Africa (ZA)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "AU",
+            disabled: true,
+            children: "Australia (AU)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "BW",
+            disabled: true,
+            children: "Botswana (BW)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "CA",
+            disabled: true,
+            children: "Canada (CA)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "GB",
+            disabled: true,
+            children: "United Kingdom (GB)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "LS",
+            disabled: true,
+            children: "Lesotho (LS)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "MW",
+            disabled: true,
+            children: "Malawi (MW)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "MZ",
+            disabled: true,
+            children: "Mozambique (MZ)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "NA",
+            disabled: true,
+            children: "Namibia (NA)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "NZ",
+            disabled: true,
+            children: "New Zealand (NZ)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "SZ",
+            disabled: true,
+            children: "Eswatini (SZ)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "TZ",
+            disabled: true,
+            children: "Tanzania (TZ)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "US",
+            disabled: true,
+            children: "United States (US)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "ZM",
+            disabled: true,
+            children: "Zambia (ZM)"
+          }), /* @__PURE__ */jsx("option", {
+            value: "ZW",
+            disabled: true,
+            children: "Zimbabwe (ZW)"
+          })]
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-form-field",
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "ship-phone",
+        className: "checkout-form-label",
+        children: "Phone (optional)"
+      }), /* @__PURE__ */jsx("input", {
+        id: "ship-phone",
+        name: "phone",
+        type: "tel",
+        className: "checkout-form-input",
+        value: shippingAddress.phone,
+        onChange: e => onFieldChange("phone", e.target.value)
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-nav-buttons",
+      children: [/* @__PURE__ */jsx("button", {
+        type: "button",
+        className: "checkout-back-btn",
+        onClick: onBack,
+        children: "← Back"
+      }), /* @__PURE__ */jsx("button", {
+        type: "submit",
+        className: "checkout-submit-btn",
+        disabled: isSubmitting,
+        children: isSubmitting ? "Saving..." : "Continue to Shipping Method →"
+      })]
+    })]
+  });
+}
+function ShippingMethodStep({
+  deliveryGroups,
+  localePrefix,
+  onBack,
+  onContinue
+}) {
+  const shippingFetcher = useFetcher({
+    key: "shipping-method"
+  });
+  const group = deliveryGroups?.nodes?.[0];
+  const options = group?.deliveryOptions ?? [];
+  const [selectedHandle, setSelectedHandle] = useState(group?.selectedDeliveryOption?.handle ?? options[0]?.handle ?? null);
+  useEffect(() => {
+    if (!selectedHandle && options.length > 0 && group) {
+      const handle = options[0].handle;
+      setSelectedHandle(handle);
+      shippingFetcher.submit({
+        [CartForm.INPUT_NAME]: JSON.stringify({
+          action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
+          inputs: {
+            selectedDeliveryOptions: [{
+              deliveryGroupId: group.id,
+              deliveryOptionHandle: handle
+            }]
+          }
+        })
+      }, {
+        method: "POST",
+        action: `${localePrefix}/cart`
+      });
+    }
+  }, []);
+  if (options.length === 0) {
+    return /* @__PURE__ */jsxs("div", {
+      className: "checkout-form",
+      children: [/* @__PURE__ */jsx("h2", {
+        className: "checkout-section-title",
+        children: "Shipping Method"
+      }), /* @__PURE__ */jsx("div", {
+        className: "checkout-shipping-empty",
+        children: "No shipping options are currently available for your address. Please contact us for assistance."
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-nav-buttons",
+        children: [/* @__PURE__ */jsx("button", {
+          type: "button",
+          className: "checkout-back-btn",
+          onClick: onBack,
+          children: "← Back"
+        }), /* @__PURE__ */jsx("button", {
+          type: "button",
+          className: "checkout-submit-btn",
+          onClick: onContinue,
+          children: "Continue to Review →"
+        })]
+      })]
+    });
+  }
+  function handleSelect(option) {
+    if (!group) return;
+    setSelectedHandle(option.handle);
+    shippingFetcher.submit({
+      [CartForm.INPUT_NAME]: JSON.stringify({
+        action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
+        inputs: {
+          selectedDeliveryOptions: [{
+            deliveryGroupId: group.id,
+            deliveryOptionHandle: option.handle
+          }]
+        }
+      })
+    }, {
+      method: "POST",
+      action: `${localePrefix}/cart`
+    });
+  }
+  const isFree = amount => parseFloat(amount) === 0;
+  return /* @__PURE__ */jsxs("div", {
+    className: "checkout-form",
+    children: [/* @__PURE__ */jsx("h2", {
+      className: "checkout-section-title",
+      children: "Shipping Method"
+    }), /* @__PURE__ */jsx("div", {
+      className: "checkout-shipping-options",
+      children: options.map(option => /* @__PURE__ */jsxs("label", {
+        className: "checkout-shipping-option",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "radio",
+          name: "delivery",
+          value: option.handle,
+          checked: selectedHandle === option.handle,
+          onChange: () => handleSelect(option)
+        }), /* @__PURE__ */jsx("span", {
+          className: "checkout-shipping-option-label",
+          children: option.title
+        }), /* @__PURE__ */jsx("span", {
+          className: `checkout-shipping-option-cost ${isFree(option.estimatedCost.amount) ? "checkout-shipping-option-free" : ""}`,
+          children: isFree(option.estimatedCost.amount) ? "Free" : /* @__PURE__ */jsx(Money, {
+            data: option.estimatedCost
+          })
+        })]
+      }, option.handle))
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-nav-buttons",
+      children: [/* @__PURE__ */jsx("button", {
+        type: "button",
+        className: "checkout-back-btn",
+        onClick: onBack,
+        children: "← Back"
+      }), /* @__PURE__ */jsx("button", {
+        type: "button",
+        className: "checkout-submit-btn",
+        onClick: onContinue,
+        disabled: !selectedHandle || shippingFetcher.state !== "idle",
+        children: shippingFetcher.state !== "idle" ? "Updating..." : "Continue to Review →"
+      })]
+    })]
+  });
+}
+function OrderReviewStep({
+  cart,
+  customerInfo,
+  shippingAddress,
+  paymentGateway,
+  localePrefix,
+  invoiceEmailRequested,
+  onInvoiceEmailChange,
+  businessCustomer,
+  businessDetails,
+  onBack
+}) {
+  const deliveryGroup = cart.deliveryGroups?.nodes?.[0];
+  const selectedDelivery = deliveryGroup?.selectedDeliveryOption;
+  const vatBaseAmount = cart.cost?.subtotalAmount ? {
+    amount: (parseFloat(cart.cost.subtotalAmount.amount) + (selectedDelivery ? parseFloat(selectedDelivery.estimatedCost.amount) : 0)).toFixed(2),
+    currencyCode: cart.cost.subtotalAmount.currencyCode
+  } : null;
+  return /* @__PURE__ */jsxs("div", {
+    className: "checkout-review",
+    children: [/* @__PURE__ */jsx("h2", {
+      className: "checkout-section-title",
+      children: "Order Review"
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Contact"
+      }), /* @__PURE__ */jsx("p", {
+        children: customerInfo.email
+      }), /* @__PURE__ */jsxs("p", {
+        children: [customerInfo.firstName, " ", customerInfo.lastName]
+      }), customerInfo.phone && /* @__PURE__ */jsx("p", {
+        children: customerInfo.phone
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Ship to"
+      }), /* @__PURE__ */jsxs("p", {
+        children: [shippingAddress.firstName, " ", shippingAddress.lastName]
+      }), /* @__PURE__ */jsx("p", {
+        children: shippingAddress.address1
+      }), shippingAddress.address2 && /* @__PURE__ */jsx("p", {
+        children: shippingAddress.address2
+      }), /* @__PURE__ */jsxs("p", {
+        children: [shippingAddress.city, shippingAddress.provinceCode && `, ${shippingAddress.provinceCode}`, " ", shippingAddress.zip]
+      }), /* @__PURE__ */jsx("p", {
+        children: shippingAddress.countryCode
+      })]
+    }), selectedDelivery && /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Shipping Method"
+      }), /* @__PURE__ */jsxs("p", {
+        children: [selectedDelivery.title, " — ", parseFloat(selectedDelivery.estimatedCost.amount) === 0 ? "Free" : /* @__PURE__ */jsx(Money, {
+          data: selectedDelivery.estimatedCost
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Items"
+      }), /* @__PURE__ */jsx("ul", {
+        className: "checkout-review-items",
+        children: (cart.lines?.nodes ?? []).map(line => {
+          const merchandise = line.merchandise;
+          if (!("product" in merchandise)) return null;
+          return /* @__PURE__ */jsxs("li", {
+            className: "checkout-review-line",
+            children: [/* @__PURE__ */jsx("div", {
+              className: "checkout-review-line-image",
+              children: merchandise.image && /* @__PURE__ */jsx(Image, {
+                data: merchandise.image,
+                width: 60,
+                height: 60
+              })
+            }), /* @__PURE__ */jsxs("div", {
+              className: "checkout-review-line-details",
+              children: [/* @__PURE__ */jsx("p", {
+                className: "checkout-review-line-title",
+                children: merchandise.product.title
+              }), merchandise.title !== "Default Title" && /* @__PURE__ */jsx("p", {
+                className: "checkout-review-line-variant",
+                children: merchandise.title
+              }), /* @__PURE__ */jsxs("p", {
+                className: "checkout-review-line-qty",
+                children: ["Qty: ", line.quantity]
+              })]
+            }), /* @__PURE__ */jsx("div", {
+              className: "checkout-review-line-price",
+              children: /* @__PURE__ */jsx(Money, {
+                data: withDisplayVat(line.cost.totalAmount)
+              })
+            })]
+          }, line.id);
+        })
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section checkout-review-totals",
+      children: [/* @__PURE__ */jsxs("div", {
+        className: "checkout-review-total-row",
+        children: [/* @__PURE__ */jsx("span", {
+          children: "Subtotal (excl. VAT)"
+        }), /* @__PURE__ */jsx("span", {
+          children: cart.cost?.subtotalAmount ? /* @__PURE__ */jsx(Money, {
+            data: cart.cost.subtotalAmount
+          }) : "-"
+        })]
+      }), selectedDelivery && parseFloat(selectedDelivery.estimatedCost.amount) > 0 && /* @__PURE__ */jsxs("div", {
+        className: "checkout-review-total-row",
+        children: [/* @__PURE__ */jsx("span", {
+          children: "Shipping"
+        }), /* @__PURE__ */jsx("span", {
+          children: /* @__PURE__ */jsx(Money, {
+            data: selectedDelivery.estimatedCost
+          })
+        })]
+      }), vatBaseAmount && /* @__PURE__ */jsxs("div", {
+        className: "checkout-review-total-row",
+        children: [/* @__PURE__ */jsx("span", {
+          children: "VAT"
+        }), /* @__PURE__ */jsx("span", {
+          children: /* @__PURE__ */jsx(Money, {
+            data: displayVatOnly(vatBaseAmount)
+          })
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-review-total-row checkout-review-grand-total",
+        children: [/* @__PURE__ */jsx("span", {
+          children: "Total (incl. VAT)"
+        }), /* @__PURE__ */jsx("span", {
+          children: vatBaseAmount ? /* @__PURE__ */jsx(Money, {
+            data: withDisplayVat(vatBaseAmount)
+          }) : "-"
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Discounts & Gift Cards"
+      }), /* @__PURE__ */jsx(CheckoutDiscounts, {
+        cart,
+        localePrefix
+      }), /* @__PURE__ */jsx(CheckoutGiftCard, {
+        cart,
+        localePrefix
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section checkout-payment-info",
+      children: [/* @__PURE__ */jsx("h3", {
+        children: "Payment"
+      }), paymentGateway === "payfast" ? /* @__PURE__ */jsx("p", {
+        children: "You will be redirected to PayFast to complete your payment securely."
+      }) : /* @__PURE__ */jsx("p", {
+        children: "You will be redirected to our secure payment page to complete your order."
+      }), /* @__PURE__ */jsxs("div", {
+        className: "checkout-payment-methods",
+        children: [/* @__PURE__ */jsx("span", {
+          className: "checkout-payment-badge",
+          children: "Card"
+        }), /* @__PURE__ */jsx("span", {
+          className: "checkout-payment-badge",
+          children: "EFT"
+        }), /* @__PURE__ */jsx("span", {
+          className: "checkout-payment-badge",
+          children: "Google Pay"
+        }), /* @__PURE__ */jsx("span", {
+          className: "checkout-payment-badge",
+          children: "Apple Pay"
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-review-section",
+      style: {
+        borderTop: "1px solid rgba(255,255,255,0.1)",
+        paddingTop: "1rem"
+      },
+      children: [/* @__PURE__ */jsxs("label", {
+        style: {
+          display: "flex",
+          alignItems: "flex-start",
+          gap: "0.6rem",
+          cursor: "pointer",
+          fontSize: "0.875rem",
+          color: "rgba(255,255,255,0.85)"
+        },
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: invoiceEmailRequested,
+          onChange: e => onInvoiceEmailChange(e.target.checked),
+          style: {
+            marginTop: "2px",
+            flexShrink: 0
+          }
+        }), "Email me a tax invoice for this order"]
+      }), /* @__PURE__ */jsxs("p", {
+        style: {
+          fontSize: "0.8rem",
+          color: "rgba(255,255,255,0.5)",
+          marginTop: "0.75rem",
+          lineHeight: "1.5"
+        },
+        children: ["By proceeding you agree to our", " ", /* @__PURE__ */jsx("a", {
+          href: "/policies/terms-of-service",
+          target: "_blank",
+          rel: "noreferrer",
+          style: {
+            color: "rgba(26,180,215,0.9)",
+            textDecoration: "underline"
+          },
+          children: "Terms & Conditions"
+        }), " ", "and", " ", /* @__PURE__ */jsx("a", {
+          href: "/policies/refund-policy",
+          target: "_blank",
+          rel: "noreferrer",
+          style: {
+            color: "rgba(26,180,215,0.9)",
+            textDecoration: "underline"
+          },
+          children: "Return Policy"
+        }), "."]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      className: "checkout-nav-buttons",
+      children: [/* @__PURE__ */jsx("button", {
+        type: "button",
+        className: "checkout-back-btn",
+        onClick: onBack,
+        children: "← Back"
+      }), paymentGateway === "payfast" ? /* @__PURE__ */jsx(PayFastPaymentForm, {
+        cart,
+        customerInfo,
+        shippingAddress,
+        localePrefix,
+        invoiceEmailRequested,
+        businessCustomer,
+        businessDetails
+      }) : /* @__PURE__ */jsx("a", {
+        href: cart.checkoutUrl,
+        target: "_self",
+        className: "checkout-pay-btn",
+        children: "Proceed to Payment →"
+      })]
+    })]
+  });
+}
+function CheckoutDiscounts({
+  cart,
+  localePrefix
+}) {
+  const codes = (cart.discountCodes ?? []).filter(d => d.applicable).map(d => d.code);
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      marginBottom: "0.75rem"
+    },
+    children: [codes.length > 0 && /* @__PURE__ */jsx("div", {
+      style: {
+        marginBottom: "0.5rem"
+      },
+      children: /* @__PURE__ */jsx(CartForm, {
+        route: `${localePrefix}/cart`,
+        action: CartForm.ACTIONS.DiscountCodesUpdate,
+        inputs: {
+          discountCodes: []
+        },
+        children: /* @__PURE__ */jsxs("div", {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            fontSize: "0.875rem"
+          },
+          children: [/* @__PURE__ */jsx("code", {
+            style: {
+              background: "rgba(255,255,255,0.1)",
+              padding: "2px 8px",
+              borderRadius: "4px"
+            },
+            children: codes.join(", ")
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            style: {
+              background: "none",
+              border: "none",
+              color: "rgba(255,100,100,0.8)",
+              cursor: "pointer",
+              fontSize: "0.8rem",
+              textDecoration: "underline",
+              padding: 0
+            },
+            children: "Remove"
+          })]
+        })
+      })
+    }), /* @__PURE__ */jsx(CartForm, {
+      route: `${localePrefix}/cart`,
+      action: CartForm.ACTIONS.DiscountCodesUpdate,
+      inputs: {
+        discountCodes: codes
+      },
+      children: /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsx("input", {
+          type: "text",
+          name: "discountCode",
+          placeholder: "Discount code",
+          className: "checkout-form-input",
+          style: {
+            flex: 1,
+            margin: 0
+          }
+        }), /* @__PURE__ */jsx("button", {
+          type: "submit",
+          className: "checkout-back-btn",
+          style: {
+            margin: 0,
+            whiteSpace: "nowrap"
+          },
+          children: "Apply"
+        })]
+      })
+    })]
+  });
+}
+function CheckoutGiftCard({
+  cart,
+  localePrefix
+}) {
+  const appliedCards = cart.appliedGiftCards ?? [];
+  return /* @__PURE__ */jsxs("div", {
+    children: [appliedCards.length > 0 && /* @__PURE__ */jsx("div", {
+      style: {
+        marginBottom: "0.5rem"
+      },
+      children: appliedCards.map(gc => /* @__PURE__ */jsx(CartForm, {
+        route: `${localePrefix}/cart`,
+        action: CartForm.ACTIONS.GiftCardCodesRemove,
+        inputs: {
+          giftCardCodes: [gc.id]
+        },
+        children: /* @__PURE__ */jsxs("div", {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            fontSize: "0.875rem",
+            marginBottom: "0.25rem"
+          },
+          children: [/* @__PURE__ */jsxs("code", {
+            style: {
+              background: "rgba(255,255,255,0.1)",
+              padding: "2px 8px",
+              borderRadius: "4px"
+            },
+            children: ["***", gc.lastCharacters]
+          }), /* @__PURE__ */jsx(Money, {
+            data: gc.amountUsed
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            style: {
+              background: "none",
+              border: "none",
+              color: "rgba(255,100,100,0.8)",
+              cursor: "pointer",
+              fontSize: "0.8rem",
+              textDecoration: "underline",
+              padding: 0
+            },
+            children: "Remove"
+          })]
+        })
+      }, gc.id))
+    }), /* @__PURE__ */jsx(CartForm, {
+      route: `${localePrefix}/cart`,
+      action: CartForm.ACTIONS.GiftCardCodesAdd,
+      children: /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsx("input", {
+          type: "text",
+          name: "giftCardCode",
+          placeholder: "Gift card code",
+          className: "checkout-form-input",
+          style: {
+            flex: 1,
+            margin: 0
+          }
+        }), /* @__PURE__ */jsx("button", {
+          type: "submit",
+          className: "checkout-back-btn",
+          style: {
+            margin: 0,
+            whiteSpace: "nowrap"
+          },
+          children: "Apply"
+        })]
+      })
+    })]
+  });
+}
+function PayFastPaymentForm({
+  cart,
+  customerInfo,
+  shippingAddress,
+  localePrefix,
+  invoiceEmailRequested,
+  businessCustomer,
+  businessDetails
+}) {
+  const payFetcher = useFetcher({
+    key: "payfast-initiate"
+  });
+  const isSubmitting = payFetcher.state !== "idle";
+  return /* @__PURE__ */jsxs(payFetcher.Form, {
+    method: "post",
+    action: `${localePrefix}/checkout/payment`,
+    children: [/* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "cartId",
+      value: cart.id
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "cartTotal",
+      value: cart.cost?.totalAmount?.amount ?? "0"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "cartCurrency",
+      value: cart.cost?.totalAmount?.currencyCode ?? "ZAR"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "email",
+      value: customerInfo.email
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "firstName",
+      value: customerInfo.firstName
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "lastName",
+      value: customerInfo.lastName
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "phone",
+      value: customerInfo.phone
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipAddress1",
+      value: shippingAddress.address1
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipAddress2",
+      value: shippingAddress.address2
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipCity",
+      value: shippingAddress.city
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipProvince",
+      value: shippingAddress.provinceCode
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipZip",
+      value: shippingAddress.zip
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shipCountry",
+      value: shippingAddress.countryCode
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "invoiceEmailRequested",
+      value: invoiceEmailRequested ? "true" : "false"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "isBusinessCustomer",
+      value: businessCustomer ? "true" : "false"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "companyName",
+      value: businessDetails.companyName
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "vatNumber",
+      value: businessDetails.vatNumber
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "regNumber",
+      value: businessDetails.regNumber
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "lineItems",
+      value: JSON.stringify((cart.lines?.nodes ?? []).map(line => ({
+        variantId: line.merchandise?.id ?? "",
+        quantity: line.quantity,
+        title: line.merchandise?.product?.title ?? "",
+        variantTitle: line.merchandise?.title ?? "",
+        price: line.cost?.amountPerQuantity?.amount ?? "0",
+        total: line.cost?.totalAmount?.amount ?? "0"
+      })))
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shippingTitle",
+      value: cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.title ?? ""
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "shippingCost",
+      value: cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.estimatedCost?.amount ?? "0"
+    }), payFetcher.data?.error && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        fontSize: "0.85rem",
+        marginBottom: "0.5rem"
+      },
+      children: payFetcher.data.error
+    }), /* @__PURE__ */jsx("button", {
+      type: "submit",
+      className: "checkout-pay-btn",
+      disabled: isSubmitting,
+      style: {
+        border: "none",
+        cursor: isSubmitting ? "wait" : "pointer"
+      },
+      children: isSubmitting ? "Redirecting to PayFast..." : "Proceed to Payment →"
+    })]
+  });
+}
+
+const route11 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$9,
+  default: _$locale__checkout,
+  loader: loader$f
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function action$8({
+  request,
+  context
+}) {
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  if (!storefrontUiUrl) {
+    return data({
+      error: "Payment service is not configured. Please try again later."
+    }, {
+      status: 503
+    });
+  }
+  const formData = await request.formData();
+  const orderPayload = {
+    cartId: formData.get("cartId"),
+    cartTotal: formData.get("cartTotal"),
+    cartCurrency: formData.get("cartCurrency"),
+    customer: {
+      email: formData.get("email"),
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      phone: formData.get("phone")
+    },
+    shippingAddress: {
+      address1: formData.get("shipAddress1"),
+      address2: formData.get("shipAddress2"),
+      city: formData.get("shipCity"),
+      province: formData.get("shipProvince"),
+      zip: formData.get("shipZip"),
+      country: formData.get("shipCountry")
+    },
+    lineItems: (() => {
+      try {
+        return JSON.parse(formData.get("lineItems") ?? "[]");
+      } catch {
+        return [];
+      }
+    })(),
+    invoiceEmailRequested: formData.get("invoiceEmailRequested") === "true",
+    businessDetails: {
+      isBusinessCustomer: formData.get("isBusinessCustomer") === "true",
+      companyName: formData.get("companyName") || "",
+      vatNumber: formData.get("vatNumber") || "",
+      regNumber: formData.get("regNumber") || ""
+    },
+    shippingLine: {
+      title: formData.get("shippingTitle") || "Shipping",
+      cost: formData.get("shippingCost") || "0"
+    }
+  };
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/payment/initiate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Internal-Secret": internalSecret
+      },
+      body: JSON.stringify(orderPayload)
+    });
+    if (!res.ok) {
+      const errorText = await res.text().catch(() => "Unknown error");
+      console.error("[checkout/payment] initiate failed:", res.status, errorText);
+      return data({
+        error: "Payment initiation failed. Please try again."
+      }, {
+        status: 502
+      });
+    }
+    const {
+      redirectUrl
+    } = await res.json();
+    if (!redirectUrl) {
+      return data({
+        error: "No payment redirect URL received. Please try again."
+      }, {
+        status: 502
+      });
+    }
+    throw redirect(redirectUrl);
+  } catch (err) {
+    if (err instanceof Response) throw err;
+    console.error("[checkout/payment] unexpected error:", err);
+    return data({
+      error: "An unexpected error occurred. Please try again."
+    }, {
+      status: 500
+    });
+  }
+}
+async function loader$e() {
+  throw redirect("/checkout");
+}
+
+const route12 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$8,
+  loader: loader$e
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$d({
+  request
+}) {
+  const url = new URL(request.url);
+  const orderRef = url.searchParams.get("ref") ?? "";
+  return {
+    orderRef
+  };
+}
+const _$locale__checkout_cancel = UNSAFE_withComponentProps(function CheckoutCancel() {
+  const {
+    orderRef
+  } = useLoaderData();
+  return /* @__PURE__ */jsx("div", {
+    className: "checkout-result-wrapper",
+    children: /* @__PURE__ */jsxs("div", {
+      className: "checkout-result-box",
+      children: [/* @__PURE__ */jsx("div", {
+        className: "checkout-result-icon",
+        style: {
+          color: "#fc8181"
+        },
+        children: "✕"
+      }), /* @__PURE__ */jsx("h1", {
+        className: "checkout-result-title",
+        children: "Payment Cancelled"
+      }), /* @__PURE__ */jsx("p", {
+        className: "checkout-result-message",
+        children: "Your payment was cancelled and you have not been charged. Your cart is still intact — you can try again when you are ready."
+      }), orderRef && /* @__PURE__ */jsxs("p", {
+        className: "checkout-result-order-ref",
+        children: ["Order ref: ", orderRef]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "1rem",
+          justifyContent: "center",
+          flexWrap: "wrap"
+        },
+        children: [/* @__PURE__ */jsx("a", {
+          href: "/checkout",
+          className: "checkout-result-btn",
+          children: "Try Again"
+        }), /* @__PURE__ */jsx("a", {
+          href: "/cart",
+          className: "checkout-result-btn",
+          style: {
+            background: "rgba(255,255,255,0.1)",
+            border: "1px solid rgba(255,255,255,0.3)"
+          },
+          children: "Back to Cart"
+        })]
+      })]
+    })
+  });
+});
+
+const route13 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__checkout_cancel,
+  loader: loader$d
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$c({
+  context
+}) {
+  return context.customerAccount.authorize();
+}
+
+const route14 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  loader: loader$c
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const meta$1 = () => {
+  return [{
+    title: "Contact Us | Hoseworld"
+  }];
+};
+const _$locale__contact = UNSAFE_withComponentProps(function ContactPage() {
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.5rem",
+    marginBottom: "1.5rem"
+  };
+  const inputStyle = {
+    width: "100%",
+    padding: "0.75rem",
+    borderRadius: "4px",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    background: "rgba(255, 255, 255, 0.1)",
+    color: "white",
+    fontSize: "1rem",
+    marginBottom: "1rem",
+    boxSizing: "border-box"
+  };
+  const labelStyle = {
+    display: "block",
+    marginBottom: "0.25rem",
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: "0.875rem"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    style: {
+      maxWidth: "800px",
+      margin: "0 auto",
+      padding: "2rem 1rem",
+      color: "white"
+    },
+    children: [/* @__PURE__ */jsx("h1", {
+      style: {
+        fontSize: "1.75rem",
+        marginBottom: "1.5rem"
+      },
+      children: "Contact Us"
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "flex",
+        gap: "2rem",
+        flexWrap: "wrap"
+      },
+      children: [/* @__PURE__ */jsx("div", {
+        style: {
+          flex: "1 1 300px"
+        },
+        children: /* @__PURE__ */jsxs("div", {
+          style: cardStyle,
+          children: [/* @__PURE__ */jsx("h2", {
+            style: {
+              fontSize: "1.25rem",
+              marginBottom: "1rem"
+            },
+            children: "Get in Touch"
+          }), /* @__PURE__ */jsx("p", {
+            style: {
+              marginBottom: "0.75rem",
+              lineHeight: "1.6"
+            },
+            children: "Have a question about our products or need assistance with an order? We are here to help."
+          }), /* @__PURE__ */jsxs("div", {
+            style: {
+              marginTop: "1.5rem"
+            },
+            children: [/* @__PURE__ */jsxs("p", {
+              style: {
+                marginBottom: "0.5rem"
+              },
+              children: [/* @__PURE__ */jsx("strong", {
+                children: "Email:"
+              }), " info@hoseworld.co.za"]
+            }), /* @__PURE__ */jsxs("p", {
+              style: {
+                marginBottom: "0.5rem"
+              },
+              children: [/* @__PURE__ */jsx("strong", {
+                children: "Phone:"
+              }), " +27 (0)11 123 4567"]
+            }), /* @__PURE__ */jsxs("p", {
+              style: {
+                marginBottom: "0.5rem"
+              },
+              children: [/* @__PURE__ */jsx("strong", {
+                children: "Address:"
+              }), " Johannesburg, South Africa"]
+            }), /* @__PURE__ */jsxs("p", {
+              style: {
+                marginBottom: "0.5rem"
+              },
+              children: [/* @__PURE__ */jsx("strong", {
+                children: "Hours:"
+              }), " Mon-Fri 8am - 5pm SAST"]
+            })]
+          })]
+        })
+      }), /* @__PURE__ */jsx("div", {
+        style: {
+          flex: "1 1 300px"
+        },
+        children: /* @__PURE__ */jsxs("div", {
+          style: cardStyle,
+          children: [/* @__PURE__ */jsx("h2", {
+            style: {
+              fontSize: "1.25rem",
+              marginBottom: "1rem"
+            },
+            children: "Send a Message"
+          }), /* @__PURE__ */jsxs("form", {
+            method: "post",
+            children: [/* @__PURE__ */jsx("label", {
+              style: labelStyle,
+              children: "Name"
+            }), /* @__PURE__ */jsx("input", {
+              type: "text",
+              name: "name",
+              required: true,
+              style: inputStyle,
+              placeholder: "Your name"
+            }), /* @__PURE__ */jsx("label", {
+              style: labelStyle,
+              children: "Email"
+            }), /* @__PURE__ */jsx("input", {
+              type: "email",
+              name: "email",
+              required: true,
+              style: inputStyle,
+              placeholder: "your@email.com"
+            }), /* @__PURE__ */jsx("label", {
+              style: labelStyle,
+              children: "Message"
+            }), /* @__PURE__ */jsx("textarea", {
+              name: "message",
+              required: true,
+              rows: 5,
+              style: {
+                ...inputStyle,
+                resize: "vertical"
+              },
+              placeholder: "How can we help?"
+            }), /* @__PURE__ */jsx("button", {
+              type: "submit",
+              style: {
+                background: "rgba(255, 255, 255, 0.15)",
+                color: "white",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "4px",
+                fontSize: "1rem",
+                cursor: "pointer",
+                width: "100%"
+              },
+              children: "Send Message"
+            })]
+          })]
+        })
+      })]
+    })]
+  });
+});
+
+const route15 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__contact,
+  meta: meta$1
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const SUPPLIERS_ROOT = path.resolve(process.cwd(), "media", "suppliers");
+async function loader$b({
+  params
+}) {
+  const splat = params["*"] ?? "";
+  const resolved = path.resolve(SUPPLIERS_ROOT, splat);
+  if (resolved !== SUPPLIERS_ROOT && !resolved.startsWith(SUPPLIERS_ROOT + path.sep)) {
+    return new Response(null, {
+      status: 404
+    });
+  }
+  let file;
+  try {
+    file = await fs.readFile(resolved);
+  } catch {
+    return new Response(null, {
+      status: 404
+    });
+  }
+  return new Response(new Uint8Array(file), {
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Cache-Control": "public, max-age=31536000, immutable"
+    }
+  });
+}
+
+const route16 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  loader: loader$b
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$a(args) {
+  const {
+    context
+  } = args;
+  const {
+    storefront
+  } = context;
+  const data = await storefront.query(HOMEPAGE_COLLECTIONS_QUERY);
+  const nodes = data.collections?.nodes ?? [];
+  const mains = nodes.filter(col => col.role?.value === "main");
+  const collections = mains.length > 0 ? sortMainCollections(mains) : nodes.filter(col => col.title !== "JSON Imported" && col.products.nodes.length > 0);
+  return {
+    collections
+  };
+}
+const _$locale___index = UNSAFE_withComponentProps(function Homepage() {
+  const {
+    collections
+  } = useLoaderData();
+  return /* @__PURE__ */jsxs("div", {
+    className: "home",
+    children: [/* @__PURE__ */jsx("section", {
+      className: "px-4 pt-8 max-w-7xl mx-auto",
+      children: /* @__PURE__ */jsx("h2", {
+        className: "text-2xl font-bold text-left",
+        children: "Online"
+      })
+    }), /* @__PURE__ */jsx("div", {
+      className: "px-4 max-w-7xl mx-auto",
+      children: /* @__PURE__ */jsx("hr", {
+        style: {
+          border: "none",
+          borderTop: "2px solid rgb(0, 0, 0)"
+        }
+      })
+    }), /* @__PURE__ */jsx("section", {
+      hidden: true,
+      className: "px-4 py-8 max-w-7xl mx-auto",
+      children: /* @__PURE__ */jsx("h2", {
+        className: "text-2xl font-bold",
+        children: "Instore"
+      })
+    }), /* @__PURE__ */jsx("section", {
+      className: "px-4 py-8 max-w-7xl mx-auto",
+      children: collections.length > 0 ? /* @__PURE__ */jsx("div", {
+        className: "collections-grid",
+        children: collections.map(collection => /* @__PURE__ */jsx(CollectionCard, {
+          collection,
+          headingLevel: "h2"
+        }, collection.id))
+      }) : /* @__PURE__ */jsx("p", {
+        className: "text-center text-gray-500 py-8",
+        children: "No collections available yet. Run “Create / repair fixed Collections” on the admin app’s Collections page."
+      })
+    })]
+  });
+});
+const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
   query HomepageCollections(
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 20) {
+    collections(first: 100) {
       nodes {
         id
         title
@@ -1431,6 +6296,9 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
           width
           height
         }
+        role: metafield(namespace: "custom", key: "collection_role") {
+          value
+        }
         products(first: 1) {
           nodes {
             id
@@ -1439,7 +6307,100 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Yb=Object.freeze(Object.defineProperty({__proto__:null,default:Vb,loader:Hb},Symbol.toStringTag,{value:"Module"}));async function Gb({request:e,context:t}){const n=new URL(e.url).searchParams.get("q")||"",a=si(e,{pageBy:12});if(!n)return{searchTerm:n,products:null};const{search:o}=await t.storefront.query(Jb,{variables:{query:n,...a}});return{searchTerm:n,products:o}}const Xb=ke(function(){var n,a;const{searchTerm:t,products:r}=Te();return s.jsxs("div",{className:"search max-w-7xl mx-auto px-4 py-8",children:[s.jsx("h1",{className:"text-3xl font-bold mb-6",children:"Search"}),s.jsx(kd,{children:({fetchResults:o,goToSearch:i,inputRef:l})=>s.jsxs("div",{className:"flex gap-2 mb-8",children:[s.jsx("input",{name:"q",defaultValue:t,onChange:o,onFocus:o,placeholder:"Search products...",ref:l,type:"search",className:"flex-1 px-4 py-2 border border-gray-300 rounded"}),s.jsx("button",{onClick:i,className:"px-6 py-2 bg-black text-white rounded hover:bg-gray-800",children:"Search"})]})}),t&&!((n=r==null?void 0:r.nodes)!=null&&n.length)&&s.jsxs("p",{className:"text-gray-500",children:["No results found for ",s.jsx("q",{children:t})]}),(a=r==null?void 0:r.nodes)!=null&&a.length?s.jsx("div",{className:"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",children:r.nodes.map(o=>s.jsxs(Ie,{to:`/products/${o.handle}`,prefetch:"intent",className:"group",children:[o.featuredImage&&s.jsx(gt,{data:o.featuredImage,aspectRatio:"1/1",sizes:"(min-width: 768px) 25vw, 50vw"}),s.jsx("h3",{className:"mt-2 font-semibold group-hover:underline",children:o.title}),s.jsx(Ee,{data:o.priceRange.minVariantPrice})]},o.id))}):null]})}),Jb=`#graphql
+`;
+
+const route17 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale___index,
+  loader: loader$a
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$9({
+  request,
+  context
+}) {
+  const url = new URL(request.url);
+  const searchTerm = url.searchParams.get("q") || "";
+  const paginationVariables = getPaginationVariables(request, {
+    pageBy: 12
+  });
+  if (!searchTerm) {
+    return {
+      searchTerm,
+      products: null
+    };
+  }
+  const {
+    search
+  } = await context.storefront.query(SEARCH_QUERY, {
+    variables: {
+      query: searchTerm,
+      ...paginationVariables
+    }
+  });
+  return {
+    searchTerm,
+    products: search
+  };
+}
+const _$locale__search = UNSAFE_withComponentProps(function Search() {
+  const {
+    searchTerm,
+    products
+  } = useLoaderData();
+  return /* @__PURE__ */jsxs("div", {
+    className: "search max-w-7xl mx-auto px-4 py-8",
+    children: [/* @__PURE__ */jsx("h1", {
+      className: "text-3xl font-bold mb-6",
+      children: "Search"
+    }), /* @__PURE__ */jsx(SearchFormPredictive, {
+      children: ({
+        fetchResults,
+        goToSearch,
+        inputRef
+      }) => /* @__PURE__ */jsxs("div", {
+        className: "flex gap-2 mb-8",
+        children: [/* @__PURE__ */jsx("input", {
+          name: "q",
+          defaultValue: searchTerm,
+          onChange: fetchResults,
+          onFocus: fetchResults,
+          placeholder: "Search products...",
+          ref: inputRef,
+          type: "search",
+          className: "flex-1 px-4 py-2 border border-gray-300 rounded"
+        }), /* @__PURE__ */jsx("button", {
+          onClick: goToSearch,
+          className: "px-6 py-2 bg-black text-white rounded hover:bg-gray-800",
+          children: "Search"
+        })]
+      })
+    }), searchTerm && !products?.nodes?.length && /* @__PURE__ */jsxs("p", {
+      className: "text-gray-500",
+      children: ["No results found for ", /* @__PURE__ */jsx("q", {
+        children: searchTerm
+      })]
+    }), products?.nodes?.length ? /* @__PURE__ */jsx("div", {
+      className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
+      children: products.nodes.map(product => /* @__PURE__ */jsxs(Link, {
+        to: `/products/${product.handle}`,
+        prefetch: "intent",
+        className: "group",
+        children: [product.featuredImage && /* @__PURE__ */jsx(Image, {
+          data: product.featuredImage,
+          aspectRatio: "1/1",
+          sizes: "(min-width: 768px) 25vw, 50vw"
+        }), /* @__PURE__ */jsx("h3", {
+          className: "mt-2 font-semibold group-hover:underline",
+          children: product.title
+        }), /* @__PURE__ */jsx(Money, {
+          data: product.priceRange.minVariantPrice
+        })]
+      }, product.id))
+    }) : null]
+  });
+});
+const SEARCH_QUERY = `#graphql
   query Search(
     $query: String!
     $first: Int
@@ -1485,8 +6446,281 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,Zb=Object.freeze(Object.defineProperty({__proto__:null,default:Xb,loader:Gb},Symbol.toStringTag,{value:"Module"}));async function Qb({request:e,context:t}){var p;const{cart:r}=t,n=await e.formData(),{action:a,inputs:o}=re.getFormInput(n);let i;switch(a){case re.ACTIONS.LinesAdd:i=await r.addLines(o.lines);break;case re.ACTIONS.LinesUpdate:i=await r.updateLines(o.lines);break;case re.ACTIONS.LinesRemove:i=await r.removeLines(o.lineIds);break;case re.ACTIONS.DiscountCodesUpdate:i=await r.updateDiscountCodes(o.discountCodes);break;case re.ACTIONS.GiftCardCodesAdd:i=await r.addGiftCardCodes([o.giftCardCode]);break;case re.ACTIONS.GiftCardCodesRemove:i=await r.removeGiftCardCodes(o.giftCardCodes);break;case re.ACTIONS.BuyerIdentityUpdate:i=await r.updateBuyerIdentity(o.buyerIdentity);break;case re.ACTIONS.DeliveryAddressesAdd:i=await r.addDeliveryAddresses(o.addresses);break;case re.ACTIONS.DeliveryAddressesReplace:i=await r.replaceDeliveryAddresses(o.addresses);break;case re.ACTIONS.SelectedDeliveryOptionsUpdate:i=await r.updateSelectedDeliveryOption(o.selectedDeliveryOptions);break;default:throw new Error(`Unknown action: ${a}`)}const l=(i==null?void 0:i.userErrors)||[];l.length>0&&console.warn("[cart] userErrors:",l.map(y=>y.message).join(", "));const u=(p=i==null?void 0:i.cart)==null?void 0:p.id,c=u?r.setCartId(u):new Headers,d=l.length>0?422:200;return Ct(i,{status:d,headers:c})}async function Kb({context:e}){var o;const{cart:t,storefront:r}=e,n=r.i18n.country;let a=await t.get();if(a){const i=(o=a.buyerIdentity)==null?void 0:o.countryCode;(!i||i!==n)&&(console.log(`[cart-loader] Syncing buyerIdentity: ${i??"none"} -> ${n}`),await t.updateBuyerIdentity({countryCode:n}),a=await t.get())}return{cart:a}}const eS=ke(function(){const{cart:t}=Te();return s.jsxs("div",{className:"cart max-w-4xl mx-auto px-4 py-8",children:[s.jsx("h1",{className:"text-3xl font-bold mb-6",children:"Your Cart"}),s.jsx(Ed,{cart:t,layout:"page"})]})}),tS=Object.freeze(Object.defineProperty({__proto__:null,action:Qb,default:eS,loader:Kb},Symbol.toStringTag,{value:"Module"}));async function rS({context:e}){return e.customerAccount.login()}const nS=Object.freeze(Object.defineProperty({__proto__:null,loader:rS},Symbol.toStringTag,{value:"Module"}));async function aS({request:e,context:t}){const r=await ux({storefront:t.storefront,request:e,types:["products","pages","collections","metaObjects"]});return r.headers.set("Cache-Control","max-age=86400"),r}const oS=Object.freeze(Object.defineProperty({__proto__:null,loader:aS},Symbol.toStringTag,{value:"Module"}));function $d(e){return["User-agent: *","Disallow: /admin","Disallow: /cart","Disallow: /checkout","Disallow: /account","Disallow: /search","Allow: /","",`Sitemap: ${e}/sitemap.xml`].join(`
-`)}async function sS({request:e}){const t=new URL(e.url).origin,r=$d(t);return new Response(r,{headers:{"Content-Type":"text/plain","Cache-Control":"max-age=86400"}})}const iS=Object.freeze(Object.defineProperty({__proto__:null,generateRobotsTxt:$d,loader:sS},Symbol.toStringTag,{value:"Module"})),lS=({formMethod:e,currentUrl:t,nextUrl:r})=>!!(e&&e!=="GET"||t.toString()===r.toString());async function uS({context:e}){await e.customerAccount.handleAuthStatus();const{data:t}=await e.customerAccount.query(Td);return{customer:t.customer}}const cS=ke(function(){const{customer:t}=Te();return s.jsxs("div",{className:"account-layout",style:{maxWidth:"80%",margin:"0 auto",padding:"2rem 1rem",color:"white"},children:[s.jsxs("h1",{style:{fontSize:"1.75rem",marginBottom:"1.5rem"},children:["Welcome, ",t.firstName||"there"]}),s.jsxs("div",{style:{display:"flex",gap:"2rem",flexWrap:"wrap"},children:[s.jsx(dS,{}),s.jsx("div",{style:{flex:1,minWidth:0},children:s.jsx(Fa,{context:{customer:t}})})]})]})});function dS(){const e={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1rem",minWidth:"200px"},t={display:"block",padding:"0.5rem 0.75rem",color:"white",textDecoration:"none",borderRadius:"4px",marginBottom:"0.25rem"};return s.jsxs("nav",{style:e,children:[s.jsx("a",{href:"/account",style:t,children:"Overview"}),s.jsx("a",{href:"/account/orders",style:t,children:"Orders"}),s.jsx("a",{href:"/account/profile",style:t,children:"Profile"}),s.jsx("a",{href:"/account/addresses",style:t,children:"Addresses"}),s.jsx("a",{href:"/account/management",style:t,children:"Account Management"})]})}const fS=Object.freeze(Object.defineProperty({__proto__:null,default:cS,loader:uS,shouldRevalidate:lS},Symbol.toStringTag,{value:"Module"})),As=`#graphql
+`;
+
+const route18 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: _$locale__search,
+  loader: loader$9
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function action$7({
+  request,
+  context
+}) {
+  const {
+    cart
+  } = context;
+  const formData = await request.formData();
+  const {
+    action: action2,
+    inputs
+  } = CartForm.getFormInput(formData);
+  let result;
+  switch (action2) {
+    case CartForm.ACTIONS.LinesAdd:
+      result = await cart.addLines(inputs.lines);
+      break;
+    case CartForm.ACTIONS.LinesUpdate:
+      result = await cart.updateLines(inputs.lines);
+      break;
+    case CartForm.ACTIONS.LinesRemove:
+      result = await cart.removeLines(inputs.lineIds);
+      break;
+    case CartForm.ACTIONS.DiscountCodesUpdate:
+      result = await cart.updateDiscountCodes(inputs.discountCodes);
+      break;
+    case CartForm.ACTIONS.GiftCardCodesAdd:
+      result = await cart.addGiftCardCodes([inputs.giftCardCode]);
+      break;
+    case CartForm.ACTIONS.GiftCardCodesRemove:
+      result = await cart.removeGiftCardCodes(inputs.giftCardCodes);
+      break;
+    case CartForm.ACTIONS.BuyerIdentityUpdate:
+      result = await cart.updateBuyerIdentity(inputs.buyerIdentity);
+      break;
+    case CartForm.ACTIONS.DeliveryAddressesAdd:
+      result = await cart.addDeliveryAddresses(inputs.addresses);
+      break;
+    case CartForm.ACTIONS.DeliveryAddressesReplace:
+      result = await cart.replaceDeliveryAddresses(inputs.addresses);
+      break;
+    case CartForm.ACTIONS.SelectedDeliveryOptionsUpdate:
+      result = await cart.updateSelectedDeliveryOption(inputs.selectedDeliveryOptions);
+      break;
+    default:
+      throw new Error(`Unknown action: ${action2}`);
+  }
+  const userErrors = result?.userErrors || [];
+  if (userErrors.length > 0) {
+    console.warn("[cart] userErrors:", userErrors.map(e => e.message).join(", "));
+  }
+  const cartId = result?.cart?.id;
+  const headers = cartId ? cart.setCartId(cartId) : new Headers();
+  const status = userErrors.length > 0 ? 422 : 200;
+  return data(result, {
+    status,
+    headers
+  });
+}
+async function loader$8({
+  context
+}) {
+  const {
+    cart,
+    storefront
+  } = context;
+  const expectedCountry = storefront.i18n.country;
+  let cartData = await cart.get();
+  if (cartData) {
+    const currentCountry = cartData.buyerIdentity?.countryCode;
+    if (!currentCountry || currentCountry !== expectedCountry) {
+      console.log(`[cart-loader] Syncing buyerIdentity: ${currentCountry ?? "none"} -> ${expectedCountry}`);
+      await cart.updateBuyerIdentity({
+        countryCode: expectedCountry
+      });
+      cartData = await cart.get();
+    }
+  }
+  return {
+    cart: cartData
+  };
+}
+const _$locale__cart = UNSAFE_withComponentProps(function Cart() {
+  const {
+    cart
+  } = useLoaderData();
+  return /* @__PURE__ */jsxs("div", {
+    className: "cart max-w-4xl mx-auto px-4 py-8",
+    children: [/* @__PURE__ */jsx("h1", {
+      className: "text-3xl font-bold mb-6",
+      children: "Your Cart"
+    }), /* @__PURE__ */jsx(CartMain, {
+      cart,
+      layout: "page"
+    })]
+  });
+});
+
+const route19 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$7,
+  default: _$locale__cart,
+  loader: loader$8
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$7({
+  context
+}) {
+  return context.customerAccount.login();
+}
+
+const route20 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  loader: loader$7
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function loader$6({
+  request,
+  context
+}) {
+  const response = await getSitemapIndex({
+    storefront: context.storefront,
+    request,
+    types: ["products", "pages", "collections", "metaObjects"]
+  });
+  response.headers.set("Cache-Control", "max-age=86400");
+  return response;
+}
+
+const route21 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  loader: loader$6
+}, Symbol.toStringTag, { value: 'Module' }));
+
+function generateRobotsTxt(baseUrl) {
+  return ["User-agent: *", "Disallow: /admin", "Disallow: /cart", "Disallow: /checkout", "Disallow: /account", "Disallow: /search", "Allow: /", "", `Sitemap: ${baseUrl}/sitemap.xml`].join("\n");
+}
+async function loader$5({
+  request
+}) {
+  const baseUrl = new URL(request.url).origin;
+  const robotsTxt = generateRobotsTxt(baseUrl);
+  return new Response(robotsTxt, {
+    headers: {
+      "Content-Type": "text/plain",
+      "Cache-Control": "max-age=86400"
+    }
+  });
+}
+
+const route22 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  generateRobotsTxt,
+  loader: loader$5
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const shouldRevalidate = ({
+  formMethod,
+  currentUrl,
+  nextUrl
+}) => {
+  if (formMethod && formMethod !== "GET") return true;
+  if (currentUrl.toString() === nextUrl.toString()) return true;
+  return false;
+};
+async function loader$4({
+  context
+}) {
+  await context.customerAccount.handleAuthStatus();
+  const {
+    data
+  } = await context.customerAccount.query(CUSTOMER_DETAILS_QUERY);
+  return {
+    customer: data.customer
+  };
+}
+const account = UNSAFE_withComponentProps(function AccountLayout() {
+  const {
+    customer
+  } = useLoaderData();
+  return /* @__PURE__ */jsxs("div", {
+    className: "account-layout",
+    style: {
+      maxWidth: "80%",
+      margin: "0 auto",
+      padding: "2rem 1rem",
+      color: "white"
+    },
+    children: [/* @__PURE__ */jsxs("h1", {
+      style: {
+        fontSize: "1.75rem",
+        marginBottom: "1.5rem"
+      },
+      children: ["Welcome, ", customer.firstName || "there"]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "flex",
+        gap: "2rem",
+        flexWrap: "wrap"
+      },
+      children: [/* @__PURE__ */jsx(AccountNav, {}), /* @__PURE__ */jsx("div", {
+        style: {
+          flex: 1,
+          minWidth: 0
+        },
+        children: /* @__PURE__ */jsx(Outlet, {
+          context: {
+            customer
+          }
+        })
+      })]
+    })]
+  });
+});
+function AccountNav() {
+  const navStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1rem",
+    minWidth: "200px"
+  };
+  const linkStyle = {
+    display: "block",
+    padding: "0.5rem 0.75rem",
+    color: "white",
+    textDecoration: "none",
+    borderRadius: "4px",
+    marginBottom: "0.25rem"
+  };
+  return /* @__PURE__ */jsxs("nav", {
+    style: navStyle,
+    children: [/* @__PURE__ */jsx("a", {
+      href: "/account",
+      style: linkStyle,
+      children: "Overview"
+    }), /* @__PURE__ */jsx("a", {
+      href: "/account/orders",
+      style: linkStyle,
+      children: "Orders"
+    }), /* @__PURE__ */jsx("a", {
+      href: "/account/wishlist",
+      style: linkStyle,
+      children: "Wish List"
+    }), /* @__PURE__ */jsx("a", {
+      href: "/account/profile",
+      style: linkStyle,
+      children: "Profile"
+    }), /* @__PURE__ */jsx("a", {
+      href: "/account/addresses",
+      style: linkStyle,
+      children: "Addresses"
+    }), /* @__PURE__ */jsx("a", {
+      href: "/account/management",
+      style: linkStyle,
+      children: "Account Management"
+    })]
+  });
+}
+
+const route23 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: account,
+  loader: loader$4,
+  shouldRevalidate
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const CUSTOMER_UPDATE_MUTATION = `#graphql
   mutation customerUpdate(
     $customer: CustomerUpdateInput!
     $language: LanguageCode
@@ -1509,7 +6743,280 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;async function hS({context:e,request:t}){var a,o,i,l;const r=await t.formData(),n=r.get("intent");if(n==="deactivate"){const{data:u,errors:c}=await e.customerAccount.mutate(As,{variables:{customer:{firstName:"Deactivated",lastName:"Account"}}});return c!=null&&c.length?{error:c[0].message,intent:"deactivate"}:(o=(a=u==null?void 0:u.customerUpdate)==null?void 0:a.userErrors)!=null&&o.length?{error:u.customerUpdate.userErrors[0].message,intent:"deactivate"}:(await e.customerAccount.logout({}),Et("/"))}if(n==="delete"){if(r.get("confirmation")!=="DELETE")return{error:"Please type DELETE to confirm account deletion.",intent:"delete"};const{data:c,errors:d}=await e.customerAccount.mutate(As,{variables:{customer:{firstName:"Deleted",lastName:"User"}}});return d!=null&&d.length?{error:d[0].message,intent:"delete"}:(l=(i=c==null?void 0:c.customerUpdate)==null?void 0:i.userErrors)!=null&&l.length?{error:c.customerUpdate.userErrors[0].message,intent:"delete"}:(await e.customerAccount.logout({}),Et("/"))}return{error:"Unknown action",intent:"unknown"}}const pS=ke(function(){const t=Rn(),[r,n]=b.useState(!1),[a,o]=b.useState(!1),i={width:"100%",padding:"0.5rem 0.75rem",background:"rgba(255, 255, 255, 0.1)",border:"1px solid rgba(255, 255, 255, 0.3)",borderRadius:"4px",color:"white",fontSize:"0.875rem"},l={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem"},u={background:"rgba(197, 48, 48, 0.15)",color:"#fc8181",border:"1px solid rgba(197, 48, 48, 0.4)",padding:"0.5rem 1.25rem",borderRadius:"6px",cursor:"pointer",fontSize:"0.875rem",marginRight:"0.5rem"},c=t&&"error"in t?t.error:null;return s.jsxs("div",{children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem",color:"#fc8181"},children:"Account Management"}),c&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"1rem"},children:c}),s.jsxs("div",{style:{...l,border:"1px solid rgba(197, 48, 48, 0.3)"},children:[s.jsxs("div",{style:{marginBottom:"1.25rem"},children:[s.jsx("p",{style:{fontWeight:600,marginBottom:"0.25rem"},children:"Deactivate Account"}),s.jsx("p",{style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.6)",marginBottom:"0.75rem"},children:"Marks your account as deactivated. Your order history and invoicing records are retained."}),r?s.jsxs("div",{style:{background:"rgba(197,48,48,0.08)",borderRadius:"6px",padding:"1rem",border:"1px solid rgba(197,48,48,0.3)"},children:[s.jsx("p",{style:{fontSize:"0.875rem",marginBottom:"1rem",color:"rgba(255,255,255,0.8)"},children:"Are you sure you want to deactivate your account? You will be logged out."}),s.jsxs(Ot,{method:"post",style:{display:"inline"},children:[s.jsx("input",{type:"hidden",name:"intent",value:"deactivate"}),s.jsx("button",{type:"submit",style:u,children:"Yes, Deactivate"})]}),s.jsx("button",{type:"button",style:{...u,color:"rgba(255,255,255,0.6)",borderColor:"rgba(255,255,255,0.2)",background:"transparent"},onClick:()=>n(!1),children:"Cancel"})]}):s.jsx("button",{type:"button",style:u,onClick:()=>n(!0),children:"Deactivate Account"})]}),s.jsxs("div",{style:{borderTop:"1px solid rgba(255,255,255,0.1)",paddingTop:"1.25rem"},children:[s.jsx("p",{style:{fontWeight:600,marginBottom:"0.25rem"},children:"Close Account & Delete Personal Information"}),s.jsx("p",{style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.6)",marginBottom:"0.75rem"},children:"Permanently removes your personal information. Your order and invoicing records are retained as required by SARS."}),a?s.jsxs("div",{style:{background:"rgba(197,48,48,0.08)",borderRadius:"6px",padding:"1rem",border:"1px solid rgba(197,48,48,0.3)"},children:[s.jsxs("p",{style:{fontSize:"0.875rem",marginBottom:"0.75rem",color:"rgba(255,255,255,0.8)"},children:["This will permanently remove your personal information. Type ",s.jsx("strong",{children:"DELETE"})," to confirm."]}),s.jsxs(Ot,{method:"post",children:[s.jsx("input",{type:"hidden",name:"intent",value:"delete"}),s.jsx("input",{name:"confirmation",type:"text",placeholder:"Type DELETE to confirm",style:{...i,width:"auto",marginBottom:"0.75rem",display:"block"}}),s.jsx("button",{type:"submit",style:{...u,borderColor:"rgba(197,48,48,0.6)"},children:"Delete My Information"}),s.jsx("button",{type:"button",style:{...u,color:"rgba(255,255,255,0.6)",borderColor:"rgba(255,255,255,0.2)",background:"transparent"},onClick:()=>o(!1),children:"Cancel"})]})]}):s.jsx("button",{type:"button",style:{...u,borderColor:"rgba(197,48,48,0.6)"},onClick:()=>o(!0),children:"Close Account"})]})]})]})}),mS=Object.freeze(Object.defineProperty({__proto__:null,action:hS,default:pS},Symbol.toStringTag,{value:"Module"})),yS=`#graphql
+`;
+
+async function action$6({
+  context,
+  request
+}) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  if (intent === "deactivate") {
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_UPDATE_MUTATION, {
+      variables: {
+        customer: {
+          firstName: "Deactivated",
+          lastName: "Account"
+        }
+      }
+    });
+    if (errors?.length) {
+      return {
+        error: errors[0].message,
+        intent: "deactivate"
+      };
+    }
+    if (data?.customerUpdate?.userErrors?.length) {
+      return {
+        error: data.customerUpdate.userErrors[0].message,
+        intent: "deactivate"
+      };
+    }
+    await context.customerAccount.logout({});
+    return redirect("/");
+  }
+  if (intent === "delete") {
+    const confirmation = formData.get("confirmation");
+    if (confirmation !== "DELETE") {
+      return {
+        error: "Please type DELETE to confirm account deletion.",
+        intent: "delete"
+      };
+    }
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_UPDATE_MUTATION, {
+      variables: {
+        customer: {
+          firstName: "Deleted",
+          lastName: "User"
+        }
+      }
+    });
+    if (errors?.length) {
+      return {
+        error: errors[0].message,
+        intent: "delete"
+      };
+    }
+    if (data?.customerUpdate?.userErrors?.length) {
+      return {
+        error: data.customerUpdate.userErrors[0].message,
+        intent: "delete"
+      };
+    }
+    await context.customerAccount.logout({});
+    return redirect("/");
+  }
+  return {
+    error: "Unknown action",
+    intent: "unknown"
+  };
+}
+const account_management = UNSAFE_withComponentProps(function AccountManagement() {
+  const actionData = useActionData();
+  const [showDeactivate, setShowDeactivate] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const inputStyle = {
+    width: "100%",
+    padding: "0.5rem 0.75rem",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "4px",
+    color: "white",
+    fontSize: "0.875rem"
+  };
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem"
+  };
+  const dangerBtnStyle = {
+    background: "rgba(197, 48, 48, 0.15)",
+    color: "#fc8181",
+    border: "1px solid rgba(197, 48, 48, 0.4)",
+    padding: "0.5rem 1.25rem",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "0.875rem",
+    marginRight: "0.5rem"
+  };
+  const actionError = actionData && "error" in actionData ? actionData.error : null;
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx("h2", {
+      style: {
+        fontSize: "1.25rem",
+        marginBottom: "1rem",
+        color: "#fc8181"
+      },
+      children: "Account Management"
+    }), actionError && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        marginBottom: "1rem"
+      },
+      children: actionError
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        ...cardStyle,
+        border: "1px solid rgba(197, 48, 48, 0.3)"
+      },
+      children: [/* @__PURE__ */jsxs("div", {
+        style: {
+          marginBottom: "1.25rem"
+        },
+        children: [/* @__PURE__ */jsx("p", {
+          style: {
+            fontWeight: 600,
+            marginBottom: "0.25rem"
+          },
+          children: "Deactivate Account"
+        }), /* @__PURE__ */jsx("p", {
+          style: {
+            fontSize: "0.875rem",
+            color: "rgba(255,255,255,0.6)",
+            marginBottom: "0.75rem"
+          },
+          children: "Marks your account as deactivated. Your order history and invoicing records are retained."
+        }), !showDeactivate ? /* @__PURE__ */jsx("button", {
+          type: "button",
+          style: dangerBtnStyle,
+          onClick: () => setShowDeactivate(true),
+          children: "Deactivate Account"
+        }) : /* @__PURE__ */jsxs("div", {
+          style: {
+            background: "rgba(197,48,48,0.08)",
+            borderRadius: "6px",
+            padding: "1rem",
+            border: "1px solid rgba(197,48,48,0.3)"
+          },
+          children: [/* @__PURE__ */jsx("p", {
+            style: {
+              fontSize: "0.875rem",
+              marginBottom: "1rem",
+              color: "rgba(255,255,255,0.8)"
+            },
+            children: "Are you sure you want to deactivate your account? You will be logged out."
+          }), /* @__PURE__ */jsxs(Form, {
+            method: "post",
+            style: {
+              display: "inline"
+            },
+            children: [/* @__PURE__ */jsx("input", {
+              type: "hidden",
+              name: "intent",
+              value: "deactivate"
+            }), /* @__PURE__ */jsx("button", {
+              type: "submit",
+              style: dangerBtnStyle,
+              children: "Yes, Deactivate"
+            })]
+          }), /* @__PURE__ */jsx("button", {
+            type: "button",
+            style: {
+              ...dangerBtnStyle,
+              color: "rgba(255,255,255,0.6)",
+              borderColor: "rgba(255,255,255,0.2)",
+              background: "transparent"
+            },
+            onClick: () => setShowDeactivate(false),
+            children: "Cancel"
+          })]
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+          paddingTop: "1.25rem"
+        },
+        children: [/* @__PURE__ */jsx("p", {
+          style: {
+            fontWeight: 600,
+            marginBottom: "0.25rem"
+          },
+          children: "Close Account & Delete Personal Information"
+        }), /* @__PURE__ */jsx("p", {
+          style: {
+            fontSize: "0.875rem",
+            color: "rgba(255,255,255,0.6)",
+            marginBottom: "0.75rem"
+          },
+          children: "Permanently removes your personal information. Your order and invoicing records are retained as required by SARS."
+        }), !showDelete ? /* @__PURE__ */jsx("button", {
+          type: "button",
+          style: {
+            ...dangerBtnStyle,
+            borderColor: "rgba(197,48,48,0.6)"
+          },
+          onClick: () => setShowDelete(true),
+          children: "Close Account"
+        }) : /* @__PURE__ */jsxs("div", {
+          style: {
+            background: "rgba(197,48,48,0.08)",
+            borderRadius: "6px",
+            padding: "1rem",
+            border: "1px solid rgba(197,48,48,0.3)"
+          },
+          children: [/* @__PURE__ */jsxs("p", {
+            style: {
+              fontSize: "0.875rem",
+              marginBottom: "0.75rem",
+              color: "rgba(255,255,255,0.8)"
+            },
+            children: ["This will permanently remove your personal information. Type ", /* @__PURE__ */jsx("strong", {
+              children: "DELETE"
+            }), " to confirm."]
+          }), /* @__PURE__ */jsxs(Form, {
+            method: "post",
+            children: [/* @__PURE__ */jsx("input", {
+              type: "hidden",
+              name: "intent",
+              value: "delete"
+            }), /* @__PURE__ */jsx("input", {
+              name: "confirmation",
+              type: "text",
+              placeholder: "Type DELETE to confirm",
+              style: {
+                ...inputStyle,
+                width: "auto",
+                marginBottom: "0.75rem",
+                display: "block"
+              }
+            }), /* @__PURE__ */jsx("button", {
+              type: "submit",
+              style: {
+                ...dangerBtnStyle,
+                borderColor: "rgba(197,48,48,0.6)"
+              },
+              children: "Delete My Information"
+            }), /* @__PURE__ */jsx("button", {
+              type: "button",
+              style: {
+                ...dangerBtnStyle,
+                color: "rgba(255,255,255,0.6)",
+                borderColor: "rgba(255,255,255,0.2)",
+                background: "transparent"
+              },
+              onClick: () => setShowDelete(false),
+              children: "Cancel"
+            })]
+          })]
+        })]
+      })]
+    })]
+  });
+});
+
+const route24 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$6,
+  default: account_management
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const CUSTOMER_ADDRESS_CREATE_MUTATION = `#graphql
   mutation customerAddressCreate(
     $address: CustomerAddressInput!
     $defaultAddress: Boolean
@@ -1529,7 +7036,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,gS=`#graphql
+`;
+const CUSTOMER_ADDRESS_UPDATE_MUTATION = `#graphql
   mutation customerAddressUpdate(
     $address: CustomerAddressInput!
     $addressId: ID!
@@ -1551,7 +7059,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,vS=`#graphql
+`;
+const CUSTOMER_ADDRESS_DELETE_MUTATION = `#graphql
   mutation customerAddressDelete(
     $addressId: ID!
     $language: LanguageCode
@@ -1565,7 +7074,698 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;async function xS({context:e,request:t}){var i,l,u,c,d,p;const r=await t.formData(),n=r.get("intent");if(n==="delete"){const y=String(r.get("addressId")),{data:w,errors:m}=await e.customerAccount.mutate(vS,{variables:{addressId:y}});return m!=null&&m.length?{error:m[0].message}:(l=(i=w==null?void 0:w.customerAddressDelete)==null?void 0:i.userErrors)!=null&&l.length?{error:w.customerAddressDelete.userErrors[0].message}:{success:"Address deleted."}}const a={firstName:String(r.get("firstName")||""),lastName:String(r.get("lastName")||""),company:String(r.get("company")||""),address1:String(r.get("address1")||""),address2:String(r.get("address2")||""),city:String(r.get("city")||""),zoneCode:String(r.get("zoneCode")||""),zip:String(r.get("zip")||""),territoryCode:String(r.get("territoryCode")||""),phoneNumber:String(r.get("phoneNumber")||"")},o=r.get("defaultAddress")==="on";if(n==="update"){const y=String(r.get("addressId")),{data:w,errors:m}=await e.customerAccount.mutate(gS,{variables:{address:a,addressId:y,defaultAddress:o}});return m!=null&&m.length?{error:m[0].message}:(c=(u=w==null?void 0:w.customerAddressUpdate)==null?void 0:u.userErrors)!=null&&c.length?{error:w.customerAddressUpdate.userErrors[0].message}:{success:"Address updated."}}if(n==="create"){const{data:y,errors:w}=await e.customerAccount.mutate(yS,{variables:{address:a,defaultAddress:o}});return w!=null&&w.length?{error:w[0].message}:(p=(d=y==null?void 0:y.customerAddressCreate)==null?void 0:d.userErrors)!=null&&p.length?{error:y.customerAddressCreate.userErrors[0].message}:{success:"Address created."}}return{error:"Unknown action."}}const wS=ke(function(){const{customer:t}=Ds(),r=Rn(),n={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"0.75rem"},a={background:"rgba(255, 255, 255, 0.15)",color:"white",border:"1px solid rgba(255, 255, 255, 0.3)",padding:"0.35rem 1rem",borderRadius:"6px",cursor:"pointer",fontSize:"0.875rem"};return s.jsxs("div",{children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem"},children:"Addresses"}),r&&"success"in r&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem"},children:r.success}),r&&"error"in r&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"1rem"},children:r.error}),t.addresses.nodes.length===0?s.jsx("div",{style:n,children:s.jsx("p",{style:{color:"rgba(255,255,255,0.7)"},children:"No addresses saved."})}):t.addresses.nodes.map(o=>{var i;return s.jsx("div",{style:n,children:s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:"1rem"},children:[s.jsxs("div",{children:[o.formatted.map((l,u)=>s.jsx("p",{children:l},u)),((i=t.defaultAddress)==null?void 0:i.id)===o.id&&s.jsx("p",{style:{color:"rgba(255,255,255,0.5)",fontSize:"0.875rem",marginTop:"0.25rem"},children:"Default"})]}),s.jsxs(Ot,{method:"post",children:[s.jsx("input",{type:"hidden",name:"addressId",value:o.id}),s.jsx("input",{type:"hidden",name:"intent",value:"delete"}),s.jsx("button",{type:"submit",style:{...a,background:"rgba(229, 62, 62, 0.3)",border:"1px solid rgba(229, 62, 62, 0.5)"},children:"Delete"})]})]})},o.id)}),s.jsxs("details",{style:{...n,cursor:"pointer",marginTop:"1.5rem"},children:[s.jsx("summary",{style:{fontWeight:"bold",marginBottom:"1rem"},children:"Add new address"}),s.jsx(bS,{})]})]})});function bS(){const e={width:"100%",padding:"0.5rem 0.75rem",background:"rgba(255, 255, 255, 0.1)",border:"1px solid rgba(255, 255, 255, 0.3)",borderRadius:"4px",color:"white",fontSize:"0.875rem"},t={display:"block",marginBottom:"0.25rem",color:"rgba(255,255,255,0.7)",fontSize:"0.875rem"},r={marginBottom:"0.75rem"};return s.jsxs(Ot,{method:"post",children:[s.jsx("input",{type:"hidden",name:"intent",value:"create"}),s.jsxs("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.75rem"},children:[s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"firstName",style:t,children:"First name"}),s.jsx("input",{id:"firstName",name:"firstName",type:"text",style:e})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"lastName",style:t,children:"Last name"}),s.jsx("input",{id:"lastName",name:"lastName",type:"text",style:e})]})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"company",style:t,children:"Company"}),s.jsx("input",{id:"company",name:"company",type:"text",style:e})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"address1",style:t,children:"Address"}),s.jsx("input",{id:"address1",name:"address1",type:"text",style:e})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"address2",style:t,children:"Apartment, suite, etc."}),s.jsx("input",{id:"address2",name:"address2",type:"text",style:e})]}),s.jsxs("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.75rem"},children:[s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"city",style:t,children:"City"}),s.jsx("input",{id:"city",name:"city",type:"text",style:e})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"zoneCode",style:t,children:"Province/State"}),s.jsx("input",{id:"zoneCode",name:"zoneCode",type:"text",style:e})]})]}),s.jsxs("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.75rem"},children:[s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"zip",style:t,children:"Postal/Zip code"}),s.jsx("input",{id:"zip",name:"zip",type:"text",style:e})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"territoryCode",style:t,children:"Country code"}),s.jsx("input",{id:"territoryCode",name:"territoryCode",type:"text",style:e,placeholder:"e.g. ZA, US, NZ"})]})]}),s.jsxs("div",{style:r,children:[s.jsx("label",{htmlFor:"phoneNumber",style:t,children:"Phone"}),s.jsx("input",{id:"phoneNumber",name:"phoneNumber",type:"tel",style:e})]}),s.jsxs("div",{style:{...r,display:"flex",alignItems:"center",gap:"0.5rem"},children:[s.jsx("input",{id:"defaultAddress",name:"defaultAddress",type:"checkbox"}),s.jsx("label",{htmlFor:"defaultAddress",style:{color:"rgba(255,255,255,0.7)",fontSize:"0.875rem"},children:"Set as default address"})]}),s.jsx("button",{type:"submit",style:{background:"rgba(255, 255, 255, 0.15)",color:"white",border:"1px solid rgba(255, 255, 255, 0.3)",padding:"0.5rem 1.5rem",borderRadius:"6px",cursor:"pointer"},children:"Add address"})]})}const SS=Object.freeze(Object.defineProperty({__proto__:null,action:xS,default:wS},Symbol.toStringTag,{value:"Module"})),Pd=`#graphql
+`;
+
+async function action$5({
+  context,
+  request
+}) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  if (intent === "delete") {
+    const addressId = String(formData.get("addressId"));
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_ADDRESS_DELETE_MUTATION, {
+      variables: {
+        addressId
+      }
+    });
+    if (errors?.length) return {
+      error: errors[0].message
+    };
+    if (data?.customerAddressDelete?.userErrors?.length) {
+      return {
+        error: data.customerAddressDelete.userErrors[0].message
+      };
+    }
+    return {
+      success: "Address deleted."
+    };
+  }
+  const address = {
+    firstName: String(formData.get("firstName") || ""),
+    lastName: String(formData.get("lastName") || ""),
+    company: String(formData.get("company") || ""),
+    address1: String(formData.get("address1") || ""),
+    address2: String(formData.get("address2") || ""),
+    city: String(formData.get("city") || ""),
+    zoneCode: String(formData.get("zoneCode") || ""),
+    zip: String(formData.get("zip") || ""),
+    territoryCode: String(formData.get("territoryCode") || ""),
+    phoneNumber: String(formData.get("phoneNumber") || "")
+  };
+  const defaultAddress = formData.get("defaultAddress") === "on";
+  if (intent === "update") {
+    const addressId = String(formData.get("addressId"));
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_ADDRESS_UPDATE_MUTATION, {
+      variables: {
+        address,
+        addressId,
+        defaultAddress
+      }
+    });
+    if (errors?.length) return {
+      error: errors[0].message
+    };
+    if (data?.customerAddressUpdate?.userErrors?.length) {
+      return {
+        error: data.customerAddressUpdate.userErrors[0].message
+      };
+    }
+    return {
+      success: "Address updated."
+    };
+  }
+  if (intent === "create") {
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_ADDRESS_CREATE_MUTATION, {
+      variables: {
+        address,
+        defaultAddress
+      }
+    });
+    if (errors?.length) return {
+      error: errors[0].message
+    };
+    if (data?.customerAddressCreate?.userErrors?.length) {
+      return {
+        error: data.customerAddressCreate.userErrors[0].message
+      };
+    }
+    return {
+      success: "Address created."
+    };
+  }
+  return {
+    error: "Unknown action."
+  };
+}
+const account_addresses = UNSAFE_withComponentProps(function AccountAddresses() {
+  const {
+    customer
+  } = useOutletContext();
+  const actionData = useActionData();
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "0.75rem"
+  };
+  const buttonStyle = {
+    background: "rgba(255, 255, 255, 0.15)",
+    color: "white",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    padding: "0.35rem 1rem",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "0.875rem"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx("h2", {
+      style: {
+        fontSize: "1.25rem",
+        marginBottom: "1rem"
+      },
+      children: "Addresses"
+    }), actionData && "success" in actionData && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem"
+      },
+      children: actionData.success
+    }), actionData && "error" in actionData && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        marginBottom: "1rem"
+      },
+      children: actionData.error
+    }), customer.addresses.nodes.length === 0 ? /* @__PURE__ */jsx("div", {
+      style: cardStyle,
+      children: /* @__PURE__ */jsx("p", {
+        style: {
+          color: "rgba(255,255,255,0.7)"
+        },
+        children: "No addresses saved."
+      })
+    }) : customer.addresses.nodes.map(address => /* @__PURE__ */jsx("div", {
+      style: cardStyle,
+      children: /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: "1rem"
+        },
+        children: [/* @__PURE__ */jsxs("div", {
+          children: [address.formatted.map((line, i) => /* @__PURE__ */jsx("p", {
+            children: line
+          }, i)), customer.defaultAddress?.id === address.id && /* @__PURE__ */jsx("p", {
+            style: {
+              color: "rgba(255,255,255,0.5)",
+              fontSize: "0.875rem",
+              marginTop: "0.25rem"
+            },
+            children: "Default"
+          })]
+        }), /* @__PURE__ */jsxs(Form, {
+          method: "post",
+          children: [/* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "addressId",
+            value: address.id
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "intent",
+            value: "delete"
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            style: {
+              ...buttonStyle,
+              background: "rgba(229, 62, 62, 0.3)",
+              border: "1px solid rgba(229, 62, 62, 0.5)"
+            },
+            children: "Delete"
+          })]
+        })]
+      })
+    }, address.id)), /* @__PURE__ */jsxs("details", {
+      style: {
+        ...cardStyle,
+        cursor: "pointer",
+        marginTop: "1.5rem"
+      },
+      children: [/* @__PURE__ */jsx("summary", {
+        style: {
+          fontWeight: "bold",
+          marginBottom: "1rem"
+        },
+        children: "Add new address"
+      }), /* @__PURE__ */jsx(AddressForm, {})]
+    })]
+  });
+});
+function AddressForm() {
+  const inputStyle = {
+    width: "100%",
+    padding: "0.5rem 0.75rem",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "4px",
+    color: "white",
+    fontSize: "0.875rem"
+  };
+  const labelStyle = {
+    display: "block",
+    marginBottom: "0.25rem",
+    color: "rgba(255,255,255,0.7)",
+    fontSize: "0.875rem"
+  };
+  const fieldStyle = {
+    marginBottom: "0.75rem"
+  };
+  return /* @__PURE__ */jsxs(Form, {
+    method: "post",
+    children: [/* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "intent",
+      value: "create"
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "0.75rem"
+      },
+      children: [/* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "firstName",
+          style: labelStyle,
+          children: "First name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "firstName",
+          name: "firstName",
+          type: "text",
+          style: inputStyle
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "lastName",
+          style: labelStyle,
+          children: "Last name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "lastName",
+          name: "lastName",
+          type: "text",
+          style: inputStyle
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: fieldStyle,
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "company",
+        style: labelStyle,
+        children: "Company"
+      }), /* @__PURE__ */jsx("input", {
+        id: "company",
+        name: "company",
+        type: "text",
+        style: inputStyle
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: fieldStyle,
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "address1",
+        style: labelStyle,
+        children: "Address"
+      }), /* @__PURE__ */jsx("input", {
+        id: "address1",
+        name: "address1",
+        type: "text",
+        style: inputStyle
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: fieldStyle,
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "address2",
+        style: labelStyle,
+        children: "Apartment, suite, etc."
+      }), /* @__PURE__ */jsx("input", {
+        id: "address2",
+        name: "address2",
+        type: "text",
+        style: inputStyle
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "0.75rem"
+      },
+      children: [/* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "city",
+          style: labelStyle,
+          children: "City"
+        }), /* @__PURE__ */jsx("input", {
+          id: "city",
+          name: "city",
+          type: "text",
+          style: inputStyle
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "zoneCode",
+          style: labelStyle,
+          children: "Province/State"
+        }), /* @__PURE__ */jsx("input", {
+          id: "zoneCode",
+          name: "zoneCode",
+          type: "text",
+          style: inputStyle
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "0.75rem"
+      },
+      children: [/* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "zip",
+          style: labelStyle,
+          children: "Postal/Zip code"
+        }), /* @__PURE__ */jsx("input", {
+          id: "zip",
+          name: "zip",
+          type: "text",
+          style: inputStyle
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: fieldStyle,
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "territoryCode",
+          style: labelStyle,
+          children: "Country code"
+        }), /* @__PURE__ */jsx("input", {
+          id: "territoryCode",
+          name: "territoryCode",
+          type: "text",
+          style: inputStyle,
+          placeholder: "e.g. ZA, US, NZ"
+        })]
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: fieldStyle,
+      children: [/* @__PURE__ */jsx("label", {
+        htmlFor: "phoneNumber",
+        style: labelStyle,
+        children: "Phone"
+      }), /* @__PURE__ */jsx("input", {
+        id: "phoneNumber",
+        name: "phoneNumber",
+        type: "tel",
+        style: inputStyle
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: {
+        ...fieldStyle,
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem"
+      },
+      children: [/* @__PURE__ */jsx("input", {
+        id: "defaultAddress",
+        name: "defaultAddress",
+        type: "checkbox"
+      }), /* @__PURE__ */jsx("label", {
+        htmlFor: "defaultAddress",
+        style: {
+          color: "rgba(255,255,255,0.7)",
+          fontSize: "0.875rem"
+        },
+        children: "Set as default address"
+      })]
+    }), /* @__PURE__ */jsx("button", {
+      type: "submit",
+      style: {
+        background: "rgba(255, 255, 255, 0.15)",
+        color: "white",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        padding: "0.5rem 1.5rem",
+        borderRadius: "6px",
+        cursor: "pointer"
+      },
+      children: "Add address"
+    })]
+  });
+}
+
+const route25 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$5,
+  default: account_addresses
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const CUSTOMER_ID_QUERY$2 = `#graphql
+  query CustomerId {
+    customer {
+      id
+      emailAddress {
+        emailAddress
+      }
+    }
+  }
+`;
+async function fetchWishlist(storefrontUiUrl, internalSecret, customerId) {
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/wishlist?customerId=${encodeURIComponent(customerId)}`, {
+      headers: {
+        "X-Internal-Secret": internalSecret
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.items ?? [];
+  } catch {
+    return [];
+  }
+}
+async function loader$3({
+  context
+}) {
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  const {
+    data: idData
+  } = await context.customerAccount.query(CUSTOMER_ID_QUERY$2);
+  const customerId = idData?.customer?.id ?? "";
+  const items = storefrontUiUrl && customerId ? await fetchWishlist(storefrontUiUrl, internalSecret, customerId) : [];
+  let products = [];
+  if (items.length > 0) {
+    const {
+      nodes
+    } = await context.storefront.query(WISHLIST_PRODUCTS_QUERY, {
+      variables: {
+        ids: items.map(i => i.shopifyProductId),
+        country: context.storefront.i18n.country,
+        language: context.storefront.i18n.language
+      },
+      cache: context.storefront.CacheNone()
+    });
+    products = (nodes ?? []).filter(Boolean);
+  }
+  return {
+    items,
+    products,
+    configured: Boolean(storefrontUiUrl)
+  };
+}
+async function action$4({
+  context,
+  request
+}) {
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  const loggedIn = await context.customerAccount.isLoggedIn();
+  if (!loggedIn) {
+    return {
+      requiresLogin: true
+    };
+  }
+  if (!storefrontUiUrl) {
+    return {
+      error: "Wish List service is not configured."
+    };
+  }
+  const formData = await request.formData();
+  const intent = formData.get("intent") || "add";
+  const productId = formData.get("productId");
+  const productHandle = formData.get("productHandle") || "";
+  const productTitle = formData.get("productTitle") || "";
+  if (!productId) return {
+    error: "Missing product."
+  };
+  const {
+    data: idData
+  } = await context.customerAccount.query(CUSTOMER_ID_QUERY$2);
+  const customerId = idData?.customer?.id ?? "";
+  const customerEmail = idData?.customer?.emailAddress?.emailAddress ?? "";
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/wishlist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Internal-Secret": internalSecret
+      },
+      body: JSON.stringify({
+        intent,
+        customerId,
+        customerEmail,
+        productId,
+        productHandle,
+        productTitle
+      })
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      return {
+        error: data.error ?? "Failed to update Wish List."
+      };
+    }
+    return {
+      success: true,
+      intent,
+      productId
+    };
+  } catch {
+    return {
+      error: "Could not reach the Wish List service. Please try again."
+    };
+  }
+}
+const account_wishlist = UNSAFE_withComponentProps(function AccountWishlist() {
+  const {
+    items,
+    products,
+    configured
+  } = useLoaderData();
+  const fetcher = useFetcher();
+  const productById = new Map(products.map(p => [p.id, p]));
+  const orphanItems = items.filter(i => !productById.has(i.shopifyProductId));
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "1rem"
+      },
+      children: /* @__PURE__ */jsx("h2", {
+        style: {
+          fontSize: "1.25rem",
+          margin: 0
+        },
+        children: "Wish List"
+      })
+    }), /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#ccc",
+        marginBottom: "1rem"
+      },
+      children: "Products you save here are watched for you — we can let you know when stock becomes available or a special is running."
+    }), !configured && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#f88"
+      },
+      children: "Wish List service is not configured."
+    }), fetcher.data?.error && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#f88"
+      },
+      children: fetcher.data.error
+    }), items.length === 0 ? /* @__PURE__ */jsx("div", {
+      style: {
+        background: "rgba(50, 50, 50, 0.85)",
+        borderRadius: "6px",
+        padding: "1.25rem"
+      },
+      children: "Your Wish List is empty. Use the ♡ button on any product to add it."
+    }) : /* @__PURE__ */jsx("div", {
+      className: "products-grid wishlist-grid",
+      children: items.map(item => {
+        const product = productById.get(item.shopifyProductId);
+        if (!product) return null;
+        return /* @__PURE__ */jsxs("div", {
+          className: "wishlist-item",
+          children: [/* @__PURE__ */jsx(ProductCard, {
+            product
+          }), /* @__PURE__ */jsx(RemoveButton, {
+            item
+          })]
+        }, item.shopifyProductId);
+      })
+    }), orphanItems.length > 0 && /* @__PURE__ */jsxs("div", {
+      style: {
+        marginTop: "1.5rem"
+      },
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1rem"
+        },
+        children: "No longer available"
+      }), orphanItems.map(item => /* @__PURE__ */jsxs("div", {
+        style: {
+          background: "rgba(50, 50, 50, 0.85)",
+          borderRadius: "6px",
+          padding: "0.75rem 1rem",
+          marginTop: "0.5rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          children: item.productTitle || item.productHandle
+        }), /* @__PURE__ */jsx(RemoveButton, {
+          item
+        })]
+      }, item.shopifyProductId))]
+    })]
+  });
+});
+function RemoveButton({
+  item
+}) {
+  const fetcher = useFetcher();
+  const removing = fetcher.state !== "idle";
+  return /* @__PURE__ */jsxs(fetcher.Form, {
+    method: "post",
+    action: "/account/wishlist",
+    children: [/* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "intent",
+      value: "remove"
+    }), /* @__PURE__ */jsx("input", {
+      type: "hidden",
+      name: "productId",
+      value: item.shopifyProductId
+    }), /* @__PURE__ */jsx("button", {
+      type: "submit",
+      disabled: removing,
+      className: "wishlist-remove-btn",
+      children: removing ? "Removing…" : "Remove"
+    })]
+  });
+}
+const WISHLIST_PRODUCTS_QUERY = `#graphql
+  query WishlistProducts(
+    $ids: [ID!]!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    nodes(ids: $ids) {
+      ... on Product {
+        id
+        title
+        handle
+        productType
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        brand: metafield(namespace: "custom", key: "brand") {
+          value
+        }
+        msq: metafield(namespace: "custom", key: "msq") {
+          value
+        }
+        supplierName: metafield(namespace: "custom", key: "supplier_name") {
+          value
+        }
+        externalProductId: metafield(namespace: "custom", key: "external_product_id") {
+          value
+        }
+        variants(first: 1) {
+          nodes {
+            id
+            availableForSale
+          }
+        }
+      }
+    }
+  }
+`;
+
+const route26 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$4,
+  default: account_wishlist,
+  loader: loader$3
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const CUSTOMER_EMAIL_QUERY = `#graphql
   query CustomerEmail {
     customer {
       id
@@ -1574,7 +7774,445 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;async function CS({context:e}){var o,i;const t=e.env,r=t.STOREFRONT_UI_API_URL??"",n=t.INTERNAL_API_SECRET??"";let a={companyName:"",regNumber:"",vatNumber:""};try{if(await e.customerAccount.isLoggedIn()&&r){const{data:u}=await e.customerAccount.query(Pd),c=((i=(o=u==null?void 0:u.customer)==null?void 0:o.emailAddress)==null?void 0:i.emailAddress)??"";if(c){const d=await fetch(`${r}/api/customer/business?email=${encodeURIComponent(c)}`,{headers:{"X-Internal-Secret":n}});d.ok&&(a=await d.json())}}}catch{}return{businessProfile:a}}async function jS({context:e,request:t}){var a,o,i,l,u;const r=await t.formData(),n=r.get("intent");if(n==="update"){const{data:c,errors:d}=await e.customerAccount.mutate(As,{variables:{customer:{firstName:String(r.get("firstName")||""),lastName:String(r.get("lastName")||"")}}});return d!=null&&d.length?{error:d[0].message,intent:n}:(o=(a=c==null?void 0:c.customerUpdate)==null?void 0:a.userErrors)!=null&&o.length?{error:c.customerUpdate.userErrors[0].message,intent:n}:{success:!0,intent:"update"}}if(n==="update-business"){const c=e.env,d=c.STOREFRONT_UI_API_URL??"",p=c.INTERNAL_API_SECRET??"";if(!d)return{error:"Business profile service is not configured.",intent:n};try{const{data:y}=await e.customerAccount.query(Pd),w=((l=(i=y==null?void 0:y.customer)==null?void 0:i.emailAddress)==null?void 0:l.emailAddress)??"",m=((u=y==null?void 0:y.customer)==null?void 0:u.id)??"";if(!w)return{error:"Could not identify customer.",intent:n};const S=String(r.get("companyName")||""),x=String(r.get("regNumber")||""),E=String(r.get("vatNumber")||"");return(await fetch(`${d}/api/customer/business`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":p},body:JSON.stringify({shopifyCustomerId:m,email:w,companyName:S,regNumber:x,vatNumber:E})})).ok?{success:!0,intent:"update-business",companyName:S,regNumber:x,vatNumber:E}:{error:"Failed to save business details.",intent:n}}catch{return{error:"Could not reach profile service.",intent:n}}}return{error:"Unknown action",intent:"unknown"}}const ES=ke(function(){const{customer:t}=Ds(),{businessProfile:r}=Te(),n=Rn(),[a,o]=b.useState(!!(r.companyName||r.regNumber||r.vatNumber)),[i,l]=b.useState(r.companyName??""),[u,c]=b.useState(r.regNumber??""),[d,p]=b.useState(r.vatNumber??"");n&&"success"in n&&n.intent;const y={width:"100%",padding:"0.5rem 0.75rem",background:"rgba(255, 255, 255, 0.1)",border:"1px solid rgba(255, 255, 255, 0.3)",borderRadius:"4px",color:"white",fontSize:"0.875rem"},w={display:"block",marginBottom:"0.25rem",color:"rgba(255,255,255,0.7)",fontSize:"0.875rem"},m={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem"},S=n&&"error"in n?n.error:null;return s.jsxs("div",{children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem"},children:"Profile"}),n&&"success"in n&&n.intent==="update"&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem"},children:"Profile updated."}),n&&"success"in n&&n.intent==="update-business"&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem"},children:"Business details saved."}),S&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"1rem"},children:S}),s.jsxs(Ot,{method:"post",style:{...m,marginBottom:"1rem"},children:[s.jsx("input",{type:"hidden",name:"intent",value:"update"}),s.jsxs("div",{style:{marginBottom:"1rem"},children:[s.jsx("label",{htmlFor:"firstName",style:w,children:"First name"}),s.jsx("input",{id:"firstName",name:"firstName",type:"text",defaultValue:t.firstName??"",style:y})]}),s.jsxs("div",{style:{marginBottom:"1.5rem"},children:[s.jsx("label",{htmlFor:"lastName",style:w,children:"Last name"}),s.jsx("input",{id:"lastName",name:"lastName",type:"text",defaultValue:t.lastName??"",style:y})]}),s.jsx("button",{type:"submit",style:{background:"rgba(255, 255, 255, 0.15)",color:"white",border:"1px solid rgba(255, 255, 255, 0.3)",padding:"0.5rem 1.5rem",borderRadius:"6px",cursor:"pointer"},children:"Save"})]}),s.jsxs("div",{style:m,children:[s.jsx("h3",{style:{fontSize:"1rem",marginBottom:"0.75rem",color:"rgba(255,255,255,0.9)"},children:"Business Details"}),s.jsxs("label",{style:{display:"flex",alignItems:"center",gap:"0.5rem",cursor:"pointer",marginBottom:"1rem",fontSize:"0.875rem",color:"rgba(255,255,255,0.7)"},children:[s.jsx("input",{type:"checkbox",checked:a,onChange:x=>o(x.target.checked),style:{width:"auto",margin:0}}),"This account is used for business purchases"]}),a&&s.jsxs(Ot,{method:"post",children:[s.jsx("input",{type:"hidden",name:"intent",value:"update-business"}),s.jsxs("div",{style:{marginBottom:"0.75rem"},children:[s.jsx("label",{htmlFor:"companyName",style:w,children:"Company name"}),s.jsx("input",{id:"companyName",name:"companyName",type:"text",value:i,onChange:x=>l(x.target.value),placeholder:"e.g. Acme (Pty) Ltd",style:y})]}),s.jsxs("div",{style:{marginBottom:"0.75rem"},children:[s.jsx("label",{htmlFor:"bizRegNumber",style:w,children:"Business registration number"}),s.jsx("input",{id:"bizRegNumber",name:"regNumber",type:"text",value:u,onChange:x=>c(x.target.value),placeholder:"XXXX/XXXXXX/XX",style:y})]}),s.jsxs("div",{style:{marginBottom:"1.25rem"},children:[s.jsx("label",{htmlFor:"bizVatNumber",style:w,children:"VAT / Tax number (SARS VAT number)"}),s.jsx("input",{id:"bizVatNumber",name:"vatNumber",type:"text",value:d,onChange:x=>p(x.target.value),placeholder:"4XXXXXXXXX",style:y})]}),s.jsx("button",{type:"submit",style:{background:"rgba(26,180,215,0.15)",color:"rgba(26,180,215,0.9)",border:"1px solid rgba(26,180,215,0.3)",padding:"0.5rem 1.5rem",borderRadius:"6px",cursor:"pointer",fontSize:"0.875rem"},children:"Save Business Details"})]})]})]})}),kS=Object.freeze(Object.defineProperty({__proto__:null,action:jS,default:ES,loader:CS},Symbol.toStringTag,{value:"Module"}));async function RS({context:e}){return e.customerAccount.logout({})}const _S=ke(function(){const{customer:t}=Ds(),r={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"1rem"};return s.jsxs("div",{children:[s.jsx("h2",{style:{fontSize:"1.25rem",marginBottom:"1rem"},children:"Account Overview"}),s.jsxs("div",{style:r,children:[s.jsx("h3",{style:{fontSize:"1rem",marginBottom:"0.5rem",color:"rgba(255,255,255,0.7)"},children:"Profile"}),s.jsxs("p",{children:[t.firstName," ",t.lastName]})]}),t.defaultAddress&&s.jsxs("div",{style:r,children:[s.jsx("h3",{style:{fontSize:"1rem",marginBottom:"0.5rem",color:"rgba(255,255,255,0.7)"},children:"Default Address"}),t.defaultAddress.formatted.map((n,a)=>s.jsx("p",{children:n},a))]}),s.jsx(Ot,{method:"post",style:{marginTop:"2rem"},children:s.jsx("button",{type:"submit",style:{background:"rgba(250, 35, 35, 0.7)",color:"white",border:"1px solid rgba(255, 255, 255, 0.3)",padding:"0.5rem 1.5rem",borderRadius:"6px",cursor:"pointer"},children:"Sign out"})})]})}),IS=Object.freeze(Object.defineProperty({__proto__:null,action:RS,default:_S},Symbol.toStringTag,{value:"Module"})),AS=ke(function(){return s.jsx(Fa,{})}),NS=Object.freeze(Object.defineProperty({__proto__:null,default:AS},Symbol.toStringTag,{value:"Module"})),TS=`#graphql
+`;
+async function loader$2({
+  context
+}) {
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  let businessProfile = {
+    companyName: "",
+    regNumber: "",
+    vatNumber: ""
+  };
+  try {
+    const isLoggedIn = await context.customerAccount.isLoggedIn();
+    if (isLoggedIn && storefrontUiUrl) {
+      const {
+        data
+      } = await context.customerAccount.query(CUSTOMER_EMAIL_QUERY);
+      const email = data?.customer?.emailAddress?.emailAddress ?? "";
+      if (email) {
+        const res = await fetch(`${storefrontUiUrl}/api/customer/business?email=${encodeURIComponent(email)}`, {
+          headers: {
+            "X-Internal-Secret": internalSecret
+          }
+        });
+        if (res.ok) {
+          const data2 = await res.json();
+          businessProfile = data2;
+        }
+      }
+    }
+  } catch {}
+  return {
+    businessProfile
+  };
+}
+async function action$3({
+  context,
+  request
+}) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  if (intent === "update") {
+    const {
+      data,
+      errors
+    } = await context.customerAccount.mutate(CUSTOMER_UPDATE_MUTATION, {
+      variables: {
+        customer: {
+          firstName: String(formData.get("firstName") || ""),
+          lastName: String(formData.get("lastName") || "")
+        }
+      }
+    });
+    if (errors?.length) {
+      return {
+        error: errors[0].message,
+        intent
+      };
+    }
+    if (data?.customerUpdate?.userErrors?.length) {
+      return {
+        error: data.customerUpdate.userErrors[0].message,
+        intent
+      };
+    }
+    return {
+      success: true,
+      intent: "update"
+    };
+  }
+  if (intent === "update-business") {
+    const env = context.env;
+    const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+    const internalSecret = env.INTERNAL_API_SECRET ?? "";
+    if (!storefrontUiUrl) {
+      return {
+        error: "Business profile service is not configured.",
+        intent
+      };
+    }
+    try {
+      const {
+        data: idData
+      } = await context.customerAccount.query(CUSTOMER_EMAIL_QUERY);
+      const email = idData?.customer?.emailAddress?.emailAddress ?? "";
+      const shopifyCustomerId = idData?.customer?.id ?? "";
+      if (!email) {
+        return {
+          error: "Could not identify customer.",
+          intent
+        };
+      }
+      const companyName = String(formData.get("companyName") || "");
+      const regNumber = String(formData.get("regNumber") || "");
+      const vatNumber = String(formData.get("vatNumber") || "");
+      const res = await fetch(`${storefrontUiUrl}/api/customer/business`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Secret": internalSecret
+        },
+        body: JSON.stringify({
+          shopifyCustomerId,
+          email,
+          companyName,
+          regNumber,
+          vatNumber
+        })
+      });
+      if (!res.ok) {
+        return {
+          error: "Failed to save business details.",
+          intent
+        };
+      }
+      return {
+        success: true,
+        intent: "update-business",
+        companyName,
+        regNumber,
+        vatNumber
+      };
+    } catch {
+      return {
+        error: "Could not reach profile service.",
+        intent
+      };
+    }
+  }
+  return {
+    error: "Unknown action",
+    intent: "unknown"
+  };
+}
+const account_profile = UNSAFE_withComponentProps(function AccountProfile() {
+  const {
+    customer
+  } = useOutletContext();
+  const {
+    businessProfile
+  } = useLoaderData();
+  const actionData = useActionData();
+  const [isBusinessCustomer, setIsBusinessCustomer] = useState(!!(businessProfile.companyName || businessProfile.regNumber || businessProfile.vatNumber));
+  const [companyName, setCompanyName] = useState(businessProfile.companyName ?? "");
+  const [regNumber, setRegNumber] = useState(businessProfile.regNumber ?? "");
+  const [vatNumber, setVatNumber] = useState(businessProfile.vatNumber ?? "");
+  actionData && "success" in actionData && actionData.intent === "update-business" ? actionData : null;
+  const inputStyle = {
+    width: "100%",
+    padding: "0.5rem 0.75rem",
+    background: "rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    borderRadius: "4px",
+    color: "white",
+    fontSize: "0.875rem"
+  };
+  const labelStyle = {
+    display: "block",
+    marginBottom: "0.25rem",
+    color: "rgba(255,255,255,0.7)",
+    fontSize: "0.875rem"
+  };
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem"
+  };
+  const actionError = actionData && "error" in actionData ? actionData.error : null;
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx("h2", {
+      style: {
+        fontSize: "1.25rem",
+        marginBottom: "1rem"
+      },
+      children: "Profile"
+    }), actionData && "success" in actionData && actionData.intent === "update" && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem"
+      },
+      children: "Profile updated."
+    }), actionData && "success" in actionData && actionData.intent === "update-business" && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem"
+      },
+      children: "Business details saved."
+    }), actionError && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        marginBottom: "1rem"
+      },
+      children: actionError
+    }), /* @__PURE__ */jsxs(Form, {
+      method: "post",
+      style: {
+        ...cardStyle,
+        marginBottom: "1rem"
+      },
+      children: [/* @__PURE__ */jsx("input", {
+        type: "hidden",
+        name: "intent",
+        value: "update"
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          marginBottom: "1rem"
+        },
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "firstName",
+          style: labelStyle,
+          children: "First name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "firstName",
+          name: "firstName",
+          type: "text",
+          defaultValue: customer.firstName ?? "",
+          style: inputStyle
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          marginBottom: "1.5rem"
+        },
+        children: [/* @__PURE__ */jsx("label", {
+          htmlFor: "lastName",
+          style: labelStyle,
+          children: "Last name"
+        }), /* @__PURE__ */jsx("input", {
+          id: "lastName",
+          name: "lastName",
+          type: "text",
+          defaultValue: customer.lastName ?? "",
+          style: inputStyle
+        })]
+      }), /* @__PURE__ */jsx("button", {
+        type: "submit",
+        style: {
+          background: "rgba(255, 255, 255, 0.15)",
+          color: "white",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          padding: "0.5rem 1.5rem",
+          borderRadius: "6px",
+          cursor: "pointer"
+        },
+        children: "Save"
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1rem",
+          marginBottom: "0.75rem",
+          color: "rgba(255,255,255,0.9)"
+        },
+        children: "Business Details"
+      }), /* @__PURE__ */jsxs("label", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          cursor: "pointer",
+          marginBottom: "1rem",
+          fontSize: "0.875rem",
+          color: "rgba(255,255,255,0.7)"
+        },
+        children: [/* @__PURE__ */jsx("input", {
+          type: "checkbox",
+          checked: isBusinessCustomer,
+          onChange: e => setIsBusinessCustomer(e.target.checked),
+          style: {
+            width: "auto",
+            margin: 0
+          }
+        }), "This account is used for business purchases"]
+      }), isBusinessCustomer && /* @__PURE__ */jsxs(Form, {
+        method: "post",
+        children: [/* @__PURE__ */jsx("input", {
+          type: "hidden",
+          name: "intent",
+          value: "update-business"
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            marginBottom: "0.75rem"
+          },
+          children: [/* @__PURE__ */jsx("label", {
+            htmlFor: "companyName",
+            style: labelStyle,
+            children: "Company name"
+          }), /* @__PURE__ */jsx("input", {
+            id: "companyName",
+            name: "companyName",
+            type: "text",
+            value: companyName,
+            onChange: e => setCompanyName(e.target.value),
+            placeholder: "e.g. Acme (Pty) Ltd",
+            style: inputStyle
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            marginBottom: "0.75rem"
+          },
+          children: [/* @__PURE__ */jsx("label", {
+            htmlFor: "bizRegNumber",
+            style: labelStyle,
+            children: "Business registration number"
+          }), /* @__PURE__ */jsx("input", {
+            id: "bizRegNumber",
+            name: "regNumber",
+            type: "text",
+            value: regNumber,
+            onChange: e => setRegNumber(e.target.value),
+            placeholder: "XXXX/XXXXXX/XX",
+            style: inputStyle
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            marginBottom: "1.25rem"
+          },
+          children: [/* @__PURE__ */jsx("label", {
+            htmlFor: "bizVatNumber",
+            style: labelStyle,
+            children: "VAT / Tax number (SARS VAT number)"
+          }), /* @__PURE__ */jsx("input", {
+            id: "bizVatNumber",
+            name: "vatNumber",
+            type: "text",
+            value: vatNumber,
+            onChange: e => setVatNumber(e.target.value),
+            placeholder: "4XXXXXXXXX",
+            style: inputStyle
+          })]
+        }), /* @__PURE__ */jsx("button", {
+          type: "submit",
+          style: {
+            background: "rgba(26,180,215,0.15)",
+            color: "rgba(26,180,215,0.9)",
+            border: "1px solid rgba(26,180,215,0.3)",
+            padding: "0.5rem 1.5rem",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "0.875rem"
+          },
+          children: "Save Business Details"
+        })]
+      })]
+    })]
+  });
+});
+
+const route27 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$3,
+  default: account_profile,
+  loader: loader$2
+}, Symbol.toStringTag, { value: 'Module' }));
+
+async function action$2({
+  context
+}) {
+  return context.customerAccount.logout({});
+}
+const account__index = UNSAFE_withComponentProps(function AccountDashboard() {
+  const {
+    customer
+  } = useOutletContext();
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "1rem"
+  };
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx("h2", {
+      style: {
+        fontSize: "1.25rem",
+        marginBottom: "1rem"
+      },
+      children: "Account Overview"
+    }), /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1rem",
+          marginBottom: "0.5rem",
+          color: "rgba(255,255,255,0.7)"
+        },
+        children: "Profile"
+      }), /* @__PURE__ */jsxs("p", {
+        children: [customer.firstName, " ", customer.lastName]
+      })]
+    }), customer.defaultAddress && /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1rem",
+          marginBottom: "0.5rem",
+          color: "rgba(255,255,255,0.7)"
+        },
+        children: "Default Address"
+      }), customer.defaultAddress.formatted.map((line, i) => /* @__PURE__ */jsx("p", {
+        children: line
+      }, i))]
+    }), /* @__PURE__ */jsx(Form, {
+      method: "post",
+      style: {
+        marginTop: "2rem"
+      },
+      children: /* @__PURE__ */jsx("button", {
+        type: "submit",
+        style: {
+          background: "rgba(250, 35, 35, 0.7)",
+          color: "white",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          padding: "0.5rem 1.5rem",
+          borderRadius: "6px",
+          cursor: "pointer"
+        },
+        children: "Sign out"
+      })
+    })]
+  });
+});
+
+const route28 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$2,
+  default: account__index
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const account_orders = UNSAFE_withComponentProps(function AccountOrdersLayout() {
+  return /* @__PURE__ */jsx(Outlet, {});
+});
+
+const route29 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: account_orders
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const ORDER_ITEM_FRAGMENT = `#graphql
   fragment OrderItem on Order {
     totalPrice {
       amount
@@ -1592,7 +8230,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
     confirmationNumber
     processedAt
   }
-`,$S=`#graphql
+`;
+const CUSTOMER_ORDERS_QUERY = `#graphql
   #graphql
   fragment CustomerOrders on Customer {
     orders(
@@ -1615,7 +8254,7 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-  ${TS}
+  ${ORDER_ITEM_FRAGMENT}
 
   query CustomerOrders(
     $endCursor: String
@@ -1629,7 +8268,8 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       ...CustomerOrders
     }
   }
-`,PS=`#graphql
+`;
+const ORDER_QUERY = `#graphql
   fragment OrderMoney on MoneyV2 {
     amount
     currencyCode
@@ -1723,7 +8363,9 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`,OS=`#graphql
+`;
+
+const CUSTOMER_ID_QUERY$1 = `#graphql
   query CustomerId {
     customer {
       id
@@ -1732,7 +8374,290 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;async function LS(e,t,r){try{const n=await fetch(`${e}/api/orders/archive?customerId=${encodeURIComponent(r)}`,{headers:{"X-Internal-Secret":t}});return n.ok?(await n.json()).archivedIds??[]:[]}catch{return[]}}async function DS({context:e,request:t}){var w,m,S;const n=new URL(t.url).searchParams.get("view")??"active",a=si(t,{pageBy:20}),o=e.env,i=o.STOREFRONT_UI_API_URL??"",l=o.INTERNAL_API_SECRET??"",[{data:u},{data:c}]=await Promise.all([e.customerAccount.query($S,{variables:{...a}}),e.customerAccount.query(OS)]),d=((w=c==null?void 0:c.customer)==null?void 0:w.id)??"",p=((S=(m=c==null?void 0:c.customer)==null?void 0:m.emailAddress)==null?void 0:S.emailAddress)??"",y=i?await LS(i,l,d):[];return{orders:u.customer.orders,archivedIds:y,view:n,customerId:d,customerEmail:p}}async function MS({context:e,request:t}){const r=await t.formData(),n=r.get("intent"),a=r.get("orderId"),o=r.get("customerId"),i=e.env,l=i.STOREFRONT_UI_API_URL??"",u=i.INTERNAL_API_SECRET??"";if(n==="archive"){if(!l)return{error:"Archive service is not configured."};try{const c=await fetch(`${l}/api/orders/archive`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":u},body:JSON.stringify({customerId:o,orderId:a})});return c.ok?{success:!0,intent:n}:{error:(await c.json()).error??"Failed to archive order."}}catch{return{error:"Could not reach archive service. Please try again."}}}return{error:"Unknown intent"}}const FS=ke(function(){var d;const{orders:t,archivedIds:r,view:n,customerId:a}=Te(),o=tt(),i=n==="archived",l={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"0.75rem"},u=t.nodes,c=i?u.filter(p=>r.includes(p.id)):u.filter(p=>!r.includes(p.id));return s.jsxs("div",{children:[s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"},children:[s.jsxs("h2",{style:{fontSize:"1.25rem",margin:0},children:["Order History",i&&s.jsx("span",{style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.5)",fontWeight:400,marginLeft:"0.5rem"},children:"— Archived"})]}),i?s.jsx(Ie,{to:"/account/orders",style:{fontSize:"0.875rem",color:"rgba(26,180,215,0.9)"},children:"← Active Orders"}):s.jsx(Ie,{to:"?view=archived",style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.5)"},children:"View Archived"})]}),((d=o.data)==null?void 0:d.error)&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"1rem",fontSize:"0.875rem"},children:o.data.error}),c.length===0?s.jsx("div",{style:l,children:s.jsx("p",{style:{color:"rgba(255,255,255,0.7)"},children:i?"No archived orders.":"No orders yet."})}):c.map(p=>s.jsxs("div",{style:l,children:[s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"0.5rem"},children:[s.jsxs("div",{children:[s.jsxs("p",{style:{fontWeight:"bold"},children:[s.jsxs(Ie,{to:`/account/orders/${btoa(p.id)}`,style:{color:"white",textDecoration:"none"},children:["Order #",p.number]}),p.confirmationNumber&&s.jsxs("span",{style:{color:"rgba(255,255,255,0.5)",fontWeight:"normal",marginLeft:"0.5rem"},children:["(",p.confirmationNumber,")"]})]}),s.jsx("p",{style:{color:"rgba(255,255,255,0.7)",fontSize:"0.875rem"},children:new Date(p.processedAt).toLocaleDateString()})]}),s.jsxs("div",{style:{textAlign:"right"},children:[s.jsx("p",{children:s.jsx(Ee,{data:p.totalPrice})}),s.jsx("p",{style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.7)"},children:p.fulfillmentStatus})]})]}),s.jsxs("div",{style:{display:"flex",gap:"0.5rem",marginTop:"0.75rem",flexWrap:"wrap",alignItems:"center"},children:[s.jsx(Ie,{to:`/account/orders/${btoa(p.id)}`,style:{fontSize:"0.8rem",color:"rgba(26,180,215,0.9)",textDecoration:"none"},children:"View Details"}),!i&&s.jsxs(o.Form,{method:"post",style:{display:"inline"},children:[s.jsx("input",{type:"hidden",name:"intent",value:"archive"}),s.jsx("input",{type:"hidden",name:"orderId",value:p.id}),s.jsx("input",{type:"hidden",name:"customerId",value:a}),s.jsx("button",{type:"submit",style:{background:"none",border:"none",color:"rgba(255,255,255,0.4)",fontSize:"0.8rem",cursor:"pointer",padding:0},children:"Archive"})]})]})]},p.id))]})}),US=Object.freeze(Object.defineProperty({__proto__:null,action:MS,default:FS,loader:DS},Symbol.toStringTag,{value:"Module"})),BS=({data:e})=>{var t;return[{title:`Order ${((t=e==null?void 0:e.order)==null?void 0:t.name)??""} | Hoseworld`}]},zS=`#graphql
+`;
+async function fetchArchivedIds$1(storefrontUiUrl, internalSecret, customerId) {
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/orders/archive?customerId=${encodeURIComponent(customerId)}`, {
+      headers: {
+        "X-Internal-Secret": internalSecret
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.archivedIds ?? [];
+  } catch {
+    return [];
+  }
+}
+async function loader$1({
+  context,
+  request
+}) {
+  const url = new URL(request.url);
+  const view = url.searchParams.get("view") ?? "active";
+  const paginationVariables = getPaginationVariables(request, {
+    pageBy: 20
+  });
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  const [{
+    data: ordersData
+  }, {
+    data: idData
+  }] = await Promise.all([context.customerAccount.query(CUSTOMER_ORDERS_QUERY, {
+    variables: {
+      ...paginationVariables
+    }
+  }), context.customerAccount.query(CUSTOMER_ID_QUERY$1)]);
+  const customerId = idData?.customer?.id ?? "";
+  const customerEmail = idData?.customer?.emailAddress?.emailAddress ?? "";
+  const archivedIds = storefrontUiUrl ? await fetchArchivedIds$1(storefrontUiUrl, internalSecret, customerId) : [];
+  return {
+    orders: ordersData.customer.orders,
+    archivedIds,
+    view,
+    customerId,
+    customerEmail
+  };
+}
+async function action$1({
+  context,
+  request
+}) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  const orderId = formData.get("orderId");
+  const customerId = formData.get("customerId");
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  if (intent === "archive") {
+    if (!storefrontUiUrl) {
+      return {
+        error: "Archive service is not configured."
+      };
+    }
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/orders/archive`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Secret": internalSecret
+        },
+        body: JSON.stringify({
+          customerId,
+          orderId
+        })
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        return {
+          error: data.error ?? "Failed to archive order."
+        };
+      }
+      return {
+        success: true,
+        intent
+      };
+    } catch {
+      return {
+        error: "Could not reach archive service. Please try again."
+      };
+    }
+  }
+  return {
+    error: "Unknown intent"
+  };
+}
+const account_orders__index = UNSAFE_withComponentProps(function AccountOrders() {
+  const {
+    orders,
+    archivedIds,
+    view,
+    customerId
+  } = useLoaderData();
+  const fetcher = useFetcher();
+  const isArchiveView = view === "archived";
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "0.75rem"
+  };
+  const allOrders = orders.nodes;
+  const displayedOrders = isArchiveView ? allOrders.filter(o => archivedIds.includes(o.id)) : allOrders.filter(o => !archivedIds.includes(o.id));
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsxs("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "1rem"
+      },
+      children: [/* @__PURE__ */jsxs("h2", {
+        style: {
+          fontSize: "1.25rem",
+          margin: 0
+        },
+        children: ["Order History", isArchiveView && /* @__PURE__ */jsx("span", {
+          style: {
+            fontSize: "0.875rem",
+            color: "rgba(255,255,255,0.5)",
+            fontWeight: 400,
+            marginLeft: "0.5rem"
+          },
+          children: "— Archived"
+        })]
+      }), isArchiveView ? /* @__PURE__ */jsx(Link, {
+        to: "/account/orders",
+        style: {
+          fontSize: "0.875rem",
+          color: "rgba(26,180,215,0.9)"
+        },
+        children: "← Active Orders"
+      }) : /* @__PURE__ */jsx(Link, {
+        to: "?view=archived",
+        style: {
+          fontSize: "0.875rem",
+          color: "rgba(255,255,255,0.5)"
+        },
+        children: "View Archived"
+      })]
+    }), fetcher.data?.error && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        marginBottom: "1rem",
+        fontSize: "0.875rem"
+      },
+      children: fetcher.data.error
+    }), displayedOrders.length === 0 ? /* @__PURE__ */jsx("div", {
+      style: cardStyle,
+      children: /* @__PURE__ */jsx("p", {
+        style: {
+          color: "rgba(255,255,255,0.7)"
+        },
+        children: isArchiveView ? "No archived orders." : "No orders yet."
+      })
+    }) : displayedOrders.map(order => /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsxs("div", {
+          children: [/* @__PURE__ */jsxs("p", {
+            style: {
+              fontWeight: "bold"
+            },
+            children: [/* @__PURE__ */jsxs(Link, {
+              to: `/account/orders/${btoa(order.id)}`,
+              style: {
+                color: "white",
+                textDecoration: "none"
+              },
+              children: ["Order #", order.number]
+            }), order.confirmationNumber && /* @__PURE__ */jsxs("span", {
+              style: {
+                color: "rgba(255,255,255,0.5)",
+                fontWeight: "normal",
+                marginLeft: "0.5rem"
+              },
+              children: ["(", order.confirmationNumber, ")"]
+            })]
+          }), /* @__PURE__ */jsx("p", {
+            style: {
+              color: "rgba(255,255,255,0.7)",
+              fontSize: "0.875rem"
+            },
+            children: new Date(order.processedAt).toLocaleDateString()
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            textAlign: "right"
+          },
+          children: [/* @__PURE__ */jsx("p", {
+            children: /* @__PURE__ */jsx(Money, {
+              data: order.totalPrice
+            })
+          }), /* @__PURE__ */jsx("p", {
+            style: {
+              fontSize: "0.875rem",
+              color: "rgba(255,255,255,0.7)"
+            },
+            children: order.fulfillmentStatus
+          })]
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "0.5rem",
+          marginTop: "0.75rem",
+          flexWrap: "wrap",
+          alignItems: "center"
+        },
+        children: [/* @__PURE__ */jsx(Link, {
+          to: `/account/orders/${btoa(order.id)}`,
+          style: {
+            fontSize: "0.8rem",
+            color: "rgba(26,180,215,0.9)",
+            textDecoration: "none"
+          },
+          children: "View Details"
+        }), !isArchiveView && /* @__PURE__ */jsxs(fetcher.Form, {
+          method: "post",
+          style: {
+            display: "inline"
+          },
+          children: [/* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "intent",
+            value: "archive"
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "orderId",
+            value: order.id
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "customerId",
+            value: customerId
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            style: {
+              background: "none",
+              border: "none",
+              color: "rgba(255,255,255,0.4)",
+              fontSize: "0.8rem",
+              cursor: "pointer",
+              padding: 0
+            },
+            children: "Archive"
+          })]
+        })]
+      })]
+    }, order.id))]
+  });
+});
+
+const route30 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action: action$1,
+  default: account_orders__index,
+  loader: loader$1
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const meta = ({
+  data
+}) => {
+  return [{
+    title: `Order ${data?.order?.name ?? ""} | Hoseworld`
+  }];
+};
+const CUSTOMER_ID_QUERY = `#graphql
   query CustomerId {
     customer {
       id
@@ -1741,5 +8666,1302 @@ async function Sx(e,t,r,n,a){const o=a.env.DEV_TUNNEL_DOMAIN,{nonce:i,header:l,N
       }
     }
   }
-`;async function qS(e,t,r){try{const n=await fetch(`${e}/api/orders/archive?customerId=${encodeURIComponent(r)}`,{headers:{"X-Internal-Secret":t}});return n.ok?(await n.json()).archivedIds??[]:[]}catch{return[]}}async function HS(e,t,r){try{const n=await fetch(`${e}/api/returns/status?shopifyOrderId=${encodeURIComponent(r)}`,{headers:{"X-Internal-Secret":t}});return n.ok?(await n.json()).returnRequest??null:null}catch{return null}}async function VS({params:e,context:t}){var m,S,x;if(!e.id)return Et("/account/orders");const r=atob(e.id),n=t.env,a=n.STOREFRONT_UI_API_URL??"",o=n.INTERNAL_API_SECRET??"",[{data:i,errors:l},{data:u}]=await Promise.all([t.customerAccount.query(PS,{variables:{orderId:r}}),t.customerAccount.query(zS)]);if(l!=null&&l.length||!(i!=null&&i.order))throw new Response("Order not found",{status:404});const c=((m=u==null?void 0:u.customer)==null?void 0:m.id)??"",d=((x=(S=u==null?void 0:u.customer)==null?void 0:S.emailAddress)==null?void 0:x.emailAddress)??"",[p,y]=await Promise.all([a?qS(a,o,c):Promise.resolve([]),a?HS(a,o,r):Promise.resolve(null)]),w=p.includes(r);return{order:i.order,isArchived:w,orderId:r,customerId:c,customerEmail:d,returnRequest:y}}async function WS({context:e,request:t}){const r=await t.formData(),n=r.get("intent"),a=r.get("orderId"),o=r.get("customerId");if(n==="return-request"){const i=r.get("orderNum"),l=r.get("customerEmail"),u=r.get("reason"),c=r.get("lineItems"),d=e.env,p=d.STOREFRONT_UI_API_URL??"",y=d.INTERNAL_API_SECRET??"";if(!p)return{error:"Return service is not configured.",intent:n};let w;try{c&&(w=JSON.parse(c))}catch{}try{const m=await fetch(`${p}/api/returns/request`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":y},body:JSON.stringify({orderId:a,orderNum:i,customerEmail:l,customerId:o,reason:u,lineItems:w})});return m.ok?{success:!0,intent:n}:{error:(await m.json()).error??"Failed to submit return request.",intent:n}}catch{return{error:"Could not reach return service. Please try again.",intent:n}}}if(n==="request-invoice"){const i=e.env,l=i.STOREFRONT_UI_API_URL??"",u=i.INVOICE_API_SECRET??"";if(!l||!u)return{error:"Invoice service is not configured.",intent:n};try{const c=await fetch(`${l}/api/xero/email-invoice`,{method:"POST",headers:{"Content-Type":"application/json","X-Invoice-Api-Secret":u},body:JSON.stringify({shopifyOrderId:a})}),d=await c.json();return c.ok?{success:!0,intent:n,alreadySent:d.alreadySent??!1}:{error:d.error??"Failed to email invoice.",intent:n}}catch{return{error:"Could not reach invoice service. Please try again.",intent:n}}}if(n==="archive"){const i=e.env,l=i.STOREFRONT_UI_API_URL??"",u=i.INTERNAL_API_SECRET??"";if(!l)return{error:"Archive service is not configured.",intent:n};try{const c=await fetch(`${l}/api/orders/archive`,{method:"POST",headers:{"Content-Type":"application/json","X-Internal-Secret":u},body:JSON.stringify({customerId:o,orderId:a})});return c.ok?{success:!0,intent:n}:{error:(await c.json()).error??"Failed to archive order.",intent:n}}catch{return{error:"Could not reach archive service. Please try again.",intent:n}}}return{error:"Unknown intent",intent:n}}const YS=ke(function(){var A,T;const{order:t,isArchived:r,orderId:n,customerId:a,customerEmail:o,returnRequest:i}=Te(),l=tt(),[u,c]=b.useState("none"),[d,p]=b.useState(new Map),[y,w]=b.useState(!1),[m,S]=b.useState(""),x={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"1rem"},E=l.data,I=(E==null?void 0:E.intent)==="archive"&&(E!=null&&E.success)?!0:r;E!=null&&E.success&&E.intent;function k($,V){p(X=>{const q=new Map(X);return q.has($)?q.delete($):q.set($,1),q})}function P($,V){p(X=>{const q=new Map(X);return q.has($)&&q.set($,V),q})}function N($){$.preventDefault();const V=t.lineItems.nodes.filter(X=>d.has(X.id)).map(X=>{var q,G;return{title:X.title,variantTitle:X.variantTitle??"",quantity:d.get(X.id)??1,unitPrice:((q=X.price)==null?void 0:q.amount)??"0",sku:X.sku??"",variantId:((G=X.variant)==null?void 0:G.id)??""}});l.submit({intent:"return-request",orderId:n,orderNum:t.name,customerId:a,customerEmail:o,reason:m,lineItems:JSON.stringify(V)},{method:"post"}),c("none")}return u==="select-items"?s.jsxs("div",{children:[s.jsx("button",{type:"button",onClick:()=>{c("none"),p(new Map),w(!1),S("")},style:{background:"none",border:"none",color:"rgba(255,255,255,0.7)",cursor:"pointer",fontSize:"0.875rem",padding:0,marginBottom:"1rem",display:"inline-block"},children:"← Back to Order Details"}),s.jsxs("h2",{style:{fontSize:"1.1rem",marginBottom:"1rem"},children:["Request Return — ",t.name]}),s.jsxs("div",{style:{...x,borderLeft:"3px solid rgba(255,180,100,0.5)"},children:[s.jsxs("p",{style:{fontSize:"0.875rem",color:"rgba(255,255,255,0.8)",marginBottom:"0.75rem"},children:["Before proceeding, please read our"," ",s.jsx("a",{href:"/policies/refund-policy",target:"_blank",rel:"noreferrer",style:{color:"rgba(26,180,215,0.9)",textDecoration:"underline"},children:"Return Policy"}),". It describes what items are eligible, the customer's obligations, and any applicable shipping costs."]}),s.jsxs("label",{style:{display:"flex",alignItems:"flex-start",gap:"0.5rem",cursor:"pointer",fontSize:"0.875rem"},children:[s.jsx("input",{type:"checkbox",checked:y,onChange:$=>w($.target.checked),style:{marginTop:"2px",flexShrink:0}}),"I have read and accept the Return Policy, including cost implications and obligations for both parties."]})]}),s.jsxs("div",{style:x,children:[s.jsx("h3",{style:{fontSize:"1rem",marginBottom:"0.75rem"},children:"Select items to return"}),t.lineItems.nodes.map($=>{const V=d.has($.id),X=d.get($.id)??1;return s.jsxs("div",{style:{display:"flex",alignItems:"flex-start",gap:"0.75rem",padding:"0.75rem 0",borderBottom:"1px solid rgba(255,255,255,0.08)",opacity:V?1:.6},children:[s.jsx("input",{type:"checkbox",checked:V,onChange:()=>k($.id,$.quantity),style:{marginTop:"4px",flexShrink:0}}),$.image&&s.jsx(gt,{data:$.image,width:56,height:56,style:{borderRadius:"4px",objectFit:"cover",flexShrink:0}}),s.jsxs("div",{style:{flex:1,minWidth:0},children:[s.jsx("p",{style:{margin:0,fontWeight:"bold",fontSize:"0.875rem"},children:$.title}),$.variantTitle&&s.jsx("p",{style:{margin:"0.2rem 0 0",fontSize:"0.8rem",color:"rgba(255,255,255,0.6)"},children:$.variantTitle}),s.jsxs("p",{style:{margin:"0.25rem 0 0",fontSize:"0.8rem",color:"rgba(255,255,255,0.5)"},children:["Ordered: ",$.quantity]}),V&&s.jsxs("div",{style:{marginTop:"0.4rem",display:"flex",alignItems:"center",gap:"0.4rem"},children:[s.jsx("label",{style:{fontSize:"0.8rem",color:"rgba(255,255,255,0.6)"},children:"Return qty:"}),s.jsx("select",{value:X,onChange:q=>P($.id,Number(q.target.value)),style:{background:"rgba(255,255,255,0.1)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:"4px",color:"white",padding:"2px 6px",fontSize:"0.8rem"},children:Array.from({length:$.quantity},(q,G)=>G+1).map(q=>s.jsx("option",{value:q,children:q},q))})]})]}),s.jsx("div",{style:{textAlign:"right",flexShrink:0},children:s.jsx(Ee,{data:$.price})})]},$.id)})]}),s.jsxs("form",{onSubmit:N,style:x,children:[s.jsxs("div",{style:{marginBottom:"0.75rem"},children:[s.jsx("label",{style:{display:"block",fontSize:"0.875rem",color:"rgba(255,255,255,0.7)",marginBottom:"0.4rem"},children:"Reason for return"}),s.jsx("textarea",{value:m,onChange:$=>S($.target.value),required:!0,rows:3,placeholder:"e.g. Item arrived damaged, wrong size received…",style:{width:"100%",background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:"4px",color:"white",padding:"0.5rem",fontSize:"0.875rem",resize:"vertical",boxSizing:"border-box"}})]}),(E==null?void 0:E.error)&&E.intent==="return-request"&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"0.75rem",fontSize:"0.875rem"},children:E.error}),s.jsxs("div",{style:{display:"flex",gap:"0.5rem"},children:[s.jsx("button",{type:"submit",disabled:l.state!=="idle"||!y||d.size===0||!m.trim(),style:{background:"rgba(255,180,100,0.15)",color:"rgba(255,180,100,0.9)",border:"1px solid rgba(255,180,100,0.3)",padding:"0.45rem 1.1rem",borderRadius:"5px",fontSize:"0.875rem",cursor:"pointer",opacity:!y||d.size===0||!m.trim()?.5:1},children:l.state!=="idle"?"Submitting…":"Submit Return Request"}),s.jsx("button",{type:"button",onClick:()=>{c("none"),p(new Map),w(!1),S("")},style:{background:"none",border:"1px solid rgba(255,255,255,0.15)",color:"rgba(255,255,255,0.4)",padding:"0.45rem 1rem",borderRadius:"5px",fontSize:"0.875rem",cursor:"pointer"},children:"Cancel"})]}),(!y||d.size===0)&&s.jsxs("p",{style:{fontSize:"0.8rem",color:"rgba(255,255,255,0.4)",marginTop:"0.5rem"},children:[!y&&"Please acknowledge the Return Policy. ",d.size===0&&"Please select at least one item to return."]})]})]}):s.jsxs("div",{children:[s.jsx(Ie,{to:"/account/orders",style:{color:"rgba(255, 255, 255, 0.7)",textDecoration:"none",display:"inline-block",marginBottom:"1rem"},children:"← Back to Orders"}),(E==null?void 0:E.error)&&s.jsx("p",{style:{color:"#fc8181",marginBottom:"1rem",fontSize:"0.875rem"},children:E.error}),(E==null?void 0:E.success)&&E.intent==="return-request"&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem",fontSize:"0.875rem"},children:"Return request submitted. Our team will review it and be in touch."}),(E==null?void 0:E.success)&&E.intent==="request-invoice"&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem",fontSize:"0.875rem"},children:E.alreadySent?"Invoice was already sent to your email.":"Invoice emailed to your account email address."}),(E==null?void 0:E.success)&&E.intent==="archive"&&s.jsx("p",{style:{color:"#68d391",marginBottom:"1rem",fontSize:"0.875rem"},children:"Order archived."}),s.jsxs("div",{style:x,children:[s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"0.5rem",marginBottom:"1rem"},children:[s.jsxs("div",{children:[s.jsx("h2",{style:{fontSize:"1.25rem",margin:0},children:t.name}),t.confirmationNumber&&s.jsxs("p",{style:{color:"rgba(255,255,255,0.5)",fontSize:"0.875rem",margin:"0.25rem 0 0"},children:["Confirmation: ",t.confirmationNumber]})]}),s.jsxs("div",{style:{textAlign:"right"},children:[s.jsx("p",{style:{margin:0,fontSize:"0.875rem"},children:new Date(t.processedAt).toLocaleDateString()}),s.jsx("p",{style:{margin:"0.25rem 0 0",fontSize:"0.875rem",color:"rgba(255,255,255,0.7)"},children:t.fulfillmentStatus})]})]}),s.jsxs("div",{style:{display:"flex",gap:"0.75rem",flexWrap:"wrap",borderTop:"1px solid rgba(255,255,255,0.1)",paddingTop:"0.75rem"},children:[s.jsxs(l.Form,{method:"post",style:{display:"inline"},children:[s.jsx("input",{type:"hidden",name:"intent",value:"request-invoice"}),s.jsx("input",{type:"hidden",name:"orderId",value:n}),s.jsx("button",{type:"submit",disabled:l.state!=="idle",style:{background:"rgba(26,180,215,0.15)",color:"rgba(26,180,215,0.9)",border:"1px solid rgba(26,180,215,0.3)",padding:"0.4rem 1rem",borderRadius:"5px",cursor:"pointer",fontSize:"0.8rem"},children:l.state!=="idle"&&(E==null?void 0:E.intent)==="request-invoice"?"Sending…":"Email Invoice"})]}),!I&&s.jsxs(l.Form,{method:"post",style:{display:"inline"},children:[s.jsx("input",{type:"hidden",name:"intent",value:"archive"}),s.jsx("input",{type:"hidden",name:"orderId",value:n}),s.jsx("input",{type:"hidden",name:"customerId",value:a}),s.jsx("button",{type:"submit",disabled:l.state!=="idle",style:{background:"none",color:"rgba(255,255,255,0.4)",border:"1px solid rgba(255,255,255,0.15)",padding:"0.4rem 1rem",borderRadius:"5px",cursor:"pointer",fontSize:"0.8rem"},children:"Archive Order"})]}),I&&s.jsx("span",{style:{fontSize:"0.8rem",color:"rgba(255,255,255,0.35)",padding:"0.4rem 0"},children:"Archived"}),!I&&(!i||i.status==="REJECTED")&&s.jsx("button",{type:"button",onClick:()=>{c("select-items"),p(new Map),w(!1),S("")},style:{background:"rgba(255,180,100,0.1)",color:"rgba(255,180,100,0.8)",border:"1px solid rgba(255,180,100,0.25)",padding:"0.4rem 1rem",borderRadius:"5px",cursor:"pointer",fontSize:"0.8rem"},children:"Request Return"})]})]}),i&&i.status!=="REJECTED"&&s.jsx(GS,{returnRequest:i}),(i==null?void 0:i.status)==="REJECTED"&&s.jsx("div",{style:{...x,borderLeft:"3px solid rgba(255,100,100,0.4)",marginBottom:"1rem"},children:s.jsx("p",{style:{margin:0,fontSize:"0.875rem",color:"rgba(255,150,150,0.9)"},children:"A previous return request for this order was not approved. You may submit a new request if needed."})}),s.jsxs("div",{style:x,children:[s.jsx("h3",{style:{fontSize:"1.1rem",marginBottom:"1rem"},children:"Items"}),t.lineItems.nodes.map($=>s.jsxs("div",{style:{display:"flex",gap:"1rem",paddingBottom:"1rem",marginBottom:"1rem",borderBottom:"1px solid rgba(255,255,255,0.1)"},children:[$.image&&s.jsx(gt,{data:$.image,width:80,height:80,style:{borderRadius:"4px",objectFit:"cover"}}),s.jsxs("div",{style:{flex:1},children:[s.jsx("p",{style:{margin:0,fontWeight:"bold"},children:$.title}),$.variantTitle&&s.jsx("p",{style:{margin:"0.25rem 0 0",fontSize:"0.875rem",color:"rgba(255,255,255,0.7)"},children:$.variantTitle}),s.jsxs("p",{style:{margin:"0.25rem 0 0",fontSize:"0.875rem",color:"rgba(255,255,255,0.7)"},children:["Qty: ",$.quantity]})]}),s.jsxs("div",{style:{textAlign:"right"},children:[s.jsx(Ee,{data:$.price}),$.discountAllocations.length>0&&s.jsxs("p",{style:{margin:"0.25rem 0 0",fontSize:"0.875rem",color:"#e53e3e"},children:["-",s.jsx(Ee,{data:$.totalDiscount})]})]})]},$.id))]}),t.shippingAddress&&s.jsxs("div",{style:x,children:[s.jsx("h3",{style:{fontSize:"1.1rem",marginBottom:"0.75rem"},children:"Shipping Address"}),s.jsx("p",{style:{margin:0,lineHeight:"1.6"},children:(A=t.shippingAddress.formatted)==null?void 0:A.join(", ")})]}),s.jsxs("div",{style:x,children:[s.jsx("h3",{style:{fontSize:"1.1rem",marginBottom:"0.75rem"},children:"Order Summary"}),s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"0.5rem"},children:[s.jsx("span",{style:{color:"rgba(255,255,255,0.7)"},children:"Subtotal"}),s.jsx(Ee,{data:t.subtotal})]}),t.shippingLine&&parseFloat(((T=t.shippingLine.originalPrice)==null?void 0:T.amount)??"0")>0&&s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"0.5rem"},children:[s.jsx("span",{style:{color:"rgba(255,255,255,0.7)"},children:"Shipping"}),s.jsx(Ee,{data:t.shippingLine.originalPrice})]}),s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"0.5rem"},children:[s.jsx("span",{style:{color:"rgba(255,255,255,0.7)"},children:"Tax"}),(()=>{var q,G;const $=parseFloat(((G=(q=t.shippingLine)==null?void 0:q.originalPrice)==null?void 0:G.amount)??"0"),V=parseFloat(($*.15).toFixed(2)),X={amount:(parseFloat(t.totalTax.amount)+V).toFixed(2),currencyCode:t.totalTax.currencyCode};return s.jsx(Ee,{data:X})})()]}),t.discountApplications.nodes.length>0&&s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"0.5rem",color:"#e53e3e"},children:[s.jsx("span",{children:"Discounts"}),s.jsx("span",{children:t.discountApplications.nodes.map(($,V)=>s.jsx("span",{children:$.value.__typename==="MoneyV2"?s.jsx(Ee,{data:$.value}):`${$.value.percentage}%`},V))})]}),s.jsxs("div",{style:{display:"flex",justifyContent:"space-between",paddingTop:"0.75rem",borderTop:"1px solid rgba(255,255,255,0.2)",fontWeight:"bold",fontSize:"1.1rem"},children:[s.jsx("span",{children:"Total"}),(()=>{var q,G;const $=parseFloat(((G=(q=t.shippingLine)==null?void 0:q.originalPrice)==null?void 0:G.amount)??"0"),V=parseFloat(($*.15).toFixed(2)),X={amount:(parseFloat(t.totalPrice.amount)+V).toFixed(2),currencyCode:t.totalPrice.currencyCode};return s.jsx(Ee,{data:X})})()]})]})]})});function GS({returnRequest:e}){const t={PENDING:"rgba(255,180,60,0.9)",APPROVED:"rgba(104,211,145,0.9)"},r={PENDING:"rgba(255,180,60,0.4)",APPROVED:"rgba(104,211,145,0.4)"},n=t[e.status]??"rgba(255,255,255,0.7)",a=r[e.status]??"rgba(255,255,255,0.2)";let o=[];try{e.lineItemsJson&&(o=JSON.parse(e.lineItemsJson))}catch{}const i={background:"rgba(50, 50, 50, 0.85)",borderRadius:"6px",padding:"1.25rem",marginBottom:"1rem",borderLeft:`3px solid ${a}`};return s.jsxs("div",{style:i,children:[s.jsxs("div",{style:{display:"flex",alignItems:"center",gap:"0.75rem",marginBottom:"0.75rem"},children:[s.jsx("h3",{style:{margin:0,fontSize:"1rem"},children:"Return Request"}),s.jsx("span",{style:{fontSize:"0.75rem",fontWeight:600,color:n,border:`1px solid ${a}`,borderRadius:"4px",padding:"2px 8px"},children:e.status})]}),s.jsxs("p",{style:{margin:"0 0 0.5rem",fontSize:"0.8rem",color:"rgba(255,255,255,0.5)"},children:["Submitted: ",new Date(e.createdAt).toLocaleDateString()]}),e.reason&&s.jsxs("p",{style:{margin:"0 0 0.75rem",fontSize:"0.875rem",color:"rgba(255,255,255,0.75)"},children:[s.jsx("span",{style:{color:"rgba(255,255,255,0.5)"},children:"Reason: "}),e.reason]}),o.length>0&&s.jsxs("div",{style:{marginBottom:"0.75rem"},children:[s.jsx("p",{style:{margin:"0 0 0.4rem",fontSize:"0.8rem",color:"rgba(255,255,255,0.5)"},children:"Items requested for return:"}),o.map((l,u)=>s.jsxs("p",{style:{margin:"0.2rem 0",fontSize:"0.875rem",paddingLeft:"0.75rem"},children:["— ",l.title,l.variantTitle?` (${l.variantTitle})`:""," × ",l.quantity??1]},u))]}),e.status==="APPROVED"&&e.xeroCreditNoteNum&&s.jsxs("p",{style:{margin:0,fontSize:"0.875rem",color:"rgba(104,211,145,0.9)"},children:["Credit Note: ",e.xeroCreditNoteNum]}),e.status==="PENDING"&&s.jsx("p",{style:{margin:0,fontSize:"0.8rem",color:"rgba(255,255,255,0.4)"},children:"Your return request is under review. We will be in touch once it has been processed."})]})}const XS=Object.freeze(Object.defineProperty({__proto__:null,action:WS,default:YS,loader:VS,meta:BS},Symbol.toStringTag,{value:"Module"})),JS={entry:{module:"/assets/entry.client-CiYQWT6u.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js"],css:[]},routes:{root:{id:"root",parentId:void 0,path:"",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!0,module:"/assets/root-BxxFrNqp.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js","/assets/Aside-WNXoZXSm.js","/assets/CartMain-DxYckZAL.js","/assets/SearchFormPredictive-CrKDn69o.js","/assets/Image-XkNhEmBd.js","/assets/Money-lXBaR0OS.js","/assets/ProductPrice-DJuqQFfm.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).collections.$handle":{id:"routes/($locale).collections.$handle",parentId:"root",path:":locale?/collections/:handle",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).collections._handle-ChT9raG8.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js","/assets/supplierImages-B2MdD-FG.js","/assets/Image-XkNhEmBd.js","/assets/Money-lXBaR0OS.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).collections._index":{id:"routes/($locale).collections._index",parentId:"root",path:":locale?/collections",index:!0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).collections._index-vf1RUFO2.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js","/assets/CollectionCard-DhHd9JeB.js","/assets/Image-XkNhEmBd.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).debug-availability":{id:"routes/($locale).debug-availability",parentId:"root",path:":locale?/debug-availability",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).debug-availability-DtKl5TzR.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).checkout_.success":{id:"routes/($locale).checkout_.success",parentId:"root",path:":locale?/checkout/success",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).checkout_.success-DTAXsWI_.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).integration-test":{id:"routes/($locale).integration-test",parentId:"root",path:":locale?/integration-test",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).integration-test-C-oYMSNw.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).policies.$handle":{id:"routes/($locale).policies.$handle",parentId:"root",path:":locale?/policies/:handle",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).policies._handle-BdDyvBma.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).products.$handle":{id:"routes/($locale).products.$handle",parentId:"root",path:":locale?/products/:handle",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).products._handle-8m4M8lki.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js","/assets/ProductPrice-DJuqQFfm.js","/assets/Aside-WNXoZXSm.js","/assets/supplierImages-B2MdD-FG.js","/assets/Image-XkNhEmBd.js","/assets/Money-lXBaR0OS.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).policies._index":{id:"routes/($locale).policies._index",parentId:"root",path:":locale?/policies",index:!0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).policies._index-Bp95UuAk.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/sitemap.$type.$page[.xml]":{id:"routes/sitemap.$type.$page[.xml]",parentId:"root",path:"sitemap/:type/:page.xml",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/sitemap._type._page_.xml_-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).pages.$handle":{id:"routes/($locale).pages.$handle",parentId:"root",path:":locale?/pages/:handle",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).pages._handle-BUmyolpH.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).checkout":{id:"routes/($locale).checkout",parentId:"root",path:":locale?/checkout",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).checkout-u0YAHZD8.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/index-I-GCB7fn.js","/assets/Money-lXBaR0OS.js","/assets/Image-XkNhEmBd.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).checkout.payment":{id:"routes/($locale).checkout.payment",parentId:"routes/($locale).checkout",path:"payment",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/(_locale).checkout.payment-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).checkout.cancel":{id:"routes/($locale).checkout.cancel",parentId:"routes/($locale).checkout",path:"cancel",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).checkout.cancel-gXhiYW3a.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account_.authorize":{id:"routes/account_.authorize",parentId:"root",path:"account/authorize",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/account_.authorize-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).contact":{id:"routes/($locale).contact",parentId:"root",path:":locale?/contact",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!1,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).contact-DEOO1z-D.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale)._index":{id:"routes/($locale)._index",parentId:"root",path:":locale?",index:!0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale)._index-CWkHrjyt.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/CollectionCard-DhHd9JeB.js","/assets/Image-XkNhEmBd.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).search":{id:"routes/($locale).search",parentId:"root",path:":locale?/search",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).search-BjLdQBkO.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/SearchFormPredictive-CrKDn69o.js","/assets/Image-XkNhEmBd.js","/assets/Money-lXBaR0OS.js","/assets/Aside-WNXoZXSm.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/($locale).cart":{id:"routes/($locale).cart",parentId:"root",path:":locale?/cart",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/(_locale).cart-BGTpkKzA.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/CartMain-DxYckZAL.js","/assets/index-I-GCB7fn.js","/assets/Aside-WNXoZXSm.js","/assets/ProductPrice-DJuqQFfm.js","/assets/Money-lXBaR0OS.js","/assets/Image-XkNhEmBd.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account_.login":{id:"routes/account_.login",parentId:"root",path:"account/login",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/account_.login-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/[sitemap.xml]":{id:"routes/[sitemap.xml]",parentId:"root",path:"sitemap.xml",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/_sitemap.xml_-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/[robots.txt]":{id:"routes/[robots.txt]",parentId:"root",path:"robots.txt",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!1,hasErrorBoundary:!1,module:"/assets/_robots.txt_-l0sNRNKZ.js",imports:[],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account":{id:"routes/account",parentId:"root",path:"account",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account-D7xJBo_b.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.management":{id:"routes/account.management",parentId:"routes/account",path:"management",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!1,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.management-DB1lmOx-.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.addresses":{id:"routes/account.addresses",parentId:"routes/account",path:"addresses",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!1,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.addresses-6lrRrWV2.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.profile":{id:"routes/account.profile",parentId:"routes/account",path:"profile",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.profile-si8YQvpa.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account._index":{id:"routes/account._index",parentId:"routes/account",path:void 0,index:!0,caseSensitive:void 0,hasAction:!0,hasLoader:!1,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account._index-BDppmtWk.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.orders":{id:"routes/account.orders",parentId:"routes/account",path:"orders",index:void 0,caseSensitive:void 0,hasAction:!1,hasLoader:!1,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.orders-CtcMNkXJ.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.orders._index":{id:"routes/account.orders._index",parentId:"routes/account.orders",path:void 0,index:!0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.orders._index-DDmv-U2K.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/Money-lXBaR0OS.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0},"routes/account.orders.$id":{id:"routes/account.orders.$id",parentId:"routes/account.orders",path:":id",index:void 0,caseSensitive:void 0,hasAction:!0,hasLoader:!0,hasClientAction:!1,hasClientLoader:!1,hasClientMiddleware:!1,hasDefaultExport:!0,hasErrorBoundary:!1,module:"/assets/account.orders._id-DqvRRhyp.js",imports:["/assets/chunk-6CSD65Y2-_8LZTh1s.js","/assets/Image-XkNhEmBd.js","/assets/Money-lXBaR0OS.js"],css:[],clientActionModule:void 0,clientLoaderModule:void 0,clientMiddlewareModule:void 0,hydrateFallbackModule:void 0}},url:"/assets/manifest-a2006d11.js",version:"a2006d11",sri:void 0},ZS="dist/client",QS="/",KS={unstable_optimizeDeps:!0,v8_passThroughRequests:!0,v8_trailingSlashAwareDataRequests:!0,unstable_previewServerPrerendering:!1,v8_middleware:!0,v8_splitRouteModules:!0,v8_viteEnvironmentApi:!1},eC=!0,tC=!1,rC=[],nC={mode:"lazy",manifestPath:"/__manifest"},aC="/",oC={module:Cx},sC={root:{id:"root",parentId:void 0,path:"",index:void 0,caseSensitive:void 0,module:jw},"routes/($locale).collections.$handle":{id:"routes/($locale).collections.$handle",parentId:"root",path:":locale?/collections/:handle",index:void 0,caseSensitive:void 0,module:Nw},"routes/($locale).collections._index":{id:"routes/($locale).collections._index",parentId:"root",path:":locale?/collections",index:!0,caseSensitive:void 0,module:Ow},"routes/($locale).debug-availability":{id:"routes/($locale).debug-availability",parentId:"root",path:":locale?/debug-availability",index:void 0,caseSensitive:void 0,module:Uw},"routes/($locale).checkout_.success":{id:"routes/($locale).checkout_.success",parentId:"root",path:":locale?/checkout/success",index:void 0,caseSensitive:void 0,module:qw},"routes/($locale).integration-test":{id:"routes/($locale).integration-test",parentId:"root",path:":locale?/integration-test",index:void 0,caseSensitive:void 0,module:Jw},"routes/($locale).policies.$handle":{id:"routes/($locale).policies.$handle",parentId:"root",path:":locale?/policies/:handle",index:void 0,caseSensitive:void 0,module:tb},"routes/($locale).products.$handle":{id:"routes/($locale).products.$handle",parentId:"root",path:":locale?/products/:handle",index:void 0,caseSensitive:void 0,module:sb},"routes/($locale).policies._index":{id:"routes/($locale).policies._index",parentId:"root",path:":locale?/policies",index:!0,caseSensitive:void 0,module:db},"routes/sitemap.$type.$page[.xml]":{id:"routes/sitemap.$type.$page[.xml]",parentId:"root",path:"sitemap/:type/:page.xml",index:void 0,caseSensitive:void 0,module:hb},"routes/($locale).pages.$handle":{id:"routes/($locale).pages.$handle",parentId:"root",path:":locale?/pages/:handle",index:void 0,caseSensitive:void 0,module:vb},"routes/($locale).checkout":{id:"routes/($locale).checkout",parentId:"root",path:":locale?/checkout",index:void 0,caseSensitive:void 0,module:Tb},"routes/($locale).checkout.payment":{id:"routes/($locale).checkout.payment",parentId:"routes/($locale).checkout",path:"payment",index:void 0,caseSensitive:void 0,module:Ob},"routes/($locale).checkout.cancel":{id:"routes/($locale).checkout.cancel",parentId:"routes/($locale).checkout",path:"cancel",index:void 0,caseSensitive:void 0,module:Mb},"routes/account_.authorize":{id:"routes/account_.authorize",parentId:"root",path:"account/authorize",index:void 0,caseSensitive:void 0,module:Ub},"routes/($locale).contact":{id:"routes/($locale).contact",parentId:"root",path:":locale?/contact",index:void 0,caseSensitive:void 0,module:qb},"routes/($locale)._index":{id:"routes/($locale)._index",parentId:"root",path:":locale?",index:!0,caseSensitive:void 0,module:Yb},"routes/($locale).search":{id:"routes/($locale).search",parentId:"root",path:":locale?/search",index:void 0,caseSensitive:void 0,module:Zb},"routes/($locale).cart":{id:"routes/($locale).cart",parentId:"root",path:":locale?/cart",index:void 0,caseSensitive:void 0,module:tS},"routes/account_.login":{id:"routes/account_.login",parentId:"root",path:"account/login",index:void 0,caseSensitive:void 0,module:nS},"routes/[sitemap.xml]":{id:"routes/[sitemap.xml]",parentId:"root",path:"sitemap.xml",index:void 0,caseSensitive:void 0,module:oS},"routes/[robots.txt]":{id:"routes/[robots.txt]",parentId:"root",path:"robots.txt",index:void 0,caseSensitive:void 0,module:iS},"routes/account":{id:"routes/account",parentId:"root",path:"account",index:void 0,caseSensitive:void 0,module:fS},"routes/account.management":{id:"routes/account.management",parentId:"routes/account",path:"management",index:void 0,caseSensitive:void 0,module:mS},"routes/account.addresses":{id:"routes/account.addresses",parentId:"routes/account",path:"addresses",index:void 0,caseSensitive:void 0,module:SS},"routes/account.profile":{id:"routes/account.profile",parentId:"routes/account",path:"profile",index:void 0,caseSensitive:void 0,module:kS},"routes/account._index":{id:"routes/account._index",parentId:"routes/account",path:void 0,index:!0,caseSensitive:void 0,module:IS},"routes/account.orders":{id:"routes/account.orders",parentId:"routes/account",path:"orders",index:void 0,caseSensitive:void 0,module:NS},"routes/account.orders._index":{id:"routes/account.orders._index",parentId:"routes/account.orders",path:void 0,index:!0,caseSensitive:void 0,module:US},"routes/account.orders.$id":{id:"routes/account.orders.$id",parentId:"routes/account.orders",path:":id",index:void 0,caseSensitive:void 0,module:XS}},iC=!1,lC=Object.freeze(Object.defineProperty({__proto__:null,allowedActionOrigins:iC,assets:JS,assetsBuildDirectory:ZS,basename:QS,entry:oC,future:KS,isSpaMode:tC,prerender:rC,publicPath:aC,routeDiscovery:nC,routes:sC,ssr:eC},Symbol.toStringTag,{value:"Module"}));var $r,pt;class uC{constructor(t,r){an(this,"isPending",!1);No(this,$r);No(this,pt);To(this,$r,t),To(this,pt,r)}static async init(t,r){const n=mm({cookie:{name:"session",httpOnly:!0,path:"/",sameSite:"lax",secrets:r}}),a=await n.getSession(t.headers.get("Cookie")).catch(()=>n.getSession());return new this(n,a)}get has(){return wt(this,pt).has}get get(){return wt(this,pt).get}get flash(){return wt(this,pt).flash}get unset(){return this.isPending=!0,wt(this,pt).unset}get set(){return this.isPending=!0,wt(this,pt).set}destroy(){return wt(this,$r).destroySession(wt(this,pt))}commit(){return this.isPending=!1,wt(this,$r).commitSession(wt(this,pt))}}$r=new WeakMap,pt=new WeakMap;const cC={language:"EN",country:"ZA",pathPrefix:""},dC={"/en-za":{language:"EN",country:"ZA",pathPrefix:"/en-za"},"/en-nz":{language:"EN",country:"NZ",pathPrefix:"/en-nz"},"/en-au":{language:"EN",country:"AU",pathPrefix:"/en-au"},"/en-us":{language:"EN",country:"US",pathPrefix:"/en-us"}};function fC(e){var n;const r=`/${((n=new URL(e.url).pathname.split("/")[1])==null?void 0:n.toLowerCase())??""}`;return dC[r]??cC}const hC={};async function pC(e,t,r){if(!(t!=null&&t.SESSION_SECRET))throw new Error("SESSION_SECRET environment variable is not set");const n=r.waitUntil.bind(r),[a,o]=await Promise.all([caches.open("hydrogen"),uC.init(e,[t.SESSION_SECRET])]),i=fC(e);return Wv({env:t,request:e,cache:a,waitUntil:n,session:o,i18n:i,cart:{queryFragment:Ex,numCartLines:100},customerAccount:{useCustomAuthDomain:!0},buyerIdentity:{countryCode:i.country}},hC)}const bC={async fetch(e,t,r){try{const n=await pC(e,t,r),o=await Yv({build:lC,mode:"production",getLoadContext:()=>n})(e);return n.session.isPending&&o.headers.set("Set-Cookie",await n.session.commit()),o.status===404?ax({request:e,response:o,storefront:n.storefront}):o}catch(n){return console.error(n),new Response("An unexpected error occurred",{status:500})}}};function mC({headTags:e}){return Od(e),null}var ls="text-transform: uppercase;",yC="text-transform: uppercase; font-weight: bold; text-transform: uppercase;font-weight: bold";function Od(e){console.log(" "),console.log("%cSEO Meta Tags",`${yC}`),console.log(" "),e.forEach(t=>{if(t.tag==="script"){if(console.log("%c• JSON LD ",ls),t.children)try{console.table(JSON.parse(t.children),["name","content"])}catch{console.log(t.children)}}else{if(console.log(`%c• ${t.tag} `,ls),t.children)if(typeof t.children=="string")console.log(`↳ ${t.children}`);else try{Object.entries(JSON.parse(t.children)).map(([r,n])=>console.log(`↳ ${n}`))}catch{console.log(t.children)}if(t.props.property==="og:image:url"){let r=t.props.content;gC(r).then(n=>{let a=`font-size: 400px; padding: 10px; background: white url(${n}) no-repeat center; background-size: contain;`;console.log("%c• Share image preview",ls),console.log("%c  ",a),console.log(`↳ ${r}`)}).catch(n=>{console.error(n)})}Object.entries(t.props).map(([r,n])=>{console.log(`↳ ${r} → ${n}`)})}console.log(" ")})}async function gC(e){let t=await(await(await fetch(e)).blob()).arrayBuffer();return`data:image/png;base64,${vC(t)}`}function vC(e){let t="",r=new Uint8Array(e),n=r.byteLength;for(let a=0;a<n;a++)t+=String.fromCharCode(r[a]);return btoa(t)}const xC=Object.freeze(Object.defineProperty({__proto__:null,default:mC,logSeoTags:Od},Symbol.toStringTag,{value:"Module"}));export{bC as default};
-//# sourceMappingURL=index.js.map
+`;
+async function fetchArchivedIds(storefrontUiUrl, internalSecret, customerId) {
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/orders/archive?customerId=${encodeURIComponent(customerId)}`, {
+      headers: {
+        "X-Internal-Secret": internalSecret
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.archivedIds ?? [];
+  } catch {
+    return [];
+  }
+}
+async function fetchReturnStatus(storefrontUiUrl, internalSecret, shopifyOrderId) {
+  try {
+    const res = await fetch(`${storefrontUiUrl}/api/returns/status?shopifyOrderId=${encodeURIComponent(shopifyOrderId)}`, {
+      headers: {
+        "X-Internal-Secret": internalSecret
+      }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.returnRequest ?? null;
+  } catch {
+    return null;
+  }
+}
+async function loader({
+  params,
+  context
+}) {
+  if (!params.id) {
+    return redirect("/account/orders");
+  }
+  const orderId = atob(params.id);
+  const env = context.env;
+  const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+  const internalSecret = env.INTERNAL_API_SECRET ?? "";
+  const [{
+    data,
+    errors
+  }, {
+    data: idData
+  }] = await Promise.all([context.customerAccount.query(ORDER_QUERY, {
+    variables: {
+      orderId
+    }
+  }), context.customerAccount.query(CUSTOMER_ID_QUERY)]);
+  if (errors?.length || !data?.order) {
+    throw new Response("Order not found", {
+      status: 404
+    });
+  }
+  const customerId = idData?.customer?.id ?? "";
+  const customerEmail = idData?.customer?.emailAddress?.emailAddress ?? "";
+  const [archivedIds, returnRequest] = await Promise.all([storefrontUiUrl ? fetchArchivedIds(storefrontUiUrl, internalSecret, customerId) : Promise.resolve([]), storefrontUiUrl ? fetchReturnStatus(storefrontUiUrl, internalSecret, orderId) : Promise.resolve(null)]);
+  const isArchived = archivedIds.includes(orderId);
+  return {
+    order: data.order,
+    isArchived,
+    orderId,
+    customerId,
+    customerEmail,
+    returnRequest
+  };
+}
+async function action({
+  context,
+  request
+}) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+  const orderId = formData.get("orderId");
+  const customerId = formData.get("customerId");
+  if (intent === "return-request") {
+    const orderNum = formData.get("orderNum");
+    const customerEmail = formData.get("customerEmail");
+    const reason = formData.get("reason");
+    const lineItemsRaw = formData.get("lineItems");
+    const env = context.env;
+    const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+    const internalSecret = env.INTERNAL_API_SECRET ?? "";
+    if (!storefrontUiUrl) {
+      return {
+        error: "Return service is not configured.",
+        intent
+      };
+    }
+    let lineItems;
+    try {
+      if (lineItemsRaw) lineItems = JSON.parse(lineItemsRaw);
+    } catch {}
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/returns/request`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Secret": internalSecret
+        },
+        body: JSON.stringify({
+          orderId,
+          orderNum,
+          customerEmail,
+          customerId,
+          reason,
+          lineItems
+        })
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        return {
+          error: data.error ?? "Failed to submit return request.",
+          intent
+        };
+      }
+      return {
+        success: true,
+        intent
+      };
+    } catch {
+      return {
+        error: "Could not reach return service. Please try again.",
+        intent
+      };
+    }
+  }
+  if (intent === "request-invoice") {
+    const env = context.env;
+    const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+    const invoiceApiSecret = env.INVOICE_API_SECRET ?? "";
+    if (!storefrontUiUrl || !invoiceApiSecret) {
+      return {
+        error: "Invoice service is not configured.",
+        intent
+      };
+    }
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/xero/email-invoice`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Invoice-Api-Secret": invoiceApiSecret
+        },
+        body: JSON.stringify({
+          shopifyOrderId: orderId
+        })
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        return {
+          error: result.error ?? "Failed to email invoice.",
+          intent
+        };
+      }
+      return {
+        success: true,
+        intent,
+        alreadySent: result.alreadySent ?? false
+      };
+    } catch {
+      return {
+        error: "Could not reach invoice service. Please try again.",
+        intent
+      };
+    }
+  }
+  if (intent === "archive") {
+    const env = context.env;
+    const storefrontUiUrl = env.STOREFRONT_UI_API_URL ?? "";
+    const internalSecret = env.INTERNAL_API_SECRET ?? "";
+    if (!storefrontUiUrl) {
+      return {
+        error: "Archive service is not configured.",
+        intent
+      };
+    }
+    try {
+      const res = await fetch(`${storefrontUiUrl}/api/orders/archive`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Secret": internalSecret
+        },
+        body: JSON.stringify({
+          customerId,
+          orderId
+        })
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        return {
+          error: data.error ?? "Failed to archive order.",
+          intent
+        };
+      }
+      return {
+        success: true,
+        intent
+      };
+    } catch {
+      return {
+        error: "Could not reach archive service. Please try again.",
+        intent
+      };
+    }
+  }
+  return {
+    error: "Unknown intent",
+    intent
+  };
+}
+const account_orders_$id = UNSAFE_withComponentProps(function OrderDetail() {
+  const {
+    order,
+    isArchived,
+    orderId,
+    customerId,
+    customerEmail,
+    returnRequest
+  } = useLoaderData();
+  const fetcher = useFetcher();
+  const [returnView, setReturnView] = useState("none");
+  const [selectedItems, setSelectedItems] = useState(/* @__PURE__ */new Map());
+  const [policyAcknowledged, setPolicyAcknowledged] = useState(false);
+  const [returnReason, setReturnReason] = useState("");
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "1rem"
+  };
+  const result = fetcher.data;
+  const currentlyArchived = result?.intent === "archive" && result?.success ? true : isArchived;
+  result?.success && result.intent === "return-request";
+  function handleItemToggle(lineItemId, originalQty) {
+    setSelectedItems(prev => {
+      const next = new Map(prev);
+      if (next.has(lineItemId)) {
+        next.delete(lineItemId);
+      } else {
+        next.set(lineItemId, 1);
+      }
+      return next;
+    });
+  }
+  function handleQtyChange(lineItemId, qty) {
+    setSelectedItems(prev => {
+      const next = new Map(prev);
+      if (next.has(lineItemId)) next.set(lineItemId, qty);
+      return next;
+    });
+  }
+  function handleReturnSubmit(e) {
+    e.preventDefault();
+    const lineItems = order.lineItems.nodes.filter(li => selectedItems.has(li.id)).map(li => ({
+      title: li.title,
+      variantTitle: li.variantTitle ?? "",
+      quantity: selectedItems.get(li.id) ?? 1,
+      unitPrice: li.price?.amount ?? "0",
+      sku: li.sku ?? "",
+      variantId: li.variant?.id ?? ""
+    }));
+    fetcher.submit({
+      intent: "return-request",
+      orderId,
+      orderNum: order.name,
+      customerId,
+      customerEmail,
+      reason: returnReason,
+      lineItems: JSON.stringify(lineItems)
+    }, {
+      method: "post"
+    });
+    setReturnView("none");
+  }
+  if (returnView === "select-items") {
+    return /* @__PURE__ */jsxs("div", {
+      children: [/* @__PURE__ */jsx("button", {
+        type: "button",
+        onClick: () => {
+          setReturnView("none");
+          setSelectedItems(/* @__PURE__ */new Map());
+          setPolicyAcknowledged(false);
+          setReturnReason("");
+        },
+        style: {
+          background: "none",
+          border: "none",
+          color: "rgba(255,255,255,0.7)",
+          cursor: "pointer",
+          fontSize: "0.875rem",
+          padding: 0,
+          marginBottom: "1rem",
+          display: "inline-block"
+        },
+        children: "← Back to Order Details"
+      }), /* @__PURE__ */jsxs("h2", {
+        style: {
+          fontSize: "1.1rem",
+          marginBottom: "1rem"
+        },
+        children: ["Request Return — ", order.name]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          ...cardStyle,
+          borderLeft: "3px solid rgba(255,180,100,0.5)"
+        },
+        children: [/* @__PURE__ */jsxs("p", {
+          style: {
+            fontSize: "0.875rem",
+            color: "rgba(255,255,255,0.8)",
+            marginBottom: "0.75rem"
+          },
+          children: ["Before proceeding, please read our", " ", /* @__PURE__ */jsx("a", {
+            href: "/policies/refund-policy",
+            target: "_blank",
+            rel: "noreferrer",
+            style: {
+              color: "rgba(26,180,215,0.9)",
+              textDecoration: "underline"
+            },
+            children: "Return Policy"
+          }), ". It describes what items are eligible, the customer's obligations, and any applicable shipping costs."]
+        }), /* @__PURE__ */jsxs("label", {
+          style: {
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "0.5rem",
+            cursor: "pointer",
+            fontSize: "0.875rem"
+          },
+          children: [/* @__PURE__ */jsx("input", {
+            type: "checkbox",
+            checked: policyAcknowledged,
+            onChange: e => setPolicyAcknowledged(e.target.checked),
+            style: {
+              marginTop: "2px",
+              flexShrink: 0
+            }
+          }), "I have read and accept the Return Policy, including cost implications and obligations for both parties."]
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: cardStyle,
+        children: [/* @__PURE__ */jsx("h3", {
+          style: {
+            fontSize: "1rem",
+            marginBottom: "0.75rem"
+          },
+          children: "Select items to return"
+        }), order.lineItems.nodes.map(lineItem => {
+          const isSelected = selectedItems.has(lineItem.id);
+          const selQty = selectedItems.get(lineItem.id) ?? 1;
+          return /* @__PURE__ */jsxs("div", {
+            style: {
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "0.75rem",
+              padding: "0.75rem 0",
+              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              opacity: isSelected ? 1 : 0.6
+            },
+            children: [/* @__PURE__ */jsx("input", {
+              type: "checkbox",
+              checked: isSelected,
+              onChange: () => handleItemToggle(lineItem.id, lineItem.quantity),
+              style: {
+                marginTop: "4px",
+                flexShrink: 0
+              }
+            }), lineItem.image && /* @__PURE__ */jsx(Image, {
+              data: lineItem.image,
+              width: 56,
+              height: 56,
+              style: {
+                borderRadius: "4px",
+                objectFit: "cover",
+                flexShrink: 0
+              }
+            }), /* @__PURE__ */jsxs("div", {
+              style: {
+                flex: 1,
+                minWidth: 0
+              },
+              children: [/* @__PURE__ */jsx("p", {
+                style: {
+                  margin: 0,
+                  fontWeight: "bold",
+                  fontSize: "0.875rem"
+                },
+                children: lineItem.title
+              }), lineItem.variantTitle && /* @__PURE__ */jsx("p", {
+                style: {
+                  margin: "0.2rem 0 0",
+                  fontSize: "0.8rem",
+                  color: "rgba(255,255,255,0.6)"
+                },
+                children: lineItem.variantTitle
+              }), /* @__PURE__ */jsxs("p", {
+                style: {
+                  margin: "0.25rem 0 0",
+                  fontSize: "0.8rem",
+                  color: "rgba(255,255,255,0.5)"
+                },
+                children: ["Ordered: ", lineItem.quantity]
+              }), isSelected && /* @__PURE__ */jsxs("div", {
+                style: {
+                  marginTop: "0.4rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.4rem"
+                },
+                children: [/* @__PURE__ */jsx("label", {
+                  style: {
+                    fontSize: "0.8rem",
+                    color: "rgba(255,255,255,0.6)"
+                  },
+                  children: "Return qty:"
+                }), /* @__PURE__ */jsx("select", {
+                  value: selQty,
+                  onChange: e => handleQtyChange(lineItem.id, Number(e.target.value)),
+                  style: {
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: "4px",
+                    color: "white",
+                    padding: "2px 6px",
+                    fontSize: "0.8rem"
+                  },
+                  children: Array.from({
+                    length: lineItem.quantity
+                  }, (_, i) => i + 1).map(n => /* @__PURE__ */jsx("option", {
+                    value: n,
+                    children: n
+                  }, n))
+                })]
+              })]
+            }), /* @__PURE__ */jsx("div", {
+              style: {
+                textAlign: "right",
+                flexShrink: 0
+              },
+              children: /* @__PURE__ */jsx(Money, {
+                data: withDisplayVat(lineItem.price)
+              })
+            })]
+          }, lineItem.id);
+        })]
+      }), /* @__PURE__ */jsxs("form", {
+        onSubmit: handleReturnSubmit,
+        style: cardStyle,
+        children: [/* @__PURE__ */jsxs("div", {
+          style: {
+            marginBottom: "0.75rem"
+          },
+          children: [/* @__PURE__ */jsx("label", {
+            style: {
+              display: "block",
+              fontSize: "0.875rem",
+              color: "rgba(255,255,255,0.7)",
+              marginBottom: "0.4rem"
+            },
+            children: "Reason for return"
+          }), /* @__PURE__ */jsx("textarea", {
+            value: returnReason,
+            onChange: e => setReturnReason(e.target.value),
+            required: true,
+            rows: 3,
+            placeholder: "e.g. Item arrived damaged, wrong size received…",
+            style: {
+              width: "100%",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "4px",
+              color: "white",
+              padding: "0.5rem",
+              fontSize: "0.875rem",
+              resize: "vertical",
+              boxSizing: "border-box"
+            }
+          })]
+        }), result?.error && result.intent === "return-request" && /* @__PURE__ */jsx("p", {
+          style: {
+            color: "#fc8181",
+            marginBottom: "0.75rem",
+            fontSize: "0.875rem"
+          },
+          children: result.error
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            display: "flex",
+            gap: "0.5rem"
+          },
+          children: [/* @__PURE__ */jsx("button", {
+            type: "submit",
+            disabled: fetcher.state !== "idle" || !policyAcknowledged || selectedItems.size === 0 || !returnReason.trim(),
+            style: {
+              background: "rgba(255,180,100,0.15)",
+              color: "rgba(255,180,100,0.9)",
+              border: "1px solid rgba(255,180,100,0.3)",
+              padding: "0.45rem 1.1rem",
+              borderRadius: "5px",
+              fontSize: "0.875rem",
+              cursor: "pointer",
+              opacity: !policyAcknowledged || selectedItems.size === 0 || !returnReason.trim() ? 0.5 : 1
+            },
+            children: fetcher.state !== "idle" ? "Submitting…" : "Submit Return Request"
+          }), /* @__PURE__ */jsx("button", {
+            type: "button",
+            onClick: () => {
+              setReturnView("none");
+              setSelectedItems(/* @__PURE__ */new Map());
+              setPolicyAcknowledged(false);
+              setReturnReason("");
+            },
+            style: {
+              background: "none",
+              border: "1px solid rgba(255,255,255,0.15)",
+              color: "rgba(255,255,255,0.4)",
+              padding: "0.45rem 1rem",
+              borderRadius: "5px",
+              fontSize: "0.875rem",
+              cursor: "pointer"
+            },
+            children: "Cancel"
+          })]
+        }), (!policyAcknowledged || selectedItems.size === 0) && /* @__PURE__ */jsxs("p", {
+          style: {
+            fontSize: "0.8rem",
+            color: "rgba(255,255,255,0.4)",
+            marginTop: "0.5rem"
+          },
+          children: [!policyAcknowledged && "Please acknowledge the Return Policy. ", selectedItems.size === 0 && "Please select at least one item to return."]
+        })]
+      })]
+    });
+  }
+  return /* @__PURE__ */jsxs("div", {
+    children: [/* @__PURE__ */jsx(Link, {
+      to: "/account/orders",
+      style: {
+        color: "rgba(255, 255, 255, 0.7)",
+        textDecoration: "none",
+        display: "inline-block",
+        marginBottom: "1rem"
+      },
+      children: "← Back to Orders"
+    }), result?.error && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#fc8181",
+        marginBottom: "1rem",
+        fontSize: "0.875rem"
+      },
+      children: result.error
+    }), result?.success && result.intent === "return-request" && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem",
+        fontSize: "0.875rem"
+      },
+      children: "Return request submitted. Our team will review it and be in touch."
+    }), result?.success && result.intent === "request-invoice" && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem",
+        fontSize: "0.875rem"
+      },
+      children: result.alreadySent ? "Invoice was already sent to your email." : "Invoice emailed to your account email address."
+    }), result?.success && result.intent === "archive" && /* @__PURE__ */jsx("p", {
+      style: {
+        color: "#68d391",
+        marginBottom: "1rem",
+        fontSize: "0.875rem"
+      },
+      children: "Order archived."
+    }), /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "0.5rem",
+          marginBottom: "1rem"
+        },
+        children: [/* @__PURE__ */jsxs("div", {
+          children: [/* @__PURE__ */jsx("h2", {
+            style: {
+              fontSize: "1.25rem",
+              margin: 0
+            },
+            children: order.name
+          }), order.confirmationNumber && /* @__PURE__ */jsxs("p", {
+            style: {
+              color: "rgba(255,255,255,0.5)",
+              fontSize: "0.875rem",
+              margin: "0.25rem 0 0"
+            },
+            children: ["Confirmation: ", order.confirmationNumber]
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            textAlign: "right"
+          },
+          children: [/* @__PURE__ */jsx("p", {
+            style: {
+              margin: 0,
+              fontSize: "0.875rem"
+            },
+            children: new Date(order.processedAt).toLocaleDateString()
+          }), /* @__PURE__ */jsx("p", {
+            style: {
+              margin: "0.25rem 0 0",
+              fontSize: "0.875rem",
+              color: "rgba(255,255,255,0.7)"
+            },
+            children: order.fulfillmentStatus
+          })]
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "0.75rem",
+          flexWrap: "wrap",
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+          paddingTop: "0.75rem"
+        },
+        children: [/* @__PURE__ */jsxs(fetcher.Form, {
+          method: "post",
+          style: {
+            display: "inline"
+          },
+          children: [/* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "intent",
+            value: "request-invoice"
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "orderId",
+            value: orderId
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            disabled: fetcher.state !== "idle",
+            style: {
+              background: "rgba(26,180,215,0.15)",
+              color: "rgba(26,180,215,0.9)",
+              border: "1px solid rgba(26,180,215,0.3)",
+              padding: "0.4rem 1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "0.8rem"
+            },
+            children: fetcher.state !== "idle" && result?.intent === "request-invoice" ? "Sending…" : "Email Invoice"
+          })]
+        }), !currentlyArchived && /* @__PURE__ */jsxs(fetcher.Form, {
+          method: "post",
+          style: {
+            display: "inline"
+          },
+          children: [/* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "intent",
+            value: "archive"
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "orderId",
+            value: orderId
+          }), /* @__PURE__ */jsx("input", {
+            type: "hidden",
+            name: "customerId",
+            value: customerId
+          }), /* @__PURE__ */jsx("button", {
+            type: "submit",
+            disabled: fetcher.state !== "idle",
+            style: {
+              background: "none",
+              color: "rgba(255,255,255,0.4)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              padding: "0.4rem 1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "0.8rem"
+            },
+            children: "Archive Order"
+          })]
+        }), currentlyArchived && /* @__PURE__ */jsx("span", {
+          style: {
+            fontSize: "0.8rem",
+            color: "rgba(255,255,255,0.35)",
+            padding: "0.4rem 0"
+          },
+          children: "Archived"
+        }), !currentlyArchived && (!returnRequest || returnRequest.status === "REJECTED") && /* @__PURE__ */jsx("button", {
+          type: "button",
+          onClick: () => {
+            setReturnView("select-items");
+            setSelectedItems(/* @__PURE__ */new Map());
+            setPolicyAcknowledged(false);
+            setReturnReason("");
+          },
+          style: {
+            background: "rgba(255,180,100,0.1)",
+            color: "rgba(255,180,100,0.8)",
+            border: "1px solid rgba(255,180,100,0.25)",
+            padding: "0.4rem 1rem",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "0.8rem"
+          },
+          children: "Request Return"
+        })]
+      })]
+    }), returnRequest && returnRequest.status !== "REJECTED" && /* @__PURE__ */jsx(ReturnStatusCard, {
+      returnRequest
+    }), returnRequest?.status === "REJECTED" && /* @__PURE__ */jsx("div", {
+      style: {
+        ...cardStyle,
+        borderLeft: "3px solid rgba(255,100,100,0.4)",
+        marginBottom: "1rem"
+      },
+      children: /* @__PURE__ */jsx("p", {
+        style: {
+          margin: 0,
+          fontSize: "0.875rem",
+          color: "rgba(255,150,150,0.9)"
+        },
+        children: "A previous return request for this order was not approved. You may submit a new request if needed."
+      })
+    }), /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1.1rem",
+          marginBottom: "1rem"
+        },
+        children: "Items"
+      }), order.lineItems.nodes.map(lineItem => /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          gap: "1rem",
+          paddingBottom: "1rem",
+          marginBottom: "1rem",
+          borderBottom: "1px solid rgba(255,255,255,0.1)"
+        },
+        children: [lineItem.image && /* @__PURE__ */jsx(Image, {
+          data: lineItem.image,
+          width: 80,
+          height: 80,
+          style: {
+            borderRadius: "4px",
+            objectFit: "cover"
+          }
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            flex: 1
+          },
+          children: [/* @__PURE__ */jsx("p", {
+            style: {
+              margin: 0,
+              fontWeight: "bold"
+            },
+            children: lineItem.title
+          }), lineItem.variantTitle && /* @__PURE__ */jsx("p", {
+            style: {
+              margin: "0.25rem 0 0",
+              fontSize: "0.875rem",
+              color: "rgba(255,255,255,0.7)"
+            },
+            children: lineItem.variantTitle
+          }), /* @__PURE__ */jsxs("p", {
+            style: {
+              margin: "0.25rem 0 0",
+              fontSize: "0.875rem",
+              color: "rgba(255,255,255,0.7)"
+            },
+            children: ["Qty: ", lineItem.quantity]
+          })]
+        }), /* @__PURE__ */jsxs("div", {
+          style: {
+            textAlign: "right"
+          },
+          children: [/* @__PURE__ */jsx(Money, {
+            data: withDisplayVat(lineItem.price)
+          }), lineItem.discountAllocations.length > 0 && /* @__PURE__ */jsxs("p", {
+            style: {
+              margin: "0.25rem 0 0",
+              fontSize: "0.875rem",
+              color: "#e53e3e"
+            },
+            children: ["-", /* @__PURE__ */jsx(Money, {
+              data: lineItem.totalDiscount
+            })]
+          })]
+        })]
+      }, lineItem.id))]
+    }), order.shippingAddress && /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1.1rem",
+          marginBottom: "0.75rem"
+        },
+        children: "Shipping Address"
+      }), /* @__PURE__ */jsx("p", {
+        style: {
+          margin: 0,
+          lineHeight: "1.6"
+        },
+        children: order.shippingAddress.formatted?.join(", ")
+      })]
+    }), /* @__PURE__ */jsxs("div", {
+      style: cardStyle,
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          fontSize: "1.1rem",
+          marginBottom: "0.75rem"
+        },
+        children: "Order Summary"
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          style: {
+            color: "rgba(255,255,255,0.7)"
+          },
+          children: "Subtotal (excl. VAT)"
+        }), /* @__PURE__ */jsx(Money, {
+          data: order.subtotal
+        })]
+      }), order.shippingLine && parseFloat(order.shippingLine.originalPrice?.amount ?? "0") > 0 && /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          style: {
+            color: "rgba(255,255,255,0.7)"
+          },
+          children: "Shipping"
+        }), /* @__PURE__ */jsx(Money, {
+          data: order.shippingLine.originalPrice
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          style: {
+            color: "rgba(255,255,255,0.7)"
+          },
+          children: "VAT"
+        }), (() => {
+          const shippingAmt = parseFloat(order.shippingLine?.originalPrice?.amount ?? "0");
+          const shippingVat = parseFloat((shippingAmt * 0.15).toFixed(2));
+          const adjustedTax = {
+            amount: (parseFloat(order.totalTax.amount) + shippingVat).toFixed(2),
+            currencyCode: order.totalTax.currencyCode
+          };
+          return /* @__PURE__ */jsx(Money, {
+            data: adjustedTax
+          });
+        })()]
+      }), order.discountApplications.nodes.length > 0 && /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem",
+          color: "#e53e3e"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          children: "Discounts"
+        }), /* @__PURE__ */jsx("span", {
+          children: order.discountApplications.nodes.map((discount, i) => /* @__PURE__ */jsx("span", {
+            children: discount.value.__typename === "MoneyV2" ? /* @__PURE__ */jsx(Money, {
+              data: discount.value
+            }) : `${discount.value.percentage}%`
+          }, i))
+        })]
+      }), /* @__PURE__ */jsxs("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          paddingTop: "0.75rem",
+          borderTop: "1px solid rgba(255,255,255,0.2)",
+          fontWeight: "bold",
+          fontSize: "1.1rem"
+        },
+        children: [/* @__PURE__ */jsx("span", {
+          children: "Total (incl. VAT)"
+        }), (() => {
+          const shippingAmt = parseFloat(order.shippingLine?.originalPrice?.amount ?? "0");
+          const shippingVat = parseFloat((shippingAmt * 0.15).toFixed(2));
+          const adjustedTotal = {
+            amount: (parseFloat(order.totalPrice.amount) + shippingVat).toFixed(2),
+            currencyCode: order.totalPrice.currencyCode
+          };
+          return /* @__PURE__ */jsx(Money, {
+            data: adjustedTotal
+          });
+        })()]
+      })]
+    })]
+  });
+});
+function ReturnStatusCard({
+  returnRequest
+}) {
+  const statusColors = {
+    PENDING: "rgba(255,180,60,0.9)",
+    APPROVED: "rgba(104,211,145,0.9)"
+  };
+  const borderColors = {
+    PENDING: "rgba(255,180,60,0.4)",
+    APPROVED: "rgba(104,211,145,0.4)"
+  };
+  const color = statusColors[returnRequest.status] ?? "rgba(255,255,255,0.7)";
+  const border = borderColors[returnRequest.status] ?? "rgba(255,255,255,0.2)";
+  let lineItems = [];
+  try {
+    if (returnRequest.lineItemsJson) lineItems = JSON.parse(returnRequest.lineItemsJson);
+  } catch {}
+  const cardStyle = {
+    background: "rgba(50, 50, 50, 0.85)",
+    borderRadius: "6px",
+    padding: "1.25rem",
+    marginBottom: "1rem",
+    borderLeft: `3px solid ${border}`
+  };
+  return /* @__PURE__ */jsxs("div", {
+    style: cardStyle,
+    children: [/* @__PURE__ */jsxs("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "0.75rem",
+        marginBottom: "0.75rem"
+      },
+      children: [/* @__PURE__ */jsx("h3", {
+        style: {
+          margin: 0,
+          fontSize: "1rem"
+        },
+        children: "Return Request"
+      }), /* @__PURE__ */jsx("span", {
+        style: {
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          color,
+          border: `1px solid ${border}`,
+          borderRadius: "4px",
+          padding: "2px 8px"
+        },
+        children: returnRequest.status
+      })]
+    }), /* @__PURE__ */jsxs("p", {
+      style: {
+        margin: "0 0 0.5rem",
+        fontSize: "0.8rem",
+        color: "rgba(255,255,255,0.5)"
+      },
+      children: ["Submitted: ", new Date(returnRequest.createdAt).toLocaleDateString()]
+    }), returnRequest.reason && /* @__PURE__ */jsxs("p", {
+      style: {
+        margin: "0 0 0.75rem",
+        fontSize: "0.875rem",
+        color: "rgba(255,255,255,0.75)"
+      },
+      children: [/* @__PURE__ */jsx("span", {
+        style: {
+          color: "rgba(255,255,255,0.5)"
+        },
+        children: "Reason: "
+      }), returnRequest.reason]
+    }), lineItems.length > 0 && /* @__PURE__ */jsxs("div", {
+      style: {
+        marginBottom: "0.75rem"
+      },
+      children: [/* @__PURE__ */jsx("p", {
+        style: {
+          margin: "0 0 0.4rem",
+          fontSize: "0.8rem",
+          color: "rgba(255,255,255,0.5)"
+        },
+        children: "Items requested for return:"
+      }), lineItems.map((item, i) => /* @__PURE__ */jsxs("p", {
+        style: {
+          margin: "0.2rem 0",
+          fontSize: "0.875rem",
+          paddingLeft: "0.75rem"
+        },
+        children: ["— ", item.title, item.variantTitle ? ` (${item.variantTitle})` : "", " × ", item.quantity ?? 1]
+      }, i))]
+    }), returnRequest.status === "APPROVED" && returnRequest.xeroCreditNoteNum && /* @__PURE__ */jsxs("p", {
+      style: {
+        margin: 0,
+        fontSize: "0.875rem",
+        color: "rgba(104,211,145,0.9)"
+      },
+      children: ["Credit Note: ", returnRequest.xeroCreditNoteNum]
+    }), returnRequest.status === "PENDING" && /* @__PURE__ */jsx("p", {
+      style: {
+        margin: 0,
+        fontSize: "0.8rem",
+        color: "rgba(255,255,255,0.4)"
+      },
+      children: "Your return request is under review. We will be in touch once it has been processed."
+    })]
+  });
+}
+
+const route31 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  action,
+  default: account_orders_$id,
+  loader,
+  meta
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const serverManifest = {'entry':{'module':'/assets/entry.client-DM0VJj-x.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/index-hFlOhryW.js'],'css':[]},'routes':{'root':{'id':'root','parentId':undefined,'path':'','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':true,'module':'/assets/root-CieHO0AJ.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/index-hFlOhryW.js','/assets/Aside-BYIRJt7H.js','/assets/CartMain-dWv477Tw.js','/assets/SearchFormPredictive-f58WwnkE.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js','/assets/ProductPrice-DV03G4up.js','/assets/displayVat-Duxh8Hgd.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).collections.$handle':{'id':'routes/($locale).collections.$handle','parentId':'root','path':':locale?/collections/:handle','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).collections._handle-B9vPfTZz.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/ProductCard-Czleye46.js','/assets/CollectionCard-CoDqIvL2.js','/assets/index-hFlOhryW.js','/assets/displayVat-Duxh8Hgd.js','/assets/WishlistButton-kBL5TDT8.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).collections._index':{'id':'routes/($locale).collections._index','parentId':'root','path':':locale?/collections','index':true,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).collections._index-C0VG4b_D.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/CollectionCard-CoDqIvL2.js','/assets/Image-YyOMJc_c.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).debug-availability':{'id':'routes/($locale).debug-availability','parentId':'root','path':':locale?/debug-availability','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).debug-availability-ChZAks5F.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).checkout_.success':{'id':'routes/($locale).checkout_.success','parentId':'root','path':':locale?/checkout/success','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).checkout_.success-B4sMfa1G.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).integration-test':{'id':'routes/($locale).integration-test','parentId':'root','path':':locale?/integration-test','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).integration-test-CP100spu.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).policies.$handle':{'id':'routes/($locale).policies.$handle','parentId':'root','path':':locale?/policies/:handle','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).policies._handle-CVvhFhYD.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).products.$handle':{'id':'routes/($locale).products.$handle','parentId':'root','path':':locale?/products/:handle','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).products._handle-Ce-Uo4ip.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/index-hFlOhryW.js','/assets/ProductPrice-DV03G4up.js','/assets/WishlistButton-kBL5TDT8.js','/assets/Aside-BYIRJt7H.js','/assets/displayVat-Duxh8Hgd.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).policies._index':{'id':'routes/($locale).policies._index','parentId':'root','path':':locale?/policies','index':true,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).policies._index-Dd_csRRV.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/sitemap.$type.$page[.xml]':{'id':'routes/sitemap.$type.$page[.xml]','parentId':'root','path':'sitemap/:type/:page.xml','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/sitemap._type._page_.xml_-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).pages.$handle':{'id':'routes/($locale).pages.$handle','parentId':'root','path':':locale?/pages/:handle','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).pages._handle-BqxmBGjM.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).checkout':{'id':'routes/($locale).checkout','parentId':'root','path':':locale?/checkout','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).checkout-7Shhr4iQ.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/index-hFlOhryW.js','/assets/displayVat-Duxh8Hgd.js','/assets/Money-B_EUYLEm.js','/assets/Image-YyOMJc_c.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).checkout.payment':{'id':'routes/($locale).checkout.payment','parentId':'routes/($locale).checkout','path':'payment','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/(_locale).checkout.payment-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).checkout.cancel':{'id':'routes/($locale).checkout.cancel','parentId':'routes/($locale).checkout','path':'cancel','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).checkout.cancel-2vkrSRL0.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account_.authorize':{'id':'routes/account_.authorize','parentId':'root','path':'account/authorize','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/account_.authorize-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).contact':{'id':'routes/($locale).contact','parentId':'root','path':':locale?/contact','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':false,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).contact-CHW48X6f.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/media.suppliers.$':{'id':'routes/media.suppliers.$','parentId':'root','path':'media/suppliers/*','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/media.suppliers._-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale)._index':{'id':'routes/($locale)._index','parentId':'root','path':':locale?','index':true,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale)._index-C8LxkXRk.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/CollectionCard-CoDqIvL2.js','/assets/Image-YyOMJc_c.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).search':{'id':'routes/($locale).search','parentId':'root','path':':locale?/search','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).search-Dwidir4k.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/SearchFormPredictive-f58WwnkE.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js','/assets/Aside-BYIRJt7H.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/($locale).cart':{'id':'routes/($locale).cart','parentId':'root','path':':locale?/cart','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/(_locale).cart-DmIGOo8T.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/CartMain-dWv477Tw.js','/assets/index-hFlOhryW.js','/assets/Aside-BYIRJt7H.js','/assets/ProductPrice-DV03G4up.js','/assets/Money-B_EUYLEm.js','/assets/displayVat-Duxh8Hgd.js','/assets/Image-YyOMJc_c.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account_.login':{'id':'routes/account_.login','parentId':'root','path':'account/login','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/account_.login-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/[sitemap.xml]':{'id':'routes/[sitemap.xml]','parentId':'root','path':'sitemap.xml','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/_sitemap.xml_-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/[robots.txt]':{'id':'routes/[robots.txt]','parentId':'root','path':'robots.txt','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':false,'hasErrorBoundary':false,'module':'/assets/_robots.txt_-l0sNRNKZ.js','imports':[],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account':{'id':'routes/account','parentId':'root','path':'account','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account-CkQqdsQd.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.management':{'id':'routes/account.management','parentId':'routes/account','path':'management','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':false,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.management-C4atDCIk.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.addresses':{'id':'routes/account.addresses','parentId':'routes/account','path':'addresses','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':false,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.addresses-YVJgP3vd.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.wishlist':{'id':'routes/account.wishlist','parentId':'routes/account','path':'wishlist','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.wishlist-ZLJw3Ogy.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/ProductCard-Czleye46.js','/assets/index-hFlOhryW.js','/assets/displayVat-Duxh8Hgd.js','/assets/WishlistButton-kBL5TDT8.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.profile':{'id':'routes/account.profile','parentId':'routes/account','path':'profile','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.profile-BlL5GDke.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account._index':{'id':'routes/account._index','parentId':'routes/account','path':undefined,'index':true,'caseSensitive':undefined,'hasAction':true,'hasLoader':false,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account._index-CFm4C9Pp.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.orders':{'id':'routes/account.orders','parentId':'routes/account','path':'orders','index':undefined,'caseSensitive':undefined,'hasAction':false,'hasLoader':false,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.orders-ZBNdj27u.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.orders._index':{'id':'routes/account.orders._index','parentId':'routes/account.orders','path':undefined,'index':true,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.orders._index-DY41hHGn.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/Money-B_EUYLEm.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined},'routes/account.orders.$id':{'id':'routes/account.orders.$id','parentId':'routes/account.orders','path':':id','index':undefined,'caseSensitive':undefined,'hasAction':true,'hasLoader':true,'hasClientAction':false,'hasClientLoader':false,'hasClientMiddleware':false,'hasDefaultExport':true,'hasErrorBoundary':false,'module':'/assets/account.orders._id-ClnZlQmY.js','imports':['/assets/chunk-6CSD65Y2-BhwYVof3.js','/assets/displayVat-Duxh8Hgd.js','/assets/Image-YyOMJc_c.js','/assets/Money-B_EUYLEm.js'],'css':[],'clientActionModule':undefined,'clientLoaderModule':undefined,'clientMiddlewareModule':undefined,'hydrateFallbackModule':undefined}},'url':'/assets/manifest-240d0ac3.js','version':'240d0ac3','sri':undefined};
+
+const assetsBuildDirectory = "dist/client";
+      const basename = "/";
+      const future = {"unstable_optimizeDeps":true,"v8_passThroughRequests":true,"v8_trailingSlashAwareDataRequests":true,"unstable_previewServerPrerendering":false,"v8_middleware":true,"v8_splitRouteModules":true,"v8_viteEnvironmentApi":false};
+      const ssr = true;
+      const isSpaMode = false;
+      const prerender = [];
+      const routeDiscovery = {"mode":"lazy","manifestPath":"/__manifest"};
+      const publicPath = "/";
+      const entry = { module: entryServer };
+      const routes = {
+        "root": {
+          id: "root",
+          parentId: undefined,
+          path: "",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route0
+        },
+  "routes/($locale).collections.$handle": {
+          id: "routes/($locale).collections.$handle",
+          parentId: "root",
+          path: ":locale?/collections/:handle",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route1
+        },
+  "routes/($locale).collections._index": {
+          id: "routes/($locale).collections._index",
+          parentId: "root",
+          path: ":locale?/collections",
+          index: true,
+          caseSensitive: undefined,
+          module: route2
+        },
+  "routes/($locale).debug-availability": {
+          id: "routes/($locale).debug-availability",
+          parentId: "root",
+          path: ":locale?/debug-availability",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route3
+        },
+  "routes/($locale).checkout_.success": {
+          id: "routes/($locale).checkout_.success",
+          parentId: "root",
+          path: ":locale?/checkout/success",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route4
+        },
+  "routes/($locale).integration-test": {
+          id: "routes/($locale).integration-test",
+          parentId: "root",
+          path: ":locale?/integration-test",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route5
+        },
+  "routes/($locale).policies.$handle": {
+          id: "routes/($locale).policies.$handle",
+          parentId: "root",
+          path: ":locale?/policies/:handle",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route6
+        },
+  "routes/($locale).products.$handle": {
+          id: "routes/($locale).products.$handle",
+          parentId: "root",
+          path: ":locale?/products/:handle",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route7
+        },
+  "routes/($locale).policies._index": {
+          id: "routes/($locale).policies._index",
+          parentId: "root",
+          path: ":locale?/policies",
+          index: true,
+          caseSensitive: undefined,
+          module: route8
+        },
+  "routes/sitemap.$type.$page[.xml]": {
+          id: "routes/sitemap.$type.$page[.xml]",
+          parentId: "root",
+          path: "sitemap/:type/:page.xml",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route9
+        },
+  "routes/($locale).pages.$handle": {
+          id: "routes/($locale).pages.$handle",
+          parentId: "root",
+          path: ":locale?/pages/:handle",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route10
+        },
+  "routes/($locale).checkout": {
+          id: "routes/($locale).checkout",
+          parentId: "root",
+          path: ":locale?/checkout",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route11
+        },
+  "routes/($locale).checkout.payment": {
+          id: "routes/($locale).checkout.payment",
+          parentId: "routes/($locale).checkout",
+          path: "payment",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route12
+        },
+  "routes/($locale).checkout.cancel": {
+          id: "routes/($locale).checkout.cancel",
+          parentId: "routes/($locale).checkout",
+          path: "cancel",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route13
+        },
+  "routes/account_.authorize": {
+          id: "routes/account_.authorize",
+          parentId: "root",
+          path: "account/authorize",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route14
+        },
+  "routes/($locale).contact": {
+          id: "routes/($locale).contact",
+          parentId: "root",
+          path: ":locale?/contact",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route15
+        },
+  "routes/media.suppliers.$": {
+          id: "routes/media.suppliers.$",
+          parentId: "root",
+          path: "media/suppliers/*",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route16
+        },
+  "routes/($locale)._index": {
+          id: "routes/($locale)._index",
+          parentId: "root",
+          path: ":locale?",
+          index: true,
+          caseSensitive: undefined,
+          module: route17
+        },
+  "routes/($locale).search": {
+          id: "routes/($locale).search",
+          parentId: "root",
+          path: ":locale?/search",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route18
+        },
+  "routes/($locale).cart": {
+          id: "routes/($locale).cart",
+          parentId: "root",
+          path: ":locale?/cart",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route19
+        },
+  "routes/account_.login": {
+          id: "routes/account_.login",
+          parentId: "root",
+          path: "account/login",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route20
+        },
+  "routes/[sitemap.xml]": {
+          id: "routes/[sitemap.xml]",
+          parentId: "root",
+          path: "sitemap.xml",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route21
+        },
+  "routes/[robots.txt]": {
+          id: "routes/[robots.txt]",
+          parentId: "root",
+          path: "robots.txt",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route22
+        },
+  "routes/account": {
+          id: "routes/account",
+          parentId: "root",
+          path: "account",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route23
+        },
+  "routes/account.management": {
+          id: "routes/account.management",
+          parentId: "routes/account",
+          path: "management",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route24
+        },
+  "routes/account.addresses": {
+          id: "routes/account.addresses",
+          parentId: "routes/account",
+          path: "addresses",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route25
+        },
+  "routes/account.wishlist": {
+          id: "routes/account.wishlist",
+          parentId: "routes/account",
+          path: "wishlist",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route26
+        },
+  "routes/account.profile": {
+          id: "routes/account.profile",
+          parentId: "routes/account",
+          path: "profile",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route27
+        },
+  "routes/account._index": {
+          id: "routes/account._index",
+          parentId: "routes/account",
+          path: undefined,
+          index: true,
+          caseSensitive: undefined,
+          module: route28
+        },
+  "routes/account.orders": {
+          id: "routes/account.orders",
+          parentId: "routes/account",
+          path: "orders",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route29
+        },
+  "routes/account.orders._index": {
+          id: "routes/account.orders._index",
+          parentId: "routes/account.orders",
+          path: undefined,
+          index: true,
+          caseSensitive: undefined,
+          module: route30
+        },
+  "routes/account.orders.$id": {
+          id: "routes/account.orders.$id",
+          parentId: "routes/account.orders",
+          path: ":id",
+          index: undefined,
+          caseSensitive: undefined,
+          module: route31
+        }
+      };
+      
+      const allowedActionOrigins = false;
+
+export { allowedActionOrigins, serverManifest as assets, assetsBuildDirectory, basename, entry, future, isSpaMode, prerender, publicPath, routeDiscovery, routes, ssr };

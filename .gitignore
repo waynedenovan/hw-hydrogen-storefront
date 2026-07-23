@@ -6,3 +6,7 @@ node_modules
 
 # Exclude a folder at any level in the project
 media/suppliers/
+
+# Claude session transcripts — can capture short-lived live-API credentials
+# (a shpat_ token in one tripped GitHub push protection on 2026-07-17)
+*claude.groovy

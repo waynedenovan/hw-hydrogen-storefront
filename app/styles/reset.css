@@ -93,9 +93,25 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
-body.home-page {
+/* The page background image lives on .page-bg (PageLayout.tsx), NOT on body.
+   .page-bg wraps header + main only and grows to meet the footer, so the image
+   is physically bounded above the footer top — it can never paint behind or
+   below it, on short or long pages. (The old approach painted the image on
+   body, whose background propagates to the whole canvas when html has none,
+   which showed an image strip below the footer; the html:has() black-canvas
+   hack that papered over that is gone.) The page class is server-rendered on
+   .page-bg itself, so the image is also correct on first paint — the
+   hydration-time body classes below are only used for the solid canvas color. */
+.page-bg {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.page-bg.home-page {
   background: linear-gradient(rgba(100, 100, 100, 0.25), rgba(100, 100, 100, 0.25)), url('/images/260601-camlock_irrigation.jpg');
   background-size: cover;
   background-position: center;
@@ -103,7 +119,7 @@ body.home-page {
   background-repeat: no-repeat;
 }
 
-body.product-page {
+.page-bg.product-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260601-fittings.jpg');
   background-size: cover;
   background-position: center;
@@ -111,7 +127,7 @@ body.product-page {
   background-repeat: no-repeat;
 }
 
-body.account-page {
+.page-bg.account-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-earth-day.jpg');
   background-size: cover;
   background-position: center;
@@ -119,7 +135,7 @@ body.account-page {
   background-repeat: no-repeat;
 }
 
-body.contact-page {
+.page-bg.contact-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-sunflower.jpg');
   background-size: cover;
   background-position: center;
@@ -127,7 +143,7 @@ body.contact-page {
   background-repeat: no-repeat;
 }
 
-body.cart-page {
+.page-bg.cart-page {
   background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-market.jpg');
   background-size: cover;
   background-position: center;
@@ -135,11 +151,39 @@ body.cart-page {
   background-repeat: no-repeat;
 }
 
-body > main {
+/* Collection/Sub Collection pages have no hero image, but still need
+   .page-bg to paint something other than transparent — otherwise the flex
+   space below a short .page-card (see reset.css .page-card) shows through to
+   an unstyled white canvas, breaking the dark theme and reading as a
+   "footer not at the bottom" bug even though the footer IS correctly pinned.
+   var(--color-dark) matches .footer's own background (app.css) so the card
+   flows straight into the footer with no visible seam, on any content
+   length. Solid color, not an image, since this route has no dedicated
+   photo the way home/product/account/contact/cart do. */
+.page-bg.collection-page {
+  background: var(--color-dark);
+}
+
+/* Solid black canvas on image pages: a plain color on body propagates to the
+   canvas, so overscroll/sub-pixel areas past the document edge render black —
+   identical to the footer — instead of white (or, previously, the image).
+   collection-page is included too now that .page-bg paints solid black for
+   it above. Other classless pages (policies…) keep their default white
+   canvas. */
+body.home-page,
+body.product-page,
+body.account-page,
+body.contact-page,
+body.cart-page,
+body.collection-page {
+  background-color: #000;
+}
+
+.page-bg > main {
   margin: 0 1rem 1rem 1rem;
 }
 
-body:not(.home-page) > main {
+.page-bg:not(.home-page) > main {
   padding-top: 50px;
   padding-bottom: 50px;
 }

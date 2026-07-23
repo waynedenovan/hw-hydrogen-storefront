@@ -1,0 +1,26 @@
+26072 claude
+
+"For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debuging a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
+
+context:
+- use "plan mode" for this task where you are asked to make changes, add functionality or identify how an aspect of this porjects works.
+- use "debug mode" when asked to identify any causes of the project that are not working or if you detect a bug.
+- use both modes when solving issues ie, finding a bug and then planing a code fix etc.
+- when indexing you are to strickly only use MCP: MCP-Bridge i.e. hoseworld-dev-knowledge
+- when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
+- INCLUDE ONLY: GIT branch folders when planing and implementing any needed actions or changes
+- git: I will always manually commit. Never offer or automatically try or exec a commit
+
+## Task requirements:
+- Follow each step
+- Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
+
+## Step 1: Planing
+- 
+
+## Step 2: Documentation and exit
+- update @26072_todo.md but exclude todo.md from any updating
+- update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
+    - hoseworld-dev-knowledge and any other MCP server that is relevent
+
+## --

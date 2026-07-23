@@ -92,6 +92,11 @@ type Pages = {
       "locale"?: string;
     };
   };
+  "/media/suppliers/*": {
+    params: {
+      "*": string;
+    };
+  };
   "/:locale?": {
     params: {
       "locale"?: string;
@@ -125,6 +130,9 @@ type Pages = {
   "/account/addresses": {
     params: {};
   };
+  "/account/wishlist": {
+    params: {};
+  };
   "/account/profile": {
     params: {};
   };
@@ -141,7 +149,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/management" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/media/suppliers/*" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -203,6 +211,10 @@ type RouteFiles = {
     id: "routes/($locale).contact";
     page: "/:locale?/contact";
   };
+  "routes/media.suppliers.$.tsx": {
+    id: "routes/media.suppliers.$";
+    page: "/media/suppliers/*";
+  };
   "routes/($locale)._index.tsx": {
     id: "routes/($locale)._index";
     page: "/:locale?";
@@ -229,7 +241,7 @@ type RouteFiles = {
   };
   "routes/account.tsx": {
     id: "routes/account";
-    page: "/account" | "/account/management" | "/account/addresses" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/account" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/account.management.tsx": {
     id: "routes/account.management";
@@ -238,6 +250,10 @@ type RouteFiles = {
   "routes/account.addresses.tsx": {
     id: "routes/account.addresses";
     page: "/account/addresses";
+  };
+  "routes/account.wishlist.tsx": {
+    id: "routes/account.wishlist";
+    page: "/account/wishlist";
   };
   "routes/account.profile.tsx": {
     id: "routes/account.profile";
@@ -278,6 +294,7 @@ type RouteModules = {
   "routes/($locale).checkout.cancel": typeof import("./app/routes/($locale).checkout.cancel.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
   "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
+  "routes/media.suppliers.$": typeof import("./app/routes/media.suppliers.$.tsx");
   "routes/($locale)._index": typeof import("./app/routes/($locale)._index.tsx");
   "routes/($locale).search": typeof import("./app/routes/($locale).search.tsx");
   "routes/($locale).cart": typeof import("./app/routes/($locale).cart.tsx");
@@ -287,6 +304,7 @@ type RouteModules = {
   "routes/account": typeof import("./app/routes/account.tsx");
   "routes/account.management": typeof import("./app/routes/account.management.tsx");
   "routes/account.addresses": typeof import("./app/routes/account.addresses.tsx");
+  "routes/account.wishlist": typeof import("./app/routes/account.wishlist.tsx");
   "routes/account.profile": typeof import("./app/routes/account.profile.tsx");
   "routes/account._index": typeof import("./app/routes/account._index.tsx");
   "routes/account.orders": typeof import("./app/routes/account.orders.tsx");

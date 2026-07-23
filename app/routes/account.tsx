@@ -71,6 +71,9 @@ function AccountNav() {
       <a href="/account/orders" style={linkStyle}>
         Orders
       </a>
+      <a href="/account/wishlist" style={linkStyle}>
+        Wish List
+      </a>
       <a href="/account/profile" style={linkStyle}>
         Profile
       </a>

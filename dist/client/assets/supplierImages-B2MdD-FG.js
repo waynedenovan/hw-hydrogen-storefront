@@ -1,1 +1,0 @@
-function o(e){const r=e.toLowerCase();return r.length<=4?r:r.slice(0,4)}function f(e,r){return!e||!r?null:`/media/suppliers/${o(e)}/${r}.jpg`}function g(e,r,t=9){const n=f(e,r);if(!n)return[];const c=o(e),i=Array.from({length:t+1},(u,s)=>`/media/suppliers/${c}/${r}_${s}.jpg`);return[n,...i]}export{g as a,f as g};

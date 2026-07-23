@@ -11,6 +11,7 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import type {Route} from './+types/root';
+import type {HeaderQuery} from 'storefrontapi.generated';
 import favicon from '~/assets/favicon.svg';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import {CUSTOMER_NAME_QUERY} from '~/graphql/customer-account/CustomerNameQuery';
@@ -97,24 +98,53 @@ export async function loader(args: Route.LoaderArgs) {
   };
 }
 
+// Last successful HEADER_QUERY result, kept at module level so a transient
+// Shopify outage degrades the site (stale header, pages still render) instead
+// of hard-500ing every request (task 2607191915: Shopify was the storefront's
+// only total-outage single point of failure). Static fallback covers a cold
+// process that has never seen a good response; Header.tsx already falls back
+// to FALLBACK_HEADER_MENU when menu is null.
+let lastGoodHeader: HeaderQuery | null = null;
+
+const STATIC_FALLBACK_HEADER = {
+  shop: {
+    id: 'gid://shopify/Shop/fallback',
+    name: 'Hose World',
+    description: null,
+    primaryDomain: {url: 'https://hoseworld.store'},
+    brand: null,
+  },
+  menu: null,
+} as unknown as HeaderQuery;
+
 /**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
+ * Load data necessary for rendering content above the fold. This is the critical
+ * data needed to render the page. The header is served from the last good copy
+ * (or a static fallback) when Shopify is unreachable, so the storefront never
+ * hard-500s on a header failure alone.
  */
 async function loadCriticalData({context}: Route.LoaderArgs) {
   const {storefront} = context;
 
-  const [header] = await Promise.all([
-    storefront.query(HEADER_QUERY, {
-      cache: storefront.CacheLong(),
-      variables: {
-        headerMenuHandle: 'main-menu', // Adjust to your header menu handle
-      },
-    }),
-    // Add other queries here, so that they are loaded in parallel
-  ]);
-
-  return {header};
+  try {
+    const [header] = await Promise.all([
+      storefront.query(HEADER_QUERY, {
+        cache: storefront.CacheLong(),
+        variables: {
+          headerMenuHandle: 'main-menu', // Adjust to your header menu handle
+        },
+      }),
+      // Add other queries here, so that they are loaded in parallel
+    ]);
+    if (header?.shop) lastGoodHeader = header;
+    return {header};
+  } catch (error) {
+    console.error(
+      '[root] HEADER_QUERY failed — serving fallback header:',
+      error instanceof Error ? error.message : error,
+    );
+    return {header: lastGoodHeader ?? STATIC_FALLBACK_HEADER};
+  }
 }
 
 /**

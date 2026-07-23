@@ -1,7 +1,9 @@
-import {useState} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
 import {getProductCardImageSrc} from '~/lib/supplierImages';
+import {withDisplayVat} from '~/lib/displayVat';
+import {WishlistButton} from '~/components/WishlistButton';
 
 interface ProductCardProps {
   product: {
@@ -22,6 +24,12 @@ interface ProductCardProps {
       };
     };
     brand?: {value: string} | null;
+    /**
+     * custom.type metafield — the supplier type code stripped from the
+     * Sub/Sub-Cat Collection display names (e.g. "ACAE", task 2607191357).
+     * Still identifies the sub collection now that names no longer carry it.
+     */
+    type?: {value: string} | null;
     msq?: {value: string} | null;
     supplierName?: {value: string} | null;
     externalProductId?: {value: string} | null;
@@ -40,10 +48,34 @@ export function ProductCard({product}: ProductCardProps) {
   const msq = Number(product.msq?.value);
   const showMoqRibbon = Number.isFinite(msq) && msq > 1;
   const [localImageFailed, setLocalImageFailed] = useState(false);
+  const localImageRef = useRef<HTMLImageElement>(null);
   const localImageSrc = getProductCardImageSrc(
     product.supplierName?.value,
     product.externalProductId?.value,
   );
+
+  // An SSR'd <img> whose 404 lands before React hydrates has already fired its
+  // error event by the time onError attaches — the handler never runs and the
+  // card shows a broken image instead of the "No image" placeholder (a race:
+  // worst on phones, where hydration is slowest). Re-check on mount for a
+  // failure that was missed that way (complete + naturalWidth 0 = failed).
+  useEffect(() => {
+    const img = localImageRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setLocalImageFailed(true);
+  }, []);
+  const noImageAvailable = !product.featuredImage && (!localImageSrc || localImageFailed);
+
+  // Dev-only trace for "no image" cases — the placeholder itself is expected UI,
+  // but silently showing it makes missing-image data issues hard to spot later.
+  useEffect(() => {
+    if (!noImageAvailable || !import.meta.env.DEV) return;
+    console.warn(
+      `[ProductCard] No image for "${product.title}" (${product.handle}): no Shopify featuredImage, and ` +
+        (localImageSrc
+          ? `local fallback 404'd at ${localImageSrc}.`
+          : 'no supplier_name/external_product_id metafields to build a local fallback path.'),
+    );
+  }, [noImageAvailable, localImageSrc, product.title, product.handle]);
 
   return (
     <div className="product-card group block">
@@ -58,9 +90,16 @@ export function ProductCard({product}: ProductCardProps) {
             />
           ) : localImageSrc && !localImageFailed ? (
             <img
+              ref={localImageRef}
               src={localImageSrc}
               alt={product.title}
-              onError={() => setLocalImageFailed(true)}
+              onError={() => {
+                console.warn(
+                  `[ProductCard] Local fallback image 404'd for "${product.title}" (${product.handle}): ${localImageSrc}. ` +
+                    `Check that supplier_name/external_product_id metafields match a real file under media/suppliers/.`,
+                );
+                setLocalImageFailed(true);
+              }}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
@@ -69,33 +108,43 @@ export function ProductCard({product}: ProductCardProps) {
             </div>
           )}
           {showMoqRibbon && (
-            <div className="moq-ribbon">Minimum qty: {msq}</div>
+            <div className="moq-ribbon">
+              <span className="moq-ribbon-label">Min Order Qty</span>
+              <span className="moq-ribbon-value">{msq}</span>
+            </div>
           )}
         </div>
         <div
-          className="mt-3"
+          className="mt-2"
           style={{
             background: 'rgba(50, 50, 50, 0.85)',
-            padding: '0.5rem 0.75rem',
+            padding: '0.4rem 0.5rem',
             borderRadius: '6px',
           }}
         >
-          <h3 className="text-sm font-semibold text-white group-hover:underline truncate">
+          {/* h3/p font-size + font-weight are set in app.css (.product-card h3/p) —
+              Tailwind text-size/font-weight utility classes here would be silently
+              overridden by reset.css's unlayered h3/p rules, see app.css comment. */}
+          <h3 className="leading-snug text-white group-hover:underline">
             {product.title}
           </h3>
           {product.brand?.value && (
-            <p className="text-xs text-gray-300 mt-0.5">{product.brand.value}</p>
+            <p className="text-gray-300 mt-0.5">{product.brand.value}</p>
           )}
           {product.productType && (
-            <p className="text-xs text-gray-400 mt-0.5">{product.productType}</p>
+            <p className="text-gray-400 mt-0.5">{product.productType}</p>
           )}
-          <div className="mt-1 text-sm font-medium text-white">
-            <Money data={product.priceRange.minVariantPrice} />
+          {product.type?.value && (
+            <p className="text-gray-400 mt-0.5">Type: {product.type.value}</p>
+          )}
+          <div className="mt-1 text-white product-price-display">
+            <Money data={withDisplayVat(product.priceRange.minVariantPrice)} />
           </div>
         </div>
       </Link>
-      {firstVariant && (
-        <fetcher.Form method="post" action="/cart">
+      <div className="product-card-actions">
+        {firstVariant && (
+        <fetcher.Form method="post" action="/cart" className="product-card-cart-form">
           <input
             type="hidden"
             name={CartForm.INPUT_NAME}
@@ -105,7 +154,9 @@ export function ProductCard({product}: ProductCardProps) {
                 lines: [
                   {
                     merchandiseId: firstVariant.id,
-                    quantity: 1,
+                    // MOQ products must enter the cart already at their minimum
+                    // order quantity, not 1 — see moq_cart_msq_stepping pattern.
+                    quantity: showMoqRibbon ? msq : 1,
                   },
                 ],
               },
@@ -122,8 +173,25 @@ export function ProductCard({product}: ProductCardProps) {
               ? 'Adding...'
               : 'Add to Cart'}
           </button>
+          {/* Shopify silently caps quantity to whatever's actually in stock
+              (MERCHANDISE_NOT_ENOUGH_STOCK) instead of rejecting the add — surface
+              that here so a lower-than-requested cart quantity doesn't look like a
+              stepping/MOQ bug. See moq_cart_msq_stepping pattern. */}
+          {(fetcher.data as {warnings?: {message: string}[]} | undefined)?.warnings?.map(
+            (warning, index) => (
+              <p key={index} className="cart-stock-warning">
+                {warning.message}
+              </p>
+            ),
+          )}
         </fetcher.Form>
-      )}
+        )}
+        <WishlistButton
+          productId={product.id}
+          productHandle={product.handle}
+          productTitle={product.title}
+        />
+      </div>
     </div>
   );
 }

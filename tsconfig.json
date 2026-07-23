@@ -29,7 +29,6 @@
       "~/*": ["./app/*"]
     },
     "types": [
-      "@shopify/oxygen-workers-types",
       "@shopify/hydrogen/react-router-types",
       "vite/client"
     ],

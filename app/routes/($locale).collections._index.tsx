@@ -1,17 +1,23 @@
 import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData} from 'react-router';
-import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import {CollectionCard} from '~/components/CollectionCard';
+import {sortMainCollections} from '~/lib/fixedCollections';
 
 export async function loader(args: LoaderFunctionArgs) {
-  const {context, request} = args;
-  const paginationVariables = getPaginationVariables(request, {pageBy: 8});
+  const {context} = args;
 
-  const {collections} = await context.storefront.query(COLLECTIONS_QUERY, {
-    variables: paginationVariables,
-  });
-
-  return {collections};
+  const data = await context.storefront.query(COLLECTIONS_QUERY);
+  // Same view as the homepage: only the fixed main Collections
+  // (custom.collection_role = "main"), in the fixed list's order. Falls back to
+  // the full list until the admin app's Collections setup has been run.
+  const nodes = (data.collections?.nodes ?? []) as any[];
+  const mains = nodes.filter((col) => col.role?.value === 'main');
+  return {
+    collections:
+      mains.length > 0
+        ? sortMainCollections(mains)
+        : nodes.filter((col) => col.title !== 'JSON Imported'),
+  };
 }
 
 export default function Collections() {
@@ -20,37 +26,29 @@ export default function Collections() {
   return (
     <div className="collections max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Collections</h1>
-      <Pagination connection={collections}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
-          <>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>Load previous</span>}
-            </PreviousLink>
-            <div className="collections-grid">
-              {nodes.map((collection: any) => (
-                <CollectionCard key={collection.id} collection={collection} />
-              ))}
-            </div>
-            <NextLink>
-              {isLoading ? 'Loading...' : <span>Load more</span>}
-            </NextLink>
-          </>
-        )}
-      </Pagination>
+      {collections.length > 0 ? (
+        <div className="collections-grid">
+          {collections.map((collection: any) => (
+            <CollectionCard
+              key={collection.id}
+              collection={collection}
+              headingLevel="h2"
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 py-8">No collections available yet.</p>
+      )}
     </div>
   );
 }
 
 const COLLECTIONS_QUERY = `#graphql
   query Collections(
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+    collections(first: 100) {
       nodes {
         id
         title
@@ -61,12 +59,9 @@ const COLLECTIONS_QUERY = `#graphql
           width
           height
         }
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
+        role: metafield(namespace: "custom", key: "collection_role") {
+          value
+        }
       }
     }
   }

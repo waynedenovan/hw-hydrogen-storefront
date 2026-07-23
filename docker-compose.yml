@@ -1,0 +1,25 @@
+services:
+  hydrogen-storefront:
+    build: .
+    # Tag local builds so they're push-ready for the production registry flow
+    # (see guides/production-deploy.md). REGISTRY example: docker.io/<namespace>
+    # or ghcr.io/<user>. TAG normally comes from the repo-root VERSION file via
+    # scripts/release.sh; plain `docker compose build` still works unchanged.
+    image: ${REGISTRY:-hoseworld}/hw-hydrogen-storefront:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "5130:5130"
+    volumes:
+      # media/suppliers is a symlink (see ./media/suppliers) into the sibling
+      # ../hw-hydrogen-storefront checkout's real data to avoid duplicating
+      # 8.4GB — symlinks with absolute host targets don't resolve inside a
+      # container's mount namespace, so bind-mount the real directory directly.
+      - ../hw-hydrogen-storefront/media:/app/media:ro
+    env_file:
+      - .env
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: "1420"
