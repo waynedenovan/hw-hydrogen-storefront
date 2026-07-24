@@ -451,14 +451,18 @@ const COLLECTION_QUERY = `#graphql
 ` as const;
 
 // All collections with their parent-assignment metafield — filtered in the
-// loader down to the children of one main Collection. Collection count for this
-// store stays well under 100 (17 fixed + imported subs).
+// loader down to the children of one main Collection. first: 250 is Shopify's
+// per-connection max; total collection count (17 fixed + imported subs) is
+// currently 137 and grows with the supplier catalog, so this must stay at the
+// max rather than an arbitrary lower number (a first: 100 cap here silently
+// dropped fixed/sub collections once the store passed 100 total — see
+// ($locale)._index.tsx / ($locale).collections._index.tsx for the same bug).
 const CHILD_COLLECTIONS_QUERY = `#graphql
   query ChildCollections(
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 100) {
+    collections(first: 250) {
       nodes {
         id
         title

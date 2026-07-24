@@ -70,7 +70,7 @@ const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 100) {
+    collections(first: 250) {
       nodes {
         id
         title
