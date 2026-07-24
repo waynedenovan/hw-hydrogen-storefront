@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import {Link, useFetcher} from 'react-router';
 import {Image, Money, CartForm} from '@shopify/hydrogen';
-import {getProductCardImageSrc} from '~/lib/supplierImages';
+import {getProductCardImageSrc, getImagesFromMetafield} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
 import {WishlistButton} from '~/components/WishlistButton';
 
@@ -33,6 +33,8 @@ interface ProductCardProps {
     msq?: {value: string} | null;
     supplierName?: {value: string} | null;
     externalProductId?: {value: string} | null;
+    /** custom.images metafield — ";"-delimited, first value is the main image. */
+    images?: {value: string} | null;
     variants?: {
       nodes: {
         id: string;
@@ -49,10 +51,16 @@ export function ProductCard({product}: ProductCardProps) {
   const showMoqRibbon = Number.isFinite(msq) && msq > 1;
   const [localImageFailed, setLocalImageFailed] = useState(false);
   const localImageRef = useRef<HTMLImageElement>(null);
-  const localImageSrc = getProductCardImageSrc(
+  // Task 2607240845: custom.images (explicit ";"-delimited list, main image
+  // first) is preferred over the old guessed bare-filename fallback — falls
+  // back to the guess only for products without an images metafield value yet.
+  const explicitImageSrc = getImagesFromMetafield(
     product.supplierName?.value,
-    product.externalProductId?.value,
-  );
+    product.images?.value,
+  )[0];
+  const localImageSrc =
+    explicitImageSrc ??
+    getProductCardImageSrc(product.supplierName?.value, product.externalProductId?.value);
 
   // An SSR'd <img> whose 404 lands before React hydrates has already fired its
   // error event by the time onError attaches — the handler never runs and the

@@ -78,3 +78,49 @@ export function getSupplierDocSrc(
   const prefix = getSupplierFolderPrefix(supplierName);
   return `/media/suppliers/${prefix}/docs/${value}`;
 }
+
+// Task 2607240845: custom.images / custom.tech_info_pdf / custom.user_manual_pdf
+// can each hold multiple ";"-delimited values (built by
+// hw-storefront-ui-node-docker's scripts/generate-agrinet-media.mjs from a
+// per-supplier media file, not the products JSON). Splits on ";" and trims
+// each entry; empty entries are kept (not filtered) so a product with gallery
+// images but no main image — e.g. "" followed by real filenames — can still
+// be told apart from "nothing at all" by callers that care (see
+// getImagesFromMetafield below).
+export function parseDelimitedMediaValue(value: string | null | undefined): string[] {
+  if (!value) return [];
+  return value.split(';').map((entry) => entry.trim());
+}
+
+// custom.images: first value is the main image (Product Card + Detail page),
+// any further values are Detail-page-only gallery images — the same
+// card/gallery split getProductCardImageSrc/getProductGalleryImageSrcs
+// already render, just from an explicit list instead of guessed
+// {productId}_0..9 filenames (real files use _1.._16+, so the guess was
+// already an approximation). Returns full URLs in order, main first, with
+// empty entries dropped — callers that already treat position 0 as "main"
+// (ProductCard's localImageSrc, the Detail page's gallerySrcs[0]) don't need
+// any other change.
+export function getImagesFromMetafield(
+  supplierName: string | null | undefined,
+  imagesValue: string | null | undefined,
+): string[] {
+  if (!supplierName) return [];
+  const entries = parseDelimitedMediaValue(imagesValue).filter((entry) => entry !== '');
+  if (entries.length === 0) return [];
+  const prefix = getSupplierFolderPrefix(supplierName);
+  return entries.map((filename) => `/media/suppliers/${prefix}/${filename}`);
+}
+
+// custom.tech_info_pdf / custom.user_manual_pdf: each ";"-delimited value
+// resolved the same way getSupplierDocSrc resolves a single value (full URL
+// as-is, or a local media/suppliers/{prefix}/docs/{filename} path).
+export function getSupplierDocSrcs(
+  supplierName: string | null | undefined,
+  value: string | null | undefined,
+): string[] {
+  return parseDelimitedMediaValue(value)
+    .filter((entry) => entry !== '')
+    .map((entry) => getSupplierDocSrc(supplierName, entry))
+    .filter((src): src is string => src !== null);
+}
