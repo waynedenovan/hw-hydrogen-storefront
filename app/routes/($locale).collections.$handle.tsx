@@ -48,17 +48,16 @@ export async function loader(args: LoaderFunctionArgs) {
     throw new Response('Collection not found', {status: 404});
   }
 
-  // Every collection tier (Main -> Sub -> Sub-Cat, task 2607271000) is checked
-  // for children the same way, generically — a page shows its children as
-  // tiles when any exist (spec 2607171535, extended one tier deeper) and falls
-  // back to the product grid only for a genuine leaf. A child's assignment
-  // lives in its custom.parent_collection metafield (its parent's TITLE),
-  // written by the admin app's Collections page. Tiles sort and label by the
-  // child's cleaned display name ("BINDING", task 2607191357) — the coded
-  // title ("AC BINDING") stays the identity key/handle source. This one fetch
-  // also supplies the breadcrumb's ancestor-title-to-handle lookups below, so
-  // it always runs (not just for role === 'main' as before) rather than
-  // duplicating a second all-collections round trip just for that.
+  // Only a Main Collection page ever shows child tiles (computeChildTier,
+  // task 2607271535) — every other page falls back to the product grid. A
+  // child's assignment lives in its custom.parent_collection metafield (its
+  // parent's TITLE), written by the admin app's Collections page. Tiles sort
+  // and label by the child's cleaned display name ("BINDING", task
+  // 2607191357) — the coded title ("AC BINDING") stays the identity
+  // key/handle source. This one fetch also supplies the breadcrumb's
+  // ancestor-title-to-handle lookups below, so it always runs regardless of
+  // the current collection's role rather than duplicating a second
+  // all-collections round trip just for that.
   const allNodes = await fetchAllCollections<any>(storefront, CHILD_COLLECTIONS_QUERY);
   const byNormTitle = new Map(allNodes.map((c) => [c.title.trim().toLowerCase(), c]));
 
@@ -82,28 +81,36 @@ function childrenOf(allNodes: any[], normTitle: string) {
 }
 
 // Decides which tier of tiles (if any) a collection page should show, and at
-// what heading level. Every tier is checked for children the same way,
-// generically — a page shows its children as tiles when any exist (spec
-// 2607171535, extended one tier deeper by task 2607271000) and falls back to
-// the product grid only for a genuine leaf.
+// what heading level. Only a Main Collection page ever shows child tiles —
+// every other page (Sub or Sub-Cat) is a leaf that always renders its
+// product grid. This is a deliberate walk-back (task 2607271535) of the
+// "every tier checks for children generically" rule task 2607271000 shipped:
+// living with a real 3rd Collection tier everywhere showed that a Sub
+// Collection page drilling into its own Sub-Cat tiles was one click too many
+// for no benefit — a Sub page should always be the product grid.
 //
-// Rule (task 2607271300): a Main Collection fed by exactly one Sub Collection
-// (e.g. Welding, PPE, Agricultural, Garden Irrigation — each sourced from a
-// single supplier code) skips that redundant single-tile layer and is
-// populated directly by the Sub's own Sub-Cat children instead. A Main with
-// multiple Sub Collections is unaffected. If the lone Sub itself has no
-// Sub-Cat children, fall through to the product grid — products are already
-// members of Main + Sub + Sub-Cat simultaneously (task 2607271000), so Main's
-// own product list is already complete.
+// Rule (task 2607271300, kept): a Main Collection fed by exactly one Sub
+// Collection (e.g. Welding, PPE, Agricultural, Garden Irrigation — each
+// sourced from a single supplier code) skips that redundant single-tile
+// layer and is populated directly by the Sub's own Sub-Cat children instead
+// — this is still the ONLY case where Sub-Cat Collections ever appear as
+// tiles. If the lone Sub itself has no Sub-Cat children, fall through to the
+// product grid — products are already members of Main + Sub + Sub-Cat
+// simultaneously (task 2607271000), so Main's own product list is already
+// complete.
 export function computeChildTier(
   collection: any,
   allNodes: any[],
 ): {subCollections: any[]; childHeadingLevel: 'h3' | 'h4'} {
+  if (collection.role?.value !== 'main') {
+    return {subCollections: [], childHeadingLevel: 'h4'};
+  }
+
   const wanted = collection.title.trim().toLowerCase();
   let subCollections = childrenOf(allNodes, wanted);
-  let childHeadingLevel: 'h3' | 'h4' = collection.role?.value === 'main' ? 'h3' : 'h4';
+  let childHeadingLevel: 'h3' | 'h4' = 'h3';
 
-  if (collection.role?.value === 'main' && subCollections.length === 1) {
+  if (subCollections.length === 1) {
     const soleSubWanted = subCollections[0].title.trim().toLowerCase();
     const grandchildren = childrenOf(allNodes, soleSubWanted);
     if (grandchildren.length > 0) {
@@ -252,9 +259,9 @@ function SubCollectionsView({
   childHeadingLevel: 'h3' | 'h4';
   breadcrumb: {title: string; handle: string}[];
 }) {
-  // A Main's children are normally Sub Collections (h3); a Sub's children are
-  // Sub-Cat Collections (h4). Since task 2607271300, a Main fed by exactly one
-  // Sub Collection displays that Sub's own Sub-Cat children instead (h4) — the
+  // Only a Main page ever reaches this view: normally showing its own Sub
+  // Collections (h3), or — for a Main fed by exactly one Sub Collection
+  // (task 2607271300) — that Sub's own Sub-Cat children instead (h4). The
   // loader computes the correct level for either case, so it's passed down
   // rather than re-derived from collection.role here.
   return (

@@ -50,17 +50,27 @@ describe('computeChildTier', () => {
     expect(subCollections).toEqual([]);
   });
 
-  it('leaves a Sub Collection page unaffected (still checks its own Sub-Cat children directly, h4)', () => {
+  it('a Sub Collection page always falls through to products, even with multiple Sub-Cat children (task 2607271535)', () => {
     const sub = {title: 'Welding (RB)', role: {value: 'sub'}};
     const allNodes = [
       node('Welding Electrodes', 'Welding (RB)'),
       node('Welding Accessories', 'Welding (RB)'),
     ];
-    const {subCollections, childHeadingLevel} = computeChildTier(sub, allNodes);
-    expect(subCollections.map((c: any) => c.title)).toEqual([
-      'Welding Accessories',
-      'Welding Electrodes',
-    ]);
-    expect(childHeadingLevel).toBe('h4');
+    const {subCollections} = computeChildTier(sub, allNodes);
+    expect(subCollections).toEqual([]);
+  });
+
+  it('a Sub Collection page falls through to products even with exactly one Sub-Cat child', () => {
+    const sub = {title: 'Fittings (HF)', role: {value: 'sub'}};
+    const allNodes = [node('Fittings Accessories', 'Fittings (HF)')];
+    const {subCollections} = computeChildTier(sub, allNodes);
+    expect(subCollections).toEqual([]);
+  });
+
+  it('a Sub-Cat Collection page (leaf) always falls through to products', () => {
+    const subCat = {title: 'Welding Electrodes', role: {value: 'subcat'}};
+    const allNodes = [node('Welding Electrodes', 'Welding (RB)')];
+    const {subCollections} = computeChildTier(subCat, allNodes);
+    expect(subCollections).toEqual([]);
   });
 });
