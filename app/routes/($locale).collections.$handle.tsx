@@ -39,6 +39,7 @@ export async function loader(args: LoaderFunctionArgs) {
         products,
       },
       subCollections: null,
+      childHeadingLevel: 'h3' as const,
       breadcrumb: [],
     };
   }
@@ -61,18 +62,59 @@ export async function loader(args: LoaderFunctionArgs) {
   const allNodes = await fetchAllCollections<any>(storefront, CHILD_COLLECTIONS_QUERY);
   const byNormTitle = new Map(allNodes.map((c) => [c.title.trim().toLowerCase(), c]));
 
-  const wanted = collection.title.trim().toLowerCase();
-  const subCollections = allNodes
-    .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
-    .sort((a, b) => getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}));
-
+  const {subCollections, childHeadingLevel} = computeChildTier(collection, allNodes);
   const breadcrumb = buildBreadcrumb(collection, byNormTitle);
 
   if (subCollections.length > 0) {
-    return {collection, subCollections, breadcrumb};
+    return {collection, subCollections, childHeadingLevel, breadcrumb};
   }
 
-  return {collection, subCollections: null, breadcrumb};
+  return {collection, subCollections: null, childHeadingLevel, breadcrumb};
+}
+
+// Direct children of normTitle (a lowercased/trimmed collection title) by
+// custom.parent_collection, sorted by display name — shared by the direct
+// lookup and the one-level-deeper lookup in computeChildTier below.
+function childrenOf(allNodes: any[], normTitle: string) {
+  return allNodes
+    .filter((c) => (c.parent?.value || '').trim().toLowerCase() === normTitle)
+    .sort((a, b) => getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}));
+}
+
+// Decides which tier of tiles (if any) a collection page should show, and at
+// what heading level. Every tier is checked for children the same way,
+// generically — a page shows its children as tiles when any exist (spec
+// 2607171535, extended one tier deeper by task 2607271000) and falls back to
+// the product grid only for a genuine leaf.
+//
+// Rule (task 2607271300): a Main Collection fed by exactly one Sub Collection
+// (e.g. Welding, PPE, Agricultural, Garden Irrigation — each sourced from a
+// single supplier code) skips that redundant single-tile layer and is
+// populated directly by the Sub's own Sub-Cat children instead. A Main with
+// multiple Sub Collections is unaffected. If the lone Sub itself has no
+// Sub-Cat children, fall through to the product grid — products are already
+// members of Main + Sub + Sub-Cat simultaneously (task 2607271000), so Main's
+// own product list is already complete.
+export function computeChildTier(
+  collection: any,
+  allNodes: any[],
+): {subCollections: any[]; childHeadingLevel: 'h3' | 'h4'} {
+  const wanted = collection.title.trim().toLowerCase();
+  let subCollections = childrenOf(allNodes, wanted);
+  let childHeadingLevel: 'h3' | 'h4' = collection.role?.value === 'main' ? 'h3' : 'h4';
+
+  if (collection.role?.value === 'main' && subCollections.length === 1) {
+    const soleSubWanted = subCollections[0].title.trim().toLowerCase();
+    const grandchildren = childrenOf(allNodes, soleSubWanted);
+    if (grandchildren.length > 0) {
+      subCollections = grandchildren;
+      childHeadingLevel = 'h4';
+    } else {
+      subCollections = [];
+    }
+  }
+
+  return {subCollections, childHeadingLevel};
 }
 
 // Walks the parent_collection metafield chain up to the root, using the
@@ -157,7 +199,7 @@ function FilterCheckboxGroup({
 }
 
 export default function Collection() {
-  const {collection, subCollections, breadcrumb} = useLoaderData<typeof loader>();
+  const {collection, subCollections, childHeadingLevel, breadcrumb} = useLoaderData<typeof loader>();
 
   // Main/Sub Collection → grid of its assigned child tiles (Sub or Sub-Cat,
   // task 2607271000). Rendered by a separate component from the product view
@@ -165,7 +207,12 @@ export default function Collection() {
   // component instance is reused across $handle param changes).
   if (subCollections) {
     return (
-      <SubCollectionsView collection={collection} subCollections={subCollections} breadcrumb={breadcrumb} />
+      <SubCollectionsView
+        collection={collection}
+        subCollections={subCollections}
+        childHeadingLevel={childHeadingLevel}
+        breadcrumb={breadcrumb}
+      />
     );
   }
 
@@ -197,16 +244,19 @@ function Breadcrumb({trail}: {trail: {title: string; handle: string}[]}) {
 function SubCollectionsView({
   collection,
   subCollections,
+  childHeadingLevel,
   breadcrumb,
 }: {
   collection: any;
   subCollections: any[];
+  childHeadingLevel: 'h3' | 'h4';
   breadcrumb: {title: string; handle: string}[];
 }) {
-  // A Main's children are Sub Collections (h3, unchanged from before task
-  // 2607271000); a Sub's children are Sub-Cat Collections — one heading level
-  // deeper (h4) since the page is now 3 tiers deep, not 2.
-  const childHeadingLevel = collection.role?.value === 'main' ? 'h3' : 'h4';
+  // A Main's children are normally Sub Collections (h3); a Sub's children are
+  // Sub-Cat Collections (h4). Since task 2607271300, a Main fed by exactly one
+  // Sub Collection displays that Sub's own Sub-Cat children instead (h4) — the
+  // loader computes the correct level for either case, so it's passed down
+  // rather than re-derived from collection.role here.
   return (
     <div className="page-card page-card--wide">
       <div className="collection max-w-7xl mx-auto px-4 py-8">
