@@ -21,12 +21,13 @@ interface CollectionCardProps {
     displayName?: {value: string} | null;
   };
   /**
-   * Heading element for the tile name — spec (2607171535): main Collections use
-   * h2, Sub Collections use h3. The name is centred both horizontally and
-   * vertically over the tile; the dark chip look comes from the sitewide
-   * reset.css h1-h5 rule (the standard for text over images).
+   * Heading element for the tile name — spec (2607171535, extended by task
+   * 2607271000): main Collections use h2, Sub Collections use h3, Sub-Cat
+   * Collections use h4. The name is centred both horizontally and vertically
+   * over the tile; the dark chip look comes from the sitewide reset.css
+   * h1-h5 rule (the standard for text over images).
    */
-  headingLevel?: 'h2' | 'h3';
+  headingLevel?: 'h2' | 'h3' | 'h4';
 }
 
 export function CollectionCard({collection, headingLevel = 'h3'}: CollectionCardProps) {

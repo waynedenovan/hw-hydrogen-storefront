@@ -19,6 +19,7 @@ context:
 - 
 
 ## Step 2: Documentation and exit
+- Update Verion to reflect the Commit count as per every task
 - update @26072_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent

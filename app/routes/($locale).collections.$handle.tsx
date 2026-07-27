@@ -1,9 +1,10 @@
 import {useState} from 'react';
 import {type LoaderFunctionArgs} from 'react-router';
-import {useLoaderData, useSearchParams} from 'react-router';
+import {useLoaderData, useSearchParams, Link} from 'react-router';
 import {ProductCard} from '~/components/ProductCard';
 import {CollectionCard} from '~/components/CollectionCard';
 import {ScrollToTopButton} from '~/components/ScrollToTopButton';
+import {fetchAllCollections} from '~/lib/collections';
 
 // Collection-wide product count for this store is small (~180) — fetching everything
 // in one request and grouping/filtering here is simpler and more maintainable than
@@ -38,6 +39,7 @@ export async function loader(args: LoaderFunctionArgs) {
         products,
       },
       subCollections: null,
+      breadcrumb: [],
     };
   }
 
@@ -45,24 +47,53 @@ export async function loader(args: LoaderFunctionArgs) {
     throw new Response('Collection not found', {status: 404});
   }
 
-  // Fixed main Collections (custom.collection_role = "main") don't show products —
-  // they show their assigned Sub Collections as tiles (spec 2607171535). A sub's
-  // assignment lives in its custom.parent_collection metafield (the main
-  // collection's TITLE), written by the admin app's Collections page. Tiles sort
-  // and label by the sub's cleaned display name ("BINDING", task 2607191357) —
-  // the coded title ("AC BINDING") stays the identity key/handle source.
-  if ((collection as any).role?.value === 'main') {
-    const childData = await storefront.query(CHILD_COLLECTIONS_QUERY);
-    const wanted = collection.title.trim().toLowerCase();
-    const subCollections = ((childData.collections?.nodes ?? []) as any[])
-      .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
-      .sort((a, b) =>
-        getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}),
-      );
-    return {collection, subCollections};
+  // Every collection tier (Main -> Sub -> Sub-Cat, task 2607271000) is checked
+  // for children the same way, generically — a page shows its children as
+  // tiles when any exist (spec 2607171535, extended one tier deeper) and falls
+  // back to the product grid only for a genuine leaf. A child's assignment
+  // lives in its custom.parent_collection metafield (its parent's TITLE),
+  // written by the admin app's Collections page. Tiles sort and label by the
+  // child's cleaned display name ("BINDING", task 2607191357) — the coded
+  // title ("AC BINDING") stays the identity key/handle source. This one fetch
+  // also supplies the breadcrumb's ancestor-title-to-handle lookups below, so
+  // it always runs (not just for role === 'main' as before) rather than
+  // duplicating a second all-collections round trip just for that.
+  const allNodes = await fetchAllCollections<any>(storefront, CHILD_COLLECTIONS_QUERY);
+  const byNormTitle = new Map(allNodes.map((c) => [c.title.trim().toLowerCase(), c]));
+
+  const wanted = collection.title.trim().toLowerCase();
+  const subCollections = allNodes
+    .filter((c) => (c.parent?.value || '').trim().toLowerCase() === wanted)
+    .sort((a, b) => getDisplayName(a).localeCompare(getDisplayName(b), undefined, {numeric: true}));
+
+  const breadcrumb = buildBreadcrumb(collection, byNormTitle);
+
+  if (subCollections.length > 0) {
+    return {collection, subCollections, breadcrumb};
   }
 
-  return {collection, subCollections: null};
+  return {collection, subCollections: null, breadcrumb};
+}
+
+// Walks the parent_collection metafield chain up to the root, using the
+// all-collections snapshot the loader already fetched (byNormTitle) to
+// resolve each ancestor's own handle for the link — no extra network round
+// trips. Capped at 5 hops as a belt-and-braces guard against a future data
+// error creating a parent cycle (today's real hierarchy is exactly 3 deep:
+// Main -> Sub -> Sub-Cat, so a Main's own trail is always empty and a
+// Sub-Cat's is always [Main, Sub]).
+function buildBreadcrumb(collection: any, byNormTitle: Map<string, any>) {
+  const trail: {title: string; handle: string}[] = [];
+  let parentTitle = (collection.parent?.value || '').trim();
+  let hops = 0;
+  while (parentTitle && hops < 5) {
+    const node = byNormTitle.get(parentTitle.toLowerCase());
+    if (!node) break;
+    trail.unshift({title: getDisplayName(node), handle: node.handle});
+    parentTitle = (node.parent?.value || '').trim();
+    hops++;
+  }
+  return trail;
 }
 
 // Cleaned display name for a collection (custom.display_name, written by the
@@ -126,31 +157,62 @@ function FilterCheckboxGroup({
 }
 
 export default function Collection() {
-  const {collection, subCollections} = useLoaderData<typeof loader>();
+  const {collection, subCollections, breadcrumb} = useLoaderData<typeof loader>();
 
-  // Main (fixed) Collection → grid of its assigned Sub Collection tiles.
-  // Rendered by a separate component from the product view so the hook count
-  // stays stable when navigating between a main and a sub collection (the route
+  // Main/Sub Collection → grid of its assigned child tiles (Sub or Sub-Cat,
+  // task 2607271000). Rendered by a separate component from the product view
+  // so the hook count stays stable when navigating between tiers (the route
   // component instance is reused across $handle param changes).
   if (subCollections) {
-    return <SubCollectionsView collection={collection} subCollections={subCollections} />;
+    return (
+      <SubCollectionsView collection={collection} subCollections={subCollections} breadcrumb={breadcrumb} />
+    );
   }
 
-  return <CollectionProductsView collection={collection} />;
+  return <CollectionProductsView collection={collection} breadcrumb={breadcrumb} />;
+}
+
+// Trail of ancestor tiers above the current page (Main, and Main > Sub for a
+// Sub-Cat page) — empty for a Main, which has no parent. Plain text/links
+// styled to match the existing dark-card look; no new page chrome.
+function Breadcrumb({trail}: {trail: {title: string; handle: string}[]}) {
+  if (trail.length === 0) return null;
+  return (
+    <nav className="collection-breadcrumb text-sm text-gray-300 mb-2" aria-label="Breadcrumb">
+      <Link to="/collections" className="hover:text-white hover:underline">
+        Collections
+      </Link>
+      {trail.map((t) => (
+        <span key={t.handle}>
+          {' / '}
+          <Link to={`/collections/${t.handle}`} className="hover:text-white hover:underline">
+            {t.title}
+          </Link>
+        </span>
+      ))}
+    </nav>
+  );
 }
 
 function SubCollectionsView({
   collection,
   subCollections,
+  breadcrumb,
 }: {
   collection: any;
   subCollections: any[];
+  breadcrumb: {title: string; handle: string}[];
 }) {
+  // A Main's children are Sub Collections (h3, unchanged from before task
+  // 2607271000); a Sub's children are Sub-Cat Collections — one heading level
+  // deeper (h4) since the page is now 3 tiers deep, not 2.
+  const childHeadingLevel = collection.role?.value === 'main' ? 'h3' : 'h4';
   return (
     <div className="page-card page-card--wide">
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">
           <div>
+            <Breadcrumb trail={breadcrumb} />
             <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
             {collection.description && (
               <p className="collection-description text-gray-300 mb-6">
@@ -162,7 +224,7 @@ function SubCollectionsView({
         {subCollections.length > 0 ? (
           <div className="collections-grid">
             {subCollections.map((sub: any) => (
-              <CollectionCard key={sub.id} collection={sub} headingLevel="h3" />
+              <CollectionCard key={sub.id} collection={sub} headingLevel={childHeadingLevel} />
             ))}
           </div>
         ) : (
@@ -175,7 +237,7 @@ function SubCollectionsView({
   );
 }
 
-function CollectionProductsView({collection}: {collection: any}) {
+function CollectionProductsView({collection, breadcrumb}: {collection: any; breadcrumb: {title: string; handle: string}[]}) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const allProducts: any[] = collection.products.nodes;
@@ -244,6 +306,7 @@ function CollectionProductsView({collection}: {collection: any}) {
       <div className="collection max-w-7xl mx-auto px-4 py-8">
         <div className="collection-header">
           <div>
+            <Breadcrumb trail={breadcrumb} />
             <h1 className="text-3xl font-bold mb-2 text-white">{getDisplayName(collection)}</h1>
             {collection.description && (
               <p className="collection-description text-gray-300 mb-6">
@@ -440,6 +503,9 @@ const COLLECTION_QUERY = `#graphql
       typeCode: metafield(namespace: "custom", key: "collection_type") {
         value
       }
+      parent: metafield(namespace: "custom", key: "parent_collection") {
+        value
+      }
       products(first: $first) {
         nodes {
           ...CollectionProductFields
@@ -459,10 +525,15 @@ const COLLECTION_QUERY = `#graphql
 // ($locale)._index.tsx / ($locale).collections._index.tsx for the same bug).
 const CHILD_COLLECTIONS_QUERY = `#graphql
   query ChildCollections(
+    $cursor: String
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 250) {
+    collections(first: 250, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         id
         title
