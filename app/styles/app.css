@@ -1167,8 +1167,13 @@ aside input::placeholder {
 }
 
 /* Collection tile: name centred both horizontally and vertically over the image
-   (spec 2607171535 — main Collections h2, Sub Collections h3). The heading keeps
-   its sitewide dark-chip look from reset.css (text-over-image standard). */
+   (spec 2607171535 — main Collections h2, Sub Collections h3, extended to h4 for
+   Sub-Cat tiles). The heading keeps its sitewide dark-chip look from reset.css
+   (text-over-image standard) on Tier 1 (not .page-card-wrapped); when the tile
+   grid is nested inside .page-card (Tier 2/3, SubCollectionsView), the chip is
+   restored explicitly below (see the .page-card .collection-item-title-wrap
+   rule, task 2607280855) since that wrapper's own h1-h5 override would
+   otherwise strip it. */
 .collection-item-media {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -1198,10 +1203,33 @@ aside input::placeholder {
 }
 
 .collection-item-title-wrap h2,
-.collection-item-title-wrap h3 {
+.collection-item-title-wrap h3,
+.collection-item-title-wrap h4 {
   margin: 0;
   text-align: center;
   max-width: 100%;
+}
+
+/* Task 2607280855: Sub/Sub-Cat Collection tiles (rendered via SubCollectionsView
+   in routes/($locale).collections.$handle.tsx) sit inside the page's outer
+   `.page-card`, whose h1-h5 override above (line ~86) strips the sitewide dark
+   chip -- that override exists for headings that sit ON the page-card's own
+   dark background (redundant nested box), but a CollectionCard tile's
+   background is its OWN image, not the page-card's, so it still needs its
+   per-tile chip exactly like the Tier 1 homepage grid (which isn't wrapped in
+   .page-card and was never affected). Restored here with higher specificity
+   so Tier 2/3 tiles exactly match Tier 1's look regardless of page-card
+   nesting. Reference: app/errors/260728084144-errors.png (Tier 1, correct) vs
+   260728084157/260728084207-errors.png (Tier 2, missing chip, before fix). */
+.page-card .collection-item-title-wrap h2,
+.page-card .collection-item-title-wrap h3,
+.page-card .collection-item-title-wrap h4 {
+  background: rgba(50, 50, 50, 0.85);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  width: fit-content;
+  max-width: 100%;
+  color: rgba(255, 255, 255);
 }
 
 /*
