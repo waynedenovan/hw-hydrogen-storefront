@@ -112,11 +112,7 @@ body {
 }
 
 .page-bg.home-page {
-  background: linear-gradient(rgba(100, 100, 100, 0.25), rgba(100, 100, 100, 0.25)), url('/images/260601-camlock_irrigation.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll;
-  background-repeat: no-repeat;
+  background: var(--color-dark);
 }
 
 .page-bg.product-page {

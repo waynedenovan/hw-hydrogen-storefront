@@ -1,4 +1,4 @@
-2607281510 claude
+26072 claude
 
 "For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debuging a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
 
@@ -16,37 +16,11 @@ context:
 - Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
 
 ## Step 1: Planing
-- Tier 1:
-    - I need to add at the bottom in the footer alongside "Privacy Policy, Terms of Service, Refund Policy, Shipping Policy"
-        - Image Credit
-            - Must open a text frame above everything else the says
-                - Images on Pixbay by:
-                    We thank the photogrephers for their work and allowing us to use their images
-                    Bru-nO
-                    johnnaturephotos
-                    trapezemike
-                    anncapictures
-                    Pexels
-                    ThMilherou
-                    jp26jp
-                    jarmoluk
-                    cocoparisienne
-                    VariousPhotography
-                    Life-Of-Pix
-                    chulmin1700
-                    malateronald
-                    igorovsyannykov
-    - hw-storefront-ui-node-docker:
-        - Please provide a option to be able to update the above message when needed
-        - Please provide a option to be able to update the links on the hw-hydrogen-storefront-node-docker
-            - Privacy Policy
-            - Terms of Service
-            - Refund Policy
-            - Shipping Policy
+- 
 
 ## Step 2: Documentation and exit
 - Update Verion to reflect the Commit count as per every task
-- update @2607281510_todo.md but exclude todo.md from any updating
+- update @26072_todo.md but exclude todo.md from any updating
 - update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
     - hoseworld-dev-knowledge and any other MCP server that is relevent
 

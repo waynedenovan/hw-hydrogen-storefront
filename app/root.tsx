@@ -200,12 +200,20 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     .then((data: any) => data?.metaobject?.field?.value ?? null)
     .catch(() => null);
 
+  const storefrontSettings = storefront
+    .query(STOREFRONT_SETTINGS_QUERY, {
+      cache: storefront.CacheLong(),
+    })
+    .then((data: any) => data?.shop ?? null)
+    .catch(() => null);
+
   return {
     cart: cartPromise,
     isLoggedIn: isLoggedInPromise,
     customerFirstName,
     footer,
     footerBanner,
+    storefrontSettings,
   };
 }
 
@@ -213,6 +221,28 @@ const FOOTER_BANNER_QUERY = `#graphql
   query FooterBanner {
     metaobject(handle: {type: "app--footer_banner", handle: "main"}) {
       field(key: "content") {
+        value
+      }
+    }
+  }
+` as const;
+
+const STOREFRONT_SETTINGS_QUERY = `#graphql
+  query StorefrontSettings {
+    shop {
+      imageCreditText: metafield(namespace: "custom", key: "image_credit_text") {
+        value
+      }
+      privacyPolicyUrl: metafield(namespace: "custom", key: "privacy_policy_url") {
+        value
+      }
+      termsOfServiceUrl: metafield(namespace: "custom", key: "terms_of_service_url") {
+        value
+      }
+      refundPolicyUrl: metafield(namespace: "custom", key: "refund_policy_url") {
+        value
+      }
+      shippingPolicyUrl: metafield(namespace: "custom", key: "shipping_policy_url") {
         value
       }
     }

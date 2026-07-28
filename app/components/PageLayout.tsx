@@ -19,6 +19,7 @@ interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
   footer: Promise<FooterQuery | null>;
   footerBanner?: Promise<string | null>;
+  storefrontSettings?: Promise<Record<string, {value: string} | null> | null>;
   header: HeaderQuery;
   isLoggedIn: Promise<boolean>;
   customerFirstName?: Promise<string | null>;
@@ -31,6 +32,7 @@ export function PageLayout({
   children = null,
   footer,
   footerBanner,
+  storefrontSettings,
   header,
   isLoggedIn,
   customerFirstName,
@@ -147,6 +149,7 @@ export function PageLayout({
       <Footer
         footer={footer}
         footerBanner={footerBanner}
+        storefrontSettings={storefrontSettings}
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
