@@ -261,10 +261,51 @@ export default function Checkout() {
     }
   }, [defaultCountry, shippingAddress.countryCode]);
 
-  /* After shipping-address step succeeds, revalidate to get fresh deliveryGroups */
+  const [shippingRates, setShippingRates] = useState<TcgRate[]>([]);
+  const [collectionAddress, setCollectionAddress] = useState<CollectionAddress | null>(null);
+  const [ratesLoading, setRatesLoading] = useState(false);
+  const [ratesError, setRatesError] = useState<string | null>(null);
+  const [selectedShippingMethod, setSelectedShippingMethod] = useState<ShippingSelection | null>(null);
+
+  async function fetchShippingRates() {
+    setRatesLoading(true);
+    setRatesError(null);
+    try {
+      const lineItems = (cart.lines?.nodes ?? []).map((line: any) => ({
+        variantId: line.merchandise?.id ?? '',
+        quantity: line.quantity,
+      }));
+      const res = await fetch(`${localePrefix}/checkout/shipping-rates`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({lineItems, deliveryAddress: shippingAddress}),
+      });
+      const json = (await res.json()) as {
+        rates?: TcgRate[];
+        collection?: {address: CollectionAddress} | null;
+        error?: string;
+      };
+      setShippingRates(json.rates ?? []);
+      setCollectionAddress(json.collection?.address ?? null);
+      // Error state lives in the JSON body, not the HTTP status — this route
+      // always responds 200 so Cloudflare doesn't swallow the body (see the
+      // note in checkout.shipping-rates.tsx).
+      if (json.error) setRatesError(json.error);
+    } catch {
+      setRatesError('Could not fetch shipping rates.');
+    } finally {
+      setRatesLoading(false);
+    }
+  }
+
+  /* After shipping-address step succeeds, revalidate then fetch TCG rates fresh */
   useEffect(() => {
     if (fetcher.data?.success && fetcher.data.step === 'shipping-address') {
       pendingStep3.current = true;
+      setShippingRates([]);
+      setCollectionAddress(null);
+      setRatesError(null);
+      setSelectedShippingMethod(null);
       revalidator.revalidate();
     } else if (fetcher.data?.success && fetcher.data.step === 'customer-info') {
       setCurrentStep(2);
@@ -277,6 +318,13 @@ export default function Checkout() {
       setCurrentStep(3);
     }
   }, [revalidator.state]);
+
+  useEffect(() => {
+    if (currentStep === 3 && shippingRates.length === 0 && !collectionAddress && !ratesLoading && !ratesError) {
+      fetchShippingRates();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep]);
 
   return (
     <div className="checkout-wrapper">
@@ -327,8 +375,12 @@ export default function Checkout() {
 
         {currentStep === 3 && (
           <ShippingMethodStep
-            deliveryGroups={(cart as any).deliveryGroups}
-            localePrefix={localePrefix}
+            rates={shippingRates}
+            collectionAddress={collectionAddress}
+            loading={ratesLoading}
+            error={ratesError}
+            selected={selectedShippingMethod}
+            onSelect={setSelectedShippingMethod}
             onBack={() => setCurrentStep(2)}
             onContinue={() => setCurrentStep(4)}
           />
@@ -339,6 +391,7 @@ export default function Checkout() {
             cart={cart}
             customerInfo={customerInfo}
             shippingAddress={shippingAddress}
+            selectedShippingMethod={selectedShippingMethod}
             paymentGateway={paymentGateway}
             localePrefix={localePrefix}
             invoiceEmailRequested={invoiceEmailRequested}
@@ -775,141 +828,169 @@ function ShippingAddressStep({
   );
 }
 
-type DeliveryOption = {
-  handle: string;
+type TcgRate = {
+  rateId: string | number;
+  serviceLevel: string | null;
   title: string;
-  code?: string;
-  estimatedCost: {amount: string; currencyCode: CurrencyCode};
+  cost: number;
 };
 
-type DeliveryGroup = {
-  id: string;
-  deliveryOptions: DeliveryOption[];
-  selectedDeliveryOption?: {
-    handle: string;
-    title: string;
-    estimatedCost: {amount: string; currencyCode: CurrencyCode};
-  } | null;
+type CollectionAddress = {
+  company: string;
+  street: string;
+  city: string;
+  zone: string;
+  code: string;
+  country: string;
 };
+
+type ShippingSelection =
+  | {type: 'tcg'; rateId: string | number; serviceLevel: string | null; title: string; cost: number}
+  | {type: 'collection'; collectionDate: string; collectionTime: string};
 
 function ShippingMethodStep({
-  deliveryGroups,
-  localePrefix,
+  rates,
+  collectionAddress,
+  loading,
+  error,
+  selected,
+  onSelect,
   onBack,
   onContinue,
 }: {
-  deliveryGroups?: {nodes: DeliveryGroup[]};
-  localePrefix: string;
+  rates: TcgRate[];
+  collectionAddress: CollectionAddress | null;
+  loading: boolean;
+  error: string | null;
+  selected: ShippingSelection | null;
+  onSelect: (selection: ShippingSelection) => void;
   onBack: () => void;
   onContinue: () => void;
 }) {
-  const shippingFetcher = useFetcher<any>({key: 'shipping-method'});
-  const group = deliveryGroups?.nodes?.[0];
-  const options = group?.deliveryOptions ?? [];
-  const [selectedHandle, setSelectedHandle] = useState<string | null>(
-    group?.selectedDeliveryOption?.handle ?? (options[0]?.handle ?? null),
+  const [collectionDate, setCollectionDate] = useState('');
+  const [collectionTime, setCollectionTime] = useState('');
+
+  function selectRate(rate: TcgRate) {
+    onSelect({type: 'tcg', rateId: rate.rateId, serviceLevel: rate.serviceLevel, title: rate.title, cost: rate.cost});
+  }
+
+  function selectCollection(date: string, time: string) {
+    onSelect({type: 'collection', collectionDate: date, collectionTime: time});
+  }
+
+  const isCollectionSelected = selected?.type === 'collection';
+  const canContinue = Boolean(
+    selected?.type === 'tcg' ||
+      (selected?.type === 'collection' && collectionDate && collectionTime),
   );
 
-  /* Auto-select first option if none is selected yet */
-  useEffect(() => {
-    if (!selectedHandle && options.length > 0 && group) {
-      const handle = options[0].handle;
-      setSelectedHandle(handle);
-      shippingFetcher.submit(
-        {
-          [CartForm.INPUT_NAME]: JSON.stringify({
-            action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
-            inputs: {
-              selectedDeliveryOptions: [
-                {deliveryGroupId: group.id, deliveryOptionHandle: handle},
-              ],
-            },
-          }),
-        },
-        {method: 'POST', action: `${localePrefix}/cart`},
-      );
-    }
-  }, []);
-
-  if (options.length === 0) {
+  if (loading) {
     return (
       <div className="checkout-form">
         <h2 className="checkout-section-title">Shipping Method</h2>
-        <div className="checkout-shipping-empty">
-          No shipping options are currently available for your address. Please
-          contact us for assistance.
-        </div>
-        <div className="checkout-nav-buttons">
-          <button type="button" className="checkout-back-btn" onClick={onBack}>
-            &larr; Back
-          </button>
-          <button
-            type="button"
-            className="checkout-submit-btn"
-            onClick={onContinue}
-          >
-            Continue to Review →
-          </button>
-        </div>
+        <div className="checkout-shipping-empty">Fetching courier rates…</div>
       </div>
     );
   }
-
-  function handleSelect(option: DeliveryOption) {
-    if (!group) return;
-    setSelectedHandle(option.handle);
-    shippingFetcher.submit(
-      {
-        [CartForm.INPUT_NAME]: JSON.stringify({
-          action: CartForm.ACTIONS.SelectedDeliveryOptionsUpdate,
-          inputs: {
-            selectedDeliveryOptions: [
-              {
-                deliveryGroupId: group.id,
-                deliveryOptionHandle: option.handle,
-              },
-            ],
-          },
-        }),
-      },
-      {method: 'POST', action: `${localePrefix}/cart`},
-    );
-  }
-
-  const isFree = (amount: string) => parseFloat(amount) === 0;
 
   return (
     <div className="checkout-form">
       <h2 className="checkout-section-title">Shipping Method</h2>
+
+      {error && (
+        <div className="checkout-shipping-empty">
+          Couldn&rsquo;t fetch courier rates right now — collection from our store is still available below.
+        </div>
+      )}
+
+      {rates.length === 0 && !collectionAddress && !error && (
+        <div className="checkout-shipping-empty">
+          No shipping options are currently available for your address. Please
+          contact us for assistance.
+        </div>
+      )}
+
       <div className="checkout-shipping-options">
-        {options.map((option) => (
-          <label key={option.handle} className="checkout-shipping-option">
+        {rates.map((rate) => (
+          <label key={rate.rateId} className="checkout-shipping-option">
             <input
               type="radio"
               name="delivery"
-              value={option.handle}
-              checked={selectedHandle === option.handle}
-              onChange={() => handleSelect(option)}
+              checked={selected?.type === 'tcg' && selected.rateId === rate.rateId}
+              onChange={() => selectRate(rate)}
             />
-            <span className="checkout-shipping-option-label">
-              {option.title}
-            </span>
+            <span className="checkout-shipping-option-label">{rate.title}</span>
             <span
               className={`checkout-shipping-option-cost ${
-                isFree(option.estimatedCost.amount)
-                  ? 'checkout-shipping-option-free'
-                  : ''
+                rate.cost === 0 ? 'checkout-shipping-option-free' : ''
               }`}
             >
-              {isFree(option.estimatedCost.amount) ? (
+              {rate.cost === 0 ? (
                 'Free'
               ) : (
-                <Money data={option.estimatedCost} />
+                <Money data={{amount: String(rate.cost), currencyCode: 'ZAR' as CurrencyCode}} />
               )}
             </span>
           </label>
         ))}
+
+        {collectionAddress && (
+          <label className="checkout-shipping-option">
+            <input
+              type="radio"
+              name="delivery"
+              checked={isCollectionSelected}
+              onChange={() => selectCollection(collectionDate, collectionTime)}
+            />
+            <span className="checkout-shipping-option-label">
+              Collection from Hose World store
+              <div style={{fontSize: '0.8rem', opacity: 0.7, marginTop: '2px'}}>
+                {collectionAddress.company}, {collectionAddress.street}, {collectionAddress.city},{' '}
+                {collectionAddress.zone} {collectionAddress.code}
+              </div>
+            </span>
+            <span className="checkout-shipping-option-cost checkout-shipping-option-free">Free</span>
+          </label>
+        )}
       </div>
+
+      {isCollectionSelected && (
+        <div className="checkout-form-row" style={{marginTop: '0.75rem'}}>
+          <div className="checkout-form-field">
+            <label htmlFor="collectionDate" className="checkout-form-label">
+              Preferred collection date
+            </label>
+            <input
+              id="collectionDate"
+              type="date"
+              required
+              className="checkout-form-input"
+              value={collectionDate}
+              onChange={(e) => {
+                setCollectionDate(e.target.value);
+                selectCollection(e.target.value, collectionTime);
+              }}
+            />
+          </div>
+          <div className="checkout-form-field">
+            <label htmlFor="collectionTime" className="checkout-form-label">
+              Preferred collection time
+            </label>
+            <input
+              id="collectionTime"
+              type="time"
+              required
+              className="checkout-form-input"
+              value={collectionTime}
+              onChange={(e) => {
+                setCollectionTime(e.target.value);
+                selectCollection(collectionDate, e.target.value);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="checkout-nav-buttons">
         <button type="button" className="checkout-back-btn" onClick={onBack}>
           &larr; Back
@@ -918,11 +999,9 @@ function ShippingMethodStep({
           type="button"
           className="checkout-submit-btn"
           onClick={onContinue}
-          disabled={!selectedHandle || shippingFetcher.state !== 'idle'}
+          disabled={!canContinue}
         >
-          {shippingFetcher.state !== 'idle'
-            ? 'Updating...'
-            : 'Continue to Review →'}
+          Continue to Review →
         </button>
       </div>
     </div>
@@ -933,6 +1012,7 @@ function OrderReviewStep({
   cart,
   customerInfo,
   shippingAddress,
+  selectedShippingMethod,
   paymentGateway,
   localePrefix,
   invoiceEmailRequested,
@@ -955,6 +1035,7 @@ function OrderReviewStep({
     countryCode: string;
     phone: string;
   };
+  selectedShippingMethod: ShippingSelection | null;
   paymentGateway: string;
   localePrefix: string;
   invoiceEmailRequested: boolean;
@@ -964,17 +1045,20 @@ function OrderReviewStep({
   payfastStatus: {indicator: string; description: string} | null;
   onBack: () => void;
 }) {
-  const deliveryGroup = (cart as any).deliveryGroups?.nodes?.[0];
-  const selectedDelivery = deliveryGroup?.selectedDeliveryOption;
+  const shippingCurrency = cart.cost?.subtotalAmount?.currencyCode ?? ('ZAR' as CurrencyCode);
+  const shippingTitle =
+    selectedShippingMethod?.type === 'tcg'
+      ? selectedShippingMethod.title
+      : selectedShippingMethod?.type === 'collection'
+        ? 'Collection from Hose World store'
+        : null;
+  const shippingCost = selectedShippingMethod?.type === 'tcg' ? selectedShippingMethod.cost : 0;
 
   // Display-only VAT estimate (matches the same 15% rate the real charge uses
   // server-side via the Shopify draft order) — subtotal + shipping combined.
   const vatBaseAmount = cart.cost?.subtotalAmount
     ? {
-        amount: (
-          parseFloat(cart.cost.subtotalAmount.amount) +
-          (selectedDelivery ? parseFloat(selectedDelivery.estimatedCost.amount) : 0)
-        ).toFixed(2),
+        amount: (parseFloat(cart.cost.subtotalAmount.amount) + shippingCost).toFixed(2),
         currencyCode: cart.cost.subtotalAmount.currencyCode,
       }
     : null;
@@ -1007,18 +1091,23 @@ function OrderReviewStep({
         <p>{shippingAddress.countryCode}</p>
       </div>
 
-      {selectedDelivery && (
+      {shippingTitle && (
         <div className="checkout-review-section">
           <h3>Shipping Method</h3>
           <p>
-            {selectedDelivery.title}
+            {shippingTitle}
             {' — '}
-            {parseFloat(selectedDelivery.estimatedCost.amount) === 0 ? (
+            {shippingCost === 0 ? (
               'Free'
             ) : (
-              <Money data={selectedDelivery.estimatedCost} />
+              <Money data={{amount: String(shippingCost), currencyCode: shippingCurrency}} />
             )}
           </p>
+          {selectedShippingMethod?.type === 'collection' && (
+            <p style={{fontSize: '0.85rem', opacity: 0.75}}>
+              Preferred: {selectedShippingMethod.collectionDate} {selectedShippingMethod.collectionTime}
+            </p>
+          )}
         </div>
       )}
 
@@ -1072,15 +1161,14 @@ function OrderReviewStep({
             )}
           </span>
         </div>
-        {selectedDelivery &&
-          parseFloat(selectedDelivery.estimatedCost.amount) > 0 && (
-            <div className="checkout-review-total-row">
-              <span>Shipping</span>
-              <span>
-                <Money data={selectedDelivery.estimatedCost} />
-              </span>
-            </div>
-          )}
+        {shippingTitle && shippingCost > 0 && (
+          <div className="checkout-review-total-row">
+            <span>Shipping</span>
+            <span>
+              <Money data={{amount: String(shippingCost), currencyCode: shippingCurrency}} />
+            </span>
+          </div>
+        )}
         {vatBaseAmount && (
           <div className="checkout-review-total-row">
             <span>VAT</span>
@@ -1170,6 +1258,7 @@ function OrderReviewStep({
             cart={cart}
             customerInfo={customerInfo}
             shippingAddress={shippingAddress}
+            selectedShippingMethod={selectedShippingMethod}
             localePrefix={localePrefix}
             invoiceEmailRequested={invoiceEmailRequested}
             businessCustomer={businessCustomer}
@@ -1263,6 +1352,7 @@ function PayFastPaymentForm({
   cart,
   customerInfo,
   shippingAddress,
+  selectedShippingMethod,
   localePrefix,
   invoiceEmailRequested,
   businessCustomer,
@@ -1281,6 +1371,7 @@ function PayFastPaymentForm({
     countryCode: string;
     phone: string;
   };
+  selectedShippingMethod: ShippingSelection | null;
   localePrefix: string;
   invoiceEmailRequested: boolean;
   businessCustomer: boolean;
@@ -1342,12 +1433,42 @@ function PayFastPaymentForm({
       <input
         type="hidden"
         name="shippingTitle"
-        value={cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.title ?? ''}
+        value={
+          selectedShippingMethod?.type === 'tcg'
+            ? selectedShippingMethod.title
+            : selectedShippingMethod?.type === 'collection'
+              ? 'Collection from Hose World store'
+              : ''
+        }
       />
       <input
         type="hidden"
         name="shippingCost"
-        value={cart.deliveryGroups?.nodes?.[0]?.selectedDeliveryOption?.estimatedCost?.amount ?? '0'}
+        value={selectedShippingMethod?.type === 'tcg' ? String(selectedShippingMethod.cost) : '0'}
+      />
+      <input
+        type="hidden"
+        name="shippingMethodType"
+        value={selectedShippingMethod?.type ?? ''}
+      />
+      <input
+        type="hidden"
+        name="tcgRateId"
+        value={selectedShippingMethod?.type === 'tcg' ? String(selectedShippingMethod.rateId) : ''}
+      />
+      <input
+        type="hidden"
+        name="tcgServiceLevel"
+        value={selectedShippingMethod?.type === 'tcg' ? selectedShippingMethod.serviceLevel ?? '' : ''}
+      />
+      <input
+        type="hidden"
+        name="collectionDate"
+        value={
+          selectedShippingMethod?.type === 'collection'
+            ? `${selectedShippingMethod.collectionDate} ${selectedShippingMethod.collectionTime}`.trim()
+            : ''
+        }
       />
 
       {payFetcher.data?.error && (
