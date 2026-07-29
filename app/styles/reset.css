@@ -118,11 +118,11 @@ body {
 /* Detailed Product page: hero photo removed, flat tier color to match
    Tier 1/2/3 (task 2607291725) — was linear-gradient+url('/images/260601-fittings.jpg'). */
 .page-bg.product-page {
-  background: rgba(184, 216, 190, 0.85);
+  background: rgba(255, 234, 97, 0.85);
 }
 
 .page-bg.account-page {
-  background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-earth-day.jpg');
+  background: rgba(152, 221, 252, 0.85);
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
@@ -130,7 +130,7 @@ body {
 }
 
 .page-bg.contact-page {
-  background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-sunflower.jpg');
+  background: rgba(0, 0, 0, 0.85);
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
@@ -155,7 +155,7 @@ body {
    length. Solid color, not an image, since this route has no dedicated
    photo the way home/product/account/contact/cart do. */
 .page-bg.collection-page {
-  background: rgba(184, 216, 190, 0.85);
+  background: rgba(255, 218, 244, 0.85);
 }
 
 /* Solid canvas on image pages: a plain color on body propagates to the
@@ -168,7 +168,7 @@ body {
 body.home-page,
 body.product-page,
 body.collection-page {
-  background-color: rgba(184, 216, 190, 0.85);
+  background-color: rgba(152, 221, 252, 0.85);
 }
 
 body.account-page,
