@@ -120,12 +120,6 @@ function FooterUtilities({settings}: {settings: StorefrontSettings}) {
       >
         Refund Policy
       </NavLink>
-      <NavLink
-        to={settings?.shippingPolicyUrl?.value || '/policies/shipping-policy'}
-        prefetch="intent"
-      >
-        Shipping Policy
-      </NavLink>
       <button type="button" onClick={() => setIsImageCreditOpen(true)}>
         Image Credit
       </button>
@@ -167,7 +161,10 @@ function ImageCreditModal({
         style={{background: 'rgba(50, 50, 50, 0.85)'}}
         onClick={(event) => event.stopPropagation()}
       >
-        <p className="text-white font-medium mb-2">{text}</p>
+        <div
+          className="text-white font-medium mb-2"
+          dangerouslySetInnerHTML={{__html: text}}
+        />
       </div>
       <button
         type="button"
