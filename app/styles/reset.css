@@ -112,15 +112,13 @@ body {
 }
 
 .page-bg.home-page {
-  background: var(--color-dark);
+  background: rgba(184, 216, 190, 0.85);
 }
 
+/* Detailed Product page: hero photo removed, flat tier color to match
+   Tier 1/2/3 (task 2607291725) — was linear-gradient+url('/images/260601-fittings.jpg'). */
 .page-bg.product-page {
-  background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260601-fittings.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll;
-  background-repeat: no-repeat;
+  background: rgba(184, 216, 190, 0.85);
 }
 
 .page-bg.account-page {
@@ -157,21 +155,25 @@ body {
    length. Solid color, not an image, since this route has no dedicated
    photo the way home/product/account/contact/cart do. */
 .page-bg.collection-page {
-  background: var(--color-dark);
+  background: rgba(184, 216, 190, 0.85);
 }
 
-/* Solid black canvas on image pages: a plain color on body propagates to the
-   canvas, so overscroll/sub-pixel areas past the document edge render black —
-   identical to the footer — instead of white (or, previously, the image).
-   collection-page is included too now that .page-bg paints solid black for
-   it above. Other classless pages (policies…) keep their default white
-   canvas. */
+/* Solid canvas on image pages: a plain color on body propagates to the
+   canvas, so overscroll/sub-pixel areas past the document edge render that
+   color — identical to the footer — instead of white (or, previously, the
+   image). home-page/product-page/collection-page match their .page-bg tier
+   color (task 2607291725); account/contact/cart pages still use their own
+   dedicated hero photo, so their canvas stays black to match that overlay.
+   Other classless pages (policies…) keep their default white canvas. */
 body.home-page,
 body.product-page,
+body.collection-page {
+  background-color: rgba(184, 216, 190, 0.85);
+}
+
 body.account-page,
 body.contact-page,
-body.cart-page,
-body.collection-page {
+body.cart-page {
   background-color: #000;
 }
 
