@@ -233,16 +233,13 @@ const STOREFRONT_SETTINGS_QUERY = `#graphql
       imageCreditText: metafield(namespace: "custom", key: "image_credit_text") {
         value
       }
-      privacyPolicyUrl: metafield(namespace: "custom", key: "privacy_policy_url") {
+      privacyPolicyContent: metafield(namespace: "custom", key: "privacy_policy_content") {
         value
       }
-      termsOfServiceUrl: metafield(namespace: "custom", key: "terms_of_service_url") {
+      termsOfServiceContent: metafield(namespace: "custom", key: "terms_of_service_content") {
         value
       }
-      refundPolicyUrl: metafield(namespace: "custom", key: "refund_policy_url") {
-        value
-      }
-      shippingPolicyUrl: metafield(namespace: "custom", key: "shipping_policy_url") {
+      refundPolicyContent: metafield(namespace: "custom", key: "refund_policy_content") {
         value
       }
     }

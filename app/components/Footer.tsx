@@ -95,48 +95,104 @@ chulmin1700
 malateronald
 igorovsyannykov`;
 
+type FooterModalKey =
+  | 'imageCredit'
+  | 'privacyPolicy'
+  | 'termsOfService'
+  | 'refundPolicy';
+
+// Any of these with custom HTML content set in Storefront Settings opens in
+// the same floating ContentModal as Image Credit; otherwise it falls back to
+// linking straight to Shopify's built-in policy page (the behavior every
+// storefront visitor sees today, since all three are currently blank).
+const POLICY_LINKS: Array<{
+  key: FooterModalKey;
+  label: string;
+  contentKey: string;
+  fallbackTo: string;
+}> = [
+  {
+    key: 'privacyPolicy',
+    label: 'Privacy Policy',
+    contentKey: 'privacyPolicyContent',
+    fallbackTo: '/policies/privacy-policy',
+  },
+  {
+    key: 'termsOfService',
+    label: 'Terms of Service',
+    contentKey: 'termsOfServiceContent',
+    fallbackTo: '/policies/terms-of-service',
+  },
+  {
+    key: 'refundPolicy',
+    label: 'Refund Policy',
+    contentKey: 'refundPolicyContent',
+    fallbackTo: '/policies/refund-policy',
+  },
+];
+
 function FooterUtilities({settings}: {settings: StorefrontSettings}) {
-  const [isImageCreditOpen, setIsImageCreditOpen] = useState(false);
+  const [openModal, setOpenModal] = useState<FooterModalKey | null>(null);
   const imageCreditText =
     settings?.imageCreditText?.value || DEFAULT_IMAGE_CREDIT_TEXT;
 
   return (
     <div className="footer-utilities flex justify-center gap-4 px-4 py-3 text-xs text-gray-400 border-t border-gray-800">
-      <NavLink
-        to={settings?.privacyPolicyUrl?.value || '/policies/privacy-policy'}
-        prefetch="intent"
-      >
-        Privacy Policy
-      </NavLink>
-      <NavLink
-        to={settings?.termsOfServiceUrl?.value || '/policies/terms-of-service'}
-        prefetch="intent"
-      >
-        Terms of Service
-      </NavLink>
-      <NavLink
-        to={settings?.refundPolicyUrl?.value || '/policies/refund-policy'}
-        prefetch="intent"
-      >
-        Refund Policy
-      </NavLink>
-      <button type="button" onClick={() => setIsImageCreditOpen(true)}>
+      {POLICY_LINKS.map((policy) => {
+        const content = settings?.[policy.contentKey]?.value;
+        if (content) {
+          return (
+            <button
+              key={policy.key}
+              type="button"
+              onClick={() => setOpenModal(policy.key)}
+            >
+              {policy.label}
+            </button>
+          );
+        }
+        return (
+          <NavLink key={policy.key} to={policy.fallbackTo} prefetch="intent">
+            {policy.label}
+          </NavLink>
+        );
+      })}
+      <button type="button" onClick={() => setOpenModal('imageCredit')}>
         Image Credit
       </button>
-      {isImageCreditOpen && (
-        <ImageCreditModal
+      {openModal === 'imageCredit' && (
+        <ContentModal
+          title="Image Credit"
           text={imageCreditText}
-          onClose={() => setIsImageCreditOpen(false)}
+          onClose={() => setOpenModal(null)}
         />
       )}
+      {POLICY_LINKS.map((policy) => {
+        const content = settings?.[policy.contentKey]?.value;
+        if (openModal !== policy.key || !content) return null;
+        return (
+          <ContentModal
+            key={policy.key}
+            title={policy.label}
+            text={content}
+            onClose={() => setOpenModal(null)}
+          />
+        );
+      })}
     </div>
   );
 }
 
-function ImageCreditModal({
+// Floating overlay for any admin-authored HTML content (Image Credit + the 3
+// policy modals). Content renders through .rich-html-content (app.css) so
+// bullets/tables/columns from pasted HTML render correctly instead of being
+// stripped by Tailwind Preflight / reset.css's blanket list-style reset.
+function ContentModal({
+  title,
   text,
   onClose,
 }: {
+  title: string;
   text: string;
   onClose: () => void;
 }) {
@@ -153,7 +209,7 @@ function ImageCreditModal({
       className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Image credit"
+      aria-label={title}
       onClick={onClose}
     >
       <div
@@ -162,14 +218,14 @@ function ImageCreditModal({
         onClick={(event) => event.stopPropagation()}
       >
         <div
-          className="text-white font-medium mb-2"
+          className="rich-html-content text-white font-medium mb-2"
           dangerouslySetInnerHTML={{__html: text}}
         />
       </div>
       <button
         type="button"
         onClick={onClose}
-        aria-label="Close image credit"
+        aria-label={`Close ${title.toLowerCase()}`}
         className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 text-black text-xl leading-none hover:bg-white"
       >
         ×

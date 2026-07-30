@@ -2511,3 +2511,65 @@ body.checkout-page main {
 .wishlist-remove-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.22);
 }
+
+/* Shared container for any admin-authored raw HTML rendered via
+   dangerouslySetInnerHTML (Image Credit + the 3 policy modals in
+   Footer.tsx). Plain unlayered CSS, same as reset.css above, so it wins
+   over both Tailwind Preflight and reset.css's blanket `ul { list-style:
+   none }` (task 2607300820: admin-pasted <ul>/<li>/<table> markup was
+   rendering with no bullets/borders because of those resets). The two
+   column classes below are real compiled CSS, unlike any Tailwind utility
+   class name an admin might type into their pasted HTML — Tailwind's JIT
+   scanner never sees DB-stored content, so classes like `grid-cols-2`
+   typed into the textarea are silently absent from the shipped bundle and
+   can never work. These two are the supported way to do multi-column
+   layout (documented in the admin hint text alongside inline styles). */
+.rich-html-content ul {
+  list-style: disc;
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+}
+
+.rich-html-content ol {
+  list-style: decimal;
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+}
+
+.rich-html-content li {
+  list-style: inherit;
+  margin: 0 0 0.25em;
+  padding: 0;
+}
+
+.rich-html-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.rich-html-content th,
+.rich-html-content td {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.rich-html-content p {
+  margin: 0 0 1em;
+}
+
+.rich-html-content a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.rich-html-content--col-2 {
+  columns: 2;
+  column-gap: 1.5em;
+}
+
+.rich-html-content--col-3 {
+  columns: 3;
+  column-gap: 1.5em;
+}
