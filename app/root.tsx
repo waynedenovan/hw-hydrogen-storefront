@@ -202,7 +202,10 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
   const storefrontSettings = storefront
     .query(STOREFRONT_SETTINGS_QUERY, {
-      cache: storefront.CacheLong(),
+      // CacheShort (not CacheLong) so admin edits on Storefront Settings
+      // reflect within seconds instead of needing a container restart —
+      // see task 2607301150. Only 4 shop metafields, cheap to refetch often.
+      cache: storefront.CacheShort(),
     })
     .then((data: any) => data?.shop ?? null)
     .catch(() => null);
