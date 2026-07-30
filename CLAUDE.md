@@ -20,3 +20,15 @@ Task instructions in `todo.md` reference three distinct MCP servers/tools, somet
 - **Playwright MCP** — live browser automation for physically verifying UI/behavior changes against the running site — never assume a fix works without this.
 
 Standing debug-mode order of operations: MCP-Bridge (`qdrant-find`) first → shopify-dev-mcp if a Shopify API pattern is in question → implement → verify live via Playwright MCP → log the outcome back to MCP-Bridge (`qdrant-store`).
+
+## Storefront-ui PostgreSQL migration lab — cross-project note
+
+As of 2026-07-30, `hw-storefront-ui-node-docker` has an isolated PostgreSQL
+migration rehearsal target. Its current status is stored in MCP-Bridge/Qdrant
+under `hoseworld-dev-knowledge`; use `qdrant-find` before cross-project work
+that touches imports, storefront settings, or deployment assumptions.
+
+Hydrogen does not connect directly to the SQLite/Prisma database and remains
+unchanged during rehearsals. The active storefront-ui service also remains on
+SQLite until a separately reviewed cutover. Details and lifecycle commands are
+in `../hw-storefront-ui-node-docker/guides/postgres-migration-lab.md`.
