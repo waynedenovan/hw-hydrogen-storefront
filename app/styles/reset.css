@@ -168,7 +168,7 @@ body {
 body.home-page,
 body.product-page,
 body.collection-page {
-  background-color: rgba(152, 221, 252, 0.85);
+  background-color: rgba(0 0 0);
 }
 
 body.account-page,
