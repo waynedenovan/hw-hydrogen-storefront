@@ -26,6 +26,46 @@ TAG="$(tr -d '[:space:]' <"$HYDROGEN_DIR/VERSION")"
 PUSH="${PUSH:-1}"
 TARGET="${1:-all}"
 
+# Guard: the VPS never touches git — it only ever `docker compose pull`s a
+# tagged image from the registry, so nothing except this check guarantees a
+# pushed image was actually built from the reviewed, merged `main` branch
+# rather than whatever happened to be checked out. Applies to both repos
+# independently, since they're separate git repos with separate remotes and
+# can drift independently. See ../../hoseworld-infra/docs/10-deployment.md.
+# Escape hatch for a deliberate exception: RELEASE_ALLOW_DIRTY=1.
+check_release_branch() {
+  local dir="$1"
+  local branch
+  branch="$(git -C "$dir" rev-parse --abbrev-ref HEAD)"
+  if [ "$branch" != "main" ]; then
+    echo "Refusing to release: $dir is on branch '$branch', not main." >&2
+    exit 1
+  fi
+  if [ -n "$(git -C "$dir" status --porcelain)" ]; then
+    echo "Refusing to release: $dir has uncommitted changes." >&2
+    exit 1
+  fi
+  git -C "$dir" fetch origin main --quiet
+  local local_sha remote_sha
+  local_sha="$(git -C "$dir" rev-parse main)"
+  remote_sha="$(git -C "$dir" rev-parse origin/main)"
+  if [ "$local_sha" != "$remote_sha" ]; then
+    echo "Refusing to release: $dir's local main ($local_sha) differs from origin/main ($remote_sha)." >&2
+    echo "Push or pull to reconcile before releasing." >&2
+    exit 1
+  fi
+}
+
+if [ "${RELEASE_ALLOW_DIRTY:-0}" != "1" ]; then
+  case "$TARGET" in
+    all) check_release_branch "$HYDROGEN_DIR"; check_release_branch "$UI_DIR" ;;
+    hydrogen) check_release_branch "$HYDROGEN_DIR" ;;
+    ui) check_release_branch "$UI_DIR" ;;
+  esac
+else
+  echo "==> RELEASE_ALLOW_DIRTY=1 — skipping main-branch guard" >&2
+fi
+
 release() {
   local dir="$1" name="$2"
   local image="$REGISTRY/$name"
