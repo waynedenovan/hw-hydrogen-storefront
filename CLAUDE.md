@@ -21,14 +21,26 @@ Task instructions in `todo.md` reference three distinct MCP servers/tools, somet
 
 Standing debug-mode order of operations: MCP-Bridge (`qdrant-find`) first → shopify-dev-mcp if a Shopify API pattern is in question → implement → verify live via Playwright MCP → log the outcome back to MCP-Bridge (`qdrant-store`).
 
-## Storefront-ui PostgreSQL migration lab — cross-project note
+## Storefront-ui database — cross-project note
 
-As of 2026-07-30, `hw-storefront-ui-node-docker` has an isolated PostgreSQL
-migration rehearsal target. Its current status is stored in MCP-Bridge/Qdrant
-under `hoseworld-dev-knowledge`; use `qdrant-find` before cross-project work
-that touches imports, storefront settings, or deployment assumptions.
+**As of 2026-07-30 (session 2607301540), `hw-storefront-ui-node-docker`'s live
+database is PostgreSQL, not SQLite.** The real cutover happened that session:
+`docker-compose.yml` runs a real `postgres` service (container
+`hw-storefront-ui-postgres`), `prisma/schema.prisma`'s datasource is
+`postgresql`, and the old `./prisma/dev.sqlite` bind mount is gone. A separate,
+still-isolated PostgreSQL *rehearsal* target (`docker-compose.postgres-test.yml`,
+project `hoseworld-postgres-migration-lab`) also exists for practicing future
+migrations (e.g. before an eventual VPS deploy) — don't confuse the two.
+Verify before trusting either claim: `grep datasource
+../hw-storefront-ui-node-docker/prisma/schema.prisma` should show `postgresql`,
+and `docker ps --filter name=hw-storefront-ui-postgres` should show it `Up`.
+Full history in MCP-Bridge/Qdrant under `hoseworld-dev-knowledge`; use
+`qdrant-find` before cross-project work that touches imports, storefront
+settings, or deployment assumptions.
 
-Hydrogen does not connect directly to the SQLite/Prisma database and remains
-unchanged during rehearsals. The active storefront-ui service also remains on
-SQLite until a separately reviewed cutover. Details and lifecycle commands are
-in `../hw-storefront-ui-node-docker/guides/postgres-migration-lab.md`.
+Hydrogen (this repo) does not connect directly to that database either way —
+it only ever reads Shopify's Storefront API and calls `hw-storefront-ui-node-docker`'s
+own HTTP API (`STOREFRONT_UI_API_URL`) for cross-repo customer data, so this
+cutover required zero changes here. Details and lifecycle commands for the
+rehearsal lab are in
+`../hw-storefront-ui-node-docker/guides/postgres-migration-lab.md`.

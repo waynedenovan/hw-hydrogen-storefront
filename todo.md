@@ -18,7 +18,7 @@ context:
 ## Step 1: Planing
 - hw-storefront-ui-node-docker && hw-hrdrogen-storefront-node-docker
     - Confirm and update all documentation to identify PostgreSQL docker container as the DB source and not SQLite local DB
-- hw-hrdrogen-storefront-node-docker:
+- hw-hrdrogen-storefront-node-docker && hw-storefront-ui-node-docker:
     - How are we using "cookies" and if we are have we implmented the "Cookie Policy" to make sure that we are adhering to the clients wishes when they use the website?
         - If need be lets implement any needed changes to strickly adhere to their settings for each clients website use
 
