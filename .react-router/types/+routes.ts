@@ -120,6 +120,9 @@ type Pages = {
   "/account/login": {
     params: {};
   };
+  "/cookie-consent": {
+    params: {};
+  };
   "/sitemap.xml": {
     params: {};
   };
@@ -127,6 +130,9 @@ type Pages = {
     params: {};
   };
   "/account": {
+    params: {};
+  };
+  "/account/cookie-preferences": {
     params: {};
   };
   "/account/management": {
@@ -154,7 +160,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/media/suppliers/*" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/media/suppliers/*" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/cookie-consent" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/cookie-preferences" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -240,6 +246,10 @@ type RouteFiles = {
     id: "routes/account_.login";
     page: "/account/login";
   };
+  "routes/cookie-consent.tsx": {
+    id: "routes/cookie-consent";
+    page: "/cookie-consent";
+  };
   "routes/[sitemap.xml].tsx": {
     id: "routes/[sitemap.xml]";
     page: "/sitemap.xml";
@@ -250,7 +260,11 @@ type RouteFiles = {
   };
   "routes/account.tsx": {
     id: "routes/account";
-    page: "/account" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/account" | "/account/cookie-preferences" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+  };
+  "routes/account.cookie-preferences.tsx": {
+    id: "routes/account.cookie-preferences";
+    page: "/account/cookie-preferences";
   };
   "routes/account.management.tsx": {
     id: "routes/account.management";
@@ -309,9 +323,11 @@ type RouteModules = {
   "routes/($locale).search": typeof import("./app/routes/($locale).search.tsx");
   "routes/($locale).cart": typeof import("./app/routes/($locale).cart.tsx");
   "routes/account_.login": typeof import("./app/routes/account_.login.tsx");
+  "routes/cookie-consent": typeof import("./app/routes/cookie-consent.tsx");
   "routes/[sitemap.xml]": typeof import("./app/routes/[sitemap.xml].tsx");
   "routes/[robots.txt]": typeof import("./app/routes/[robots.txt].tsx");
   "routes/account": typeof import("./app/routes/account.tsx");
+  "routes/account.cookie-preferences": typeof import("./app/routes/account.cookie-preferences.tsx");
   "routes/account.management": typeof import("./app/routes/account.management.tsx");
   "routes/account.addresses": typeof import("./app/routes/account.addresses.tsx");
   "routes/account.wishlist": typeof import("./app/routes/account.wishlist.tsx");

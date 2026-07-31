@@ -11,6 +11,7 @@ interface FooterProps {
   publicStoreDomain: string;
   footerBanner?: Promise<string | null>;
   storefrontSettings?: Promise<StorefrontSettings>;
+  onOpenCookiePreferences?: () => void;
 }
 
 export function Footer({
@@ -19,6 +20,7 @@ export function Footer({
   publicStoreDomain,
   footerBanner,
   storefrontSettings,
+  onOpenCookiePreferences,
 }: FooterProps) {
   return (
     <Suspense>
@@ -46,9 +48,14 @@ export function Footer({
                 publicStoreDomain={publicStoreDomain}
               />
             )}
-            <Suspense fallback={<FooterUtilities settings={null} />}>
+            <Suspense fallback={<FooterUtilities settings={null} onOpenCookiePreferences={onOpenCookiePreferences} />}>
               <Await resolve={storefrontSettings ?? Promise.resolve(null)}>
-                {(settings) => <FooterUtilities settings={settings} />}
+                {(settings) => (
+                  <FooterUtilities
+                    settings={settings}
+                    onOpenCookiePreferences={onOpenCookiePreferences}
+                  />
+                )}
               </Await>
             </Suspense>
             <FooterBrandBar />
@@ -131,7 +138,13 @@ const POLICY_LINKS: Array<{
   },
 ];
 
-function FooterUtilities({settings}: {settings: StorefrontSettings}) {
+function FooterUtilities({
+  settings,
+  onOpenCookiePreferences,
+}: {
+  settings: StorefrontSettings;
+  onOpenCookiePreferences?: () => void;
+}) {
   const [openModal, setOpenModal] = useState<FooterModalKey | null>(null);
   const imageCreditText =
     settings?.imageCreditText?.value || DEFAULT_IMAGE_CREDIT_TEXT;
@@ -160,6 +173,11 @@ function FooterUtilities({settings}: {settings: StorefrontSettings}) {
       <button type="button" onClick={() => setOpenModal('imageCredit')}>
         Image Credit
       </button>
+      {onOpenCookiePreferences && (
+        <button type="button" onClick={onOpenCookiePreferences}>
+          Cookie Preferences
+        </button>
+      )}
       {openModal === 'imageCredit' && (
         <ContentModal
           title="Image Credit"

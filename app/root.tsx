@@ -18,6 +18,8 @@ import {CUSTOMER_NAME_QUERY} from '~/graphql/customer-account/CustomerNameQuery'
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
+import {CustomerPrivacySync} from './components/CustomerPrivacySync';
+import {parseCookieConsent} from '~/lib/cookieConsent.server';
 
 export type RootLoader = typeof loader;
 
@@ -79,9 +81,17 @@ export async function loader(args: Route.LoaderArgs) {
 
   const {storefront, env} = args.context;
 
+  // Synchronous, no network — decides whether CookieConsentGate blocks the
+  // page (see app/lib/cookieConsent.server.ts for why this is a dedicated
+  // long-lived cookie rather than a key on the ambient `session` cookie).
+  const cookieConsent = await parseCookieConsent(args.request, [
+    String(env.SESSION_SECRET || ''),
+  ]);
+
   return {
     ...deferredData,
     ...criticalData,
+    cookieConsent,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -284,6 +294,11 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
+      <CustomerPrivacySync
+        storefrontAccessToken={data.consent.storefrontAccessToken}
+        checkoutDomain={data.consent.checkoutDomain}
+        consent={data.cookieConsent}
+      />
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
