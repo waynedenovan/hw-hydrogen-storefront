@@ -17,9 +17,9 @@
 # non-root (Dockerfile's `USER node`); cap_drop/no-new-privileges; healthcheck
 # against the /healthz route added in server.ts.
 services:
-  hydrogen-storefront:
-    image: ${REGISTRY:-hoseworld}/hw-hydrogen-storefront:${TAG:-latest}
-    container_name: hw-hydrogen-storefront
+  hoseworld-online:
+    image: ${REGISTRY:-hoseworld}/hoseworld-online:${TAG:-latest}
+    container_name: hoseworld-online
     restart: unless-stopped
     networks:
       - hoseworld_edge
@@ -53,11 +53,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=hoseworld_edge
-      - traefik.http.routers.hydrogen.rule=Host(`www.hoseworld.co.za`)
-      - traefik.http.routers.hydrogen.entrypoints=websecure
-      - traefik.http.routers.hydrogen.tls=true
-      - traefik.http.routers.hydrogen.middlewares=security-headers@file,local-rate-limit@file
-      - traefik.http.services.hydrogen.loadbalancer.server.port=5130
+      - traefik.http.routers.hoseworld-online.rule=Host(`www.hoseworld.co.za`)
+      - traefik.http.routers.hoseworld-online.entrypoints=websecure
+      - traefik.http.routers.hoseworld-online.tls=true
+      - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.services.hoseworld-online.loadbalancer.server.port=5130
 
 networks:
   hoseworld_edge:

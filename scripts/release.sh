@@ -83,11 +83,11 @@ release() {
 
 case "$TARGET" in
   all)
-    release "$HYDROGEN_DIR" hw-hydrogen-storefront
-    release "$UI_DIR" hw-storefront-ui
+    release "$HYDROGEN_DIR" hoseworld-online
+    release "$UI_DIR" admin-online
     ;;
-  hydrogen) release "$HYDROGEN_DIR" hw-hydrogen-storefront ;;
-  ui) release "$UI_DIR" hw-storefront-ui ;;
+  hydrogen) release "$HYDROGEN_DIR" hoseworld-online ;;
+  ui) release "$UI_DIR" admin-online ;;
   *)
     echo "Unknown target '$TARGET' (expected: all | hydrogen | ui)" >&2
     exit 1
