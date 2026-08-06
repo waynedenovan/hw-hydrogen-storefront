@@ -110,17 +110,28 @@ body {
   flex-direction: column;
   flex: 1 0 auto;
 }
-
+/*
+  Background color for the Home page (Tier 1)
+  Pastal color test: rgba(184, 216, 190, 0.85)
+*/
 .page-bg.home-page {
-  background: rgba(184, 216, 190, 0.85);
+  background: rgba(0 0 0);
 }
 
 /* Detailed Product page: hero photo removed, flat tier color to match
-   Tier 1/2/3 (task 2607291725) — was linear-gradient+url('/images/260601-fittings.jpg'). */
+   Tier 1/2/3 (task 2607291725) — was linear-gradient+url('/images/260601-fittings.jpg').
+
+  Background color for the Detail Product pages (Tier 4 - if there ever was one!)
+  Pastal color test: rgba(184, 216, 190, 0.85) 
+*/
 .page-bg.product-page {
-  background: rgba(255, 234, 97, 0.85);
+  background: rgba(0 0 0);
 }
 
+/*
+  Background color for the Account/User page
+  Pastal color test: rgba(184, 216, 190, 0.85)
+*/
 .page-bg.account-page {
   background: rgba(152, 221, 252, 0.85);
   background-size: cover;
@@ -129,8 +140,12 @@ body {
   background-repeat: no-repeat;
 }
 
+/*
+  Background color for the Account/User page
+  No Pastal color test: rgba(0, 0, 0, 0.85)
+*/
 .page-bg.contact-page {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0 0 0);
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
@@ -153,9 +168,13 @@ body {
    var(--color-dark) matches .footer's own background (app.css) so the card
    flows straight into the footer with no visible seam, on any content
    length. Solid color, not an image, since this route has no dedicated
-   photo the way home/product/account/contact/cart do. */
+   photo the way home/product/account/contact/cart do.
+
+  Background color for the Collections && Sub Collections pages (Tier 2 && Tier 3)
+  No Pastal color test: rgba(255, 218, 244, 0.85)
+*/
 .page-bg.collection-page {
-  background: rgba(255, 218, 244, 0.85);
+  background: rgba(0 0 0);
 }
 
 /* Solid canvas on image pages: a plain color on body propagates to the
@@ -164,13 +183,21 @@ body {
    image). home-page/product-page/collection-page match their .page-bg tier
    color (task 2607291725); account/contact/cart pages still use their own
    dedicated hero photo, so their canvas stays black to match that overlay.
-   Other classless pages (policies…) keep their default white canvas. */
+   Other classless pages (policies…) keep their default white canvas.
+
+  Background color for the page body on Home, Collections and Product pages
+  No Pastal color test: rgba(0, 0, 0, 0.85)
+*/
 body.home-page,
 body.product-page,
 body.collection-page {
   background-color: rgba(0 0 0);
 }
 
+/*
+  Background color for the page body on Account, Contact-us and Cart pages
+  No Pastal color test: rgba(0, 0, 0, 0.85)
+*/
 body.account-page,
 body.contact-page,
 body.cart-page {
