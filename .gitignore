@@ -1,3 +1,6 @@
+.env
+.env.*
+
 # Ignore local Shopify CLI configuration and logs
 .shopify
 
@@ -9,5 +12,5 @@ media/suppliers/
 
 # Claude session transcripts — can capture short-lived live-API credentials
 # (a shpat_ token in one tripped GitHub push protection on 2026-07-17)
-*claude.groovy
+*.groovy
 media/suppliers

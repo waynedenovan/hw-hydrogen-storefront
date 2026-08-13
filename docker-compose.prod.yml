@@ -7,13 +7,24 @@
 #   REGISTRY=<registry>/<namespace> TAG=<VERSION> \
 #     docker compose -f docker-compose.prod.yml up -d
 #
-# Rollback = rerun with an older TAG. Full procedure: guides/production-deploy.md
+# Rollback = rerun with an older TAG. Full procedure:
+# ../hoseworld-infra/docs/10-deployment.md (this repo's own
+# guides/production-deploy.md still has the pre-hoseworld-infra version of
+# this, kept for history).
+#
+# Hardening (../hoseworld-infra/docs/05-hydrogen.md): no `ports:` — only
+# Traefik reaches this, over the shared hoseworld_edge network; runs as
+# non-root (Dockerfile's `USER node`); cap_drop/no-new-privileges; healthcheck
+# against the /healthz route added in server.ts.
 services:
-  hydrogen-storefront:
-    image: ${REGISTRY:-hoseworld}/hw-hydrogen-storefront:${TAG:-latest}
+  hoseworld-online:
+    image: ${REGISTRY:-hoseworld}/hoseworld-online:${TAG:-latest}
+    container_name: hoseworld-online
     restart: unless-stopped
-    ports:
-      - "5130:5130"
+    networks:
+      - hoseworld_edge
+    expose:
+      - "5130"
     volumes:
       # Supplier images live OUTSIDE the image on purpose — the set is still
       # being collected. rsync new files into /srv/hoseworld/media/suppliers/
@@ -24,9 +35,30 @@ services:
       # Production env values (domains, tokens). Kept on the VPS only —
       # never baked into the image, never committed.
       - .env.production
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5130/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=hoseworld_edge
+      - traefik.http.routers.hoseworld-online.rule=Host(`www.hoseworld.co.za`)
+      - traefik.http.routers.hoseworld-online.entrypoints=websecure
+      - traefik.http.routers.hoseworld-online.tls=true
+      - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.services.hoseworld-online.loadbalancer.server.port=5130
 
 networks:
-  default:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: "1420"
+  hoseworld_edge:
+    external: true
