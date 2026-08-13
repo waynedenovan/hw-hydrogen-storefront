@@ -40,7 +40,12 @@ services:
     cap_drop:
       - ALL
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:5130/healthz"]
+      # 127.0.0.1, not localhost: Node's http.listen(PORT) binds IPv4-only
+      # (0.0.0.0), but busybox wget resolving "localhost" inside this
+      # Alpine container tries ::1 (IPv6) first and gets connection
+      # refused, even though the IPv4 socket is genuinely open and the app
+      # is healthy. Confirmed on the real VPS 2026-08-13.
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5130/healthz"]
       interval: 10s
       timeout: 3s
       retries: 5
