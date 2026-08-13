@@ -63,6 +63,16 @@ services:
       - traefik.http.routers.hoseworld-online.tls=true
       - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file
       - traefik.http.services.hoseworld-online.loadbalancer.server.port=5130
+      # Throwaway staging router for browser verification during Phase 5
+      # testing — same service/container as the www router above, just a
+      # second Host rule. Safe to delete these 5 lines (and the matching
+      # Cloudflare Tunnel route + Zero Trust Public Hostname entry) once
+      # no longer needed; doesn't touch the real www.hoseworld.co.za path.
+      - traefik.http.routers.hoseworld-online-staging.rule=Host(`staging.hoseworld.co.za`)
+      - traefik.http.routers.hoseworld-online-staging.entrypoints=websecure
+      - traefik.http.routers.hoseworld-online-staging.tls=true
+      - traefik.http.routers.hoseworld-online-staging.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.routers.hoseworld-online-staging.service=hoseworld-online
 
 networks:
   hoseworld_edge:
