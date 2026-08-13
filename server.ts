@@ -97,6 +97,15 @@ app.use(
   (_req, res) => res.status(404).end(),
 );
 
+// Deliberately does not check the Shopify Storefront API or admin-online's
+// API — a health check that depends on a third-party service being
+// reachable turns their outage into this container getting killed and
+// restarted in a loop, making an external problem worse, not better. It
+// only confirms the Node process itself is alive and serving.
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({status: 'ok'});
+});
+
 app.all('*', async (req, res) => {
   try {
     const request = createFetchRequest(req, res);
