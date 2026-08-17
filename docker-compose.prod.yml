@@ -21,6 +21,9 @@ services:
     image: ${REGISTRY:-hoseworld}/hoseworld-online:${TAG:-latest}
     container_name: hoseworld-online
     restart: unless-stopped
+    # pnpm (the CMD) runs as PID 1 and never reaps zombie children the way a
+    # real init process does. init: true runs tini as PID 1 instead.
+    init: true
     networks:
       - hoseworld_edge
     expose:
