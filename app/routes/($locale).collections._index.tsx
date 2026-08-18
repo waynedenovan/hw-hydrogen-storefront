@@ -2,15 +2,18 @@ import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData} from 'react-router';
 import {CollectionCard} from '~/components/CollectionCard';
 import {sortMainCollections} from '~/lib/fixedCollections';
+import {fetchAllCollections} from '~/lib/collections';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {context} = args;
 
-  const data = await context.storefront.query(COLLECTIONS_QUERY);
   // Same view as the homepage: only the fixed main Collections
   // (custom.collection_role = "main"), in the fixed list's order. Falls back to
   // the full list until the admin app's Collections setup has been run.
-  const nodes = (data.collections?.nodes ?? []) as any[];
+  // Paginated (task 2607271000) — see ~/lib/collections' doc comment: total
+  // collection count crossed Shopify's first:250 max once the Sub-Cat tier
+  // landed, so a single page can no longer be assumed to hold every main.
+  const nodes = await fetchAllCollections<any>(context.storefront, COLLECTIONS_QUERY);
   const mains = nodes.filter((col) => col.role?.value === 'main');
   return {
     collections:
@@ -45,10 +48,15 @@ export default function Collections() {
 
 const COLLECTIONS_QUERY = `#graphql
   query Collections(
+    $cursor: String
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 100) {
+    collections(first: 250, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         id
         title

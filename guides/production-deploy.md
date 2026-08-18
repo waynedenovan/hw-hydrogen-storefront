@@ -10,9 +10,12 @@ Task 2607170910. Applies to both containers:
   the change with `docker compose pull && up -d` — it never runs `docker build`.
 - Images are tagged from the repo-root `VERSION` file (single running counter,
   e.g. `2026.07.17`) plus `:latest`. Rollback = deploy an older tag.
-- Runtime state never lives in the image: supplier images, the sqlite DB,
-  supplier JSON uploads and app data are host bind mounts on the VPS under
-  `/srv/hoseworld/`, so they survive every image update.
+- Runtime state never lives in the image: supplier images, the storefront-ui
+  PostgreSQL data (`docker-compose.prod.yml`'s `postgres` service — this app's
+  live database has been PostgreSQL, not SQLite, since 2026-07-30 session
+  2607301540; see storefront-ui's `CLAUDE.md`), supplier JSON uploads and app
+  data are host bind mounts/volumes on the VPS under `/srv/hoseworld/`, so
+  they survive every image update.
 
 ## One-time setup
 
@@ -22,12 +25,16 @@ Task 2607170910. Applies to both containers:
 3. On the VPS create the state directories:
    ```sh
    sudo mkdir -p /srv/hoseworld/media/suppliers \
-                 /srv/hoseworld/storefront-ui/prisma \
+                 /srv/hoseworld/storefront-ui/postgres-data \
                  /srv/hoseworld/storefront-ui/suppliers \
                  /srv/hoseworld/storefront-ui/data
    ```
-   Seed `storefront-ui/prisma/dev.sqlite` with a copy of the current DB
-   (the compose file bind-mounts the file itself, so it must exist first).
+   The VPS starts from an empty `postgres-data` directory — `docker compose up -d` brings up the
+   `postgres` service fresh and `npm run setup` (the app container's start command) applies the
+   Postgres baseline migration automatically, so there's no DB file to seed ahead of time (unlike
+   the old SQLite bind-mount approach this guide used to describe). If migrating existing data from
+   the dev machine instead of starting fresh, see storefront-ui's `guides/postgres-migration-lab.md`
+   for the copy/validate scripts used for the 2026-07-30 dev-machine cutover.
 4. Copy each repo's `docker-compose.prod.yml` to the VPS, and create a
    `.env.production` next to each with the production values (domains, tokens).
    `.env.production` stays on the VPS — never committed, never baked into images.

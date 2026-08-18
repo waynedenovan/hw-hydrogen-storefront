@@ -4,6 +4,9 @@ import {
   getProductCardImageSrc,
   getProductGalleryImageSrcs,
   normalizeProductIdForImage,
+  parseDelimitedMediaValue,
+  getImagesFromMetafield,
+  getSupplierDocSrcs,
 } from '~/lib/supplierImages';
 
 describe('normalizeProductIdForImage', () => {
@@ -98,5 +101,59 @@ describe('getProductGalleryImageSrcs', () => {
       '/media/suppliers/agri/AO7570813_0.jpg',
       '/media/suppliers/agri/AO7570813_1.jpg',
     ]);
+  });
+});
+
+describe('parseDelimitedMediaValue', () => {
+  it('splits on ";" and trims each entry', () => {
+    expect(parseDelimitedMediaValue('a.jpg; b.jpg ;c.jpg')).toEqual(['a.jpg', 'b.jpg', 'c.jpg']);
+  });
+
+  it('keeps empty entries (e.g. a missing main image before a gallery entry)', () => {
+    expect(parseDelimitedMediaValue(';b.jpg')).toEqual(['', 'b.jpg']);
+  });
+
+  it('returns an empty array for null/undefined/empty values', () => {
+    expect(parseDelimitedMediaValue(null)).toEqual([]);
+    expect(parseDelimitedMediaValue(undefined)).toEqual([]);
+    expect(parseDelimitedMediaValue('')).toEqual([]);
+  });
+});
+
+describe('getImagesFromMetafield', () => {
+  it('resolves every ";"-delimited filename, main first, to full URLs', () => {
+    expect(getImagesFromMetafield('Agrinet', '430000376.jpg;430000376_1.jpg')).toEqual([
+      '/media/suppliers/agri/430000376.jpg',
+      '/media/suppliers/agri/430000376_1.jpg',
+    ]);
+  });
+
+  it('drops empty entries (no main image, gallery only)', () => {
+    expect(getImagesFromMetafield('Agrinet', ';gallery_1.jpg')).toEqual([
+      '/media/suppliers/agri/gallery_1.jpg',
+    ]);
+  });
+
+  it('returns an empty array when supplierName or value is missing', () => {
+    expect(getImagesFromMetafield(null, '430000376.jpg')).toEqual([]);
+    expect(getImagesFromMetafield('Agrinet', null)).toEqual([]);
+    expect(getImagesFromMetafield('Agrinet', '')).toEqual([]);
+  });
+});
+
+describe('getSupplierDocSrcs', () => {
+  it('resolves multiple ";"-delimited values, mixing full URLs and local filenames', () => {
+    expect(
+      getSupplierDocSrcs('Agrinet', 'https://cdn.example.com/a.pdf;local-manual.pdf'),
+    ).toEqual(['https://cdn.example.com/a.pdf', '/media/suppliers/agri/docs/local-manual.pdf']);
+  });
+
+  it('returns an empty array when value is missing', () => {
+    expect(getSupplierDocSrcs('Agrinet', null)).toEqual([]);
+    expect(getSupplierDocSrcs('Agrinet', '')).toEqual([]);
+  });
+
+  it('drops a local filename entry when supplierName is missing', () => {
+    expect(getSupplierDocSrcs(null, 'local-manual.pdf')).toEqual([]);
   });
 });

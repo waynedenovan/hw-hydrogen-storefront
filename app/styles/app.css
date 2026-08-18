@@ -1167,8 +1167,13 @@ aside input::placeholder {
 }
 
 /* Collection tile: name centred both horizontally and vertically over the image
-   (spec 2607171535 — main Collections h2, Sub Collections h3). The heading keeps
-   its sitewide dark-chip look from reset.css (text-over-image standard). */
+   (spec 2607171535 — main Collections h2, Sub Collections h3, extended to h4 for
+   Sub-Cat tiles). The heading keeps its sitewide dark-chip look from reset.css
+   (text-over-image standard) on Tier 1 (not .page-card-wrapped); when the tile
+   grid is nested inside .page-card (Tier 2/3, SubCollectionsView), the chip is
+   restored explicitly below (see the .page-card .collection-item-title-wrap
+   rule, task 2607280855) since that wrapper's own h1-h5 override would
+   otherwise strip it. */
 .collection-item-media {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -1198,10 +1203,33 @@ aside input::placeholder {
 }
 
 .collection-item-title-wrap h2,
-.collection-item-title-wrap h3 {
+.collection-item-title-wrap h3,
+.collection-item-title-wrap h4 {
   margin: 0;
   text-align: center;
   max-width: 100%;
+}
+
+/* Task 2607280855: Sub/Sub-Cat Collection tiles (rendered via SubCollectionsView
+   in routes/($locale).collections.$handle.tsx) sit inside the page's outer
+   `.page-card`, whose h1-h5 override above (line ~86) strips the sitewide dark
+   chip -- that override exists for headings that sit ON the page-card's own
+   dark background (redundant nested box), but a CollectionCard tile's
+   background is its OWN image, not the page-card's, so it still needs its
+   per-tile chip exactly like the Tier 1 homepage grid (which isn't wrapped in
+   .page-card and was never affected). Restored here with higher specificity
+   so Tier 2/3 tiles exactly match Tier 1's look regardless of page-card
+   nesting. Reference: app/errors/260728084144-errors.png (Tier 1, correct) vs
+   260728084157/260728084207-errors.png (Tier 2, missing chip, before fix). */
+.page-card .collection-item-title-wrap h2,
+.page-card .collection-item-title-wrap h3,
+.page-card .collection-item-title-wrap h4 {
+  background: rgba(50, 50, 50, 0.85);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  width: fit-content;
+  max-width: 100%;
+  color: rgba(255, 255, 255);
 }
 
 /*
@@ -2482,4 +2510,66 @@ body.checkout-page main {
 
 .wishlist-remove-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.22);
+}
+
+/* Shared container for any admin-authored raw HTML rendered via
+   dangerouslySetInnerHTML (Image Credit + the 3 policy modals in
+   Footer.tsx). Plain unlayered CSS, same as reset.css above, so it wins
+   over both Tailwind Preflight and reset.css's blanket `ul { list-style:
+   none }` (task 2607300820: admin-pasted <ul>/<li>/<table> markup was
+   rendering with no bullets/borders because of those resets). The two
+   column classes below are real compiled CSS, unlike any Tailwind utility
+   class name an admin might type into their pasted HTML — Tailwind's JIT
+   scanner never sees DB-stored content, so classes like `grid-cols-2`
+   typed into the textarea are silently absent from the shipped bundle and
+   can never work. These two are the supported way to do multi-column
+   layout (documented in the admin hint text alongside inline styles). */
+.rich-html-content ul {
+  list-style: disc;
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+}
+
+.rich-html-content ol {
+  list-style: decimal;
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+}
+
+.rich-html-content li {
+  list-style: inherit;
+  margin: 0 0 0.25em;
+  padding: 0;
+}
+
+.rich-html-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.rich-html-content th,
+.rich-html-content td {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.rich-html-content p {
+  margin: 0 0 1em;
+}
+
+.rich-html-content a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.rich-html-content--col-2 {
+  columns: 2;
+  column-gap: 1.5em;
+}
+
+.rich-html-content--col-3 {
+  columns: 3;
+  column-gap: 1.5em;
 }

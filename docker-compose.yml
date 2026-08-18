@@ -1,5 +1,5 @@
 services:
-  hydrogen-storefront:
+  hoseworld-online:
     build: .
     # Tag local builds so they're push-ready for the production registry flow
     # (see guides/production-deploy.md). REGISTRY example: docker.io/<namespace>

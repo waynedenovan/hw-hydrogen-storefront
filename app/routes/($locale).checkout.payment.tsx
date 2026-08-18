@@ -79,6 +79,14 @@ export async function action({request, context}: ActionFunctionArgs) {
       title: (formData.get('shippingTitle') as string) || 'Shipping',
       cost: (formData.get('shippingCost') as string) || '0',
     },
+    // Shipping App (task 2607280940) — carried through to hw-storefront-ui's
+    // customAttributes so processItn can create the Shipment tracking row.
+    shippingMethod: {
+      type: (formData.get('shippingMethodType') as string) || '',
+      tcgRateId: (formData.get('tcgRateId') as string) || '',
+      tcgServiceLevel: (formData.get('tcgServiceLevel') as string) || '',
+      collectionDate: (formData.get('collectionDate') as string) || '',
+    },
   };
 
   try {

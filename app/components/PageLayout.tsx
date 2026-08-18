@@ -1,5 +1,5 @@
 import {Await, Link, useLocation} from 'react-router';
-import {Suspense, useEffect, useId} from 'react';
+import {Suspense, useEffect, useId, useState} from 'react';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -9,6 +9,8 @@ import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
+import {CookieConsentGate} from '~/components/CookieConsentGate';
+import type {CookieConsent} from '~/lib/cookieConsent.server';
 import {
   SEARCH_ENDPOINT,
   SearchFormPredictive,
@@ -19,10 +21,12 @@ interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
   footer: Promise<FooterQuery | null>;
   footerBanner?: Promise<string | null>;
+  storefrontSettings?: Promise<Record<string, {value: string} | null> | null>;
   header: HeaderQuery;
   isLoggedIn: Promise<boolean>;
   customerFirstName?: Promise<string | null>;
   publicStoreDomain: string;
+  cookieConsent: CookieConsent | null;
   children?: React.ReactNode;
 }
 
@@ -31,11 +35,14 @@ export function PageLayout({
   children = null,
   footer,
   footerBanner,
+  storefrontSettings,
   header,
   isLoggedIn,
   customerFirstName,
   publicStoreDomain,
+  cookieConsent,
 }: PageLayoutProps) {
+  const [managePreferencesOpen, setManagePreferencesOpen] = useState(false);
   const location = useLocation();
   const isHomePage =
     location.pathname === '/' ||
@@ -110,6 +117,11 @@ export function PageLayout({
 
   return (
     <Aside.Provider>
+      <CookieConsentGate
+        consent={cookieConsent}
+        forceOpen={managePreferencesOpen}
+        onForceOpenHandled={() => setManagePreferencesOpen(false)}
+      />
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
@@ -147,8 +159,10 @@ export function PageLayout({
       <Footer
         footer={footer}
         footerBanner={footerBanner}
+        storefrontSettings={storefrontSettings}
         header={header}
         publicStoreDomain={publicStoreDomain}
+        onOpenCookiePreferences={() => setManagePreferencesOpen(true)}
       />
     </Aside.Provider>
   );

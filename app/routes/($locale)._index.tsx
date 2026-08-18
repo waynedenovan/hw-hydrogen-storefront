@@ -2,14 +2,19 @@ import {type LoaderFunctionArgs} from 'react-router';
 import {useLoaderData} from 'react-router';
 import {CollectionCard} from '~/components/CollectionCard';
 import {sortMainCollections} from '~/lib/fixedCollections';
+import {fetchAllCollections} from '~/lib/collections';
 
 export async function loader(args: LoaderFunctionArgs) {
   const {context} = args;
   const {storefront} = context;
 
-  const data = await storefront.query(HOMEPAGE_COLLECTIONS_QUERY);
-
-  const nodes = (data.collections?.nodes ?? []) as any[];
+  // Paginated (task 2607271000): total collection count crossed Shopify's
+  // first:250 per-connection max once the Sub-Cat tier landed — see
+  // ~/lib/collections' doc comment. The 17 fixed mains happened to still fall
+  // within a single first:250 page today only because they were created
+  // earliest (lowest ids); that's incidental, not guaranteed, so this must
+  // paginate through the full list rather than rely on that ordering luck.
+  const nodes = await fetchAllCollections<any>(storefront, HOMEPAGE_COLLECTIONS_QUERY);
   // The homepage shows the FIXED main Collection list (custom.collection_role =
   // "main", managed on the admin app's Collections page) — never the imported
   // sub collections. Empty mains still show: they're permanent structure.
@@ -67,10 +72,15 @@ export default function Homepage() {
 
 const HOMEPAGE_COLLECTIONS_QUERY = `#graphql
   query HomepageCollections(
+    $cursor: String
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    collections(first: 100) {
+    collections(first: 250, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         id
         title

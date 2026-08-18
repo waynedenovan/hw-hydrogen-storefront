@@ -12,7 +12,11 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {QuantitySelector} from '~/components/QuantitySelector';
 import {WishlistButton} from '~/components/WishlistButton';
 import {useAside} from '~/components/Aside';
-import {getProductGalleryImageSrcs} from '~/lib/supplierImages';
+import {
+  getProductGalleryImageSrcs,
+  getImagesFromMetafield,
+  getSupplierDocSrcs,
+} from '~/lib/supplierImages';
 import {withDisplayVat} from '~/lib/displayVat';
 
 function stripHtml(html: string): string {
@@ -210,37 +214,90 @@ export async function loader(args: LoaderFunctionArgs) {
   // long-recurring "Detailed Product page" bug. node:fs is imported
   // dynamically per project pattern ERR-IMPORT-001 (a static server-only
   // import in a route with a client component breaks the client bundle).
-  const candidates = getProductGalleryImageSrcs(
+  //
+  // Task 2607240845: custom.images (an explicit ";"-delimited list, main
+  // image first) is preferred over the old guessed {productId}_0.._9.jpg
+  // suffix range — real files use _1.._16+, so the guess was already an
+  // approximation. Falls back to the guess only for products that don't have
+  // an images metafield value yet.
+  const explicitImages = getImagesFromMetafield(
     product.supplierName?.value,
-    product.externalProductId?.value,
+    product.images?.value,
   );
+  const candidates =
+    explicitImages.length > 0
+      ? explicitImages
+      : getProductGalleryImageSrcs(
+          product.supplierName?.value,
+          product.externalProductId?.value,
+        );
+
+  // tech_info_pdf/user_manual_pdf can each be a ";"-delimited list of full
+  // URLs and/or local media/suppliers/{prefix}/docs/{filename} paths — the
+  // local ones need the same existence check as gallery images below so a
+  // typo'd/missing filename in the supplier feed renders no link instead of a
+  // dead one.
+  const techInfoPdfCandidates = getSupplierDocSrcs(
+    product.supplierName?.value,
+    product.techInfoPdf?.value,
+  );
+  const userManualPdfCandidates = getSupplierDocSrcs(
+    product.supplierName?.value,
+    product.userManualPdf?.value,
+  );
+  const isLocalMediaSrc = (src: string) => !/^https?:\/\//i.test(src);
+
   let gallerySrcs: string[] = [];
-  if (candidates.length > 0) {
+  let techInfoPdfSrcs = techInfoPdfCandidates.filter((src) => !isLocalMediaSrc(src));
+  let userManualPdfSrcs = userManualPdfCandidates.filter((src) => !isLocalMediaSrc(src));
+
+  const localTechInfoPdfCandidates = techInfoPdfCandidates.filter(isLocalMediaSrc);
+  const localUserManualPdfCandidates = userManualPdfCandidates.filter(isLocalMediaSrc);
+
+  if (
+    candidates.length > 0 ||
+    localTechInfoPdfCandidates.length > 0 ||
+    localUserManualPdfCandidates.length > 0
+  ) {
     const [fs, path] = await Promise.all([
       import('node:fs/promises'),
       import('node:path'),
     ]);
     const root = path.resolve(process.cwd(), 'media', 'suppliers');
-    gallerySrcs = (
-      await Promise.all(
-        candidates.map(async (src) => {
-          const rel = src.replace(/^\/media\/suppliers\//, '');
-          try {
-            await fs.access(path.resolve(root, rel));
-            return src;
-          } catch {
-            return null;
-          }
-        }),
-      )
-    ).filter((src): src is string => src !== null);
+    const existsOnDisk = async (src: string) => {
+      const rel = src.replace(/^\/media\/suppliers\//, '');
+      try {
+        await fs.access(path.resolve(root, rel));
+        return true;
+      } catch {
+        return false;
+      }
+    };
+    const keepExisting = async (srcs: string[]) =>
+      (
+        await Promise.all(srcs.map(async (src) => ((await existsOnDisk(src)) ? src : null)))
+      ).filter((src): src is string => src !== null);
+
+    if (candidates.length > 0) {
+      gallerySrcs = await keepExisting(candidates);
+    }
+    if (localTechInfoPdfCandidates.length > 0) {
+      techInfoPdfSrcs = [...techInfoPdfSrcs, ...(await keepExisting(localTechInfoPdfCandidates))];
+    }
+    if (localUserManualPdfCandidates.length > 0) {
+      userManualPdfSrcs = [
+        ...userManualPdfSrcs,
+        ...(await keepExisting(localUserManualPdfCandidates)),
+      ];
+    }
   }
 
-  return {product, gallerySrcs};
+  return {product, gallerySrcs, techInfoPdfSrcs, userManualPdfSrcs};
 }
 
 export default function Product() {
-  const {product, gallerySrcs} = useLoaderData<typeof loader>();
+  const {product, gallerySrcs, techInfoPdfSrcs, userManualPdfSrcs} =
+    useLoaderData<typeof loader>();
   const {title, descriptionHtml, featuredImage} = product;
   const msqValue = Number(product.msq?.value);
   const msq = Number.isFinite(msqValue) && msqValue > 1 ? msqValue : 1;
@@ -431,6 +488,40 @@ export default function Product() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
+            {techInfoPdfSrcs.length > 0 && (
+              <div className="mt-6 text-gray-200">
+                <h3 className="mb-2 text-white">Technical Information</h3>
+                {techInfoPdfSrcs.map((src, index) => (
+                  <a
+                    key={src}
+                    href={src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                    style={{color: 'rgb(37, 99, 235)', textDecoration: 'underline'}}
+                  >
+                    View technical information{techInfoPdfSrcs.length > 1 ? ` ${index + 1}` : ''} (PDF)
+                  </a>
+                ))}
+              </div>
+            )}
+            {userManualPdfSrcs.length > 0 && (
+              <div className="mt-6 text-gray-200">
+                <h3 className="mb-2 text-white">User Manual</h3>
+                {userManualPdfSrcs.map((src, index) => (
+                  <a
+                    key={src}
+                    href={src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                    style={{color: 'rgb(37, 99, 235)', textDecoration: 'underline'}}
+                  >
+                    View user manual{userManualPdfSrcs.length > 1 ? ` ${index + 1}` : ''} (PDF)
+                  </a>
+                ))}
               </div>
             )}
             <VariantSelector
@@ -658,6 +749,15 @@ const PRODUCT_QUERY = `#graphql
         value
       }
       type: metafield(namespace: "custom", key: "type") {
+        value
+      }
+      techInfoPdf: metafield(namespace: "custom", key: "tech_info_pdf") {
+        value
+      }
+      userManualPdf: metafield(namespace: "custom", key: "user_manual_pdf") {
+        value
+      }
+      images: metafield(namespace: "custom", key: "images") {
         value
       }
     }

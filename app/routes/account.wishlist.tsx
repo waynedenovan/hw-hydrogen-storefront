@@ -260,6 +260,9 @@ const WISHLIST_PRODUCTS_QUERY = `#graphql
         externalProductId: metafield(namespace: "custom", key: "external_product_id") {
           value
         }
+        images: metafield(namespace: "custom", key: "images") {
+          value
+        }
         variants(first: 1) {
           nodes {
             id

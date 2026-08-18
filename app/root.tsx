@@ -18,6 +18,8 @@ import {CUSTOMER_NAME_QUERY} from '~/graphql/customer-account/CustomerNameQuery'
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
+import {CustomerPrivacySync} from './components/CustomerPrivacySync';
+import {parseCookieConsent} from '~/lib/cookieConsent.server';
 
 export type RootLoader = typeof loader;
 
@@ -79,9 +81,17 @@ export async function loader(args: Route.LoaderArgs) {
 
   const {storefront, env} = args.context;
 
+  // Synchronous, no network — decides whether CookieConsentGate blocks the
+  // page (see app/lib/cookieConsent.server.ts for why this is a dedicated
+  // long-lived cookie rather than a key on the ambient `session` cookie).
+  const cookieConsent = await parseCookieConsent(args.request, [
+    String(env.SESSION_SECRET || ''),
+  ]);
+
   return {
     ...deferredData,
     ...criticalData,
+    cookieConsent,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -200,12 +210,23 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     .then((data: any) => data?.metaobject?.field?.value ?? null)
     .catch(() => null);
 
+  const storefrontSettings = storefront
+    .query(STOREFRONT_SETTINGS_QUERY, {
+      // CacheShort (not CacheLong) so admin edits on Storefront Settings
+      // reflect within seconds instead of needing a container restart —
+      // see task 2607301150. Only 4 shop metafields, cheap to refetch often.
+      cache: storefront.CacheShort(),
+    })
+    .then((data: any) => data?.shop ?? null)
+    .catch(() => null);
+
   return {
     cart: cartPromise,
     isLoggedIn: isLoggedInPromise,
     customerFirstName,
     footer,
     footerBanner,
+    storefrontSettings,
   };
 }
 
@@ -213,6 +234,25 @@ const FOOTER_BANNER_QUERY = `#graphql
   query FooterBanner {
     metaobject(handle: {type: "app--footer_banner", handle: "main"}) {
       field(key: "content") {
+        value
+      }
+    }
+  }
+` as const;
+
+const STOREFRONT_SETTINGS_QUERY = `#graphql
+  query StorefrontSettings {
+    shop {
+      imageCreditText: metafield(namespace: "custom", key: "image_credit_text") {
+        value
+      }
+      privacyPolicyContent: metafield(namespace: "custom", key: "privacy_policy_content") {
+        value
+      }
+      termsOfServiceContent: metafield(namespace: "custom", key: "terms_of_service_content") {
+        value
+      }
+      refundPolicyContent: metafield(namespace: "custom", key: "refund_policy_content") {
         value
       }
     }
@@ -254,6 +294,11 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
+      <CustomerPrivacySync
+        storefrontAccessToken={data.consent.storefrontAccessToken}
+        checkoutDomain={data.consent.checkoutDomain}
+        consent={data.cookieConsent}
+      />
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
