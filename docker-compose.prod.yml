@@ -38,6 +38,12 @@ services:
       # Production env values (domains, tokens). Kept on the VPS only —
       # never baked into the image, never committed.
       - .env.production
+    # Memory limit added 2026-08-18 after a VPS-wide OOM/freeze (no swap at
+    # the time, no per-container limits so nothing bounded worst-case usage
+    # against the other services sharing the box). See
+    # ../hoseworld-infra/docs/02-docker-infrastructure.md.
+    mem_limit: 512m
+    mem_reservation: 256m
     security_opt:
       - no-new-privileges:true
     cap_drop:
