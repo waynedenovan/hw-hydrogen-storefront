@@ -54,16 +54,24 @@ export default function ContactPage() {
             </p>
             <div style={{marginTop: '1.5rem'}}>
               <p style={{marginBottom: '0.5rem'}}>
-                <strong>Email:</strong> info@hoseworld.co.za
+                <strong>Email:</strong> sales@hoseworld.co.za
               </p>
               <p style={{marginBottom: '0.5rem'}}>
-                <strong>Phone:</strong> +27 (0)11 123 4567
+                <strong>Phone:</strong> +27 16 455 2656
               </p>
-              <p style={{marginBottom: '0.5rem'}}>
-                <strong>Address:</strong> Johannesburg, South Africa
+              <p style={{marginBottom: '0.5rem', display: 'flex', gap: '0.4em'}}>
+                <strong>Address:</strong> 36 Telford St, Duncanville,
+                Vereeniging,
+                <br/>
+                South Africa, 1939
               </p>
-              <p style={{marginBottom: '0.5rem'}}>
-                <strong>Hours:</strong> Mon-Fri 8am - 5pm SAST
+              <p style={{marginBottom: '0.5rem', display: 'flex', gap: '0.4em'}}>
+                <strong>Hours:</strong>
+                <span>
+                  Mon-Thu 8am - 4:30pm SAST
+                  <br />
+                  Fri 8am - 3:30pm SAST
+                </span>
               </p>
             </div>
           </div>
