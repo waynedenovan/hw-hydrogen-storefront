@@ -19,7 +19,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HYDROGEN_DIR="$(dirname "$SCRIPT_DIR")"
-UI_DIR="$HYDROGEN_DIR/../hw-storefront-ui-node-docker"
+# hw-storefront-ui (not hw-storefront-ui-node-docker) — the dedicated
+# main-only worktree, mirroring HYDROGEN_DIR's own role. Keeps this
+# main-only guard meaningful even while hw-storefront-ui-node-docker sits on
+# a long-lived dev/feature branch (import-bulk-operations as of 2026-08-18)
+# used as a buffer for testing before merging up to main. See
+# ../../hoseworld-infra/docs/10-deployment.md §0b.
+UI_DIR="$HYDROGEN_DIR/../hw-storefront-ui"
 
 REGISTRY="${REGISTRY:?Set REGISTRY, e.g. REGISTRY=docker.io/<namespace> or ghcr.io/<user>}"
 TAG="$(tr -d '[:space:]' <"$HYDROGEN_DIR/VERSION")"
