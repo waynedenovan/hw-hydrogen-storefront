@@ -9,8 +9,13 @@
 #   REGISTRY=... PUSH=0 ./scripts/release.sh                     # build+tag only
 #
 # One-time setup on the dev machine: `docker login <registry>` with a private
-# repo/namespace. TAG is always taken from the hydrogen repo-root VERSION file
-# (single running counter shared by the whole project); :latest is tagged too.
+# repo/namespace. Each app is tagged from its OWN repo-root VERSION file
+# (hoseworld-online from HYDROGEN_DIR/VERSION, admin-online from
+# UI_DIR/VERSION — they are independent commit-count counters per repo, see
+# hoseworld-dev-knowledge / project_hydrogen_version_scheme, NOT a single
+# counter shared across both apps as this comment used to claim; fixed
+# 2026-08-19 after that false assumption nearly shipped admin-online tagged
+# with hydrogen's version number). :latest is tagged too, per app.
 #
 # On the VPS afterwards (per repo):
 #   REGISTRY=... TAG=<version> docker compose -f docker-compose.prod.yml pull
@@ -28,7 +33,6 @@ HYDROGEN_DIR="$(dirname "$SCRIPT_DIR")"
 UI_DIR="$HYDROGEN_DIR/../hw-storefront-ui"
 
 REGISTRY="${REGISTRY:?Set REGISTRY, e.g. REGISTRY=docker.io/<namespace> or ghcr.io/<user>}"
-TAG="$(tr -d '[:space:]' <"$HYDROGEN_DIR/VERSION")"
 PUSH="${PUSH:-1}"
 TARGET="${1:-all}"
 
@@ -102,19 +106,25 @@ scan_image() {
 
 release() {
   local dir="$1" name="$2"
+  local tag
+  tag="$(tr -d '[:space:]' <"$dir/VERSION")"
   local image="$REGISTRY/$name"
-  echo "==> Building $image:$TAG from $dir"
-  (cd "$dir" && REGISTRY="$REGISTRY" TAG="$TAG" docker compose build)
-  docker tag "$image:$TAG" "$image:latest"
-  scan_image "$image:$TAG"
+  echo "==> Building $image:$tag from $dir"
+  (cd "$dir" && REGISTRY="$REGISTRY" TAG="$tag" docker compose build)
+  docker tag "$image:$tag" "$image:latest"
+  scan_image "$image:$tag"
   if [ "$PUSH" = "1" ]; then
-    echo "==> Pushing $image:$TAG and $image:latest"
-    docker push "$image:$TAG"
+    echo "==> Pushing $image:$tag and $image:latest"
+    docker push "$image:$tag"
     docker push "$image:latest"
   else
     echo "==> PUSH=0 — skipped push for $image"
   fi
+  echo "$name:$tag" >>"$RELEASED_LOG"
 }
+
+RELEASED_LOG="$(mktemp)"
+trap 'rm -f "$RELEASED_LOG"' EXIT
 
 case "$TARGET" in
   all)
@@ -129,6 +139,13 @@ case "$TARGET" in
     ;;
 esac
 
-echo "==> Done. Deploy on the VPS with:"
-echo "    REGISTRY=$REGISTRY TAG=$TAG docker compose -f docker-compose.prod.yml pull"
-echo "    REGISTRY=$REGISTRY TAG=$TAG docker compose -f docker-compose.prod.yml up -d"
+echo "==> Done. Deploy on the VPS with (per app — tags differ, do not mix them up):"
+while IFS=: read -r name tag; do
+  case "$name" in
+    hoseworld-online) compose_dir="../hw-hydrogen-storefront-node-docker" ;;
+    admin-online) compose_dir="../hw-storefront-ui-node-docker" ;;
+  esac
+  echo "    # $name"
+  echo "    REGISTRY=$REGISTRY TAG=$tag docker compose -f $compose_dir/docker-compose.prod.yml pull"
+  echo "    REGISTRY=$REGISTRY TAG=$tag docker compose -f $compose_dir/docker-compose.prod.yml up -d"
+done <"$RELEASED_LOG"
