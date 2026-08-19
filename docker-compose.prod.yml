@@ -21,6 +21,9 @@ services:
     image: ${REGISTRY:-hoseworld}/hoseworld-online:${TAG:-latest}
     container_name: hoseworld-online
     restart: unless-stopped
+    # pnpm (the CMD) runs as PID 1 and never reaps zombie children the way a
+    # real init process does. init: true runs tini as PID 1 instead.
+    init: true
     networks:
       - hoseworld_edge
     expose:
@@ -35,12 +38,23 @@ services:
       # Production env values (domains, tokens). Kept on the VPS only —
       # never baked into the image, never committed.
       - .env.production
+    # Memory limit added 2026-08-18 after a VPS-wide OOM/freeze (no swap at
+    # the time, no per-container limits so nothing bounded worst-case usage
+    # against the other services sharing the box). See
+    # ../hoseworld-infra/docs/02-docker-infrastructure.md.
+    mem_limit: 512m
+    mem_reservation: 256m
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:5130/healthz"]
+      # 127.0.0.1, not localhost: Node's http.listen(PORT) binds IPv4-only
+      # (0.0.0.0), but busybox wget resolving "localhost" inside this
+      # Alpine container tries ::1 (IPv6) first and gets connection
+      # refused, even though the IPv4 socket is genuinely open and the app
+      # is healthy. Confirmed on the real VPS 2026-08-13.
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5130/healthz"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -58,6 +72,16 @@ services:
       - traefik.http.routers.hoseworld-online.tls=true
       - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file
       - traefik.http.services.hoseworld-online.loadbalancer.server.port=5130
+      # Throwaway staging router for browser verification during Phase 5
+      # testing — same service/container as the www router above, just a
+      # second Host rule. Safe to delete these 5 lines (and the matching
+      # Cloudflare Tunnel route + Zero Trust Public Hostname entry) once
+      # no longer needed; doesn't touch the real www.hoseworld.co.za path.
+      - traefik.http.routers.hoseworld-online-staging.rule=Host(`staging.hoseworld.co.za`)
+      - traefik.http.routers.hoseworld-online-staging.entrypoints=websecure
+      - traefik.http.routers.hoseworld-online-staging.tls=true
+      - traefik.http.routers.hoseworld-online-staging.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.routers.hoseworld-online-staging.service=hoseworld-online
 
 networks:
   hoseworld_edge:

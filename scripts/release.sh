@@ -19,7 +19,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HYDROGEN_DIR="$(dirname "$SCRIPT_DIR")"
-UI_DIR="$HYDROGEN_DIR/../hw-storefront-ui-node-docker"
+# hw-storefront-ui (not hw-storefront-ui-node-docker) — the dedicated
+# main-only worktree, mirroring HYDROGEN_DIR's own role. Keeps this
+# main-only guard meaningful even while hw-storefront-ui-node-docker sits on
+# a long-lived dev/feature branch (import-bulk-operations as of 2026-08-18)
+# used as a buffer for testing before merging up to main. See
+# ../../hoseworld-infra/docs/10-deployment.md §0b.
+UI_DIR="$HYDROGEN_DIR/../hw-storefront-ui"
 
 REGISTRY="${REGISTRY:?Set REGISTRY, e.g. REGISTRY=docker.io/<namespace> or ghcr.io/<user>}"
 TAG="$(tr -d '[:space:]' <"$HYDROGEN_DIR/VERSION")"
@@ -66,12 +72,41 @@ else
   echo "==> RELEASE_ALLOW_DIRTY=1 — skipping main-branch guard" >&2
 fi
 
+# Runs via the official trivy image over the docker socket rather than
+# requiring a local trivy install — the dev machine doesn't have one, and
+# this keeps release.sh self-contained (only needs Docker, same as every
+# other step here).
+#
+# REPORT-ONLY as of 2026-08-18 (Wayne's decision): no --exit-code 1, so
+# findings print but never fail the release. The current images already
+# have real HIGH/CRITICAL findings (22 HIGH + 1 CRITICAL on
+# hoseworld-online:2026.07.201, mostly transitive Go-stdlib CVEs, not app
+# code) that haven't been triaged yet — turning on hard enforcement today
+# would block every release starting now, not just future regressions.
+# Revisit in the Phase 11 pass (docs/11-security-review.md): once current
+# findings are triaged/patched, delete this comment block and add back
+# `--exit-code 1` (and drop the `|| true`) to make it blocking, matching
+# the original spec in that doc.
+scan_image() {
+  local image="$1"
+  if [ "${RELEASE_SKIP_TRIVY:-0}" = "1" ]; then
+    echo "==> RELEASE_SKIP_TRIVY=1 — skipping vulnerability scan for $image" >&2
+    return 0
+  fi
+  echo "==> Scanning $image for HIGH/CRITICAL vulnerabilities (trivy, report-only)"
+  docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$HOME/.cache/trivy:/root/.cache/" \
+    aquasec/trivy:latest image --severity HIGH,CRITICAL "$image" || true
+}
+
 release() {
   local dir="$1" name="$2"
   local image="$REGISTRY/$name"
   echo "==> Building $image:$TAG from $dir"
   (cd "$dir" && REGISTRY="$REGISTRY" TAG="$TAG" docker compose build)
   docker tag "$image:$TAG" "$image:latest"
+  scan_image "$image:$TAG"
   if [ "$PUSH" = "1" ]; then
     echo "==> Pushing $image:$TAG and $image:latest"
     docker push "$image:$TAG"
