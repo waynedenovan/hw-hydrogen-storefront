@@ -1,27 +1,17 @@
-2608 claude
+# Next task (2026-08-20)
 
-"For this session, prioritize using primarily the "shopify-dev-mcp" MCP server to confirm correct pattern coding for this project especially when in "Plan" mode or "Debug" mode. Whenever debuging a bug or error first contact the MCP server: hoseworld-dev-knowledge and then the "shopify-dev-mcp" MCP server. Once the task is completed update the "MCP-Bridge" MCP server. Always check the server for existing patterns before suggesting a fix. The "MCP-Bridge" MCP server has an example for context as needed if requiring search parameters."
+Full context/root-causes for everything below: `2608192108_todo.md` (this
+repo) and its companion in `hw-storefront-ui-node-docker`.
 
-context:
-- use "plan mode" for this task where you are asked to make changes, add functionality or identify how an aspect of this porjects works.
-- use "debug mode" when asked to identify any causes of the project that are not working or if you detect a bug.
-- use both modes when solving issues ie, finding a bug and then planing a code fix etc.
-- when indexing you are to strickly only use MCP: MCP-Bridge i.e. hoseworld-dev-knowledge
-- when you are testing ui, implementations and error/issue identification and correction you need to physically test them yourself using Playwright MCP Server.
-- INCLUDE ONLY: GIT branch folders when planing and implementing any needed actions or changes
-- git: I will always manually commit. Never offer or automatically try or exec a commit
-
-## Task requirements:
-- Follow each step
-- Please don't guess that you need to do. Confirm and double chek you sugested coding with the "Skills" and needed coding direction found within the MCP server.
-
-## Step 1: Planing
-- 
-
-## Step 2: Documentation and exit
-- Update Verion to reflect the Commit count as per every task
-- update @2608_todo.md but exclude todo.md from any updating
-- update with latest updated project plan and any new issues found, the errors causing the issue and the step by step resolution:
-    - hoseworld-dev-knowledge and any other MCP server that is relevent
-
-## --
+1. **Fill in real EFT banking details** once Wayne provides them
+   (bank name, account holder, account number, branch code, SWIFT optional)
+   into this repo's `.env.production` on the VPS (keys already present,
+   empty), then force-recreate `hoseworld-online` to pick them up. See
+   auto-memory `project_eft_pending_banking_details.md`.
+2. **Full live-site checkout walkthrough** on `www.hoseworld.co.za` with a
+   real cart, end to end: Information → Shipping (collection date/time
+   window) → Method (confirm TCG shows as "Courier Delivery", never
+   "Overnight", alongside Collection) → Review & Pay (PayFast, and EFT once
+   #1 is done) → Success page.
+3. **Known gap, not yet addressed:** collection-date validation doesn't
+   account for ZA public holidays (no holiday calendar in this codebase).
