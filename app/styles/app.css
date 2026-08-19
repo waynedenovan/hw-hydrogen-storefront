@@ -2213,6 +2213,20 @@ select.checkout-form-input option:disabled {
   font-weight: 500;
 }
 
+.checkout-eft-details {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.checkout-eft-details dd {
+  margin: 0;
+}
+
 /* Checkout page body overrides */
 body.checkout-page main {
   padding-top: 1rem;

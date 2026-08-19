@@ -11,6 +11,11 @@ import {Money, Image, CartForm} from '@shopify/hydrogen';
 import type {CountryCode, CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {withDisplayVat, displayVatOnly} from '~/lib/displayVat';
+import {
+  getMinCollectionDate,
+  getWorkingHoursFor,
+  validateCollectionDateTime,
+} from '~/lib/collectionSchedule';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
 import type {CustomerDetailsQuery} from 'customer-accountapi.generated';
 
@@ -80,7 +85,20 @@ export async function loader({context}: LoaderFunctionArgs) {
     if (isPayfastDegraded(status)) payfastStatus = status;
   }
 
-  return {cart: cartData, customer, paymentGateway, businessProfile, payfastStatus};
+  // Direct EFT is only offered alongside PayFast, not as a substitute for
+  // the raw Shopify-checkout fallback below it.
+  const eftBankingDetails =
+    paymentGateway === 'payfast'
+      ? {
+          bankName: (context.env as any).EFT_BANK_NAME ?? '',
+          accountHolder: (context.env as any).EFT_ACCOUNT_HOLDER ?? '',
+          accountNumber: (context.env as any).EFT_ACCOUNT_NUMBER ?? '',
+          branchCode: (context.env as any).EFT_BRANCH_CODE ?? '',
+          swiftCode: (context.env as any).EFT_SWIFT_CODE ?? '',
+        }
+      : null;
+
+  return {cart: cartData, customer, paymentGateway, businessProfile, payfastStatus, eftBankingDetails};
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
@@ -187,7 +205,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 type StepNumber = 1 | 2 | 3 | 4;
 
 export default function Checkout() {
-  const {cart, customer, paymentGateway, businessProfile, payfastStatus} =
+  const {cart, customer, paymentGateway, businessProfile, payfastStatus, eftBankingDetails} =
     useLoaderData<typeof loader>();
   const fetcher = useFetcher<{
     step?: string;
@@ -399,6 +417,7 @@ export default function Checkout() {
             businessCustomer={businessCustomer}
             businessDetails={businessDetails}
             payfastStatus={payfastStatus}
+            eftBankingDetails={eftBankingDetails}
             onBack={() => setCurrentStep(3)}
           />
         )}
@@ -869,19 +888,28 @@ function ShippingMethodStep({
 }) {
   const [collectionDate, setCollectionDate] = useState('');
   const [collectionTime, setCollectionTime] = useState('');
+  const [scheduleError, setScheduleError] = useState<string | null>(null);
+  const minCollectionDate = getMinCollectionDate();
+  const collectionHours = collectionDate ? getWorkingHoursFor(collectionDate) : null;
 
   function selectRate(rate: TcgRate) {
     onSelect({type: 'tcg', rateId: rate.rateId, serviceLevel: rate.serviceLevel, title: rate.title, cost: rate.cost});
   }
 
   function selectCollection(date: string, time: string) {
+    if (date && time) {
+      const result = validateCollectionDateTime(date, time);
+      setScheduleError(result.valid ? null : result.error);
+    } else {
+      setScheduleError(null);
+    }
     onSelect({type: 'collection', collectionDate: date, collectionTime: time});
   }
 
   const isCollectionSelected = selected?.type === 'collection';
   const canContinue = Boolean(
     selected?.type === 'tcg' ||
-      (selected?.type === 'collection' && collectionDate && collectionTime),
+      (selected?.type === 'collection' && collectionDate && collectionTime && !scheduleError),
   );
 
   if (loading) {
@@ -964,6 +992,7 @@ function ShippingMethodStep({
               id="collectionDate"
               type="date"
               required
+              min={minCollectionDate}
               className="checkout-form-input"
               value={collectionDate}
               onChange={(e) => {
@@ -980,6 +1009,8 @@ function ShippingMethodStep({
               id="collectionTime"
               type="time"
               required
+              min={collectionHours?.min}
+              max={collectionHours?.max}
               className="checkout-form-input"
               value={collectionTime}
               onChange={(e) => {
@@ -988,6 +1019,18 @@ function ShippingMethodStep({
               }}
             />
           </div>
+        </div>
+      )}
+
+      {isCollectionSelected && (
+        <p style={{fontSize: '0.8rem', opacity: 0.7, marginTop: '0.5rem'}}>
+          Collection is available at least 4 working days ahead, Mon–Thu 08:00–16:30 or Fri 08:00–15:30.
+        </p>
+      )}
+
+      {isCollectionSelected && scheduleError && (
+        <div className="checkout-errors" style={{marginTop: '0.5rem'}}>
+          <p>{scheduleError}</p>
         </div>
       )}
 
@@ -1020,6 +1063,7 @@ function OrderReviewStep({
   businessCustomer,
   businessDetails,
   payfastStatus,
+  eftBankingDetails,
   onBack,
 }: {
   cart: CartApiQueryFragment;
@@ -1043,8 +1087,16 @@ function OrderReviewStep({
   businessCustomer: boolean;
   businessDetails: {companyName: string; vatNumber: string; regNumber: string};
   payfastStatus: {indicator: string; description: string} | null;
+  eftBankingDetails: {
+    bankName: string;
+    accountHolder: string;
+    accountNumber: string;
+    branchCode: string;
+    swiftCode: string;
+  } | null;
   onBack: () => void;
 }) {
+  const [paymentMethod, setPaymentMethod] = useState<'payfast' | 'eft'>('payfast');
   const shippingCurrency = cart.cost?.subtotalAmount?.currencyCode ?? ('ZAR' as CurrencyCode);
   const shippingTitle =
     selectedShippingMethod?.type === 'tcg'
@@ -1197,17 +1249,70 @@ function OrderReviewStep({
 
       <div className="checkout-review-section checkout-payment-info">
         <h3>Payment</h3>
-        {paymentGateway === 'payfast' ? (
+        {paymentGateway === 'payfast' && eftBankingDetails?.accountNumber ? (
+          <>
+            <div className="checkout-payment-methods" role="radiogroup" aria-label="Payment method">
+              <label style={{display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer'}}>
+                <input
+                  type="radio"
+                  name="paymentMethodChoice"
+                  checked={paymentMethod === 'payfast'}
+                  onChange={() => setPaymentMethod('payfast')}
+                />
+                Card / PayFast
+              </label>
+              <label style={{display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer'}}>
+                <input
+                  type="radio"
+                  name="paymentMethodChoice"
+                  checked={paymentMethod === 'eft'}
+                  onChange={() => setPaymentMethod('eft')}
+                />
+                EFT — Bank Transfer
+              </label>
+            </div>
+
+            {paymentMethod === 'payfast' ? (
+              <p>You will be redirected to PayFast to complete your payment securely.</p>
+            ) : (
+              <div className="checkout-eft-details">
+                <p>
+                  <strong>Your order will only be processed once payment reflects in our bank account.</strong>{' '}
+                  Please allow 1–2 business days for EFT payments to clear, and use the order
+                  reference (shown after you confirm) as your payment reference.
+                </p>
+                <dl style={{margin: '0.75rem 0 0', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.25rem 0.75rem', fontSize: '0.9rem'}}>
+                  <dt style={{opacity: 0.7}}>Bank</dt>
+                  <dd>{eftBankingDetails.bankName}</dd>
+                  <dt style={{opacity: 0.7}}>Account holder</dt>
+                  <dd>{eftBankingDetails.accountHolder}</dd>
+                  <dt style={{opacity: 0.7}}>Account number</dt>
+                  <dd>{eftBankingDetails.accountNumber}</dd>
+                  <dt style={{opacity: 0.7}}>Branch code</dt>
+                  <dd>{eftBankingDetails.branchCode}</dd>
+                  {eftBankingDetails.swiftCode && (
+                    <>
+                      <dt style={{opacity: 0.7}}>SWIFT</dt>
+                      <dd>{eftBankingDetails.swiftCode}</dd>
+                    </>
+                  )}
+                </dl>
+              </div>
+            )}
+          </>
+        ) : paymentGateway === 'payfast' ? (
           <p>You will be redirected to PayFast to complete your payment securely.</p>
         ) : (
           <p>You will be redirected to our secure payment page to complete your order.</p>
         )}
-        <div className="checkout-payment-methods">
-          <span className="checkout-payment-badge">Card</span>
-          <span className="checkout-payment-badge">EFT</span>
-          <span className="checkout-payment-badge">Google Pay</span>
-          <span className="checkout-payment-badge">Apple Pay</span>
-        </div>
+        {paymentGateway === 'payfast' && paymentMethod === 'payfast' && (
+          <div className="checkout-payment-methods">
+            <span className="checkout-payment-badge">Card</span>
+            <span className="checkout-payment-badge">EFT via PayFast</span>
+            <span className="checkout-payment-badge">Google Pay</span>
+            <span className="checkout-payment-badge">Apple Pay</span>
+          </div>
+        )}
       </div>
 
       <div className="checkout-review-section" style={{borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem'}}>
@@ -1263,6 +1368,7 @@ function OrderReviewStep({
             invoiceEmailRequested={invoiceEmailRequested}
             businessCustomer={businessCustomer}
             businessDetails={businessDetails}
+            paymentMethod={paymentMethod}
           />
         ) : (
           <a href={cart.checkoutUrl} target="_self" className="checkout-pay-btn">
@@ -1357,6 +1463,7 @@ function PayFastPaymentForm({
   invoiceEmailRequested,
   businessCustomer,
   businessDetails,
+  paymentMethod,
 }: {
   cart: CartApiQueryFragment;
   customerInfo: {email: string; firstName: string; lastName: string; phone: string};
@@ -1376,6 +1483,7 @@ function PayFastPaymentForm({
   invoiceEmailRequested: boolean;
   businessCustomer: boolean;
   businessDetails: {companyName: string; vatNumber: string; regNumber: string};
+  paymentMethod: 'payfast' | 'eft';
 }) {
   const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
   const isSubmitting = payFetcher.state !== 'idle';
@@ -1386,6 +1494,7 @@ function PayFastPaymentForm({
       action={`${localePrefix}/checkout/payment`}
     >
       {/* Cart reference */}
+      <input type="hidden" name="paymentMethod" value={paymentMethod} />
       <input type="hidden" name="cartId" value={cart.id} />
       <input type="hidden" name="cartTotal" value={cart.cost?.totalAmount?.amount ?? '0'} />
       <input type="hidden" name="cartCurrency" value={cart.cost?.totalAmount?.currencyCode ?? 'ZAR'} />
@@ -1465,9 +1574,14 @@ function PayFastPaymentForm({
         type="hidden"
         name="collectionDate"
         value={
-          selectedShippingMethod?.type === 'collection'
-            ? `${selectedShippingMethod.collectionDate} ${selectedShippingMethod.collectionTime}`.trim()
-            : ''
+          selectedShippingMethod?.type === 'collection' ? selectedShippingMethod.collectionDate : ''
+        }
+      />
+      <input
+        type="hidden"
+        name="collectionTime"
+        value={
+          selectedShippingMethod?.type === 'collection' ? selectedShippingMethod.collectionTime : ''
         }
       />
 
@@ -1483,7 +1597,13 @@ function PayFastPaymentForm({
         disabled={isSubmitting}
         style={{border: 'none', cursor: isSubmitting ? 'wait' : 'pointer'}}
       >
-        {isSubmitting ? 'Redirecting to PayFast...' : 'Proceed to Payment →'}
+        {isSubmitting
+          ? paymentMethod === 'eft'
+            ? 'Placing order...'
+            : 'Redirecting to PayFast...'
+          : paymentMethod === 'eft'
+            ? 'Confirm Order — Pay via EFT →'
+            : 'Proceed to Payment →'}
       </button>
     </payFetcher.Form>
   );
