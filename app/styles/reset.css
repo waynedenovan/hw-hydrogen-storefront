@@ -133,7 +133,7 @@ body {
   Pastal color test: rgba(184, 216, 190, 0.85)
 */
 .page-bg.account-page {
-  background: rgba(152, 221, 252, 0.85);
+  background: rgba(0 0 0);
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
