@@ -1268,7 +1268,7 @@ function OrderReviewStep({
                   checked={paymentMethod === 'eft'}
                   onChange={() => setPaymentMethod('eft')}
                 />
-                EFT — Bank Transfer
+                Self EFT
               </label>
             </div>
 
@@ -1309,8 +1309,6 @@ function OrderReviewStep({
           <div className="checkout-payment-methods">
             <span className="checkout-payment-badge">Card</span>
             <span className="checkout-payment-badge">EFT via PayFast</span>
-            <span className="checkout-payment-badge">Google Pay</span>
-            <span className="checkout-payment-badge">Apple Pay</span>
           </div>
         )}
       </div>

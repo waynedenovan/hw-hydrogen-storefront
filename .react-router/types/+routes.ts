@@ -35,6 +35,11 @@ type Pages = {
       "locale"?: string;
     };
   };
+  "/:locale?/checkout/cancel": {
+    params: {
+      "locale"?: string;
+    };
+  };
   "/:locale?/integration-test": {
     params: {
       "locale"?: string;
@@ -80,11 +85,6 @@ type Pages = {
     };
   };
   "/:locale?/checkout/payment": {
-    params: {
-      "locale"?: string;
-    };
-  };
-  "/:locale?/checkout/cancel": {
     params: {
       "locale"?: string;
     };
@@ -160,7 +160,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel" | "/account/authorize" | "/:locale?/contact" | "/media/suppliers/*" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/cookie-consent" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/cookie-preferences" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
+    page: "/" | "/:locale?/collections/:handle" | "/:locale?/collections" | "/:locale?/debug-availability" | "/:locale?/checkout/success" | "/:locale?/checkout/cancel" | "/:locale?/integration-test" | "/:locale?/policies/:handle" | "/:locale?/products/:handle" | "/:locale?/policies" | "/sitemap/:type/:page.xml" | "/:locale?/pages/:handle" | "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment" | "/account/authorize" | "/:locale?/contact" | "/media/suppliers/*" | "/:locale?" | "/:locale?/search" | "/:locale?/cart" | "/account/login" | "/cookie-consent" | "/sitemap.xml" | "/robots.txt" | "/account" | "/account/cookie-preferences" | "/account/management" | "/account/addresses" | "/account/wishlist" | "/account/profile" | "/account/orders" | "/account/orders/:id";
   };
   "routes/($locale).collections.$handle.tsx": {
     id: "routes/($locale).collections.$handle";
@@ -177,6 +177,10 @@ type RouteFiles = {
   "routes/($locale).checkout_.success.tsx": {
     id: "routes/($locale).checkout_.success";
     page: "/:locale?/checkout/success";
+  };
+  "routes/($locale).checkout_.cancel.tsx": {
+    id: "routes/($locale).checkout_.cancel";
+    page: "/:locale?/checkout/cancel";
   };
   "routes/($locale).integration-test.tsx": {
     id: "routes/($locale).integration-test";
@@ -204,7 +208,7 @@ type RouteFiles = {
   };
   "routes/($locale).checkout.tsx": {
     id: "routes/($locale).checkout";
-    page: "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment" | "/:locale?/checkout/cancel";
+    page: "/:locale?/checkout" | "/:locale?/checkout/shipping-rates" | "/:locale?/checkout/payment";
   };
   "routes/($locale).checkout.shipping-rates.tsx": {
     id: "routes/($locale).checkout.shipping-rates";
@@ -213,10 +217,6 @@ type RouteFiles = {
   "routes/($locale).checkout.payment.tsx": {
     id: "routes/($locale).checkout.payment";
     page: "/:locale?/checkout/payment";
-  };
-  "routes/($locale).checkout.cancel.tsx": {
-    id: "routes/($locale).checkout.cancel";
-    page: "/:locale?/checkout/cancel";
   };
   "routes/account_.authorize.tsx": {
     id: "routes/account_.authorize";
@@ -306,6 +306,7 @@ type RouteModules = {
   "routes/($locale).collections._index": typeof import("./app/routes/($locale).collections._index.tsx");
   "routes/($locale).debug-availability": typeof import("./app/routes/($locale).debug-availability.tsx");
   "routes/($locale).checkout_.success": typeof import("./app/routes/($locale).checkout_.success.tsx");
+  "routes/($locale).checkout_.cancel": typeof import("./app/routes/($locale).checkout_.cancel.tsx");
   "routes/($locale).integration-test": typeof import("./app/routes/($locale).integration-test.tsx");
   "routes/($locale).policies.$handle": typeof import("./app/routes/($locale).policies.$handle.tsx");
   "routes/($locale).products.$handle": typeof import("./app/routes/($locale).products.$handle.tsx");
@@ -315,7 +316,6 @@ type RouteModules = {
   "routes/($locale).checkout": typeof import("./app/routes/($locale).checkout.tsx");
   "routes/($locale).checkout.shipping-rates": typeof import("./app/routes/($locale).checkout.shipping-rates.tsx");
   "routes/($locale).checkout.payment": typeof import("./app/routes/($locale).checkout.payment.tsx");
-  "routes/($locale).checkout.cancel": typeof import("./app/routes/($locale).checkout.cancel.tsx");
   "routes/account_.authorize": typeof import("./app/routes/account_.authorize.tsx");
   "routes/($locale).contact": typeof import("./app/routes/($locale).contact.tsx");
   "routes/media.suppliers.$": typeof import("./app/routes/media.suppliers.$.tsx");
