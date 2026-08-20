@@ -138,6 +138,29 @@ export async function action({request, context}: ActionFunctionArgs) {
       );
     }
 
+    // Cross-origin (PayFast) targets must be a real browser navigation
+    // regardless, so a thrown redirect() works fine there — React Router
+    // can't client-side-navigate to another domain, so it falls back to a
+    // genuine HTTP redirect the browser follows natively, preserving every
+    // query param (confirmed: PayFast's m_payment_id/signature params all
+    // arrive intact).
+    //
+    // Same-origin targets (EFT's own /checkout/success) are a different
+    // story: a fetcher-thrown redirect() to the same origin gets handled by
+    // React Router's internal client-side navigation instead of a native
+    // browser redirect, and — confirmed live via Traefik's access log —
+    // that internal path silently drops the query string, including the
+    // order reference EFT customers need as their payment reference (the
+    // success page fell back to "See confirmation email" instead of
+    // showing it). Returning the URL as data instead and letting the
+    // client force `window.location.href` (below) sidesteps React Router's
+    // internal handling entirely for this case, matching the reliable
+    // behavior the cross-origin path already gets for free.
+    const isSameOrigin = new URL(redirectUrl).origin === new URL(request.url).origin;
+    if (isSameOrigin) {
+      return data({redirectUrl});
+    }
+
     throw redirect(redirectUrl);
   } catch (err: unknown) {
     if (err instanceof Response) throw err; // let redirect pass through
