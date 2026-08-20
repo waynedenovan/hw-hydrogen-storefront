@@ -337,9 +337,11 @@ aside {
   transition: transform 200ms ease-in-out;
 }
 
-/* Cart drawer only — search/mobile-menu asides keep the shared --menu-bg */
+/* Cart drawer only — search/mobile-menu asides keep the shared --menu-bg.
+   rgba(60, 60, 60, 0.85) is the 2026-08-20 cart/checkout color standard —
+   translucent gray content boxes over the solid-black .page-bg (reset.css). */
 aside.aside-cart {
-  background: rgb(0, 0, 0);
+  background: rgba(60, 60, 60, 0.85);
 }
 
 aside header {
@@ -906,7 +908,7 @@ body.cart-page .cart-main {
 }
 
 body.cart-page .cart-line {
-  background: rgb(0, 0, 0);
+  background: rgba(60, 60, 60, 0.85);
   padding: 0.75rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
@@ -939,7 +941,7 @@ body.cart-page .cart-line-remove button {
 }
 
 body.cart-page .cart-summary-page {
-  background: rgb(0, 0, 0);
+  background: rgba(60, 60, 60, 0.85);
   padding: 1rem;
   border-radius: 6px;
   margin-top: 1rem;
@@ -982,7 +984,7 @@ body.cart-page .cart-summary-page code {
 }
 
 body.cart-page .cart-main > div:first-child:not([hidden]) {
-  background: rgb(0, 0, 0);
+  background: rgba(60, 60, 60, 0.85);
   padding: 1rem;
   border-radius: 6px;
   color: white;
@@ -1857,7 +1859,7 @@ aside input::placeholder {
 }
 
 .checkout-container {
-  background: rgb(0, 0, 0);
+  background: rgba(60, 60, 60, 0.85);
   padding: 2rem;
   border-radius: 12px;
   color: white;
