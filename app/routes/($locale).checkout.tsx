@@ -893,10 +893,17 @@ function ShippingMethodStep({
   onBack: () => void;
   onContinue: () => void;
 }) {
-  const [collectionDate, setCollectionDate] = useState('');
-  const [collectionTime, setCollectionTime] = useState('');
-  const [scheduleError, setScheduleError] = useState<string | null>(null);
   const minCollectionDate = getMinCollectionDate();
+  // Defaults to the earliest bookable day/time rather than starting blank —
+  // if the customer picks Collection and never touches these fields, a
+  // valid value is already selected (selectCollection fires as soon as the
+  // radio itself is chosen, see its onChange below), and seeing a real
+  // example makes the expected date/time format obvious at a glance.
+  const [collectionDate, setCollectionDate] = useState(minCollectionDate);
+  const [collectionTime, setCollectionTime] = useState(
+    () => getWorkingHoursFor(minCollectionDate)?.min ?? '',
+  );
+  const [scheduleError, setScheduleError] = useState<string | null>(null);
   const collectionHours = collectionDate ? getWorkingHoursFor(collectionDate) : null;
 
   function selectRate(rate: TcgRate) {
@@ -1497,8 +1504,19 @@ function PayFastPaymentForm({
   businessDetails: {companyName: string; vatNumber: string; regNumber: string};
   paymentMethod: 'payfast' | 'eft';
 }) {
-  const payFetcher = useFetcher<{error?: string}>({key: 'payfast-initiate'});
+  const payFetcher = useFetcher<{error?: string; redirectUrl?: string}>({key: 'payfast-initiate'});
   const isSubmitting = payFetcher.state !== 'idle';
+
+  // Same-origin redirect targets (EFT's own success page) come back as data
+  // rather than a thrown redirect() — see the matching comment in
+  // checkout.payment.tsx's action for why a fetcher-thrown same-origin
+  // redirect silently drops the query string (including the order
+  // reference). Forcing a real browser navigation here sidesteps that.
+  useEffect(() => {
+    if (payFetcher.data?.redirectUrl) {
+      window.location.href = payFetcher.data.redirectUrl;
+    }
+  }, [payFetcher.data]);
 
   return (
     <payFetcher.Form
