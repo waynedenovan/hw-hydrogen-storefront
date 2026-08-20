@@ -152,22 +152,24 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Cart/checkout color standard (2026-08-20): the PAGE canvas is always
+   solid rgb(0, 0, 0) — no hero photo (the market.jpg + gray-tint look this
+   used before is gone) — so cart/checkout content boxes (.checkout-container,
+   .cart-line, .cart-summary-page, aside.aside-cart — all
+   rgba(60, 60, 60, 0.85), see app.css) read as translucent gray cards
+   floating on a black page, matching home/product/collection's solid-black
+   .page-bg tier. */
 .page-bg.cart-page {
-  background: linear-gradient(rgba(50, 50, 50, 0.25), rgba(50, 50, 50, 0.25)), url('/images/260603-market.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll;
-  background-repeat: no-repeat;
+  background: rgb(0, 0, 0);
 }
 
 /* Checkout never had a .page-bg modifier class at all (PageLayout.tsx
    computed isCheckoutPage but only applied it to <body>, not here) — so the
-   page canvas around the black .checkout-container card fell through to the
-   browser's default white. Solid gray, matching the same rgb(50, 50, 50)
-   used by .checkout-container/aside/--menu-bg pre-blackout, so the black
-   card still reads as a card sitting on a page, not a black-on-black void. */
+   page canvas around the checkout card fell through to the browser's
+   default white. Now solid black per the cart/checkout color standard
+   above. */
 .page-bg.checkout-page {
-  background: rgb(50, 50, 50);
+  background: rgb(0, 0, 0);
 }
 
 /* Collection/Sub Collection pages have no hero image, but still need
@@ -191,9 +193,11 @@ body {
    canvas, so overscroll/sub-pixel areas past the document edge render that
    color — identical to the footer — instead of white (or, previously, the
    image). home-page/product-page/collection-page match their .page-bg tier
-   color (task 2607291725); account/contact/cart pages still use their own
+   color (task 2607291725); account/contact pages still use their own
    dedicated hero photo, so their canvas stays black to match that overlay.
-   Other classless pages (policies…) keep their default white canvas.
+   cart/checkout no longer use a hero photo either (2026-08-20 color
+   standard) but their canvas is black for the same reason all the others
+   are. Other classless pages (policies…) keep their default white canvas.
 
   Background color for the page body on Home, Collections and Product pages
   No Pastal color test: rgba(0, 0, 0, 0.85)
@@ -210,17 +214,9 @@ body.collection-page {
 */
 body.account-page,
 body.contact-page,
-body.cart-page {
-  background-color: #000;
-}
-
-/*
-  Background color for the page body on Checkout — matches
-  .page-bg.checkout-page's gray (not the black used by the other dark-theme
-  pages above), so overscroll/sub-pixel areas match what's on screen.
-*/
+body.cart-page,
 body.checkout-page {
-  background-color: rgb(50, 50, 50);
+  background-color: #000;
 }
 
 .page-bg > main {
