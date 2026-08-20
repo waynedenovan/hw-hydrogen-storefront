@@ -160,6 +160,16 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Checkout never had a .page-bg modifier class at all (PageLayout.tsx
+   computed isCheckoutPage but only applied it to <body>, not here) — so the
+   page canvas around the black .checkout-container card fell through to the
+   browser's default white. Solid gray, matching the same rgb(50, 50, 50)
+   used by .checkout-container/aside/--menu-bg pre-blackout, so the black
+   card still reads as a card sitting on a page, not a black-on-black void. */
+.page-bg.checkout-page {
+  background: rgb(50, 50, 50);
+}
+
 /* Collection/Sub Collection pages have no hero image, but still need
    .page-bg to paint something other than transparent — otherwise the flex
    space below a short .page-card (see reset.css .page-card) shows through to
@@ -202,6 +212,15 @@ body.account-page,
 body.contact-page,
 body.cart-page {
   background-color: #000;
+}
+
+/*
+  Background color for the page body on Checkout — matches
+  .page-bg.checkout-page's gray (not the black used by the other dark-theme
+  pages above), so overscroll/sub-pixel areas match what's on screen.
+*/
+body.checkout-page {
+  background-color: rgb(50, 50, 50);
 }
 
 .page-bg > main {

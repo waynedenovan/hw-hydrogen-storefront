@@ -139,6 +139,7 @@ export function PageLayout({
           isAccountPage && 'account-page',
           isContactPage && 'contact-page',
           isCartPage && 'cart-page',
+          isCheckoutPage && 'checkout-page',
           isCollectionPage && 'collection-page',
         ]
           .filter(Boolean)
