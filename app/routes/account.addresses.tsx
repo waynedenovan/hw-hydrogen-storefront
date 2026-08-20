@@ -37,7 +37,12 @@ export async function action({context, request}: ActionFunctionArgs) {
     city: String(formData.get('city') || ''),
     zoneCode: String(formData.get('zoneCode') || ''),
     zip: String(formData.get('zip') || ''),
-    territoryCode: String(formData.get('territoryCode') || ''),
+    // Hardcoded, never trust the submitted value — Hose World only ships
+    // within South Africa (see the matching lock on the checkout shipping
+    // form in ($locale).checkout.tsx). Ignoring whatever the client sent
+    // rather than validating it closes this off even against a raw POST
+    // that bypasses the disabled UI field below.
+    territoryCode: 'ZA',
     phoneNumber: String(formData.get('phoneNumber') || ''),
   };
 
@@ -205,8 +210,18 @@ function AddressForm() {
           <input id="zip" name="zip" type="text" style={inputStyle} />
         </div>
         <div style={fieldStyle}>
-          <label htmlFor="territoryCode" style={labelStyle}>Country code</label>
-          <input id="territoryCode" name="territoryCode" type="text" style={inputStyle} placeholder="e.g. ZA, US, NZ" />
+          <label htmlFor="territoryCode" style={labelStyle}>Country</label>
+          {/* Locked to South Africa — Hose World does not deliver
+              internationally. The value is enforced server-side regardless
+              (see the action above), this is just the matching UI. */}
+          <input
+            id="territoryCode"
+            type="text"
+            value="South Africa (ZA)"
+            disabled
+            style={{...inputStyle, opacity: 0.7, cursor: 'not-allowed'}}
+          />
+          <input type="hidden" name="territoryCode" value="ZA" />
         </div>
       </div>
       <div style={fieldStyle}>
