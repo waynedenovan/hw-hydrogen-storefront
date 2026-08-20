@@ -1166,14 +1166,15 @@ aside input::placeholder {
   height: auto;
 }
 
-/* Collection tile: name centred both horizontally and vertically over the image
-   (spec 2607171535 — main Collections h2, Sub Collections h3, extended to h4 for
-   Sub-Cat tiles). The heading keeps its sitewide dark-chip look from reset.css
-   (text-over-image standard) on Tier 1 (not .page-card-wrapped); when the tile
-   grid is nested inside .page-card (Tier 2/3, SubCollectionsView), the chip is
-   restored explicitly below (see the .page-card .collection-item-title-wrap
-   rule, task 2607280855) since that wrapper's own h1-h5 override would
-   otherwise strip it. */
+/* Collection tile: name anchored to the bottom, centred horizontally, over the
+   image (2608201715 — moved off dead-centre so the product/collection photo
+   itself is visible; spec 2607171535 — main Collections h2, Sub Collections h3,
+   extended to h4 for Sub-Cat tiles). The heading keeps its sitewide dark-chip
+   look from reset.css (text-over-image standard) on Tier 1 (not
+   .page-card-wrapped); when the tile grid is nested inside .page-card (Tier
+   2/3, SubCollectionsView), the chip is restored explicitly below (see the
+   .page-card .collection-item-title-wrap rule, task 2607280855) since that
+   wrapper's own h1-h5 override would otherwise strip it. */
 .collection-item-media {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -1197,7 +1198,7 @@ aside input::placeholder {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding: 0.5rem;
 }
