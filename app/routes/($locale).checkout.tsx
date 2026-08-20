@@ -1284,9 +1284,16 @@ function OrderReviewStep({
             ) : (
               <div className="checkout-eft-details">
                 <p>
-                  <strong>Your order will only be processed once payment reflects in our bank account.</strong>{' '}
-                  Please allow 1–2 business days for EFT payments to clear, and use the order
-                  reference (shown after you confirm) as your payment reference.
+                  <strong>Your order will only be processed once payment reflects in our bank account.</strong>
+                </p>
+                <p style={{marginTop: '0.5rem'}}>
+                  Please use the order reference (shown after you confirm) as your payment reference.
+                </p>
+                <p style={{marginTop: '0.5rem'}}>
+                  Immediate transfers will reflect in our bank as soon as the transaction is
+                  finished but can only be action&apos;d once the transaction is live and
+                  identified on our system, otherwise please allow 1–2 business days for your
+                  EFT payments to clear.
                 </p>
                 <dl style={{margin: '0.75rem 0 0', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.25rem 0.75rem', fontSize: '0.9rem'}}>
                   <dt style={{opacity: 0.7}}>Bank</dt>
@@ -1607,7 +1614,7 @@ function PayFastPaymentForm({
             ? 'Placing order...'
             : 'Redirecting to PayFast...'
           : paymentMethod === 'eft'
-            ? 'Confirm Order — Pay via EFT →'
+            ? 'Confirm Order →'
             : 'Proceed to Payment →'}
       </button>
     </payFetcher.Form>
