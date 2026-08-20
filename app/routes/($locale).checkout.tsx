@@ -158,11 +158,16 @@ export async function action({request, context}: ActionFunctionArgs) {
       }
     }
   } else if (step === 'shipping-address') {
+    // Hose World only delivers within South Africa — the shipping form's
+    // country <select> already disables every option except ZA, but that's
+    // only a UI restriction; enforcing it here too closes the gap against a
+    // raw POST (or a stale non-ZA value pre-filled from an old saved
+    // account address) actually reaching the cart's delivery address.
     const rawCountryCode = (formData.get('countryCode') as string)?.trim().toUpperCase();
-    const countryCode = /^[A-Z]{2}$/.test(rawCountryCode) ? (rawCountryCode as CountryCode) : null;
+    const countryCode = rawCountryCode === 'ZA' ? ('ZA' as CountryCode) : null;
     if (!countryCode) {
       return data(
-        {step, success: false, errors: [{message: 'Please select a valid country.'}]},
+        {step, success: false, errors: [{message: 'We only deliver within South Africa — please select South Africa (ZA) as the country.'}]},
         {status: 422},
       );
     }
@@ -219,8 +224,6 @@ export default function Checkout() {
   const location = useLocation();
   const localeMatch = location.pathname.match(/^\/(en-nz|en-au|en-us|en-za)/);
   const localePrefix = localeMatch ? localeMatch[0] : '';
-  const defaultCountry =
-    localeMatch?.[1]?.split('-')[1]?.toUpperCase() ?? 'ZA';
   const actionUrl = `${localePrefix}/checkout`;
 
   const isPreFilled = Boolean(
@@ -266,18 +269,22 @@ export default function Checkout() {
     city: customer?.defaultAddress?.city || '',
     provinceCode: customer?.defaultAddress?.zoneCode || '',
     zip: customer?.defaultAddress?.zip || '',
-    countryCode: (() => {
-      const raw = (customer?.defaultAddress as any)?.territoryCode || defaultCountry;
-      return /^[A-Z]{2}$/.test(raw) ? raw : defaultCountry;
-    })(),
+    // Always ZA regardless of what a stale saved account address says (from
+    // before country was locked down) — every other option in the <select>
+    // below is disabled anyway, so pre-filling anything else would just
+    // show an invalid, unpickable-back-out-of selection.
+    countryCode: 'ZA',
     phone: customer?.defaultAddress?.phoneNumber || '',
   });
 
   useEffect(() => {
+    // Always ZA — see the note on the initial state above. Deliberately not
+    // `defaultCountry` (which can be NZ/AU/US on those locale-prefixed
+    // routes; ZA is the only shippable/selectable country regardless).
     if (!shippingAddress.countryCode) {
-      setShippingAddress((prev) => ({...prev, countryCode: defaultCountry}));
+      setShippingAddress((prev) => ({...prev, countryCode: 'ZA'}));
     }
-  }, [defaultCountry, shippingAddress.countryCode]);
+  }, [shippingAddress.countryCode]);
 
   const [shippingRates, setShippingRates] = useState<TcgRate[]>([]);
   const [collectionAddress, setCollectionAddress] = useState<CollectionAddress | null>(null);
