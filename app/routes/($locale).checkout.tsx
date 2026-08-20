@@ -1275,7 +1275,7 @@ function OrderReviewStep({
                   checked={paymentMethod === 'eft'}
                   onChange={() => setPaymentMethod('eft')}
                 />
-                Self EFT
+                Direct EFT
               </label>
             </div>
 
