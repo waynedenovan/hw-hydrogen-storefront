@@ -32,6 +32,32 @@ async function fetchArchivedIds(
   }
 }
 
+type PendingEftOrder = {
+  draftOrderName: string;
+  totalPrice: number;
+  currency: string;
+  createdAt: string;
+};
+
+async function fetchPendingEftOrders(
+  storefrontUiUrl: string,
+  internalSecret: string,
+  customerEmail: string,
+): Promise<PendingEftOrder[]> {
+  if (!customerEmail) return [];
+  try {
+    const res = await fetch(
+      `${storefrontUiUrl}/api/orders/eft-pending?email=${encodeURIComponent(customerEmail)}`,
+      {headers: {'X-Internal-Secret': internalSecret}},
+    );
+    if (!res.ok) return [];
+    const data = (await res.json()) as {orders?: PendingEftOrder[]};
+    return data.orders ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export async function loader({context, request}: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const view = url.searchParams.get('view') ?? 'active';
@@ -50,11 +76,21 @@ export async function loader({context, request}: LoaderFunctionArgs) {
 
   const customerId: string = (idData as any)?.customer?.id ?? '';
   const customerEmail: string = (idData as any)?.customer?.emailAddress?.emailAddress ?? '';
-  const archivedIds = storefrontUiUrl
-    ? await fetchArchivedIds(storefrontUiUrl, internalSecret, customerId)
-    : [];
+  const [archivedIds, pendingEftOrders] = storefrontUiUrl
+    ? await Promise.all([
+        fetchArchivedIds(storefrontUiUrl, internalSecret, customerId),
+        fetchPendingEftOrders(storefrontUiUrl, internalSecret, customerEmail),
+      ])
+    : [[], []];
 
-  return {orders: ordersData.customer.orders, archivedIds, view, customerId, customerEmail};
+  return {
+    orders: ordersData.customer.orders,
+    archivedIds,
+    pendingEftOrders,
+    view,
+    customerId,
+    customerEmail,
+  };
 }
 
 export async function action({context, request}: ActionFunctionArgs) {
@@ -97,7 +133,7 @@ export async function action({context, request}: ActionFunctionArgs) {
 }
 
 export default function AccountOrders() {
-  const {orders, archivedIds, view, customerId} = useLoaderData<typeof loader>();
+  const {orders, archivedIds, pendingEftOrders, view, customerId} = useLoaderData<typeof loader>();
   const fetcher = useFetcher<{success?: boolean; error?: string; intent?: string}>();
 
   const isArchiveView = view === 'archived';
@@ -136,12 +172,44 @@ export default function AccountOrders() {
         <p style={{color: '#fc8181', marginBottom: '1rem', fontSize: '0.875rem'}}>{fetcher.data.error}</p>
       )}
 
-      {displayedOrders.length === 0 ? (
-        <div style={cardStyle}>
-          <p style={{color: 'rgba(255,255,255,0.7)'}}>
-            {isArchiveView ? 'No archived orders.' : 'No orders yet.'}
-          </p>
+      {!isArchiveView && pendingEftOrders.length > 0 && (
+        <div style={{marginBottom: '1.5rem'}}>
+          <h3 style={{fontSize: '1rem', margin: '0 0 0.5rem', color: 'rgba(255,255,255,0.7)'}}>
+            Awaiting EFT Payment
+          </h3>
+          {pendingEftOrders.map((order) => (
+            <div key={order.draftOrderName} style={{...cardStyle, border: '1px solid rgba(255,255,255,0.15)'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem'}}>
+                <div>
+                  <p style={{fontWeight: 'bold'}}>Order {order.draftOrderName}</p>
+                  <p style={{color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem'}}>
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div style={{textAlign: 'right'}}>
+                  <p>
+                    {order.currency} {order.totalPrice.toFixed(2)}
+                  </p>
+                  <p style={{fontSize: '0.875rem', color: '#f6ad55'}}>Awaiting payment</p>
+                </div>
+              </div>
+              <p style={{fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.75rem'}}>
+                Use <strong>{order.draftOrderName}</strong> as your EFT payment reference. This order
+                will be processed once payment reflects in our bank account.
+              </p>
+            </div>
+          ))}
         </div>
+      )}
+
+      {displayedOrders.length === 0 ? (
+        (isArchiveView || pendingEftOrders.length === 0) && (
+          <div style={cardStyle}>
+            <p style={{color: 'rgba(255,255,255,0.7)'}}>
+              {isArchiveView ? 'No archived orders.' : 'No orders yet.'}
+            </p>
+          </div>
+        )
       ) : (
         displayedOrders.map((order) => (
           <div key={order.id} style={cardStyle}>
