@@ -37,6 +37,16 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
   // revalidate when manually revalidating via useRevalidator
   if (currentUrl.toString() === nextUrl.toString()) return true;
 
+  // Revalidate whenever navigating to the cart page specifically — this is
+  // the one place a customer directly compares the drawer's cart (fed by
+  // this same root loader, cached since the last mutation) against a
+  // dedicated page showing the cart. Observed live 2026-08-20: the drawer
+  // showed an item the /cart page's own fresh loader said wasn't there —
+  // whichever side was actually stale, forcing root's cart to refresh here
+  // too means they can no longer disagree on the one screen where a
+  // customer would notice and be confused by it.
+  if (nextUrl.pathname.endsWith('/cart')) return true;
+
   // Defaulting to no revalidation for root loader data to improve performance.
   // When using this feature, you risk your UI getting out of sync with your server.
   // Use with caution. If you are uncomfortable with this optimization, update the
