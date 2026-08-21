@@ -171,24 +171,96 @@ export async function action({request, context}: ActionFunctionArgs) {
         {status: 422},
       );
     }
-    result = await cart.addDeliveryAddresses([
-      {
-        address: {
-          deliveryAddress: {
-            address1: formData.get('address1') as string,
-            address2: (formData.get('address2') as string) || undefined,
-            city: formData.get('city') as string,
-            provinceCode: (formData.get('provinceCode') as string) || undefined,
-            zip: formData.get('zip') as string,
-            countryCode,
-            firstName: formData.get('firstName') as string,
-            lastName: formData.get('lastName') as string,
-            phone: (formData.get('phone') as string) || undefined,
+
+    // Every field is required except address2 (apartment/suite) — the form
+    // already enforces this client-side, but a raw POST must not be able to
+    // bypass it (same reasoning as the ZA country-lock hardening below).
+    const requiredFields: Array<[string, string]> = [
+      ['firstName', 'First name'],
+      ['lastName', 'Last name'],
+      ['address1', 'Address'],
+      ['city', 'City'],
+      ['provinceCode', 'Province / State'],
+      ['zip', 'Postal / Zip code'],
+      ['phone', 'Phone'],
+    ];
+    for (const [field, label] of requiredFields) {
+      if (!(formData.get(field) as string)?.trim()) {
+        return data(
+          {step, success: false, errors: [{message: `${label} is required.`}]},
+          {status: 422},
+        );
+      }
+    }
+
+    const address1 = formData.get('address1') as string;
+    const address2 = (formData.get('address2') as string) || '';
+    const city = formData.get('city') as string;
+    const provinceCode = formData.get('provinceCode') as string;
+    const zip = formData.get('zip') as string;
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const phone = formData.get('phone') as string;
+
+    // Reuse the customer's existing saved address instead of creating a
+    // duplicate every checkout (task: prevent address duplication,
+    // 2026-08-21) — only save a NEW address when the submitted details
+    // actually differ from what's already on file.
+    let matchedAddressId: string | null = null;
+    try {
+      const isLoggedIn = await context.customerAccount.isLoggedIn();
+      if (isLoggedIn) {
+        const {data: customerData} = await context.customerAccount.query(
+          CUSTOMER_DETAILS_QUERY as any,
+        );
+        const addresses = (customerData as any)?.customer?.addresses?.nodes ?? [];
+        const norm = (v: unknown) => String(v ?? '').trim().toLowerCase();
+        const match = addresses.find(
+          (a: any) =>
+            norm(a.firstName) === norm(firstName) &&
+            norm(a.lastName) === norm(lastName) &&
+            norm(a.address1) === norm(address1) &&
+            norm(a.address2) === norm(address2) &&
+            norm(a.city) === norm(city) &&
+            norm(a.zoneCode) === norm(provinceCode) &&
+            norm(a.zip) === norm(zip) &&
+            norm(a.territoryCode) === norm(countryCode) &&
+            norm(a.phoneNumber) === norm(phone),
+        );
+        matchedAddressId = match?.id ?? null;
+      }
+    } catch {
+      /* fall through — treat as a new address rather than blocking checkout */
+    }
+
+    result = matchedAddressId
+      ? await cart.addDeliveryAddresses([
+          {
+            address: {copyFromCustomerAddressId: matchedAddressId},
+            oneTimeUse: true,
+            selected: true,
           },
-        },
-        selected: true,
-      },
-    ]);
+        ])
+      : await cart.addDeliveryAddresses([
+          {
+            address: {
+              deliveryAddress: {
+                address1,
+                address2: address2 || undefined,
+                city,
+                provinceCode,
+                zip,
+                countryCode,
+                firstName,
+                lastName,
+                phone,
+              },
+            },
+            // No oneTimeUse here — a genuinely new/changed address should be
+            // saved and become the customer's default for future checkouts.
+            selected: true,
+          },
+        ]);
   } else {
     return data({error: 'Invalid step'}, {status: 400});
   }
@@ -774,6 +846,7 @@ function ShippingAddressStep({
             id="provinceCode"
             name="provinceCode"
             type="text"
+            required
             className="checkout-form-input"
             value={shippingAddress.provinceCode}
             onChange={(e) => onFieldChange('provinceCode', e.target.value)}
@@ -827,12 +900,13 @@ function ShippingAddressStep({
       </div>
       <div className="checkout-form-field">
         <label htmlFor="ship-phone" className="checkout-form-label">
-          Phone (optional)
+          Phone
         </label>
         <input
           id="ship-phone"
           name="phone"
           type="tel"
+          required
           className="checkout-form-input"
           value={shippingAddress.phone}
           onChange={(e) => onFieldChange('phone', e.target.value)}
