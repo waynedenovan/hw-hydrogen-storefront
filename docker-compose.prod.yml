@@ -70,7 +70,7 @@ services:
       - traefik.http.routers.hoseworld-online.rule=Host(`www.hoseworld.co.za`)
       - traefik.http.routers.hoseworld-online.entrypoints=websecure
       - traefik.http.routers.hoseworld-online.tls=true
-      - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.routers.hoseworld-online.middlewares=security-headers@file,local-rate-limit@file,retry-on-connect-failure@file
       - traefik.http.services.hoseworld-online.loadbalancer.server.port=5130
       # Throwaway staging router for browser verification during Phase 5
       # testing — same service/container as the www router above, just a
@@ -80,7 +80,7 @@ services:
       - traefik.http.routers.hoseworld-online-staging.rule=Host(`staging.hoseworld.co.za`)
       - traefik.http.routers.hoseworld-online-staging.entrypoints=websecure
       - traefik.http.routers.hoseworld-online-staging.tls=true
-      - traefik.http.routers.hoseworld-online-staging.middlewares=security-headers@file,local-rate-limit@file
+      - traefik.http.routers.hoseworld-online-staging.middlewares=security-headers@file,local-rate-limit@file,retry-on-connect-failure@file
       - traefik.http.routers.hoseworld-online-staging.service=hoseworld-online
 
 networks:
